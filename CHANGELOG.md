@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.2.0...github.com/supercargo-dev/supercargo-sdk-go-v0.2.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* **sdk:** publish readme to public repo ([#208](https://github.com/supercargo-dev/core/issues/208)) ([bf95478](https://github.com/supercargo-dev/core/commit/bf9547855dd8d2d21588f62ef4b14343505efa8b))
+
 ## [0.2.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.1.0...github.com/supercargo-dev/supercargo-sdk-go-v0.2.0) (2026-07-13)
 
 
