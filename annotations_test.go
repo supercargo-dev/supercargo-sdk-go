@@ -3,6 +3,7 @@ package supercargo
 import "testing"
 
 func TestDataTypeHints(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		actual   string
@@ -16,9 +17,11 @@ func TestDataTypeHints(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt // capture range variable for Go 1.21
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if tt.actual != tt.expected {
-				t.Errorf("expected %v, got %v", tt.expected, tt.actual)
+				t.Errorf("expected %q, got %q", tt.expected, tt.actual)
 			}
 		})
 	}
