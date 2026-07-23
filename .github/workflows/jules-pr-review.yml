@@ -36,6 +36,9 @@ jobs:
             4. **Security & Reliability:** Check for insecure defaults, unvalidated inputs, or mishandling of sensitive data before passing it to backend services.
             5. **Testability:** Are the changes well-tested? Are interfaces designed to allow consumer mocking?
             
+            6. **Context Awareness:** Before injecting new methods or logic, you MUST explicitly scan the file to ensure an implementation doesn't already exist. Never create duplicate function declarations.
+            7. **Compile-Ready Code:** Ensure your code passes strict compilation (`go vet`).
+
             Do not nitpick minor formatting if it passes the standard Go linter (`gofmt`/`golangci-lint`). Focus on architectural soundness, robustness, and developer experience for SDK consumers.
         run: |
           jq -n \
@@ -51,7 +54,7 @@ jobs:
                 }
               },
               "requirePlanApproval": false,
-              "automationMode": "AUTO_CREATE_PR"
+              "automationMode": "REVIEW_ONLY"
             }' > jules_payload.json
 
           curl --fail -sS -X POST 'https://jules.googleapis.com/v1alpha/sessions' \
