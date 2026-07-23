@@ -17,7 +17,6 @@ func TestDataTypeHints(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt // capture range variable for Go 1.21
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			if tt.actual != tt.expected {
