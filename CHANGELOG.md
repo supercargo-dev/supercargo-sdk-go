@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.2.1...github.com/supercargo-dev/supercargo-sdk-go-v0.3.0) (2026-07-29)
+
+
+### Features
+
+* Implement Go SDK Annotations & Architectural Updates ([083097f](https://github.com/supercargo-dev/core/commit/083097fb0de5d1890c413070bb8c7fb41768ada3))
+* **sdk:** Add native struct tag parsing and robust collection/graph validation ([b0b10ca](https://github.com/supercargo-dev/core/commit/b0b10ca0e0484196bd67911be11a45661e0a9a20))
+* **sdk:** implement go sdk annotations and distributed repo map updates ([9d5b506](https://github.com/supercargo-dev/core/commit/9d5b506e6a10fbb7de492dd4fce445907704c555))
+* **sdk:** Implement Go SDK annotations and runtime validator ([62362cc](https://github.com/supercargo-dev/core/commit/62362ccf00a0df8e6da936d0294759a898ad81df))
+
+
+### Bug Fixes
+
+* **sdk:** Address expert review security and concurrency findings ([94a78ff](https://github.com/supercargo-dev/core/commit/94a78ffc476387a43dc10dac9faa5c4af0f29cf8))
+
 ## [0.2.1](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.2.0...github.com/supercargo-dev/supercargo-sdk-go-v0.2.1) (2026-07-13)
 
 
