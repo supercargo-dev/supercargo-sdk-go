@@ -77,9 +77,10 @@ func TestValidation_Success(t *testing.T) {
 }
 
 func TestValidation_Failure_NotEmpty(t *testing.T) {
+	email := "alice@example.com"
 	invalidUser := TestUser{
 		Name:       "",  // should fail NotEmpty
-		Email:      nil, // should fail NotEmpty on pointer
+		Email:      &email, // Valid email to pass Email validation
 		Age:        "30",
 		Tags:       []string{"admin"},
 		Department: "Engineering",

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.3.0...github.com/supercargo-dev/supercargo-sdk-go-v0.3.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* **ci:** fix stale sdk test and disable deploy to dev on PRs ([b2ff9f8](https://github.com/supercargo-dev/core/commit/b2ff9f834074895ce74c3a8a6191760e8ccdb7a7))
+
 ## [0.3.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.2.1...github.com/supercargo-dev/supercargo-sdk-go-v0.3.0) (2026-07-29)
 
 
