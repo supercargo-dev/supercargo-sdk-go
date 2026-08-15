@@ -1,4 +1,3 @@
-// Package supercargo provides zero-dependency structural type annotations for Supercargo data contracts.
 package supercargo
 
 // DataTypeHint defines the basic types for the Supercargo schema.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.3.1...github.com/supercargo-dev/supercargo-sdk-go-v0.4.0) (2026-08-15)
+
+
+### Features
+
+* **schema:** cross-language contract parity, decoupled provider registry, and SDK docs ([70a9eb2](https://github.com/supercargo-dev/core/commit/70a9eb26ae40bf6af17474cba8317e6b52fa33fa))
+
 ## [0.3.1](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.3.0...github.com/supercargo-dev/supercargo-sdk-go-v0.3.1) (2026-08-10)
 
 
