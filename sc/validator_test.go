@@ -768,4 +768,57 @@ func TestValidation_ValidateTag_SovereignOverridePrecedence(t *testing.T) {
 	supercargotest.AssertValidates(t, valid)
 }
 
+type ContextIDOnlyUser struct {
+	SSN string `supercargo.field:"context_id=user,min_length=9"`
+}
+
+func TestValidation_ContextID_PII_Redaction(t *testing.T) {
+	// SSN has context_id=user but no explicit pii=true tag; it MUST redact on failure.
+	invalid := ContextIDOnlyUser{SSN: "123"}
+	supercargotest.AssertFailsValidation(t, invalid, "validation failed on field \"SSN\": length is less than minimum of 9 (got: [REDACTED PII])")
+}
+
+func TestValidation_FailClosed_NumericBounds(t *testing.T) {
+	t.Run("Invalid Int Bound", func(t *testing.T) {
+		type InvalidInt struct {
+			Age int `supercargo.field:"greater_than=abc"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidInt{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for invalid int bounds, got nil")
+		}
+	})
+
+	t.Run("Invalid Uint Bound", func(t *testing.T) {
+		type InvalidUint struct {
+			Count uint `supercargo.field:"greater_than=-5"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidUint{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for invalid uint bounds, got nil")
+		}
+	})
+
+	t.Run("Invalid Float Bound", func(t *testing.T) {
+		type InvalidFloat struct {
+			Score float64 `supercargo.field:"greater_than=not-a-float"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidFloat{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for invalid float bounds, got nil")
+		}
+	})
+
+	t.Run("Invalid OneOf for Int", func(t *testing.T) {
+		type InvalidOneOfInt struct {
+			Priority int `supercargo.field:"oneof=low medium high"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidOneOfInt{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for non-integer oneof values on int field, got nil")
+		}
+	})
+}
+
+
 

@@ -166,7 +166,7 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 }
 
 func parseOneOfValues(s string) []string {
-	var vals []string
+	vals := make([]string, 0, 4)
 	var current strings.Builder
 	inQuote := false
 	quoteChar := byte(0)
@@ -178,6 +178,7 @@ func parseOneOfValues(s string) []string {
 			quoteChar = c
 		} else if inQuote && c == quoteChar {
 			inQuote = false
+			quoteChar = 0
 		} else if !inQuote && (c == ' ' || c == '\t' || c == ',') {
 			if current.Len() > 0 {
 				vals = append(vals, current.String())
@@ -194,13 +195,18 @@ func parseOneOfValues(s string) []string {
 }
 
 func parseTagKeyValue(tag string) []string {
-	parts := []string{}
+	parts := make([]string, 0, 4)
 	var current strings.Builder
 	inQuote := false
+	quoteChar := byte(0)
 	for i := 0; i < len(tag); i++ {
 		c := tag[i]
-		if c == '\'' || c == '"' {
-			inQuote = !inQuote
+		if (c == '\'' || c == '"') && !inQuote {
+			inQuote = true
+			quoteChar = c
+		} else if inQuote && c == quoteChar {
+			inQuote = false
+			quoteChar = 0
 		} else if c == ',' && !inQuote {
 			parts = append(parts, current.String())
 			current.Reset()
