@@ -17,93 +17,196 @@ type FieldMetadata struct {
 }
 
 func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
-	tag := f.Tag.Get("supercargo.field")
-	if tag == "" {
+	scTag := f.Tag.Get("supercargo.field")
+	valTag := f.Tag.Get("validate")
+	if scTag == "" && valTag == "" {
 		return nil, nil
 	}
 
 	builder := Field(f.Name)
-	parts := []string{}
+
+	// Determine type kind for type-aware constraint mapping
+	t := f.Type
+	for t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+	kind := t.Kind()
+	isString := kind == reflect.String
+	isCollection := kind == reflect.Slice || kind == reflect.Array || kind == reflect.Map
+
+	// 1. Parse standard 'validate' tag first (if present)
+	if valTag != "" {
+		parts := parseTagKeyValue(valTag)
+		for _, part := range parts {
+			kv := strings.SplitN(part, "=", 2)
+			key := strings.TrimSpace(kv[0])
+			val := ""
+			if len(kv) > 1 {
+				val = strings.TrimSpace(kv[1])
+			}
+
+			switch key {
+			case "required":
+				builder = builder.NotEmpty()
+			case "email":
+				builder = builder.Pattern(`^[^@\s]+@[^@\s]+\.[^@\s]+$`)
+			case "min":
+				if isString || isCollection {
+					i, err := strconv.Atoi(val)
+					if err != nil {
+						return nil, fmt.Errorf("supercargo: invalid int for min on field %s: %w", f.Name, err)
+					}
+					builder = builder.MinLength(i)
+				} else {
+					builder = builder.GreaterThanOrEqual(val)
+				}
+			case "max":
+				if isString || isCollection {
+					i, err := strconv.Atoi(val)
+					if err != nil {
+						return nil, fmt.Errorf("supercargo: invalid int for max on field %s: %w", f.Name, err)
+					}
+					builder = builder.MaxLength(i)
+				} else {
+					builder = builder.LessThanOrEqual(val)
+				}
+			case "len":
+				if isString || isCollection {
+					i, err := strconv.Atoi(val)
+					if err != nil {
+						return nil, fmt.Errorf("supercargo: invalid int for len on field %s: %w", f.Name, err)
+					}
+					builder = builder.MinLength(i).MaxLength(i)
+				} else {
+					builder = builder.GreaterThanOrEqual(val).LessThanOrEqual(val)
+				}
+			case "gte", "greater_than_or_equal_to":
+				builder = builder.GreaterThanOrEqual(val)
+			case "lte", "less_than_or_equal_to":
+				builder = builder.LessThanOrEqual(val)
+			case "gt", "greater_than":
+				builder = builder.GreaterThan(val)
+			case "lt", "less_than":
+				builder = builder.LessThan(val)
+			case "oneof":
+				vals := parseOneOfValues(val)
+				builder = builder.OneOf(vals...)
+			}
+		}
+	}
+
+	// 2. Parse sovereign 'supercargo.field' tag (explicit overrides)
+	if scTag != "" {
+		parts := parseTagKeyValue(scTag)
+		for _, part := range parts {
+			kv := strings.SplitN(part, "=", 2)
+			key := strings.TrimSpace(kv[0])
+			val := ""
+			if len(kv) > 1 {
+				val = strings.TrimSpace(kv[1])
+			}
+
+			switch key {
+			case "not_empty":
+				builder = builder.NotEmpty()
+			case "pii":
+				b, err := strconv.ParseBool(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid boolean for pii on field %s: %w", f.Name, err)
+				}
+				builder = builder.PII(b)
+			case "rank":
+				i, err := strconv.Atoi(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid int for rank on field %s: %w", f.Name, err)
+				}
+				builder = builder.Rank(i)
+			case "context_id":
+				builder = builder.ContextID(val)
+			case "domain", "identity_domain":
+				builder = builder.IdentityDomain(val)
+			case "greater_than", "gt":
+				builder = builder.GreaterThan(val)
+			case "less_than", "lt":
+				builder = builder.LessThan(val)
+			case "greater_than_or_equal_to", "gte":
+				builder = builder.GreaterThanOrEqual(val)
+			case "less_than_or_equal_to", "lte":
+				builder = builder.LessThanOrEqual(val)
+			case "max_length", "max":
+				i, err := strconv.Atoi(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid int for max_length on field %s: %w", f.Name, err)
+				}
+				builder = builder.MaxLength(i)
+			case "min_length", "min":
+				i, err := strconv.Atoi(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid int for min_length on field %s: %w", f.Name, err)
+				}
+				builder = builder.MinLength(i)
+			case "len":
+				i, err := strconv.Atoi(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid int for len on field %s: %w", f.Name, err)
+				}
+				builder = builder.MinLength(i).MaxLength(i)
+			case "pattern":
+				builder = builder.Pattern(val)
+			case "oneof":
+				vals := parseOneOfValues(val)
+				builder = builder.OneOf(vals...)
+			case "type":
+				// parsed correctly, keeping for compatibility
+			}
+		}
+	}
+
+	return builder, nil
+}
+
+func parseOneOfValues(s string) []string {
+	vals := make([]string, 0, 4)
 	var current strings.Builder
 	inQuote := false
+	quoteChar := byte(0)
 
-	for i := 0; i < len(tag); i++ {
-		c := tag[i]
-		if c == '\'' {
-			inQuote = !inQuote
-			// We can omit the quote itself from the value, or keep it.
-			// Let's omit the quote.
-		} else if c == ',' && !inQuote {
-			parts = append(parts, current.String())
-			current.Reset()
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if (c == '\'' || c == '"') && !inQuote {
+			inQuote = true
+			quoteChar = c
+		} else if inQuote && c == quoteChar {
+			inQuote = false
+			quoteChar = 0
+		} else if !inQuote && (c == ' ' || c == '\t' || c == ',') {
+			if current.Len() > 0 {
+				vals = append(vals, current.String())
+				current.Reset()
+			}
 		} else {
 			current.WriteByte(c)
 		}
 	}
 	if current.Len() > 0 {
-		parts = append(parts, current.String())
+		vals = append(vals, current.String())
 	}
-
-	for _, part := range parts {
-		kv := strings.SplitN(part, "=", 2)
-		key := strings.TrimSpace(kv[0])
-		val := ""
-		if len(kv) > 1 {
-			val = strings.TrimSpace(kv[1])
-		}
-
-		switch key {
-		case "not_empty":
-			builder = builder.NotEmpty()
-		case "pii":
-			b, err := strconv.ParseBool(val)
-			if err != nil {
-				return nil, fmt.Errorf("supercargo: invalid boolean for pii on field %s: %w", f.Name, err)
-			}
-			builder = builder.PII(b)
-		case "rank":
-			i, err := strconv.Atoi(val)
-			if err != nil {
-				return nil, fmt.Errorf("supercargo: invalid int for rank on field %s: %w", f.Name, err)
-			}
-			builder = builder.Rank(i)
-		case "context_id":
-			builder = builder.ContextID(val)
-		case "domain", "identity_domain":
-			builder = builder.IdentityDomain(val)
-		case "greater_than":
-			builder = builder.GreaterThan(val)
-		case "less_than":
-			builder = builder.LessThan(val)
-		case "max_length":
-			i, err := strconv.Atoi(val)
-			if err != nil {
-				return nil, fmt.Errorf("supercargo: invalid int for max_length on field %s: %w", f.Name, err)
-			}
-			builder = builder.MaxLength(i)
-		case "min_length":
-			i, err := strconv.Atoi(val)
-			if err != nil {
-				return nil, fmt.Errorf("supercargo: invalid int for min_length on field %s: %w", f.Name, err)
-			}
-			builder = builder.MinLength(i)
-		case "pattern":
-			builder = builder.Pattern(val)
-		case "type":
-			// parsed correctly, no specific builder method yet, keeping for compatibility
-		}
-	}
-	return builder, nil
+	return vals
 }
 
 func parseTagKeyValue(tag string) []string {
-	parts := []string{}
+	parts := make([]string, 0, 4)
 	var current strings.Builder
 	inQuote := false
+	quoteChar := byte(0)
 	for i := 0; i < len(tag); i++ {
 		c := tag[i]
-		if c == '\'' || c == '"' {
-			inQuote = !inQuote
+		if (c == '\'' || c == '"') && !inQuote {
+			inQuote = true
+			quoteChar = c
+		} else if inQuote && c == quoteChar {
+			inQuote = false
+			quoteChar = 0
 		} else if c == ',' && !inQuote {
 			parts = append(parts, current.String())
 			current.Reset()

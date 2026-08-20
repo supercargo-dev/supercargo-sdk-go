@@ -482,3 +482,343 @@ func TestValidation_PII_Value_Redaction(t *testing.T) {
 		t.Errorf("expected ValidationError.Value to be nil for PII field, got %v", valErr.Value)
 	}
 }
+
+type InclusiveBoundsTest struct {
+	AgeInt      int     `json:"age_int"`
+	AgeUint     uint    `json:"age_uint"`
+	ScoreFloat  float64 `json:"score_float"`
+	PriceStr    string  `json:"price_str"`
+	StatusStr   string  `json:"status_str"`
+	PriorityInt int     `json:"priority_int"`
+}
+
+func (b InclusiveBoundsTest) ContractConstraints() []sc.Rule {
+	return []sc.Rule{
+		sc.Field("AgeInt").GreaterThanOrEqual("18").LessThanOrEqual("65"),
+		sc.Field("AgeUint").GreaterThanOrEqual("1").LessThanOrEqual("100"),
+		sc.Field("ScoreFloat").GreaterThanOrEqual("0.0").LessThanOrEqual("100.0"),
+		sc.Field("PriceStr").GreaterThanOrEqual("10.5").LessThanOrEqual("99.9"),
+		sc.Field("StatusStr").OneOf("draft", "published", "archived"),
+		sc.Field("PriorityInt").OneOf("1", "2", "3"),
+	}
+}
+
+func TestValidation_InclusiveBounds_Success(t *testing.T) {
+	// Exact boundary values
+	val1 := InclusiveBoundsTest{
+		AgeInt:      18,
+		AgeUint:     1,
+		ScoreFloat:  0.0,
+		PriceStr:    "10.5",
+		StatusStr:   "draft",
+		PriorityInt: 1,
+	}
+	supercargotest.AssertValidates(t, val1)
+
+	val2 := InclusiveBoundsTest{
+		AgeInt:      65,
+		AgeUint:     100,
+		ScoreFloat:  100.0,
+		PriceStr:    "99.9",
+		StatusStr:   "archived",
+		PriorityInt: 3,
+	}
+	supercargotest.AssertValidates(t, val2)
+}
+
+func TestValidation_InclusiveBounds_Failures(t *testing.T) {
+	t.Run("AgeInt below GTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 17, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be greater than or equal to 18")
+	})
+
+	t.Run("AgeInt above LTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 66, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be less than or equal to 65")
+	})
+
+	t.Run("AgeUint below GTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 0, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be greater than or equal to 1")
+	})
+
+	t.Run("ScoreFloat above LTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 100.1, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be less than or equal to 100")
+	})
+
+	t.Run("PriceStr below GTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "10.49", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be greater than or equal to 10.5")
+	})
+
+	t.Run("StatusStr not in OneOf", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "invalid_status", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be one of [draft, published, archived]")
+	})
+
+	t.Run("PriorityInt not in OneOf", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 5,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be one of [1, 2, 3]")
+	})
+}
+
+// UserProfile struct testing pure validate tags and hybrid tags
+type ValidateTagUser struct {
+	_          struct{} `supercargo.contract:"urn=urn:supercargo:hub:contract:user_profile,version=1.0.0"`
+	Email      string   `supercargo.field:"pii=true,context_id=user,rank=1" validate:"required,email"`
+	Age        int      `validate:"required,min=18,max=120"`
+	Username   string   `validate:"required,min=3,max=20"`
+	Role       string   `validate:"required,oneof=admin editor viewer"`
+	Scores     []int    `validate:"required,min=1,max=5"`
+	PostalCode string   `validate:"required,len=5"`
+	Bio        *string  `validate:"min=10,max=200"`
+}
+
+type ValidateOverrideUser struct {
+	// supercargo.field specifies min_length=10, validate specifies min=2.
+	// Sovereign rule: supercargo.field wins (must be at least 10 runes).
+	Code string `supercargo.field:"min_length=10" validate:"required,min=2"`
+}
+
+func TestValidation_ValidateTag_Success(t *testing.T) {
+	bio := "A software engineer working on data contracts."
+	user := ValidateTagUser{
+		Email:      "alice@example.com",
+		Age:        25,
+		Username:   "alice",
+		Role:       "admin",
+		Scores:     []int{100, 95},
+		PostalCode: "12345",
+		Bio:        &bio,
+	}
+
+	supercargotest.AssertValidates(t, user)
+	supercargotest.AssertValidates(t, &user)
+}
+
+func TestValidation_ValidateTag_Failures(t *testing.T) {
+	t.Run("Required Email missing", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "",
+			Age:        25,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Email\": must not be empty (got: [REDACTED PII])")
+	})
+
+	t.Run("Invalid Email pattern", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "not-an-email",
+			Age:        25,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Email\": does not match pattern (got: [REDACTED PII])")
+	})
+
+	t.Run("Age below min 18", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        16,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Age\": must be greater than or equal to 18")
+	})
+
+	t.Run("Age above max 120", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        130,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Age\": must be less than or equal to 120")
+	})
+
+	t.Run("Username below min length 3", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        25,
+			Username:   "al",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Username\": length is less than minimum of 3")
+	})
+
+	t.Run("Role not in oneof", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        25,
+			Username:   "alice",
+			Role:       "superadmin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Role\": must be one of [admin, editor, viewer]")
+	})
+
+	t.Run("Scores empty slice violates required and min=1", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        25,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{},
+			PostalCode: "12345",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Scores\": must not be empty")
+	})
+
+	t.Run("PostalCode len!=5", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        25,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "123",
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"PostalCode\": length is less than minimum of 5")
+	})
+
+	t.Run("Optional Bio nil passes", func(t *testing.T) {
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        25,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+			Bio:        nil,
+		}
+		supercargotest.AssertValidates(t, user)
+	})
+
+	t.Run("Optional Bio too short fails", func(t *testing.T) {
+		shortBio := "Too short"
+		user := ValidateTagUser{
+			Email:      "alice@example.com",
+			Age:        25,
+			Username:   "alice",
+			Role:       "admin",
+			Scores:     []int{100},
+			PostalCode: "12345",
+			Bio:        &shortBio,
+		}
+		supercargotest.AssertFailsValidation(t, user, "validation failed on field \"Bio\": length is less than minimum of 10")
+	})
+}
+
+func TestValidation_ValidateTag_MetadataExtraction(t *testing.T) {
+	v, err := sc.GetValidator(reflect.TypeOf(ValidateTagUser{}))
+	if err != nil {
+		t.Fatalf("unexpected GetValidator error: %v", err)
+	}
+
+	metadata := v.Metadata()
+	emailMeta, ok := metadata["Email"]
+	if !ok {
+		t.Fatalf("expected metadata for Email field")
+	}
+	if emailMeta.IsPII == nil || !*emailMeta.IsPII {
+		t.Errorf("expected Email to be marked as PII")
+	}
+	if emailMeta.ContextID != "user" {
+		t.Errorf("expected ContextID 'user', got %q", emailMeta.ContextID)
+	}
+	if emailMeta.IdentifierRank == nil || *emailMeta.IdentifierRank != 1 {
+		t.Errorf("expected IdentifierRank 1, got %v", emailMeta.IdentifierRank)
+	}
+}
+
+func TestValidation_ValidateTag_SovereignOverridePrecedence(t *testing.T) {
+	// "12345" has length 5. Passes validate:min=2, but fails supercargo.field:min_length=10
+	invalid := ValidateOverrideUser{Code: "12345"}
+	supercargotest.AssertFailsValidation(t, invalid, "validation failed on field \"Code\": length is less than minimum of 10")
+
+	// "1234567890" has length 10. Passes both.
+	valid := ValidateOverrideUser{Code: "1234567890"}
+	supercargotest.AssertValidates(t, valid)
+}
+
+type ContextIDOnlyUser struct {
+	SSN string `supercargo.field:"context_id=user,min_length=9"`
+}
+
+func TestValidation_ContextID_PII_Redaction(t *testing.T) {
+	// SSN has context_id=user but no explicit pii=true tag; it MUST redact on failure.
+	invalid := ContextIDOnlyUser{SSN: "123"}
+	supercargotest.AssertFailsValidation(t, invalid, "validation failed on field \"SSN\": length is less than minimum of 9 (got: [REDACTED PII])")
+}
+
+func TestValidation_FailClosed_NumericBounds(t *testing.T) {
+	t.Run("Invalid Int Bound", func(t *testing.T) {
+		type InvalidInt struct {
+			Age int `supercargo.field:"greater_than=abc"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidInt{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for invalid int bounds, got nil")
+		}
+	})
+
+	t.Run("Invalid Uint Bound", func(t *testing.T) {
+		type InvalidUint struct {
+			Count uint `supercargo.field:"greater_than=-5"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidUint{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for invalid uint bounds, got nil")
+		}
+	})
+
+	t.Run("Invalid Float Bound", func(t *testing.T) {
+		type InvalidFloat struct {
+			Score float64 `supercargo.field:"greater_than=not-a-float"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidFloat{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for invalid float bounds, got nil")
+		}
+	})
+
+	t.Run("Invalid OneOf for Int", func(t *testing.T) {
+		type InvalidOneOfInt struct {
+			Priority int `supercargo.field:"oneof=low medium high"`
+		}
+		_, err := sc.GetValidator(reflect.TypeOf(InvalidOneOfInt{}))
+		if err == nil {
+			t.Fatalf("expected compilation error for non-integer oneof values on int field, got nil")
+		}
+	})
+}
+
+
+
