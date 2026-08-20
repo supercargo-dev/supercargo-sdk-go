@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.4.0...github.com/supercargo-dev/supercargo-sdk-go-v0.5.0) (2026-08-20)
+
+
+### Features
+
+* **sdk:** add go-playground validator tag adapter and inclusive bounds ([e6944f5](https://github.com/supercargo-dev/core/commit/e6944f5676099a9e262e62c40ee167f0b67d8ebd))
+* **sdk:** add go-playground validator tag adapter to Go SDK ([1b29207](https://github.com/supercargo-dev/core/commit/1b2920708a81c72d7d948e8522ee9dd735ad19bd))
+* **sdk:** support inclusive bounds and exact length in rule compiler ([2ca0780](https://github.com/supercargo-dev/core/commit/2ca078081574754c45b9560c8bb3c1380eca4416))
+
+
+### Bug Fixes
+
+* **sdk:** enforce fail-closed bounds, zero-alloc oneof, and context-derived PII redaction ([3724484](https://github.com/supercargo-dev/core/commit/3724484794b7f5be6ae2b8db6e83e16484fc2210))
+
 ## [0.4.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.3.1...github.com/supercargo-dev/supercargo-sdk-go-v0.4.0) (2026-08-15)
 
 
