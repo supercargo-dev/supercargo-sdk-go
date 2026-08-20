@@ -8,6 +8,9 @@ type FieldRuleBuilder struct {
 	minLen            *int
 	greater           *string
 	less              *string
+	greaterOrEqual    *string
+	lessOrEqual       *string
+	oneof             []string
 	mustNotBeEmpty    bool
 	isPII             *bool
 	ctxID             string
@@ -36,6 +39,18 @@ func (f *FieldRuleBuilder) Clone() *FieldRuleBuilder {
 	if f.less != nil {
 		v := *f.less
 		c.less = &v
+	}
+	if f.greaterOrEqual != nil {
+		v := *f.greaterOrEqual
+		c.greaterOrEqual = &v
+	}
+	if f.lessOrEqual != nil {
+		v := *f.lessOrEqual
+		c.lessOrEqual = &v
+	}
+	if f.oneof != nil {
+		c.oneof = make([]string, len(f.oneof))
+		copy(c.oneof, f.oneof)
 	}
 	if f.isPII != nil {
 		v := *f.isPII
@@ -90,10 +105,31 @@ func (b *FieldRuleBuilder) GreaterThan(bound string) *FieldRuleBuilder {
 	return c
 }
 
+// GreaterThanOrEqual enforces that the value is greater than or equal to the given bound.
+func (b *FieldRuleBuilder) GreaterThanOrEqual(bound string) *FieldRuleBuilder {
+	c := b.Clone()
+	c.greaterOrEqual = &bound
+	return c
+}
+
 // LessThan enforces that the value is strictly less than the given bound.
 func (b *FieldRuleBuilder) LessThan(bound string) *FieldRuleBuilder {
 	c := b.Clone()
 	c.less = &bound
+	return c
+}
+
+// LessThanOrEqual enforces that the value is less than or equal to the given bound.
+func (b *FieldRuleBuilder) LessThanOrEqual(bound string) *FieldRuleBuilder {
+	c := b.Clone()
+	c.lessOrEqual = &bound
+	return c
+}
+
+// OneOf enforces that the value matches one of the specified allowed values.
+func (b *FieldRuleBuilder) OneOf(values ...string) *FieldRuleBuilder {
+	c := b.Clone()
+	c.oneof = append([]string(nil), values...)
 	return c
 }
 
@@ -124,3 +160,4 @@ func (b *FieldRuleBuilder) Rank(rank int) *FieldRuleBuilder {
 	c.identifierRank = &rank
 	return c
 }
+

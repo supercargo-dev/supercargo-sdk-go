@@ -482,3 +482,98 @@ func TestValidation_PII_Value_Redaction(t *testing.T) {
 		t.Errorf("expected ValidationError.Value to be nil for PII field, got %v", valErr.Value)
 	}
 }
+
+type InclusiveBoundsTest struct {
+	AgeInt      int     `json:"age_int"`
+	AgeUint     uint    `json:"age_uint"`
+	ScoreFloat  float64 `json:"score_float"`
+	PriceStr    string  `json:"price_str"`
+	StatusStr   string  `json:"status_str"`
+	PriorityInt int     `json:"priority_int"`
+}
+
+func (b InclusiveBoundsTest) ContractConstraints() []sc.Rule {
+	return []sc.Rule{
+		sc.Field("AgeInt").GreaterThanOrEqual("18").LessThanOrEqual("65"),
+		sc.Field("AgeUint").GreaterThanOrEqual("1").LessThanOrEqual("100"),
+		sc.Field("ScoreFloat").GreaterThanOrEqual("0.0").LessThanOrEqual("100.0"),
+		sc.Field("PriceStr").GreaterThanOrEqual("10.5").LessThanOrEqual("99.9"),
+		sc.Field("StatusStr").OneOf("draft", "published", "archived"),
+		sc.Field("PriorityInt").OneOf("1", "2", "3"),
+	}
+}
+
+func TestValidation_InclusiveBounds_Success(t *testing.T) {
+	// Exact boundary values
+	val1 := InclusiveBoundsTest{
+		AgeInt:      18,
+		AgeUint:     1,
+		ScoreFloat:  0.0,
+		PriceStr:    "10.5",
+		StatusStr:   "draft",
+		PriorityInt: 1,
+	}
+	supercargotest.AssertValidates(t, val1)
+
+	val2 := InclusiveBoundsTest{
+		AgeInt:      65,
+		AgeUint:     100,
+		ScoreFloat:  100.0,
+		PriceStr:    "99.9",
+		StatusStr:   "archived",
+		PriorityInt: 3,
+	}
+	supercargotest.AssertValidates(t, val2)
+}
+
+func TestValidation_InclusiveBounds_Failures(t *testing.T) {
+	t.Run("AgeInt below GTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 17, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be greater than or equal to 18")
+	})
+
+	t.Run("AgeInt above LTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 66, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be less than or equal to 65")
+	})
+
+	t.Run("AgeUint below GTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 0, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be greater than or equal to 1")
+	})
+
+	t.Run("ScoreFloat above LTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 100.1, PriceStr: "20.0", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be less than or equal to 100")
+	})
+
+	t.Run("PriceStr below GTE", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "10.49", StatusStr: "published", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be greater than or equal to 10.5")
+	})
+
+	t.Run("StatusStr not in OneOf", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "invalid_status", PriorityInt: 2,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be one of [draft, published, archived]")
+	})
+
+	t.Run("PriorityInt not in OneOf", func(t *testing.T) {
+		item := InclusiveBoundsTest{
+			AgeInt: 20, AgeUint: 5, ScoreFloat: 50.0, PriceStr: "20.0", StatusStr: "published", PriorityInt: 5,
+		}
+		supercargotest.AssertFailsValidation(t, item, "must be one of [1, 2, 3]")
+	})
+}
+

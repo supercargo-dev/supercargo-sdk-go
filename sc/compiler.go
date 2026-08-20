@@ -125,6 +125,15 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 				if clonedRule.less != nil {
 					existing.less = clonedRule.less
 				}
+				if clonedRule.greaterOrEqual != nil {
+					existing.greaterOrEqual = clonedRule.greaterOrEqual
+				}
+				if clonedRule.lessOrEqual != nil {
+					existing.lessOrEqual = clonedRule.lessOrEqual
+				}
+				if len(clonedRule.oneof) > 0 {
+					existing.oneof = clonedRule.oneof
+				}
 				if clonedRule.isPII != nil {
 					existing.isPII = clonedRule.isPII
 				}
@@ -359,7 +368,7 @@ func compileFieldRule(fRule *FieldRuleBuilder, idx []int, fTyp reflect.Type) (fu
 	}
 
 	// For unsupported types, if there are specific scalar constraints requested, fail fast.
-	if fRule.regexPattern != "" || fRule.maxLen != nil || fRule.minLen != nil || fRule.greater != nil || fRule.less != nil {
+	if fRule.regexPattern != "" || fRule.maxLen != nil || fRule.minLen != nil || fRule.greater != nil || fRule.less != nil || fRule.greaterOrEqual != nil || fRule.lessOrEqual != nil || len(fRule.oneof) > 0 {
 		return nil, fmt.Errorf("supercargo: unsupported type %s for scalar constraints on field %s", fTyp.Name(), fRule.fieldName)
 	}
 
@@ -388,7 +397,7 @@ func buildStringRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *p
 		regex = compiled
 	}
 
-	var greaterBound, lessBound *numericBound
+	var greaterBound, lessBound, greaterOrEqualBound, lessOrEqualBound *numericBound
 	var err error
 	if fRule.greater != nil {
 		gb, errFloat := parseNumericBound(*fRule.greater)
@@ -406,6 +415,22 @@ func buildStringRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *p
 			lessBound = lb
 		}
 	}
+	if fRule.greaterOrEqual != nil {
+		geb, errFloat := parseNumericBound(*fRule.greaterOrEqual)
+		if errFloat != nil {
+			err = fmt.Errorf("supercargo: invalid numeric greater_than_or_equal_to bounds %q for string field %q", *fRule.greaterOrEqual, fRule.fieldName)
+		} else {
+			greaterOrEqualBound = geb
+		}
+	}
+	if fRule.lessOrEqual != nil {
+		leb, errFloat := parseNumericBound(*fRule.lessOrEqual)
+		if errFloat != nil {
+			err = fmt.Errorf("supercargo: invalid numeric less_than_or_equal_to bounds %q for string field %q", *fRule.lessOrEqual, fRule.fieldName)
+		} else {
+			lessOrEqualBound = leb
+		}
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -414,6 +439,7 @@ func buildStringRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *p
 	notEmpty := fRule.mustNotBeEmpty
 	maxLen := fRule.maxLen
 	minLen := fRule.minLen
+	oneof := fRule.oneof
 	isPII := fRule.isPII != nil && *fRule.isPII
 
 	return func(val reflect.Value, visited *ptrStack) error {
@@ -461,12 +487,42 @@ func buildStringRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *p
 				return newValidationError(name, fmt.Sprintf("must be strictly less than %s", lessBound.str), str, isPII, nil)
 			}
 		}
+		if greaterOrEqualBound != nil {
+			cmpRes, err := greaterOrEqualBound.cmp(str)
+			if err != nil {
+				return newValidationError(name, "failed to parse as numeric for greater_than_or_equal_to bounds check", str, isPII, nil)
+			}
+			if cmpRes < 0 {
+				return newValidationError(name, fmt.Sprintf("must be greater than or equal to %s", greaterOrEqualBound.str), str, isPII, nil)
+			}
+		}
+		if lessOrEqualBound != nil {
+			cmpRes, err := lessOrEqualBound.cmp(str)
+			if err != nil {
+				return newValidationError(name, "failed to parse as numeric for less_than_or_equal_to bounds check", str, isPII, nil)
+			}
+			if cmpRes > 0 {
+				return newValidationError(name, fmt.Sprintf("must be less than or equal to %s", lessOrEqualBound.str), str, isPII, nil)
+			}
+		}
+		if len(oneof) > 0 {
+			matched := false
+			for _, allowed := range oneof {
+				if str == allowed {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				return newValidationError(name, fmt.Sprintf("must be one of [%s]", strings.Join(oneof, ", ")), str, isPII, nil)
+			}
+		}
 		return nil
 	}, nil
 }
 
 func buildIntRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptrStack) error, error) {
-	var greaterInt, lessInt *int64
+	var greaterInt, lessInt, greaterOrEqualInt, lessOrEqualInt *int64
 	if fRule.greater != nil {
 		if gi, err := strconv.ParseInt(*fRule.greater, 10, 64); err == nil {
 			greaterInt = &gi
@@ -477,9 +533,20 @@ func buildIntRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptrS
 			lessInt = &li
 		}
 	}
+	if fRule.greaterOrEqual != nil {
+		if gei, err := strconv.ParseInt(*fRule.greaterOrEqual, 10, 64); err == nil {
+			greaterOrEqualInt = &gei
+		}
+	}
+	if fRule.lessOrEqual != nil {
+		if lei, err := strconv.ParseInt(*fRule.lessOrEqual, 10, 64); err == nil {
+			lessOrEqualInt = &lei
+		}
+	}
 
 	name := fRule.fieldName
 	notEmpty := fRule.mustNotBeEmpty
+	oneof := fRule.oneof
 	isPII := fRule.isPII != nil && *fRule.isPII
 
 	return func(val reflect.Value, visited *ptrStack) error {
@@ -495,12 +562,31 @@ func buildIntRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptrS
 		if lessInt != nil && num >= *lessInt {
 			return newValidationError(name, fmt.Sprintf("must be strictly less than %v", *lessInt), num, isPII, nil)
 		}
+		if greaterOrEqualInt != nil && num < *greaterOrEqualInt {
+			return newValidationError(name, fmt.Sprintf("must be greater than or equal to %v", *greaterOrEqualInt), num, isPII, nil)
+		}
+		if lessOrEqualInt != nil && num > *lessOrEqualInt {
+			return newValidationError(name, fmt.Sprintf("must be less than or equal to %v", *lessOrEqualInt), num, isPII, nil)
+		}
+		if len(oneof) > 0 {
+			matched := false
+			numStr := strconv.FormatInt(num, 10)
+			for _, allowed := range oneof {
+				if numStr == allowed {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				return newValidationError(name, fmt.Sprintf("must be one of [%s]", strings.Join(oneof, ", ")), num, isPII, nil)
+			}
+		}
 		return nil
 	}, nil
 }
 
 func buildUintRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptrStack) error, error) {
-	var greaterUint, lessUint *uint64
+	var greaterUint, lessUint, greaterOrEqualUint, lessOrEqualUint *uint64
 	if fRule.greater != nil {
 		if gu, err := strconv.ParseUint(*fRule.greater, 10, 64); err == nil {
 			greaterUint = &gu
@@ -511,9 +597,20 @@ func buildUintRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptr
 			lessUint = &lu
 		}
 	}
+	if fRule.greaterOrEqual != nil {
+		if geu, err := strconv.ParseUint(*fRule.greaterOrEqual, 10, 64); err == nil {
+			greaterOrEqualUint = &geu
+		}
+	}
+	if fRule.lessOrEqual != nil {
+		if leu, err := strconv.ParseUint(*fRule.lessOrEqual, 10, 64); err == nil {
+			lessOrEqualUint = &leu
+		}
+	}
 
 	name := fRule.fieldName
 	notEmpty := fRule.mustNotBeEmpty
+	oneof := fRule.oneof
 	isPII := fRule.isPII != nil && *fRule.isPII
 
 	return func(val reflect.Value, visited *ptrStack) error {
@@ -529,12 +626,31 @@ func buildUintRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptr
 		if lessUint != nil && num >= *lessUint {
 			return newValidationError(name, fmt.Sprintf("must be strictly less than %v", *lessUint), num, isPII, nil)
 		}
+		if greaterOrEqualUint != nil && num < *greaterOrEqualUint {
+			return newValidationError(name, fmt.Sprintf("must be greater than or equal to %v", *greaterOrEqualUint), num, isPII, nil)
+		}
+		if lessOrEqualUint != nil && num > *lessOrEqualUint {
+			return newValidationError(name, fmt.Sprintf("must be less than or equal to %v", *lessOrEqualUint), num, isPII, nil)
+		}
+		if len(oneof) > 0 {
+			matched := false
+			numStr := strconv.FormatUint(num, 10)
+			for _, allowed := range oneof {
+				if numStr == allowed {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				return newValidationError(name, fmt.Sprintf("must be one of [%s]", strings.Join(oneof, ", ")), num, isPII, nil)
+			}
+		}
 		return nil
 	}, nil
 }
 
 func buildFloatRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *ptrStack) error, error) {
-	var greaterFloat, lessFloat *float64
+	var greaterFloat, lessFloat, greaterOrEqualFloat, lessOrEqualFloat *float64
 	if fRule.greater != nil {
 		if gf, err := strconv.ParseFloat(*fRule.greater, 64); err == nil {
 			greaterFloat = &gf
@@ -545,9 +661,20 @@ func buildFloatRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *pt
 			lessFloat = &lf
 		}
 	}
+	if fRule.greaterOrEqual != nil {
+		if gef, err := strconv.ParseFloat(*fRule.greaterOrEqual, 64); err == nil {
+			greaterOrEqualFloat = &gef
+		}
+	}
+	if fRule.lessOrEqual != nil {
+		if lef, err := strconv.ParseFloat(*fRule.lessOrEqual, 64); err == nil {
+			lessOrEqualFloat = &lef
+		}
+	}
 
 	name := fRule.fieldName
 	notEmpty := fRule.mustNotBeEmpty
+	oneof := fRule.oneof
 	isPII := fRule.isPII != nil && *fRule.isPII
 
 	return func(val reflect.Value, visited *ptrStack) error {
@@ -562,6 +689,24 @@ func buildFloatRule(fRule *FieldRuleBuilder, idx []int) (func(reflect.Value, *pt
 		}
 		if lessFloat != nil && num >= *lessFloat {
 			return newValidationError(name, fmt.Sprintf("must be strictly less than %v", *lessFloat), num, isPII, nil)
+		}
+		if greaterOrEqualFloat != nil && num < *greaterOrEqualFloat {
+			return newValidationError(name, fmt.Sprintf("must be greater than or equal to %v", *greaterOrEqualFloat), num, isPII, nil)
+		}
+		if lessOrEqualFloat != nil && num > *lessOrEqualFloat {
+			return newValidationError(name, fmt.Sprintf("must be less than or equal to %v", *lessOrEqualFloat), num, isPII, nil)
+		}
+		if len(oneof) > 0 {
+			matched := false
+			for _, allowed := range oneof {
+				if fVal, err := strconv.ParseFloat(allowed, 64); err == nil && fVal == num {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				return newValidationError(name, fmt.Sprintf("must be one of [%s]", strings.Join(oneof, ", ")), num, isPII, nil)
+			}
 		}
 		return nil
 	}, nil
