@@ -170,8 +170,8 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 				builder = builder.PrimaryKey(b)
 			case "sort_rank", "sort_key":
 				i, err := strconv.Atoi(val)
-				if err != nil {
-					return nil, fmt.Errorf("supercargo: invalid int for sort_rank on field %s: %w", f.Name, err)
+				if err != nil || i < 0 {
+					return nil, fmt.Errorf("supercargo: invalid int for sort_rank on field %s: must be non-negative integer", f.Name)
 				}
 				builder = builder.SortRank(i)
 			case "type":
