@@ -820,5 +820,25 @@ func TestValidation_FailClosed_NumericBounds(t *testing.T) {
 	})
 }
 
+func TestFieldRuleBuilder_Aliases(t *testing.T) {
+	builder := sc.Field("user_id").Alias("userId").Aliases("uid", "user_num")
+	expected := []string{"userId", "uid", "user_num"}
+	if !reflect.DeepEqual(builder.GetAliases(), expected) {
+		t.Fatalf("expected aliases %v, got %v", expected, builder.GetAliases())
+	}
+
+	// Test deep clone isolation
+	cloned := builder.Clone()
+	cloned2 := cloned.Alias("extra_alias")
+	if !reflect.DeepEqual(builder.GetAliases(), expected) {
+		t.Fatalf("expected original aliases unchanged %v, got %v", expected, builder.GetAliases())
+	}
+	expectedCloned := []string{"userId", "uid", "user_num", "extra_alias"}
+	if !reflect.DeepEqual(cloned2.GetAliases(), expectedCloned) {
+		t.Fatalf("expected cloned aliases %v, got %v", expectedCloned, cloned2.GetAliases())
+	}
+}
+
+
 
 

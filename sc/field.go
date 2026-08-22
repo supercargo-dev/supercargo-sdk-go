@@ -16,6 +16,7 @@ type FieldRuleBuilder struct {
 	ctxID             string
 	identityDomainURI string
 	identifierRank    *int
+	aliases           []string
 }
 
 // ruleMarker implements the Rule interface.
@@ -59,6 +60,10 @@ func (f *FieldRuleBuilder) Clone() *FieldRuleBuilder {
 	if f.identifierRank != nil {
 		v := *f.identifierRank
 		c.identifierRank = &v
+	}
+	if f.aliases != nil {
+		c.aliases = make([]string, len(f.aliases))
+		copy(c.aliases, f.aliases)
 	}
 	return &c
 }
@@ -160,4 +165,29 @@ func (b *FieldRuleBuilder) Rank(rank int) *FieldRuleBuilder {
 	c.identifierRank = &rank
 	return c
 }
+
+// Alias adds a single column/field alias for this field.
+func (b *FieldRuleBuilder) Alias(alias string) *FieldRuleBuilder {
+	c := b.Clone()
+	c.aliases = append(c.aliases, alias)
+	return c
+}
+
+// Aliases adds multiple column/field aliases for this field.
+func (b *FieldRuleBuilder) Aliases(aliases ...string) *FieldRuleBuilder {
+	c := b.Clone()
+	c.aliases = append(c.aliases, aliases...)
+	return c
+}
+
+// GetAliases returns a copy of the configured aliases for this field.
+func (b *FieldRuleBuilder) GetAliases() []string {
+	if b.aliases == nil {
+		return nil
+	}
+	res := make([]string, len(b.aliases))
+	copy(res, b.aliases)
+	return res
+}
+
 
