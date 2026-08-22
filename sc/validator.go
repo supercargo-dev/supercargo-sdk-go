@@ -50,6 +50,14 @@ func (v *Validator) Metadata() map[string]FieldMetadata {
 			i := *m.IdentifierRank
 			c.IdentifierRank = &i
 		}
+		if m.IsPrimaryKey != nil {
+			pk := *m.IsPrimaryKey
+			c.IsPrimaryKey = &pk
+		}
+		if m.SortRank != nil {
+			sr := *m.SortRank
+			c.SortRank = &sr
+		}
 		cloned[k] = c
 	}
 	return cloned

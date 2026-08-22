@@ -839,6 +839,71 @@ func TestFieldRuleBuilder_Aliases(t *testing.T) {
 	}
 }
 
+func TestFieldRuleBuilder_PrimaryKeyAndSortRank(t *testing.T) {
+	builder := sc.Field("order_id").PrimaryKey(true).SortRank(1)
+	if !builder.GetPrimaryKey() {
+		t.Errorf("expected PrimaryKey to be true")
+	}
+	if builder.GetSortRank() == nil || *builder.GetSortRank() != 1 {
+		t.Errorf("expected SortRank 1, got %v", builder.GetSortRank())
+	}
+
+	// Test SortKey alias method
+	builder2 := sc.Field("line_number").PrimaryKey().SortKey(2)
+	if !builder2.GetPrimaryKey() {
+		t.Errorf("expected builder2 PrimaryKey to be true")
+	}
+	if builder2.GetSortRank() == nil || *builder2.GetSortRank() != 2 {
+		t.Errorf("expected builder2 SortRank 2, got %v", builder2.GetSortRank())
+	}
+
+	// Test deep clone isolation
+	cloned := builder.Clone()
+	cloned.PrimaryKey(false).SortRank(5)
+	if !builder.GetPrimaryKey() {
+		t.Errorf("cloned mutation should not affect original PrimaryKey")
+	}
+	if *builder.GetSortRank() != 1 {
+		t.Errorf("cloned mutation should not affect original SortRank")
+	}
+}
+
+type CompositePKOrder struct {
+	OrderID    string    `supercargo.field:"primary_key=true"`
+	LineNumber int32     `supercargo.field:"primary_key=true"`
+	UpdatedAt  time.Time `supercargo.field:"sort_rank=1"`
+	SeqNum     int64     `supercargo.field:"sort_key=2"`
+	Quantity   int32     `supercargo.field:"greater_than=0"`
+}
+
+func TestValidation_StructTag_PrimaryKeyAndSortRank(t *testing.T) {
+	v, err := sc.GetValidator(reflect.TypeOf(CompositePKOrder{}))
+	if err != nil {
+		t.Fatalf("unexpected GetValidator error: %v", err)
+	}
+
+	meta := v.Metadata()
+	orderMeta, ok := meta["OrderID"]
+	if !ok || orderMeta.IsPrimaryKey == nil || !*orderMeta.IsPrimaryKey {
+		t.Errorf("expected OrderID to be marked as primary key")
+	}
+
+	lineMeta, ok := meta["LineNumber"]
+	if !ok || lineMeta.IsPrimaryKey == nil || !*lineMeta.IsPrimaryKey {
+		t.Errorf("expected LineNumber to be marked as primary key")
+	}
+
+	updatedMeta, ok := meta["UpdatedAt"]
+	if !ok || updatedMeta.SortRank == nil || *updatedMeta.SortRank != 1 {
+		t.Errorf("expected UpdatedAt to have SortRank 1")
+	}
+
+	seqMeta, ok := meta["SeqNum"]
+	if !ok || seqMeta.SortRank == nil || *seqMeta.SortRank != 2 {
+		t.Errorf("expected SeqNum to have SortRank 2")
+	}
+}
+
 
 
 

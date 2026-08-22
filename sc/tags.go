@@ -14,6 +14,8 @@ type FieldMetadata struct {
 	ContextID         string
 	IdentityDomainURI string
 	IdentifierRank    *int
+	IsPrimaryKey      *bool
+	SortRank          *int
 }
 
 func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
@@ -156,6 +158,22 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 			case "oneof":
 				vals := parseOneOfValues(val)
 				builder = builder.OneOf(vals...)
+			case "primary_key", "pk":
+				b := true
+				if val != "" {
+					parsed, err := strconv.ParseBool(val)
+					if err != nil {
+						return nil, fmt.Errorf("supercargo: invalid boolean for primary_key on field %s: %w", f.Name, err)
+					}
+					b = parsed
+				}
+				builder = builder.PrimaryKey(b)
+			case "sort_rank", "sort_key":
+				i, err := strconv.Atoi(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid int for sort_rank on field %s: %w", f.Name, err)
+				}
+				builder = builder.SortRank(i)
 			case "type":
 				// parsed correctly, keeping for compatibility
 			}
