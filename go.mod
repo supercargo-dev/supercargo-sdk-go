@@ -20,4 +20,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/supercargo-dev/core/gen => ../core/gen
+replace github.com/supercargo-dev/core/gen => ../../gen

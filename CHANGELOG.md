@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.5.0...github.com/supercargo-dev/supercargo-sdk-go-v0.6.0) (2026-08-23)
+
+
+### Features
+
+* **platform:** terraform and SDK parity, authz hardening, and dataform SQLX migration ([da252bd](https://github.com/supercargo-dev/core/commit/da252bd3908528b6c8c1038d8a6f5d1db94185a4))
+* **proto:** first-class explicit primary_key and ranked sort_rank across polyglot SDKs and Sentinel ([d42769a](https://github.com/supercargo-dev/core/commit/d42769ae6e75ff304129de451184e39bb7ac5be7))
+* **schema:** support explicit column and field aliasing across DTOs, AST providers, and Gateway ([3d2fb50](https://github.com/supercargo-dev/core/commit/3d2fb50aada12c54f713a9efa014ee0756027a58))
+* **sdk/go:** add Hub and Vault gRPC client abstractions with retries ([78d0d49](https://github.com/supercargo-dev/core/commit/78d0d49d6be5d795da8e7d1652d9d7a1724656bf))
+* **sdks/go:** add primary_key and sort_rank builder methods and tag parsing ([251b85f](https://github.com/supercargo-dev/core/commit/251b85f751000361ebfe5041f2a8b2cc7650db24))
+* **sdk:** support field aliasing builders and decorators across Go, Python, TypeScript, and Java ([d0c4578](https://github.com/supercargo-dev/core/commit/d0c457845b457cf4b9df24c95d8857428a2093da))
+
+
+### Bug Fixes
+
+* **governance:** remediate expert review findings on authz security, nil safety, payload isolation, and retry timer hygiene ([7a16af1](https://github.com/supercargo-dev/core/commit/7a16af154986b0c6afdf4371011f66ad316d5940))
+* **governance:** remediate expert review findings on sentinel FULL mode, recursive context synthesis, and AST sort rank validation ([6d8665e](https://github.com/supercargo-dev/core/commit/6d8665e90468b511abfb7af23334b87b4f5cca80))
+
 ## [0.5.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.4.0...github.com/supercargo-dev/supercargo-sdk-go-v0.5.0) (2026-08-20)
 
 
