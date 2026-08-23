@@ -146,6 +146,12 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 				if clonedRule.identifierRank != nil {
 					existing.identifierRank = clonedRule.identifierRank
 				}
+				if clonedRule.isPrimaryKey != nil {
+					existing.isPrimaryKey = clonedRule.isPrimaryKey
+				}
+				if clonedRule.sortRank != nil {
+					existing.sortRank = clonedRule.sortRank
+				}
 			} else {
 				ruleMap[clonedRule.fieldName] = clonedRule
 			}
@@ -165,6 +171,8 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 			ContextID:         fRule.ctxID,
 			IdentityDomainURI: fRule.identityDomainURI,
 			IdentifierRank:    fRule.identifierRank,
+			IsPrimaryKey:      fRule.isPrimaryKey,
+			SortRank:          fRule.sortRank,
 		}
 
 		// Navigate type to find target kind

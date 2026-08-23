@@ -17,6 +17,8 @@ type FieldRuleBuilder struct {
 	identityDomainURI string
 	identifierRank    *int
 	aliases           []string
+	isPrimaryKey      *bool
+	sortRank          *int
 }
 
 // ruleMarker implements the Rule interface.
@@ -64,6 +66,14 @@ func (f *FieldRuleBuilder) Clone() *FieldRuleBuilder {
 	if f.aliases != nil {
 		c.aliases = make([]string, len(f.aliases))
 		copy(c.aliases, f.aliases)
+	}
+	if f.isPrimaryKey != nil {
+		v := *f.isPrimaryKey
+		c.isPrimaryKey = &v
+	}
+	if f.sortRank != nil {
+		v := *f.sortRank
+		c.sortRank = &v
 	}
 	return &c
 }
@@ -189,5 +199,43 @@ func (b *FieldRuleBuilder) GetAliases() []string {
 	copy(res, b.aliases)
 	return res
 }
+
+// PrimaryKey marks the field as part of the primary key (single or composite).
+func (b *FieldRuleBuilder) PrimaryKey(isPK ...bool) *FieldRuleBuilder {
+	c := b.Clone()
+	val := true
+	if len(isPK) > 0 {
+		val = isPK[0]
+	}
+	c.isPrimaryKey = &val
+	return c
+}
+
+// SortRank tags the field with a ranked sort priority for deterministic tie-breaking.
+func (b *FieldRuleBuilder) SortRank(rank int) *FieldRuleBuilder {
+	c := b.Clone()
+	c.sortRank = &rank
+	return c
+}
+
+// SortKey is an alias for SortRank.
+func (b *FieldRuleBuilder) SortKey(rank int) *FieldRuleBuilder {
+	return b.SortRank(rank)
+}
+
+// GetPrimaryKey returns whether the field is marked as primary key.
+func (b *FieldRuleBuilder) GetPrimaryKey() bool {
+	return b.isPrimaryKey != nil && *b.isPrimaryKey
+}
+
+// GetSortRank returns the configured sort rank if set.
+func (b *FieldRuleBuilder) GetSortRank() *int {
+	if b.sortRank == nil {
+		return nil
+	}
+	v := *b.sortRank
+	return &v
+}
+
 
 
