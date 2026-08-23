@@ -81,14 +81,20 @@ func (c *HubClient) GetContract(ctx context.Context, urn string, version string)
 	var lastErr error
 	for attempt := 1; attempt <= c.opts.maxRetries; attempt++ {
 		callCtx := authCtx
+		var cancel context.CancelFunc
 		if c.opts.timeout > 0 {
-			var cancel context.CancelFunc
 			callCtx, cancel = context.WithTimeout(authCtx, c.opts.timeout)
-			defer cancel()
 		}
 
 		resp, err := c.stub.GetContract(callCtx, req)
+		if cancel != nil {
+			cancel()
+		}
+
 		if err == nil {
+			if resp == nil {
+				return nil, fmt.Errorf("received nil response from hub service for contract %q", urn)
+			}
 			return resp.Contract, nil
 		}
 
@@ -122,7 +128,14 @@ func (c *HubClient) Ping(ctx context.Context, message string) (*hubv1.PingRespon
 		defer cancel()
 	}
 
-	return c.stub.Ping(authCtx, req)
+	resp, err := c.stub.Ping(authCtx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("received nil ping response from hub service")
+	}
+	return resp, nil
 }
 
 // Close closes the underlying gRPC connection if owned by this client.

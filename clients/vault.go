@@ -95,14 +95,20 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 
 		for attempt := 1; attempt <= c.opts.maxRetries; attempt++ {
 			callCtx := authCtx
+			var cancel context.CancelFunc
 			if c.opts.timeout > 0 {
-				var cancel context.CancelFunc
 				callCtx, cancel = context.WithTimeout(authCtx, c.opts.timeout)
-				defer cancel()
 			}
 
 			resp, err := c.stub.BatchTokenize(callCtx, req)
+			if cancel != nil {
+				cancel()
+			}
+
 			if err == nil {
+				if resp == nil {
+					return nil, fmt.Errorf("received nil response from vault service")
+				}
 				chunkResults = resp.Results
 				chunkSucceeded = true
 				break
