@@ -16,8 +16,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/test/bufconn"
 
-	vaultv1 "github.com/supercargo-dev/core/gen/go/vault/v1"
 	"github.com/supercargo-dev/supercargo-sdk-go/clients"
+	vaultv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/vault/v1"
 )
 
 type mockVaultServer struct {

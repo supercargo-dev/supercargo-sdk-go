@@ -15,8 +15,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/test/bufconn"
 
-	hubv1 "github.com/supercargo-dev/core/gen/go/hub/v1"
 	"github.com/supercargo-dev/supercargo-sdk-go/clients"
+	hubv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1"
 )
 
 type mockHubServer struct {

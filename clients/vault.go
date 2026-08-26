@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/status"
 
-	vaultv1 "github.com/supercargo-dev/core/gen/go/vault/v1"
+	vaultv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/vault/v1"
 )
 
 var _ io.Closer = (*VaultClient)(nil)

@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/status"
 
-	hubv1 "github.com/supercargo-dev/core/gen/go/hub/v1"
+	hubv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1"
 )
 
 var _ io.Closer = (*HubClient)(nil)

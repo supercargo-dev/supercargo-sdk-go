@@ -79,7 +79,7 @@ func TestValidation_Success(t *testing.T) {
 func TestValidation_Failure_NotEmpty(t *testing.T) {
 	email := "alice@example.com"
 	invalidUser := TestUser{
-		Name:       "",  // should fail NotEmpty
+		Name:       "",     // should fail NotEmpty
 		Email:      &email, // Valid email to pass Email validation
 		Age:        "30",
 		Tags:       []string{"admin"},
@@ -903,7 +903,3 @@ func TestValidation_StructTag_PrimaryKeyAndSortRank(t *testing.T) {
 		t.Errorf("expected SeqNum to have SortRank 2")
 	}
 }
-
-
-
-
