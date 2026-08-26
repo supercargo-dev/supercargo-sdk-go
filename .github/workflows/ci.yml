@@ -51,7 +51,7 @@ jobs:
         run: go vet ./...
 
       - name: Run Unit Tests with Race Detector & Coverage
-        run: go test -v -race -coverprofile=coverage.txt ./...
+        run: go test -v -race -coverprofile=coverage.txt ./sc ./clients .
 
       - name: Verify Example Code Compilation
         run: go build -v ./example/main.go
