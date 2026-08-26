@@ -236,6 +236,3 @@ func (b *FieldRuleBuilder) GetSortRank() *int {
 	v := *b.sortRank
 	return &v
 }
-
-
-
