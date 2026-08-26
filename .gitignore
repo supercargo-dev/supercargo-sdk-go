@@ -7,6 +7,11 @@ coverage.*
 # Compiled binaries
 main
 
+# Environment & Credentials
+.env*
+*.pem
+*.key
+
 # System & IDE artifacts
 .DS_Store
 .idea/
