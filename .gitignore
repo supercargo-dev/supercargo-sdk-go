@@ -1,0 +1,16 @@
+# Test & Coverage artifacts
+coverage.txt
+coverage.*
+*.out
+*.test
+
+# Compiled binaries
+main
+
+# System & IDE artifacts
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.tmp
+*.bak
