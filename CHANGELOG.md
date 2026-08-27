@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.6.0...github.com/supercargo-dev/supercargo-sdk-go-v0.7.0) (2026-08-26)
+
+
+### Features
+
+* **sdks/go:** make Go SDK self-contained with internal proto stubs and script ([b42d9f5](https://github.com/supercargo-dev/core/commit/b42d9f554383152370625c0ee1be4da3c8244eb6))
+
+
+### Bug Fixes
+
+* **ci:** handle PR branch drift in CI remote check and harden parity verification ([6c37f3b](https://github.com/supercargo-dev/core/commit/6c37f3b488f651805458c104e6bc9e3bf9f8fcc4))
+
 ## [0.6.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.5.0...github.com/supercargo-dev/supercargo-sdk-go-v0.6.0) (2026-08-23)
 
 
