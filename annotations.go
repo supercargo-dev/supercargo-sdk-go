@@ -16,5 +16,6 @@ const (
 
 // Common tag keys for Supercargo struct tags.
 const (
-	TagKey = "supercargo"
+	TagKey       = "supercargo"
+	TagEntityKey = "supercargo.entity"
 )
