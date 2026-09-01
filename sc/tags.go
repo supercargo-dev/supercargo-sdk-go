@@ -112,11 +112,11 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 			case "not_empty":
 				builder = builder.NotEmpty()
 			case "pii":
-				b, err := strconv.ParseBool(val)
-				if err != nil {
-					return nil, fmt.Errorf("supercargo: invalid boolean for pii on field %s: %w", f.Name, err)
+				if b, err := strconv.ParseBool(val); err == nil {
+					builder = builder.PII(b)
+				} else {
+					builder = builder.PII(true)
 				}
-				builder = builder.PII(b)
 			case "rank":
 				i, err := strconv.Atoi(val)
 				if err != nil {
