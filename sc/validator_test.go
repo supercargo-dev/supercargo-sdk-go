@@ -903,3 +903,42 @@ func TestValidation_StructTag_PrimaryKeyAndSortRank(t *testing.T) {
 		t.Errorf("expected SeqNum to have SortRank 2")
 	}
 }
+
+type DescriptivePIITestUser struct {
+	Bio   string `supercargo.field:"pii=user,pattern=^[a-z]+$"`
+	Notes string `supercargo.field:"pii=pii:user,not_empty"`
+}
+
+func TestValidation_DescriptivePII_StructTag(t *testing.T) {
+	v, err := sc.GetValidator(reflect.TypeOf(DescriptivePIITestUser{}))
+	if err != nil {
+		t.Fatalf("unexpected error getting validator: %v", err)
+	}
+
+	metadata := v.Metadata()
+	bioMeta, ok := metadata["Bio"]
+	if !ok {
+		t.Fatalf("expected metadata for Bio")
+	}
+	if bioMeta.IsPII == nil || !*bioMeta.IsPII {
+		t.Errorf("expected Bio field to be marked as PII")
+	}
+
+	notesMeta, ok := metadata["Notes"]
+	if !ok {
+		t.Fatalf("expected metadata for Notes")
+	}
+	if notesMeta.IsPII == nil || !*notesMeta.IsPII {
+		t.Errorf("expected Notes field to be marked as PII")
+	}
+
+	// Test validation and PII redaction on failure
+	invalidUser := DescriptivePIITestUser{
+		Bio:   "123", // fails regex
+		Notes: "valid",
+	}
+	supercargotest.AssertFailsValidation(t, invalidUser, "[REDACTED PII]")
+	if strings.Contains(sc.Validate(invalidUser).Error(), "123") {
+		t.Errorf("sensitive value 123 leaked in validation error message")
+	}
+}
