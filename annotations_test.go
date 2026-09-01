@@ -9,4 +9,7 @@ func TestDataTypeHints(t *testing.T) {
 	if TagKey != "supercargo" {
 		t.Errorf("expected supercargo, got %v", TagKey)
 	}
+	if TagEntityKey != "supercargo.entity" {
+		t.Errorf("expected supercargo.entity, got %v", TagEntityKey)
+	}
 }
