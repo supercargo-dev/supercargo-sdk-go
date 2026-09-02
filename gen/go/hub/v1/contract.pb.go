@@ -911,7 +911,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\vdescription\x18\v \x01(\tR\vdescription\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xaf\a\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf6\x06\n" +
 	"\x05Field\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12.\n" +
@@ -919,14 +919,14 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x04mode\x18\x04 \x01(\x0e2\x11.hub.v1.FieldModeB\b\xfaB\x05\x82\x01\x02\x10\x01R\x04mode\x12%\n" +
 	"\x06fields\x18\x05 \x03(\v2\r.hub.v1.FieldR\x06fields\x12\x1f\n" +
 	"\vpolicy_tags\x18\x06 \x03(\tR\n" +
-	"policyTags\x12n\n" +
+	"policyTags\x12E\n" +
 	"\n" +
-	"entity_ref\x18\a \x01(\tBO\xfaB#r!2\x1f^urn:sc:entity:[a-z_]+:[a-z_]+$\xb2\xbb\x18%urn:sc:entity:unspecified:unspecifiedR\tentityRef\x12\x16\n" +
-	"\x03pii\x18\b \x01(\bB\x04\xa0\xbb\x18\x01R\x03pii\x125\n" +
-	"\vconstraints\x18\t \x01(\v2\x13.hub.v1.ConstraintsR\vconstraints\x12'\n" +
+	"entity_ref\x18\a \x01(\tB&\xfaB#r!2\x1f^urn:sc:entity:[a-z_]+:[a-z_]+$R\tentityRef\x12\x10\n" +
+	"\x03pii\x18\b \x01(\bR\x03pii\x125\n" +
+	"\vconstraints\x18\t \x01(\v2\x13.hub.v1.ConstraintsR\vconstraints\x12\x1d\n" +
 	"\n" +
 	"context_id\x18\n" +
-	" \x01(\tB\b\xaa\xbb\x18\x04selfR\tcontextId\x12\x17\n" +
+	" \x01(\tR\tcontextId\x12\x17\n" +
 	"\x02id\x18\v \x01(\x04B\a\xfaB\x042\x02 \x00R\x02id\x12#\n" +
 	"\rsemantic_type\x18\f \x01(\tR\fsemanticType\x12&\n" +
 	"\x0fis_federated_id\x18\r \x01(\bR\risFederatedId\x12\x1f\n" +
