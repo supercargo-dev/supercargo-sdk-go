@@ -1117,6 +1117,10 @@ type InputPort struct {
 	ProducerProductUrn string                 `protobuf:"bytes,3,opt,name=producer_product_urn,json=producerProductUrn,proto3" json:"producer_product_urn,omitempty"`
 	ContractUrn        string                 `protobuf:"bytes,4,opt,name=contract_urn,json=contractUrn,proto3" json:"contract_urn,omitempty"`
 	ContractVersion    string                 `protobuf:"bytes,5,opt,name=contract_version,json=contractVersion,proto3" json:"contract_version,omitempty"`
+	Name               string                 `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty"`
+	Type               string                 `protobuf:"bytes,7,opt,name=type,proto3" json:"type,omitempty"`
+	Source             string                 `protobuf:"bytes,8,opt,name=source,proto3" json:"source,omitempty"`
+	Contract           *ContractPointer       `protobuf:"bytes,9,opt,name=contract,proto3" json:"contract,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -1184,6 +1188,34 @@ func (x *InputPort) GetContractVersion() string {
 		return x.ContractVersion
 	}
 	return ""
+}
+
+func (x *InputPort) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *InputPort) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *InputPort) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *InputPort) GetContract() *ContractPointer {
+	if x != nil {
+		return x.Contract
+	}
+	return nil
 }
 
 // OutputPort defines a data asset exposed by this product.
@@ -2029,13 +2061,17 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\x05Owner\x12$\n" +
 	"\tteam_name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bteamName\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12!\n" +
-	"\falert_target\x18\x03 \x01(\tR\valertTarget\"\xc2\x01\n" +
+	"\falert_target\x18\x03 \x01(\tR\valertTarget\"\xb7\x02\n" +
 	"\tInputPort\x12\x10\n" +
 	"\x03urn\x18\x01 \x01(\tR\x03urn\x12#\n" +
 	"\rresource_type\x18\x02 \x01(\tR\fresourceType\x120\n" +
 	"\x14producer_product_urn\x18\x03 \x01(\tR\x12producerProductUrn\x12!\n" +
 	"\fcontract_urn\x18\x04 \x01(\tR\vcontractUrn\x12)\n" +
-	"\x10contract_version\x18\x05 \x01(\tR\x0fcontractVersion\"\xf5\x02\n" +
+	"\x10contract_version\x18\x05 \x01(\tR\x0fcontractVersion\x12\x12\n" +
+	"\x04name\x18\x06 \x01(\tR\x04name\x12\x12\n" +
+	"\x04type\x18\a \x01(\tR\x04type\x12\x16\n" +
+	"\x06source\x18\b \x01(\tR\x06source\x123\n" +
+	"\bcontract\x18\t \x01(\v2\x17.hub.v1.ContractPointerR\bcontract\"\xf5\x02\n" +
 	"\n" +
 	"OutputPort\x12\x10\n" +
 	"\x03urn\x18\x01 \x01(\tR\x03urn\x12\x12\n" +
@@ -2218,25 +2254,26 @@ var file_hub_v1_manifest_proto_depIdxs = []int32{
 	28, // 15: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
 	15, // 16: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
 	27, // 17: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
-	20, // 18: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
-	3,  // 19: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
-	18, // 20: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
-	9,  // 21: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
-	19, // 22: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
-	29, // 23: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
-	21, // 24: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
-	6,  // 25: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
-	4,  // 26: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
-	22, // 27: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
-	5,  // 28: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
-	20, // 29: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
-	7,  // 30: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
-	20, // 31: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
-	32, // [32:32] is the sub-list for method output_type
-	32, // [32:32] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	20, // 18: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
+	20, // 19: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
+	3,  // 20: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
+	18, // 21: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
+	9,  // 22: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
+	19, // 23: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
+	29, // 24: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
+	21, // 25: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
+	6,  // 26: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
+	4,  // 27: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
+	22, // 28: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
+	5,  // 29: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
+	20, // 30: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
+	7,  // 31: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
+	20, // 32: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
+	33, // [33:33] is the sub-list for method output_type
+	33, // [33:33] is the sub-list for method input_type
+	33, // [33:33] is the sub-list for extension type_name
+	33, // [33:33] is the sub-list for extension extendee
+	0,  // [0:33] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_manifest_proto_init() }

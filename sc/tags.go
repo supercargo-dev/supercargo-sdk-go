@@ -16,6 +16,7 @@ type FieldMetadata struct {
 	IdentifierRank    *int
 	IsPrimaryKey      *bool
 	SortRank          *int
+	Description       string
 }
 
 func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
@@ -174,6 +175,8 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 					return nil, fmt.Errorf("supercargo: invalid int for sort_rank on field %s: must be non-negative integer", f.Name)
 				}
 				builder = builder.SortRank(i)
+			case "description", "desc":
+				builder = builder.Description(val)
 			case "type":
 				// parsed correctly, keeping for compatibility
 			}

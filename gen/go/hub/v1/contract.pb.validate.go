@@ -388,17 +388,6 @@ func (m *Meta) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetRepo()) < 1 {
-		err := MetaValidationError{
-			field:  "Repo",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if utf8.RuneCountInString(m.GetOwnerTeam()) < 1 {
 		err := MetaValidationError{
 			field:  "OwnerTeam",
@@ -414,7 +403,20 @@ func (m *Meta) validate(all bool) error {
 
 	// no validation rules for Labels
 
+	if utf8.RuneCountInString(m.GetRepo()) < 1 {
+		err := MetaValidationError{
+			field:  "Repo",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	// no validation rules for CompatibilityMode
+
+	// no validation rules for Description
 
 	if len(errors) > 0 {
 		return MetaMultiError(errors)
@@ -604,31 +606,6 @@ func (m *Field) validate(all bool) error {
 
 	// no validation rules for Pii
 
-	// no validation rules for ContextId
-
-	if m.GetId() <= 0 {
-		err := FieldValidationError{
-			field:  "Id",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	// no validation rules for SemanticType
-
-	// no validation rules for IsFederatedId
-
-	// no validation rules for LineNumber
-
-	// no validation rules for SourceName
-
-	// no validation rules for Truncated
-
-	// no validation rules for Metadata
-
 	if all {
 		switch v := interface{}(m.GetConstraints()).(type) {
 		case interface{ ValidateAll() error }:
@@ -657,6 +634,31 @@ func (m *Field) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for ContextId
+
+	if m.GetId() <= 0 {
+		err := FieldValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for SemanticType
+
+	// no validation rules for IsFederatedId
+
+	// no validation rules for LineNumber
+
+	// no validation rules for SourceName
+
+	// no validation rules for Truncated
+
+	// no validation rules for Metadata
 
 	// no validation rules for IdentityDomainUrn
 
