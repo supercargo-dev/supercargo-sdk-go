@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.11.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.10.0...github.com/supercargo-dev/supercargo-sdk-go-v0.11.0) (2026-09-02)
+
+
+### Features
+
+* **proto:** add description field to hub.v1.Meta contract definition ([888269f](https://github.com/supercargo-dev/core/commit/888269fb8b33082fde55c1e791ccb6ae7bce4350))
+* **sdk:** First-Class Contract & Field Description Annotations, DWH Scaffolding, and Agent Guidance ([6b47b1d](https://github.com/supercargo-dev/core/commit/6b47b1dd2525c3ed8c769b03370fde978020bc4e))
+* **sdks/go:** add description builder method, struct tags, and AST doc comment support ([dc08436](https://github.com/supercargo-dev/core/commit/dc084362b3c2d73dec7ee0e0a0d87099dc2c944f))
+* **sdks:** automated polyglot sdk change detector and publish dispatch ([#309](https://github.com/supercargo-dev/core/issues/309)) ([8215be5](https://github.com/supercargo-dev/core/commit/8215be57327f2adaeeda9cea583da3a7a9a6d4fa))
+* **sdks:** automated polyglot sdk change detector and tag resolver ([ea87f1e](https://github.com/supercargo-dev/core/commit/ea87f1e38275c868c384c49baa3c9829b3570b43))
+
 ## [0.10.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.9.0...github.com/supercargo-dev/supercargo-sdk-go-v0.10.0) (2026-09-02)
 
 

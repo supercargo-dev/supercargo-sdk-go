@@ -360,18 +360,20 @@ type Meta struct {
 	CommitSha string `protobuf:"bytes,4,opt,name=commit_sha,json=commitSha,proto3" json:"commit_sha,omitempty"`
 	// SHA-256 of the contract content.
 	ContentHash string `protobuf:"bytes,5,opt,name=content_hash,json=contentHash,proto3" json:"content_hash,omitempty"`
-	// The repository identifier (e.g., "github.com/org/repo").
-	Repo string `protobuf:"bytes,9,opt,name=repo,proto3" json:"repo,omitempty"`
 	// Reference to IDP Group that owns this contract.
 	OwnerTeam string `protobuf:"bytes,6,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
 	// Failure policy for validation.
 	ValidationPolicy ValidationPolicy `protobuf:"varint,7,opt,name=validation_policy,json=validationPolicy,proto3,enum=hub.v1.ValidationPolicy" json:"validation_policy,omitempty"`
 	// User-defined labels for the data contract.
 	Labels map[string]string `protobuf:"bytes,8,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// The repository identifier (e.g., "github.com/org/repo").
+	Repo string `protobuf:"bytes,9,opt,name=repo,proto3" json:"repo,omitempty"`
 	// Granular logical compatibility mode for schema evolution.
 	CompatibilityMode CompatibilityMode `protobuf:"varint,10,opt,name=compatibility_mode,json=compatibilityMode,proto3,enum=hub.v1.CompatibilityMode" json:"compatibility_mode,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// A description of the data contract purpose.
+	Description   string `protobuf:"bytes,11,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Meta) Reset() {
@@ -439,13 +441,6 @@ func (x *Meta) GetContentHash() string {
 	return ""
 }
 
-func (x *Meta) GetRepo() string {
-	if x != nil {
-		return x.Repo
-	}
-	return ""
-}
-
 func (x *Meta) GetOwnerTeam() string {
 	if x != nil {
 		return x.OwnerTeam
@@ -467,11 +462,25 @@ func (x *Meta) GetLabels() map[string]string {
 	return nil
 }
 
+func (x *Meta) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
 func (x *Meta) GetCompatibilityMode() CompatibilityMode {
 	if x != nil {
 		return x.CompatibilityMode
 	}
 	return CompatibilityMode_COMPATIBILITY_MODE_UNSPECIFIED
+}
+
+func (x *Meta) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
 }
 
 // Field defines a single field in the schema.
@@ -493,6 +502,8 @@ type Field struct {
 	EntityRef string `protobuf:"bytes,7,opt,name=entity_ref,json=entityRef,proto3" json:"entity_ref,omitempty"` // For Entity-Level Crypto (Anchor field)
 	// PII classification flag.
 	Pii bool `protobuf:"varint,8,opt,name=pii,proto3" json:"pii,omitempty"` // PII classification flag
+	// Data quality constraints for the field.
+	Constraints *Constraints `protobuf:"bytes,9,opt,name=constraints,proto3" json:"constraints,omitempty"`
 	// Path to the context/anchor field for relative PII.
 	ContextId string `protobuf:"bytes,10,opt,name=context_id,json=contextId,proto3" json:"context_id,omitempty"` // Path to the Anchor field (for PII fields)
 	// Immutable 64-bit identifier for the field.
@@ -509,8 +520,6 @@ type Field struct {
 	Truncated bool `protobuf:"varint,16,opt,name=truncated,proto3" json:"truncated,omitempty"`
 	// Arbitrary metadata for the field.
 	Metadata map[string]string `protobuf:"bytes,17,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	// Data quality constraints for the field.
-	Constraints *Constraints `protobuf:"bytes,9,opt,name=constraints,proto3" json:"constraints,omitempty"`
 	// Reference to the IdentityDomain governing pseudonymization for this specific context.
 	// Only needs to be defined on the "Anchor" field of a context group.
 	IdentityDomainUrn string `protobuf:"bytes,18,opt,name=identity_domain_urn,json=identityDomainUrn,proto3" json:"identity_domain_urn,omitempty"`
@@ -612,6 +621,13 @@ func (x *Field) GetPii() bool {
 	return false
 }
 
+func (x *Field) GetConstraints() *Constraints {
+	if x != nil {
+		return x.Constraints
+	}
+	return nil
+}
+
 func (x *Field) GetContextId() string {
 	if x != nil {
 		return x.ContextId
@@ -664,13 +680,6 @@ func (x *Field) GetTruncated() bool {
 func (x *Field) GetMetadata() map[string]string {
 	if x != nil {
 		return x.Metadata
-	}
-	return nil
-}
-
-func (x *Field) GetConstraints() *Constraints {
-	if x != nil {
-		return x.Constraints
 	}
 	return nil
 }
@@ -731,16 +740,16 @@ type Constraints struct {
 	MinValue *int32 `protobuf:"varint,8,opt,name=min_value,json=minValue,proto3,oneof" json:"min_value,omitempty"`
 	// Maximum value for numeric types.
 	MaxValue *int32 `protobuf:"varint,9,opt,name=max_value,json=maxValue,proto3,oneof" json:"max_value,omitempty"`
-	// Minimum length for strings/bytes.
-	MinLength *int32 `protobuf:"varint,13,opt,name=min_length,json=minLength,proto3,oneof" json:"min_length,omitempty"`
-	// Maximum length for strings/bytes.
-	MaxLength *int32 `protobuf:"varint,14,opt,name=max_length,json=maxLength,proto3,oneof" json:"max_length,omitempty"`
 	// Value must be one of these strings.
 	Enum []string `protobuf:"bytes,10,rep,name=enum,proto3" json:"enum,omitempty"`
 	// Regex pattern matching.
 	Pattern string `protobuf:"bytes,11,opt,name=pattern,proto3" json:"pattern,omitempty"`
 	// Common Expression Language (CEL) business rule.
 	CelExpression string `protobuf:"bytes,12,opt,name=cel_expression,json=celExpression,proto3" json:"cel_expression,omitempty"`
+	// Minimum length for strings/bytes.
+	MinLength *int32 `protobuf:"varint,13,opt,name=min_length,json=minLength,proto3,oneof" json:"min_length,omitempty"`
+	// Maximum length for strings/bytes.
+	MaxLength     *int32 `protobuf:"varint,14,opt,name=max_length,json=maxLength,proto3,oneof" json:"max_length,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -838,20 +847,6 @@ func (x *Constraints) GetMaxValue() int32 {
 	return 0
 }
 
-func (x *Constraints) GetMinLength() int32 {
-	if x != nil && x.MinLength != nil {
-		return *x.MinLength
-	}
-	return 0
-}
-
-func (x *Constraints) GetMaxLength() int32 {
-	if x != nil && x.MaxLength != nil {
-		return *x.MaxLength
-	}
-	return 0
-}
-
 func (x *Constraints) GetEnum() []string {
 	if x != nil {
 		return x.Enum
@@ -873,6 +868,20 @@ func (x *Constraints) GetCelExpression() string {
 	return ""
 }
 
+func (x *Constraints) GetMinLength() int32 {
+	if x != nil && x.MinLength != nil {
+		return *x.MinLength
+	}
+	return 0
+}
+
+func (x *Constraints) GetMaxLength() int32 {
+	if x != nil && x.MaxLength != nil {
+		return *x.MaxLength
+	}
+	return 0
+}
+
 var File_hub_v1_contract_proto protoreflect.FileDescriptor
 
 const file_hub_v1_contract_proto_rawDesc = "" +
@@ -883,7 +892,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x06schema\x18\x02 \x03(\v2\r.hub.v1.FieldR\x06schema\x12\x18\n" +
 	"\asamples\x18\x03 \x03(\tR\asamples\x12\x1d\n" +
 	"\x03sla\x18\x04 \x01(\v2\v.hub.v1.SLAR\x03sla\x12&\n" +
-	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\"\xad\x06\n" +
+	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\"\xcf\x06\n" +
 	"\x04Meta\x12a\n" +
 	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\xde\x01\n" +
 	"\aversion\x18\x02 \x01(\tB\xc3\x01\xfaB\xbf\x01r\xbc\x01\x10\x012\xb7\x01^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.(?:[0-9a-zA-Z-]+))*))?$R\aversion\x12&\n" +
@@ -891,14 +900,15 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"data_asset\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tdataAsset\x128\n" +
 	"\n" +
 	"commit_sha\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10(\x18(2\x0e^[0-9a-f]{40}$R\tcommitSha\x12<\n" +
-	"\fcontent_hash\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10@\x18@2\x0e^[0-9a-f]{64}$R\vcontentHash\x12\x1b\n" +
-	"\x04repo\x18\t \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04repo\x12&\n" +
+	"\fcontent_hash\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10@\x18@2\x0e^[0-9a-f]{64}$R\vcontentHash\x12&\n" +
 	"\n" +
 	"owner_team\x18\x06 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\townerTeam\x12E\n" +
 	"\x11validation_policy\x18\a \x01(\x0e2\x18.hub.v1.ValidationPolicyR\x10validationPolicy\x120\n" +
-	"\x06labels\x18\b \x03(\v2\x18.hub.v1.Meta.LabelsEntryR\x06labels\x12H\n" +
+	"\x06labels\x18\b \x03(\v2\x18.hub.v1.Meta.LabelsEntryR\x06labels\x12\x1b\n" +
+	"\x04repo\x18\t \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04repo\x12H\n" +
 	"\x12compatibility_mode\x18\n" +
-	" \x01(\x0e2\x19.hub.v1.CompatibilityModeR\x11compatibilityMode\x1a9\n" +
+	" \x01(\x0e2\x19.hub.v1.CompatibilityModeR\x11compatibilityMode\x12 \n" +
+	"\vdescription\x18\v \x01(\tR\vdescription\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xaf\a\n" +
@@ -912,7 +922,8 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"policyTags\x12n\n" +
 	"\n" +
 	"entity_ref\x18\a \x01(\tBO\xfaB#r!2\x1f^urn:sc:entity:[a-z_]+:[a-z_]+$\xb2\xbb\x18%urn:sc:entity:unspecified:unspecifiedR\tentityRef\x12\x16\n" +
-	"\x03pii\x18\b \x01(\bB\x04\xa0\xbb\x18\x01R\x03pii\x12'\n" +
+	"\x03pii\x18\b \x01(\bB\x04\xa0\xbb\x18\x01R\x03pii\x125\n" +
+	"\vconstraints\x18\t \x01(\v2\x13.hub.v1.ConstraintsR\vconstraints\x12'\n" +
 	"\n" +
 	"context_id\x18\n" +
 	" \x01(\tB\b\xaa\xbb\x18\x04selfR\tcontextId\x12\x17\n" +
@@ -924,8 +935,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\vsource_name\x18\x0f \x01(\tR\n" +
 	"sourceName\x12\x1c\n" +
 	"\ttruncated\x18\x10 \x01(\bR\ttruncated\x127\n" +
-	"\bmetadata\x18\x11 \x03(\v2\x1b.hub.v1.Field.MetadataEntryR\bmetadata\x125\n" +
-	"\vconstraints\x18\t \x01(\v2\x13.hub.v1.ConstraintsR\vconstraints\x12.\n" +
+	"\bmetadata\x18\x11 \x03(\v2\x1b.hub.v1.Field.MetadataEntryR\bmetadata\x12.\n" +
 	"\x13identity_domain_urn\x18\x12 \x01(\tR\x11identityDomainUrn\x12\x12\n" +
 	"\x04rank\x18\x13 \x01(\x05R\x04rank\x12\x18\n" +
 	"\aaliases\x18\x14 \x03(\tR\aaliases\x12\x1f\n" +
@@ -945,15 +955,15 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"isNotEmpty\x12\x16\n" +
 	"\x06length\x18\a \x01(\x05R\x06length\x12 \n" +
 	"\tmin_value\x18\b \x01(\x05H\x04R\bminValue\x88\x01\x01\x12 \n" +
-	"\tmax_value\x18\t \x01(\x05H\x05R\bmaxValue\x88\x01\x01\x12\"\n" +
-	"\n" +
-	"min_length\x18\r \x01(\x05H\x06R\tminLength\x88\x01\x01\x12\"\n" +
-	"\n" +
-	"max_length\x18\x0e \x01(\x05H\aR\tmaxLength\x88\x01\x01\x12\x12\n" +
+	"\tmax_value\x18\t \x01(\x05H\x05R\bmaxValue\x88\x01\x01\x12\x12\n" +
 	"\x04enum\x18\n" +
 	" \x03(\tR\x04enum\x12\x18\n" +
 	"\apattern\x18\v \x01(\tR\apattern\x12%\n" +
-	"\x0ecel_expression\x18\f \x01(\tR\rcelExpressionB\x0f\n" +
+	"\x0ecel_expression\x18\f \x01(\tR\rcelExpression\x12\"\n" +
+	"\n" +
+	"min_length\x18\r \x01(\x05H\x06R\tminLength\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"max_length\x18\x0e \x01(\x05H\aR\tmaxLength\x88\x01\x01B\x0f\n" +
 	"\r_greater_thanB\x1b\n" +
 	"\x19_greater_than_or_equal_toB\f\n" +
 	"\n" +
@@ -1040,8 +1050,8 @@ var file_hub_v1_contract_proto_depIdxs = []int32{
 	0,  // 7: hub.v1.Field.type:type_name -> hub.v1.DataType
 	1,  // 8: hub.v1.Field.mode:type_name -> hub.v1.FieldMode
 	6,  // 9: hub.v1.Field.fields:type_name -> hub.v1.Field
-	9,  // 10: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
-	7,  // 11: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
+	7,  // 10: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
+	9,  // 11: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
 	12, // [12:12] is the sub-list for method output_type
 	12, // [12:12] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name

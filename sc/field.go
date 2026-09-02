@@ -19,6 +19,7 @@ type FieldRuleBuilder struct {
 	aliases           []string
 	isPrimaryKey      *bool
 	sortRank          *int
+	description       string
 }
 
 // ruleMarker implements the Rule interface.
@@ -236,3 +237,16 @@ func (b *FieldRuleBuilder) GetSortRank() *int {
 	v := *b.sortRank
 	return &v
 }
+
+// Description sets the documentation description for this field.
+func (b *FieldRuleBuilder) Description(desc string) *FieldRuleBuilder {
+	c := b.Clone()
+	c.description = desc
+	return c
+}
+
+// GetDescription returns the configured description for this field.
+func (b *FieldRuleBuilder) GetDescription() string {
+	return b.description
+}
+

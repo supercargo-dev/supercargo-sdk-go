@@ -942,3 +942,82 @@ func TestValidation_DescriptivePII_StructTag(t *testing.T) {
 		t.Errorf("sensitive value 123 leaked in validation error message")
 	}
 }
+
+func TestFieldRuleBuilder_Description(t *testing.T) {
+	builder := sc.Field("bio").Description("User biography")
+	if builder.GetDescription() != "User biography" {
+		t.Fatalf("expected description %q, got %q", "User biography", builder.GetDescription())
+	}
+
+	// Test deep clone isolation
+	cloned := builder.Clone().Description("Updated biography")
+	if builder.GetDescription() != "User biography" {
+		t.Fatalf("expected original description unchanged, got %q", builder.GetDescription())
+	}
+	if cloned.GetDescription() != "Updated biography" {
+		t.Fatalf("expected cloned description %q, got %q", "Updated biography", cloned.GetDescription())
+	}
+}
+
+type DescribedUser struct {
+	_      struct{} `supercargo.contract:"urn=urn:supercargo:contract:described_user,version=1.0.0,description=Contract level description"`
+	UserID string   `supercargo.field:"description=Unique user ID"`
+	Email  string   `supercargo.field:"desc=User email address"`
+	Bio    string
+}
+
+func (u DescribedUser) ContractConstraints() []sc.Rule {
+	return []sc.Rule{
+		sc.Field("Bio").Description("Programmatically described bio"),
+	}
+}
+
+func TestValidation_StructTag_Description(t *testing.T) {
+	v, err := sc.GetValidator(reflect.TypeOf(DescribedUser{}))
+	if err != nil {
+		t.Fatalf("unexpected GetValidator error: %v", err)
+	}
+
+	// 1. Contract metadata description
+	contract := v.Contract()
+	if contract.Description != "Contract level description" {
+		t.Errorf("expected contract description %q, got %q", "Contract level description", contract.Description)
+	}
+
+	// 2. Field metadata descriptions from struct tags
+	meta := v.Metadata()
+	userMeta, ok := meta["UserID"]
+	if !ok {
+		t.Fatalf("expected metadata for UserID")
+	}
+	if userMeta.Description != "Unique user ID" {
+		t.Errorf("expected UserID description %q, got %q", "Unique user ID", userMeta.Description)
+	}
+
+	emailMeta, ok := meta["Email"]
+	if !ok {
+		t.Fatalf("expected metadata for Email")
+	}
+	if emailMeta.Description != "User email address" {
+		t.Errorf("expected Email description %q, got %q", "User email address", emailMeta.Description)
+	}
+
+	// 3. Programmatic rule description override
+	bioMeta, ok := meta["Bio"]
+	if !ok {
+		t.Fatalf("expected metadata for Bio")
+	}
+	if bioMeta.Description != "Programmatically described bio" {
+		t.Errorf("expected Bio description %q, got %q", "Programmatically described bio", bioMeta.Description)
+	}
+
+	// 4. Combined Schema check
+	schema := v.Schema()
+	if schema.Contract.Description != "Contract level description" {
+		t.Errorf("expected schema contract description %q, got %q", "Contract level description", schema.Contract.Description)
+	}
+	if schema.Fields["UserID"].Description != "Unique user ID" {
+		t.Errorf("expected schema field UserID description %q, got %q", "Unique user ID", schema.Fields["UserID"].Description)
+	}
+}
+

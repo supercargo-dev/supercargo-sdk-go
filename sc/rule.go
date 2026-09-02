@@ -16,10 +16,11 @@ type ContractValidator interface {
 
 // ContractMetadata represents contract-level metadata extracted from supercargo.contract tags.
 type ContractMetadata struct {
-	URN       string
-	Version   string
-	OwnerTeam string
-	DataAsset string
+	URN         string
+	Version     string
+	OwnerTeam   string
+	DataAsset   string
+	Description string
 }
 
 // Schema represents the complete IR schema extracted from a struct type.

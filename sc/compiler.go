@@ -38,6 +38,8 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 					v.contract.OwnerTeam = val
 				case "data_asset":
 					v.contract.DataAsset = val
+				case "description", "desc":
+					v.contract.Description = val
 				}
 			}
 		}
@@ -152,6 +154,9 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 				if clonedRule.sortRank != nil {
 					existing.sortRank = clonedRule.sortRank
 				}
+				if clonedRule.description != "" {
+					existing.description = clonedRule.description
+				}
 			} else {
 				ruleMap[clonedRule.fieldName] = clonedRule
 			}
@@ -173,6 +178,7 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 			IdentifierRank:    fRule.identifierRank,
 			IsPrimaryKey:      fRule.isPrimaryKey,
 			SortRank:          fRule.sortRank,
+			Description:       fRule.description,
 		}
 
 		// Navigate type to find target kind
