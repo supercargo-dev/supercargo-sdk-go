@@ -29,8 +29,8 @@ type UserSignup struct {
 	// Contract-level metadata
 	_ struct{} `supercargo.contract:"urn=urn:supercargo:contract:user_signup:v1,version=1.0.0,owner_team=identity-team,data_asset=users_v1,validation_policy=STRICT"`
 
-	// Federated entity anchor with UUID type hint and PII metadata
-	UserID string `json:"userId" supercargo.field:"as=UUID,entity=urn:supercargo:entity:identity-team:user,pii=true,context_id=user_salt,identity_domain=urn:supercargo:identity_domain:user,rank=1"`
+	// Primary key and entity anchor - PII, salt context, and identity domain are auto-hydrated from the central entity registry
+	UserID string `json:"userId" supercargo.field:"primary_key,entity=user,as=UUID"`
 
 	// Validated string with regex pattern and minimum length
 	Email string `json:"email" supercargo.field:"pii=true,pattern='^\\S+@\\S+$',min_length=1,not_empty=true"`
