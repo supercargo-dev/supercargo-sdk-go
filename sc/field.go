@@ -249,4 +249,3 @@ func (b *FieldRuleBuilder) Description(desc string) *FieldRuleBuilder {
 func (b *FieldRuleBuilder) GetDescription() string {
 	return b.description
 }
-

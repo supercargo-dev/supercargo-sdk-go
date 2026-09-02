@@ -1020,4 +1020,3 @@ func TestValidation_StructTag_Description(t *testing.T) {
 		t.Errorf("expected schema field UserID description %q, got %q", "Unique user ID", schema.Fields["UserID"].Description)
 	}
 }
-
