@@ -23,6 +23,7 @@ const (
 	VaultService_Tokenize_FullMethodName      = "/vault.v1.VaultService/Tokenize"
 	VaultService_BatchTokenize_FullMethodName = "/vault.v1.VaultService/BatchTokenize"
 	VaultService_DeleteKeyset_FullMethodName  = "/vault.v1.VaultService/DeleteKeyset"
+	VaultService_SearchHash_FullMethodName    = "/vault.v1.VaultService/SearchHash"
 )
 
 // VaultServiceClient is the client API for VaultService service.
@@ -39,6 +40,8 @@ type VaultServiceClient interface {
 	BatchTokenize(ctx context.Context, in *BatchTokenizeRequest, opts ...grpc.CallOption) (*BatchTokenizeResponse, error)
 	// DeleteKeyset removes the keyset/salt for an entity, effectively crypto-shredding their data.
 	DeleteKeyset(ctx context.Context, in *DeleteKeysetRequest, opts ...grpc.CallOption) (*DeleteKeysetResponse, error)
+	// SearchHash generates a deterministic blind search hash for queries without exposing cleartext PII.
+	SearchHash(ctx context.Context, in *SearchHashRequest, opts ...grpc.CallOption) (*SearchHashResponse, error)
 }
 
 type vaultServiceClient struct {
@@ -89,6 +92,16 @@ func (c *vaultServiceClient) DeleteKeyset(ctx context.Context, in *DeleteKeysetR
 	return out, nil
 }
 
+func (c *vaultServiceClient) SearchHash(ctx context.Context, in *SearchHashRequest, opts ...grpc.CallOption) (*SearchHashResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchHashResponse)
+	err := c.cc.Invoke(ctx, VaultService_SearchHash_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VaultServiceServer is the server API for VaultService service.
 // All implementations must embed UnimplementedVaultServiceServer
 // for forward compatibility.
@@ -103,6 +116,8 @@ type VaultServiceServer interface {
 	BatchTokenize(context.Context, *BatchTokenizeRequest) (*BatchTokenizeResponse, error)
 	// DeleteKeyset removes the keyset/salt for an entity, effectively crypto-shredding their data.
 	DeleteKeyset(context.Context, *DeleteKeysetRequest) (*DeleteKeysetResponse, error)
+	// SearchHash generates a deterministic blind search hash for queries without exposing cleartext PII.
+	SearchHash(context.Context, *SearchHashRequest) (*SearchHashResponse, error)
 	mustEmbedUnimplementedVaultServiceServer()
 }
 
@@ -124,6 +139,9 @@ func (UnimplementedVaultServiceServer) BatchTokenize(context.Context, *BatchToke
 }
 func (UnimplementedVaultServiceServer) DeleteKeyset(context.Context, *DeleteKeysetRequest) (*DeleteKeysetResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteKeyset not implemented")
+}
+func (UnimplementedVaultServiceServer) SearchHash(context.Context, *SearchHashRequest) (*SearchHashResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SearchHash not implemented")
 }
 func (UnimplementedVaultServiceServer) mustEmbedUnimplementedVaultServiceServer() {}
 func (UnimplementedVaultServiceServer) testEmbeddedByValue()                      {}
@@ -218,6 +236,24 @@ func _VaultService_DeleteKeyset_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VaultService_SearchHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchHashRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VaultServiceServer).SearchHash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VaultService_SearchHash_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VaultServiceServer).SearchHash(ctx, req.(*SearchHashRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VaultService_ServiceDesc is the grpc.ServiceDesc for VaultService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -240,6 +276,10 @@ var VaultService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteKeyset",
 			Handler:    _VaultService_DeleteKeyset_Handler,
+		},
+		{
+			MethodName: "SearchHash",
+			Handler:    _VaultService_SearchHash_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

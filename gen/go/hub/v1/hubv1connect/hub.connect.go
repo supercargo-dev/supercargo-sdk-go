@@ -110,6 +110,10 @@ const (
 	// HubServiceExtractDSARPlanProcedure is the fully-qualified name of the HubService's
 	// ExtractDSARPlan RPC.
 	HubServiceExtractDSARPlanProcedure = "/hub.v1.HubService/ExtractDSARPlan"
+	// HubServicePackageDSARProcedure is the fully-qualified name of the HubService's PackageDSAR RPC.
+	HubServicePackageDSARProcedure = "/hub.v1.HubService/PackageDSAR"
+	// HubServiceVerifyRTBFProcedure is the fully-qualified name of the HubService's VerifyRTBF RPC.
+	HubServiceVerifyRTBFProcedure = "/hub.v1.HubService/VerifyRTBF"
 	// HubServiceReportAnomalyProcedure is the fully-qualified name of the HubService's ReportAnomaly
 	// RPC.
 	HubServiceReportAnomalyProcedure = "/hub.v1.HubService/ReportAnomaly"
@@ -185,6 +189,10 @@ type HubServiceClient interface {
 	// ExtractDSARPlan generates a plan for Data Subject Access Requests (DSAR).
 	// It identifies all physical locations where a specific entity's data may reside.
 	ExtractDSARPlan(context.Context, *connect.Request[v1.ExtractDSARPlanRequest]) (*connect.Response[v1.ExtractDSARPlanResponse], error)
+	// PackageDSAR extracts and packages records across physical locations into an ephemeral ZIP archive.
+	PackageDSAR(context.Context, *connect.Request[v1.PackageDSARRequest]) (*connect.Response[v1.PackageDSARResponse], error)
+	// VerifyRTBF checks crypto-shredding status in the Sovereign Vault and returns verifiable proof.
+	VerifyRTBF(context.Context, *connect.Request[v1.VerifyRTBFRequest]) (*connect.Response[v1.VerifyRTBFResponse], error)
 	// ReportAnomaly reports a health degradation or recovery for a product or contract.
 	ReportAnomaly(context.Context, *connect.Request[v1.ReportAnomalyRequest]) (*connect.Response[v1.ReportAnomalyResponse], error)
 	// GetHealth retrieves the current health status of a product or contract.
@@ -390,6 +398,18 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceMethods.ByName("ExtractDSARPlan")),
 			connect.WithClientOptions(opts...),
 		),
+		packageDSAR: connect.NewClient[v1.PackageDSARRequest, v1.PackageDSARResponse](
+			httpClient,
+			baseURL+HubServicePackageDSARProcedure,
+			connect.WithSchema(hubServiceMethods.ByName("PackageDSAR")),
+			connect.WithClientOptions(opts...),
+		),
+		verifyRTBF: connect.NewClient[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse](
+			httpClient,
+			baseURL+HubServiceVerifyRTBFProcedure,
+			connect.WithSchema(hubServiceMethods.ByName("VerifyRTBF")),
+			connect.WithClientOptions(opts...),
+		),
 		reportAnomaly: connect.NewClient[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse](
 			httpClient,
 			baseURL+HubServiceReportAnomalyProcedure,
@@ -444,6 +464,8 @@ type hubServiceClient struct {
 	listSubscriptions     *connect.Client[v1.ListSubscriptionsRequest, v1.ListSubscriptionsResponse]
 	ingestEvent           *connect.Client[v1.IngestEventRequest, v1.IngestEventResponse]
 	extractDSARPlan       *connect.Client[v1.ExtractDSARPlanRequest, v1.ExtractDSARPlanResponse]
+	packageDSAR           *connect.Client[v1.PackageDSARRequest, v1.PackageDSARResponse]
+	verifyRTBF            *connect.Client[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse]
 	reportAnomaly         *connect.Client[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse]
 	getHealth             *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
 	getHealthHistory      *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
@@ -604,6 +626,16 @@ func (c *hubServiceClient) ExtractDSARPlan(ctx context.Context, req *connect.Req
 	return c.extractDSARPlan.CallUnary(ctx, req)
 }
 
+// PackageDSAR calls hub.v1.HubService.PackageDSAR.
+func (c *hubServiceClient) PackageDSAR(ctx context.Context, req *connect.Request[v1.PackageDSARRequest]) (*connect.Response[v1.PackageDSARResponse], error) {
+	return c.packageDSAR.CallUnary(ctx, req)
+}
+
+// VerifyRTBF calls hub.v1.HubService.VerifyRTBF.
+func (c *hubServiceClient) VerifyRTBF(ctx context.Context, req *connect.Request[v1.VerifyRTBFRequest]) (*connect.Response[v1.VerifyRTBFResponse], error) {
+	return c.verifyRTBF.CallUnary(ctx, req)
+}
+
 // ReportAnomaly calls hub.v1.HubService.ReportAnomaly.
 func (c *hubServiceClient) ReportAnomaly(ctx context.Context, req *connect.Request[v1.ReportAnomalyRequest]) (*connect.Response[v1.ReportAnomalyResponse], error) {
 	return c.reportAnomaly.CallUnary(ctx, req)
@@ -684,6 +716,10 @@ type HubServiceHandler interface {
 	// ExtractDSARPlan generates a plan for Data Subject Access Requests (DSAR).
 	// It identifies all physical locations where a specific entity's data may reside.
 	ExtractDSARPlan(context.Context, *connect.Request[v1.ExtractDSARPlanRequest]) (*connect.Response[v1.ExtractDSARPlanResponse], error)
+	// PackageDSAR extracts and packages records across physical locations into an ephemeral ZIP archive.
+	PackageDSAR(context.Context, *connect.Request[v1.PackageDSARRequest]) (*connect.Response[v1.PackageDSARResponse], error)
+	// VerifyRTBF checks crypto-shredding status in the Sovereign Vault and returns verifiable proof.
+	VerifyRTBF(context.Context, *connect.Request[v1.VerifyRTBFRequest]) (*connect.Response[v1.VerifyRTBFResponse], error)
 	// ReportAnomaly reports a health degradation or recovery for a product or contract.
 	ReportAnomaly(context.Context, *connect.Request[v1.ReportAnomalyRequest]) (*connect.Response[v1.ReportAnomalyResponse], error)
 	// GetHealth retrieves the current health status of a product or contract.
@@ -885,6 +921,18 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceMethods.ByName("ExtractDSARPlan")),
 		connect.WithHandlerOptions(opts...),
 	)
+	hubServicePackageDSARHandler := connect.NewUnaryHandler(
+		HubServicePackageDSARProcedure,
+		svc.PackageDSAR,
+		connect.WithSchema(hubServiceMethods.ByName("PackageDSAR")),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceVerifyRTBFHandler := connect.NewUnaryHandler(
+		HubServiceVerifyRTBFProcedure,
+		svc.VerifyRTBF,
+		connect.WithSchema(hubServiceMethods.ByName("VerifyRTBF")),
+		connect.WithHandlerOptions(opts...),
+	)
 	hubServiceReportAnomalyHandler := connect.NewUnaryHandler(
 		HubServiceReportAnomalyProcedure,
 		svc.ReportAnomaly,
@@ -967,6 +1015,10 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceIngestEventHandler.ServeHTTP(w, r)
 		case HubServiceExtractDSARPlanProcedure:
 			hubServiceExtractDSARPlanHandler.ServeHTTP(w, r)
+		case HubServicePackageDSARProcedure:
+			hubServicePackageDSARHandler.ServeHTTP(w, r)
+		case HubServiceVerifyRTBFProcedure:
+			hubServiceVerifyRTBFHandler.ServeHTTP(w, r)
 		case HubServiceReportAnomalyProcedure:
 			hubServiceReportAnomalyHandler.ServeHTTP(w, r)
 		case HubServiceGetHealthProcedure:
@@ -1104,6 +1156,14 @@ func (UnimplementedHubServiceHandler) IngestEvent(context.Context, *connect.Requ
 
 func (UnimplementedHubServiceHandler) ExtractDSARPlan(context.Context, *connect.Request[v1.ExtractDSARPlanRequest]) (*connect.Response[v1.ExtractDSARPlanResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ExtractDSARPlan is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) PackageDSAR(context.Context, *connect.Request[v1.PackageDSARRequest]) (*connect.Response[v1.PackageDSARResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.PackageDSAR is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) VerifyRTBF(context.Context, *connect.Request[v1.VerifyRTBFRequest]) (*connect.Response[v1.VerifyRTBFResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.VerifyRTBF is not implemented"))
 }
 
 func (UnimplementedHubServiceHandler) ReportAnomaly(context.Context, *connect.Request[v1.ReportAnomalyRequest]) (*connect.Response[v1.ReportAnomalyResponse], error) {

@@ -1056,6 +1056,8 @@ func (m *DSARLocation) validate(all bool) error {
 
 	// no validation rules for PhysicalAddress
 
+	// no validation rules for ColumnName
+
 	if len(errors) > 0 {
 		return DSARLocationMultiError(errors)
 	}
@@ -1132,6 +1134,482 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DSARLocationValidationError{}
+
+// Validate checks the field values on PackageDSARRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PackageDSARRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PackageDSARRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PackageDSARRequestMultiError, or nil if none found.
+func (m *PackageDSARRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PackageDSARRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetEntityUrn()) < 1 {
+		err := PackageDSARRequestValidationError{
+			field:  "EntityUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetEntityId()) < 1 {
+		err := PackageDSARRequestValidationError{
+			field:  "EntityId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for RequestedBy
+
+	if len(errors) > 0 {
+		return PackageDSARRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// PackageDSARRequestMultiError is an error wrapping multiple validation errors
+// returned by PackageDSARRequest.ValidateAll() if the designated constraints
+// aren't met.
+type PackageDSARRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PackageDSARRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PackageDSARRequestMultiError) AllErrors() []error { return m }
+
+// PackageDSARRequestValidationError is the validation error returned by
+// PackageDSARRequest.Validate if the designated constraints aren't met.
+type PackageDSARRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PackageDSARRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PackageDSARRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PackageDSARRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PackageDSARRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PackageDSARRequestValidationError) ErrorName() string {
+	return "PackageDSARRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PackageDSARRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPackageDSARRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PackageDSARRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PackageDSARRequestValidationError{}
+
+// Validate checks the field values on PackageDSARResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PackageDSARResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PackageDSARResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PackageDSARResponseMultiError, or nil if none found.
+func (m *PackageDSARResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PackageDSARResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RequestId
+
+	// no validation rules for DownloadUrl
+
+	// no validation rules for ChecksumSha256
+
+	// no validation rules for SizeBytes
+
+	// no validation rules for ExpiresAtUnix
+
+	// no validation rules for RecordCount
+
+	if len(errors) > 0 {
+		return PackageDSARResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// PackageDSARResponseMultiError is an error wrapping multiple validation
+// errors returned by PackageDSARResponse.ValidateAll() if the designated
+// constraints aren't met.
+type PackageDSARResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PackageDSARResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PackageDSARResponseMultiError) AllErrors() []error { return m }
+
+// PackageDSARResponseValidationError is the validation error returned by
+// PackageDSARResponse.Validate if the designated constraints aren't met.
+type PackageDSARResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PackageDSARResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PackageDSARResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PackageDSARResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PackageDSARResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PackageDSARResponseValidationError) ErrorName() string {
+	return "PackageDSARResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PackageDSARResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPackageDSARResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PackageDSARResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PackageDSARResponseValidationError{}
+
+// Validate checks the field values on VerifyRTBFRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *VerifyRTBFRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VerifyRTBFRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// VerifyRTBFRequestMultiError, or nil if none found.
+func (m *VerifyRTBFRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VerifyRTBFRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetEntityUrn()) < 1 {
+		err := VerifyRTBFRequestValidationError{
+			field:  "EntityUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetEntityId()) < 1 {
+		err := VerifyRTBFRequestValidationError{
+			field:  "EntityId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return VerifyRTBFRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// VerifyRTBFRequestMultiError is an error wrapping multiple validation errors
+// returned by VerifyRTBFRequest.ValidateAll() if the designated constraints
+// aren't met.
+type VerifyRTBFRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VerifyRTBFRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VerifyRTBFRequestMultiError) AllErrors() []error { return m }
+
+// VerifyRTBFRequestValidationError is the validation error returned by
+// VerifyRTBFRequest.Validate if the designated constraints aren't met.
+type VerifyRTBFRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VerifyRTBFRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VerifyRTBFRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VerifyRTBFRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VerifyRTBFRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VerifyRTBFRequestValidationError) ErrorName() string {
+	return "VerifyRTBFRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e VerifyRTBFRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVerifyRTBFRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VerifyRTBFRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VerifyRTBFRequestValidationError{}
+
+// Validate checks the field values on VerifyRTBFResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *VerifyRTBFResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VerifyRTBFResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// VerifyRTBFResponseMultiError, or nil if none found.
+func (m *VerifyRTBFResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VerifyRTBFResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Status
+
+	// no validation rules for BlindSearchHash
+
+	// no validation rules for OutboxAuditEventId
+
+	// no validation rules for DeletionTimestampUnix
+
+	// no validation rules for CertificateJson
+
+	if len(errors) > 0 {
+		return VerifyRTBFResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// VerifyRTBFResponseMultiError is an error wrapping multiple validation errors
+// returned by VerifyRTBFResponse.ValidateAll() if the designated constraints
+// aren't met.
+type VerifyRTBFResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VerifyRTBFResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VerifyRTBFResponseMultiError) AllErrors() []error { return m }
+
+// VerifyRTBFResponseValidationError is the validation error returned by
+// VerifyRTBFResponse.Validate if the designated constraints aren't met.
+type VerifyRTBFResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VerifyRTBFResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VerifyRTBFResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VerifyRTBFResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VerifyRTBFResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VerifyRTBFResponseValidationError) ErrorName() string {
+	return "VerifyRTBFResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e VerifyRTBFResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVerifyRTBFResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VerifyRTBFResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VerifyRTBFResponseValidationError{}
 
 // Validate checks the field values on AnalyzeImpactRequest with the rules
 // defined in the proto definition for this message. If any rules are

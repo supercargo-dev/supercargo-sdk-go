@@ -1457,3 +1457,274 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteKeysetResponseValidationError{}
+
+// Validate checks the field values on SearchHashRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SearchHashRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SearchHashRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SearchHashRequestMultiError, or nil if none found.
+func (m *SearchHashRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SearchHashRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetIdentityDomainUrn()) < 1 {
+		err := SearchHashRequestValidationError{
+			field:  "IdentityDomainUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_SearchHashRequest_IdentityDomainUrn_Pattern.MatchString(m.GetIdentityDomainUrn()) {
+		err := SearchHashRequestValidationError{
+			field:  "IdentityDomainUrn",
+			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetEntityUrn()) < 1 {
+		err := SearchHashRequestValidationError{
+			field:  "EntityUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_SearchHashRequest_EntityUrn_Pattern.MatchString(m.GetEntityUrn()) {
+		err := SearchHashRequestValidationError{
+			field:  "EntityUrn",
+			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetValue()) < 1 {
+		err := SearchHashRequestValidationError{
+			field:  "Value",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return SearchHashRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SearchHashRequestMultiError is an error wrapping multiple validation errors
+// returned by SearchHashRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SearchHashRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SearchHashRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SearchHashRequestMultiError) AllErrors() []error { return m }
+
+// SearchHashRequestValidationError is the validation error returned by
+// SearchHashRequest.Validate if the designated constraints aren't met.
+type SearchHashRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SearchHashRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SearchHashRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SearchHashRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SearchHashRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SearchHashRequestValidationError) ErrorName() string {
+	return "SearchHashRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SearchHashRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSearchHashRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SearchHashRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SearchHashRequestValidationError{}
+
+var _SearchHashRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$")
+
+var _SearchHashRequest_EntityUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$")
+
+// Validate checks the field values on SearchHashResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SearchHashResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SearchHashResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SearchHashResponseMultiError, or nil if none found.
+func (m *SearchHashResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SearchHashResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for SearchHash
+
+	// no validation rules for IdSearchHash
+
+	// no validation rules for AnonId
+
+	// no validation rules for Registered
+
+	if len(errors) > 0 {
+		return SearchHashResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// SearchHashResponseMultiError is an error wrapping multiple validation errors
+// returned by SearchHashResponse.ValidateAll() if the designated constraints
+// aren't met.
+type SearchHashResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SearchHashResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SearchHashResponseMultiError) AllErrors() []error { return m }
+
+// SearchHashResponseValidationError is the validation error returned by
+// SearchHashResponse.Validate if the designated constraints aren't met.
+type SearchHashResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SearchHashResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SearchHashResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SearchHashResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SearchHashResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SearchHashResponseValidationError) ErrorName() string {
+	return "SearchHashResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SearchHashResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSearchHashResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SearchHashResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SearchHashResponseValidationError{}

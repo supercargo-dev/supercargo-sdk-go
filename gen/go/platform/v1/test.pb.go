@@ -117,6 +117,50 @@ func (x *TestBrokenAnchorMessage) GetEmail() string {
 	return ""
 }
 
+type TestRepeatedBrokenAnchorMessage struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Items         []*TestBrokenAnchorMessage `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TestRepeatedBrokenAnchorMessage) Reset() {
+	*x = TestRepeatedBrokenAnchorMessage{}
+	mi := &file_platform_v1_test_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TestRepeatedBrokenAnchorMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TestRepeatedBrokenAnchorMessage) ProtoMessage() {}
+
+func (x *TestRepeatedBrokenAnchorMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_test_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TestRepeatedBrokenAnchorMessage.ProtoReflect.Descriptor instead.
+func (*TestRepeatedBrokenAnchorMessage) Descriptor() ([]byte, []int) {
+	return file_platform_v1_test_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *TestRepeatedBrokenAnchorMessage) GetItems() []*TestBrokenAnchorMessage {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 var File_platform_v1_test_proto protoreflect.FileDescriptor
 
 const file_platform_v1_test_proto_rawDesc = "" +
@@ -126,7 +170,9 @@ const file_platform_v1_test_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12G\n" +
 	"\x05email\x18\x02 \x01(\tB1\xa0\xbb\x18\x01\xaa\xbb\x18\auser_id\xb2\xbb\x18\x1eurn:supercargo:hub:entity:userR\x05email\"B\n" +
 	"\x17TestBrokenAnchorMessage\x12'\n" +
-	"\x05email\x18\x01 \x01(\tB\x11\xaa\xbb\x18\rmissing_fieldR\x05emailB\xb4\x01\n" +
+	"\x05email\x18\x01 \x01(\tB\x11\xaa\xbb\x18\rmissing_fieldR\x05email\"]\n" +
+	"\x1fTestRepeatedBrokenAnchorMessage\x12:\n" +
+	"\x05items\x18\x01 \x03(\v2$.platform.v1.TestBrokenAnchorMessageR\x05itemsB\xb4\x01\n" +
 	"\x0fcom.platform.v1B\tTestProtoP\x01ZIgithub.com/supercargo-dev/supercargo-sdk-go/gen/go/platform/v1;platformv1\xa2\x02\x03PXX\xaa\x02\vPlatform.V1\xca\x02\vPlatform\\V1\xe2\x02\x17Platform\\V1\\GPBMetadata\xea\x02\fPlatform::V1b\x06proto3"
 
 var (
@@ -141,17 +187,19 @@ func file_platform_v1_test_proto_rawDescGZIP() []byte {
 	return file_platform_v1_test_proto_rawDescData
 }
 
-var file_platform_v1_test_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_platform_v1_test_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_platform_v1_test_proto_goTypes = []any{
-	(*TestAnchoredMessage)(nil),     // 0: platform.v1.TestAnchoredMessage
-	(*TestBrokenAnchorMessage)(nil), // 1: platform.v1.TestBrokenAnchorMessage
+	(*TestAnchoredMessage)(nil),             // 0: platform.v1.TestAnchoredMessage
+	(*TestBrokenAnchorMessage)(nil),         // 1: platform.v1.TestBrokenAnchorMessage
+	(*TestRepeatedBrokenAnchorMessage)(nil), // 2: platform.v1.TestRepeatedBrokenAnchorMessage
 }
 var file_platform_v1_test_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: platform.v1.TestRepeatedBrokenAnchorMessage.items:type_name -> platform.v1.TestBrokenAnchorMessage
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_test_proto_init() }
@@ -166,7 +214,7 @@ func file_platform_v1_test_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_test_proto_rawDesc), len(file_platform_v1_test_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

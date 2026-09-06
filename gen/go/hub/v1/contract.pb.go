@@ -8,7 +8,6 @@ package hubv1
 
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	_ "github.com/supercargo-dev/supercargo-sdk-go/gen/go/platform/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -886,7 +885,7 @@ var File_hub_v1_contract_proto protoreflect.FileDescriptor
 
 const file_hub_v1_contract_proto_rawDesc = "" +
 	"\n" +
-	"\x15hub/v1/contract.proto\x12\x06hub.v1\x1a\x17validate/validate.proto\x1a\x19platform/v1/options.proto\x1a\x15hub/v1/manifest.proto\"\xc2\x01\n" +
+	"\x15hub/v1/contract.proto\x12\x06hub.v1\x1a\x17validate/validate.proto\x1a\x15hub/v1/manifest.proto\"\xc2\x01\n" +
 	"\fDataContract\x12*\n" +
 	"\x04meta\x18\x01 \x01(\v2\f.hub.v1.MetaB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x04meta\x12%\n" +
 	"\x06schema\x18\x02 \x03(\v2\r.hub.v1.FieldR\x06schema\x12\x18\n" +

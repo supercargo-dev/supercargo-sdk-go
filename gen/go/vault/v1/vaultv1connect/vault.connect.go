@@ -43,6 +43,8 @@ const (
 	// VaultServiceDeleteKeysetProcedure is the fully-qualified name of the VaultService's DeleteKeyset
 	// RPC.
 	VaultServiceDeleteKeysetProcedure = "/vault.v1.VaultService/DeleteKeyset"
+	// VaultServiceSearchHashProcedure is the fully-qualified name of the VaultService's SearchHash RPC.
+	VaultServiceSearchHashProcedure = "/vault.v1.VaultService/SearchHash"
 )
 
 // VaultServiceClient is a client for the vault.v1.VaultService service.
@@ -55,6 +57,8 @@ type VaultServiceClient interface {
 	BatchTokenize(context.Context, *connect.Request[v1.BatchTokenizeRequest]) (*connect.Response[v1.BatchTokenizeResponse], error)
 	// DeleteKeyset removes the keyset/salt for an entity, effectively crypto-shredding their data.
 	DeleteKeyset(context.Context, *connect.Request[v1.DeleteKeysetRequest]) (*connect.Response[v1.DeleteKeysetResponse], error)
+	// SearchHash generates a deterministic blind search hash for queries without exposing cleartext PII.
+	SearchHash(context.Context, *connect.Request[v1.SearchHashRequest]) (*connect.Response[v1.SearchHashResponse], error)
 }
 
 // NewVaultServiceClient constructs a client for the vault.v1.VaultService service. By default, it
@@ -92,6 +96,12 @@ func NewVaultServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 			connect.WithSchema(vaultServiceMethods.ByName("DeleteKeyset")),
 			connect.WithClientOptions(opts...),
 		),
+		searchHash: connect.NewClient[v1.SearchHashRequest, v1.SearchHashResponse](
+			httpClient,
+			baseURL+VaultServiceSearchHashProcedure,
+			connect.WithSchema(vaultServiceMethods.ByName("SearchHash")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -101,6 +111,7 @@ type vaultServiceClient struct {
 	tokenize      *connect.Client[v1.TokenizeRequest, v1.TokenizeResponse]
 	batchTokenize *connect.Client[v1.BatchTokenizeRequest, v1.BatchTokenizeResponse]
 	deleteKeyset  *connect.Client[v1.DeleteKeysetRequest, v1.DeleteKeysetResponse]
+	searchHash    *connect.Client[v1.SearchHashRequest, v1.SearchHashResponse]
 }
 
 // Check calls vault.v1.VaultService.Check.
@@ -123,6 +134,11 @@ func (c *vaultServiceClient) DeleteKeyset(ctx context.Context, req *connect.Requ
 	return c.deleteKeyset.CallUnary(ctx, req)
 }
 
+// SearchHash calls vault.v1.VaultService.SearchHash.
+func (c *vaultServiceClient) SearchHash(ctx context.Context, req *connect.Request[v1.SearchHashRequest]) (*connect.Response[v1.SearchHashResponse], error) {
+	return c.searchHash.CallUnary(ctx, req)
+}
+
 // VaultServiceHandler is an implementation of the vault.v1.VaultService service.
 type VaultServiceHandler interface {
 	// Check returns the serving status of the service.
@@ -133,6 +149,8 @@ type VaultServiceHandler interface {
 	BatchTokenize(context.Context, *connect.Request[v1.BatchTokenizeRequest]) (*connect.Response[v1.BatchTokenizeResponse], error)
 	// DeleteKeyset removes the keyset/salt for an entity, effectively crypto-shredding their data.
 	DeleteKeyset(context.Context, *connect.Request[v1.DeleteKeysetRequest]) (*connect.Response[v1.DeleteKeysetResponse], error)
+	// SearchHash generates a deterministic blind search hash for queries without exposing cleartext PII.
+	SearchHash(context.Context, *connect.Request[v1.SearchHashRequest]) (*connect.Response[v1.SearchHashResponse], error)
 }
 
 // NewVaultServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -166,6 +184,12 @@ func NewVaultServiceHandler(svc VaultServiceHandler, opts ...connect.HandlerOpti
 		connect.WithSchema(vaultServiceMethods.ByName("DeleteKeyset")),
 		connect.WithHandlerOptions(opts...),
 	)
+	vaultServiceSearchHashHandler := connect.NewUnaryHandler(
+		VaultServiceSearchHashProcedure,
+		svc.SearchHash,
+		connect.WithSchema(vaultServiceMethods.ByName("SearchHash")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/vault.v1.VaultService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case VaultServiceCheckProcedure:
@@ -176,6 +200,8 @@ func NewVaultServiceHandler(svc VaultServiceHandler, opts ...connect.HandlerOpti
 			vaultServiceBatchTokenizeHandler.ServeHTTP(w, r)
 		case VaultServiceDeleteKeysetProcedure:
 			vaultServiceDeleteKeysetHandler.ServeHTTP(w, r)
+		case VaultServiceSearchHashProcedure:
+			vaultServiceSearchHashHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -199,4 +225,8 @@ func (UnimplementedVaultServiceHandler) BatchTokenize(context.Context, *connect.
 
 func (UnimplementedVaultServiceHandler) DeleteKeyset(context.Context, *connect.Request[v1.DeleteKeysetRequest]) (*connect.Response[v1.DeleteKeysetResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("vault.v1.VaultService.DeleteKeyset is not implemented"))
+}
+
+func (UnimplementedVaultServiceHandler) SearchHash(context.Context, *connect.Request[v1.SearchHashRequest]) (*connect.Response[v1.SearchHashResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("vault.v1.VaultService.SearchHash is not implemented"))
 }
