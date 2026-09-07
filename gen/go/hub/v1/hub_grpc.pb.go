@@ -50,6 +50,8 @@ const (
 	HubService_ListSubscriptions_FullMethodName     = "/hub.v1.HubService/ListSubscriptions"
 	HubService_IngestEvent_FullMethodName           = "/hub.v1.HubService/IngestEvent"
 	HubService_ExtractDSARPlan_FullMethodName       = "/hub.v1.HubService/ExtractDSARPlan"
+	HubService_PackageDSAR_FullMethodName           = "/hub.v1.HubService/PackageDSAR"
+	HubService_VerifyRTBF_FullMethodName            = "/hub.v1.HubService/VerifyRTBF"
 	HubService_ReportAnomaly_FullMethodName         = "/hub.v1.HubService/ReportAnomaly"
 	HubService_GetHealth_FullMethodName             = "/hub.v1.HubService/GetHealth"
 	HubService_GetHealthHistory_FullMethodName      = "/hub.v1.HubService/GetHealthHistory"
@@ -122,6 +124,10 @@ type HubServiceClient interface {
 	// ExtractDSARPlan generates a plan for Data Subject Access Requests (DSAR).
 	// It identifies all physical locations where a specific entity's data may reside.
 	ExtractDSARPlan(ctx context.Context, in *ExtractDSARPlanRequest, opts ...grpc.CallOption) (*ExtractDSARPlanResponse, error)
+	// PackageDSAR extracts and packages records across physical locations into an ephemeral ZIP archive.
+	PackageDSAR(ctx context.Context, in *PackageDSARRequest, opts ...grpc.CallOption) (*PackageDSARResponse, error)
+	// VerifyRTBF checks crypto-shredding status in the Sovereign Vault and returns verifiable proof.
+	VerifyRTBF(ctx context.Context, in *VerifyRTBFRequest, opts ...grpc.CallOption) (*VerifyRTBFResponse, error)
 	// ReportAnomaly reports a health degradation or recovery for a product or contract.
 	ReportAnomaly(ctx context.Context, in *ReportAnomalyRequest, opts ...grpc.CallOption) (*ReportAnomalyResponse, error)
 	// GetHealth retrieves the current health status of a product or contract.
@@ -448,6 +454,26 @@ func (c *hubServiceClient) ExtractDSARPlan(ctx context.Context, in *ExtractDSARP
 	return out, nil
 }
 
+func (c *hubServiceClient) PackageDSAR(ctx context.Context, in *PackageDSARRequest, opts ...grpc.CallOption) (*PackageDSARResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PackageDSARResponse)
+	err := c.cc.Invoke(ctx, HubService_PackageDSAR_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) VerifyRTBF(ctx context.Context, in *VerifyRTBFRequest, opts ...grpc.CallOption) (*VerifyRTBFResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VerifyRTBFResponse)
+	err := c.cc.Invoke(ctx, HubService_VerifyRTBF_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *hubServiceClient) ReportAnomaly(ctx context.Context, in *ReportAnomalyRequest, opts ...grpc.CallOption) (*ReportAnomalyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ReportAnomalyResponse)
@@ -545,6 +571,10 @@ type HubServiceServer interface {
 	// ExtractDSARPlan generates a plan for Data Subject Access Requests (DSAR).
 	// It identifies all physical locations where a specific entity's data may reside.
 	ExtractDSARPlan(context.Context, *ExtractDSARPlanRequest) (*ExtractDSARPlanResponse, error)
+	// PackageDSAR extracts and packages records across physical locations into an ephemeral ZIP archive.
+	PackageDSAR(context.Context, *PackageDSARRequest) (*PackageDSARResponse, error)
+	// VerifyRTBF checks crypto-shredding status in the Sovereign Vault and returns verifiable proof.
+	VerifyRTBF(context.Context, *VerifyRTBFRequest) (*VerifyRTBFResponse, error)
 	// ReportAnomaly reports a health degradation or recovery for a product or contract.
 	ReportAnomaly(context.Context, *ReportAnomalyRequest) (*ReportAnomalyResponse, error)
 	// GetHealth retrieves the current health status of a product or contract.
@@ -653,6 +683,12 @@ func (UnimplementedHubServiceServer) IngestEvent(context.Context, *IngestEventRe
 }
 func (UnimplementedHubServiceServer) ExtractDSARPlan(context.Context, *ExtractDSARPlanRequest) (*ExtractDSARPlanResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExtractDSARPlan not implemented")
+}
+func (UnimplementedHubServiceServer) PackageDSAR(context.Context, *PackageDSARRequest) (*PackageDSARResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PackageDSAR not implemented")
+}
+func (UnimplementedHubServiceServer) VerifyRTBF(context.Context, *VerifyRTBFRequest) (*VerifyRTBFResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method VerifyRTBF not implemented")
 }
 func (UnimplementedHubServiceServer) ReportAnomaly(context.Context, *ReportAnomalyRequest) (*ReportAnomalyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReportAnomaly not implemented")
@@ -1242,6 +1278,42 @@ func _HubService_ExtractDSARPlan_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_PackageDSAR_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PackageDSARRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).PackageDSAR(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_PackageDSAR_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).PackageDSAR(ctx, req.(*PackageDSARRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_VerifyRTBF_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyRTBFRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).VerifyRTBF(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_VerifyRTBF_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).VerifyRTBF(ctx, req.(*VerifyRTBFRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _HubService_ReportAnomaly_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReportAnomalyRequest)
 	if err := dec(in); err != nil {
@@ -1426,6 +1498,14 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExtractDSARPlan",
 			Handler:    _HubService_ExtractDSARPlan_Handler,
+		},
+		{
+			MethodName: "PackageDSAR",
+			Handler:    _HubService_PackageDSAR_Handler,
+		},
+		{
+			MethodName: "VerifyRTBF",
+			Handler:    _HubService_VerifyRTBF_Handler,
 		},
 		{
 			MethodName: "ReportAnomaly",

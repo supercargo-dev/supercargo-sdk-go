@@ -638,6 +638,141 @@ func (*DeleteKeysetResponse) Descriptor() ([]byte, []int) {
 	return file_vault_v1_vault_proto_rawDescGZIP(), []int{10}
 }
 
+type SearchHashRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Reference to the IdentityDomain governing the identifier.
+	IdentityDomainUrn string `protobuf:"bytes,1,opt,name=identity_domain_urn,json=identityDomainUrn,proto3" json:"identity_domain_urn,omitempty"`
+	// Entity type URN (e.g. urn:sc:entity:contact:email or urn:supercargo:entity:user:id).
+	EntityUrn string `protobuf:"bytes,2,opt,name=entity_urn,json=entityUrn,proto3" json:"entity_urn,omitempty"`
+	// The cleartext identifier value to hash (e.g. alice@rockify.io).
+	Value         string `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchHashRequest) Reset() {
+	*x = SearchHashRequest{}
+	mi := &file_vault_v1_vault_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchHashRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchHashRequest) ProtoMessage() {}
+
+func (x *SearchHashRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_vault_v1_vault_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchHashRequest.ProtoReflect.Descriptor instead.
+func (*SearchHashRequest) Descriptor() ([]byte, []int) {
+	return file_vault_v1_vault_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *SearchHashRequest) GetIdentityDomainUrn() string {
+	if x != nil {
+		return x.IdentityDomainUrn
+	}
+	return ""
+}
+
+func (x *SearchHashRequest) GetEntityUrn() string {
+	if x != nil {
+		return x.EntityUrn
+	}
+	return ""
+}
+
+func (x *SearchHashRequest) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type SearchHashResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The deterministic peppered blind search hash (HMAC-SHA256 hex).
+	SearchHash string `protobuf:"bytes,1,opt,name=search_hash,json=searchHash,proto3" json:"search_hash,omitempty"`
+	// The resolved entity ID search hash (blind index), if the identity exists in the Vault.
+	IdSearchHash string `protobuf:"bytes,2,opt,name=id_search_hash,json=idSearchHash,proto3" json:"id_search_hash,omitempty"`
+	// The anonymous entity URN, if resolved.
+	AnonId string `protobuf:"bytes,3,opt,name=anon_id,json=anonId,proto3" json:"anon_id,omitempty"`
+	// Whether the identifier exists in the Vault's identity registry.
+	Registered    bool `protobuf:"varint,4,opt,name=registered,proto3" json:"registered,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchHashResponse) Reset() {
+	*x = SearchHashResponse{}
+	mi := &file_vault_v1_vault_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchHashResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchHashResponse) ProtoMessage() {}
+
+func (x *SearchHashResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_vault_v1_vault_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchHashResponse.ProtoReflect.Descriptor instead.
+func (*SearchHashResponse) Descriptor() ([]byte, []int) {
+	return file_vault_v1_vault_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *SearchHashResponse) GetSearchHash() string {
+	if x != nil {
+		return x.SearchHash
+	}
+	return ""
+}
+
+func (x *SearchHashResponse) GetIdSearchHash() string {
+	if x != nil {
+		return x.IdSearchHash
+	}
+	return ""
+}
+
+func (x *SearchHashResponse) GetAnonId() string {
+	if x != nil {
+		return x.AnonId
+	}
+	return ""
+}
+
+func (x *SearchHashResponse) GetRegistered() bool {
+	if x != nil {
+		return x.Registered
+	}
+	return false
+}
+
 var File_vault_v1_vault_proto protoreflect.FileDescriptor
 
 const file_vault_v1_vault_proto_rawDesc = "" +
@@ -689,12 +824,27 @@ const file_vault_v1_vault_proto_rawDesc = "" +
 	"\x13DeleteKeysetRequest\x12n\n" +
 	"\n" +
 	"entity_urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\tentityUrn\"\x16\n" +
-	"\x14DeleteKeysetResponse2\xac\x02\n" +
+	"\x14DeleteKeysetResponse\"\xac\x02\n" +
+	"\x11SearchHashRequest\x12\x83\x01\n" +
+	"\x13identity_domain_urn\x18\x01 \x01(\tBS\xfaBPrN\x10\x012J^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$R\x11identityDomainUrn\x12r\n" +
+	"\n" +
+	"entity_urn\x18\x02 \x01(\tBS\xfaBPrN\x10\x012J^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$R\tentityUrn\x12\x1d\n" +
+	"\x05value\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x05value\"\x94\x01\n" +
+	"\x12SearchHashResponse\x12\x1f\n" +
+	"\vsearch_hash\x18\x01 \x01(\tR\n" +
+	"searchHash\x12$\n" +
+	"\x0eid_search_hash\x18\x02 \x01(\tR\fidSearchHash\x12\x17\n" +
+	"\aanon_id\x18\x03 \x01(\tR\x06anonId\x12\x1e\n" +
+	"\n" +
+	"registered\x18\x04 \x01(\bR\n" +
+	"registered2\xf5\x02\n" +
 	"\fVaultService\x128\n" +
 	"\x05Check\x12\x16.vault.v1.CheckRequest\x1a\x17.vault.v1.CheckResponse\x12A\n" +
 	"\bTokenize\x12\x19.vault.v1.TokenizeRequest\x1a\x1a.vault.v1.TokenizeResponse\x12P\n" +
 	"\rBatchTokenize\x12\x1e.vault.v1.BatchTokenizeRequest\x1a\x1f.vault.v1.BatchTokenizeResponse\x12M\n" +
-	"\fDeleteKeyset\x12\x1d.vault.v1.DeleteKeysetRequest\x1a\x1e.vault.v1.DeleteKeysetResponseB\xa0\x01\n" +
+	"\fDeleteKeyset\x12\x1d.vault.v1.DeleteKeysetRequest\x1a\x1e.vault.v1.DeleteKeysetResponse\x12G\n" +
+	"\n" +
+	"SearchHash\x12\x1b.vault.v1.SearchHashRequest\x1a\x1c.vault.v1.SearchHashResponseB\xa0\x01\n" +
 	"\fcom.vault.v1B\n" +
 	"VaultProtoP\x01ZCgithub.com/supercargo-dev/supercargo-sdk-go/gen/go/vault/v1;vaultv1\xa2\x02\x03VXX\xaa\x02\bVault.V1\xca\x02\bVault\\V1\xe2\x02\x14Vault\\V1\\GPBMetadata\xea\x02\tVault::V1b\x06proto3"
 
@@ -711,7 +861,7 @@ func file_vault_v1_vault_proto_rawDescGZIP() []byte {
 }
 
 var file_vault_v1_vault_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_vault_v1_vault_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_vault_v1_vault_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_vault_v1_vault_proto_goTypes = []any{
 	(CheckResponse_ServingStatus)(0), // 0: vault.v1.CheckResponse.ServingStatus
 	(*CheckRequest)(nil),             // 1: vault.v1.CheckRequest
@@ -725,29 +875,33 @@ var file_vault_v1_vault_proto_goTypes = []any{
 	(*BatchTokenizeResponse)(nil),    // 9: vault.v1.BatchTokenizeResponse
 	(*DeleteKeysetRequest)(nil),      // 10: vault.v1.DeleteKeysetRequest
 	(*DeleteKeysetResponse)(nil),     // 11: vault.v1.DeleteKeysetResponse
-	nil,                              // 12: vault.v1.CheckResponse.ChecksEntry
-	nil,                              // 13: vault.v1.TokenizeResponse.TokensEntry
-	nil,                              // 14: vault.v1.EntityCascadeResult.TokensEntry
+	(*SearchHashRequest)(nil),        // 12: vault.v1.SearchHashRequest
+	(*SearchHashResponse)(nil),       // 13: vault.v1.SearchHashResponse
+	nil,                              // 14: vault.v1.CheckResponse.ChecksEntry
+	nil,                              // 15: vault.v1.TokenizeResponse.TokensEntry
+	nil,                              // 16: vault.v1.EntityCascadeResult.TokensEntry
 }
 var file_vault_v1_vault_proto_depIdxs = []int32{
 	0,  // 0: vault.v1.CheckResponse.status:type_name -> vault.v1.CheckResponse.ServingStatus
-	12, // 1: vault.v1.CheckResponse.checks:type_name -> vault.v1.CheckResponse.ChecksEntry
+	14, // 1: vault.v1.CheckResponse.checks:type_name -> vault.v1.CheckResponse.ChecksEntry
 	4,  // 2: vault.v1.TokenizeRequest.cascade:type_name -> vault.v1.EntityIdentifier
-	13, // 3: vault.v1.TokenizeResponse.tokens:type_name -> vault.v1.TokenizeResponse.TokensEntry
+	15, // 3: vault.v1.TokenizeResponse.tokens:type_name -> vault.v1.TokenizeResponse.TokensEntry
 	4,  // 4: vault.v1.EntityCascade.identifiers:type_name -> vault.v1.EntityIdentifier
 	6,  // 5: vault.v1.BatchTokenizeRequest.cascades:type_name -> vault.v1.EntityCascade
-	14, // 6: vault.v1.EntityCascadeResult.tokens:type_name -> vault.v1.EntityCascadeResult.TokensEntry
+	16, // 6: vault.v1.EntityCascadeResult.tokens:type_name -> vault.v1.EntityCascadeResult.TokensEntry
 	8,  // 7: vault.v1.BatchTokenizeResponse.results:type_name -> vault.v1.EntityCascadeResult
 	1,  // 8: vault.v1.VaultService.Check:input_type -> vault.v1.CheckRequest
 	3,  // 9: vault.v1.VaultService.Tokenize:input_type -> vault.v1.TokenizeRequest
 	7,  // 10: vault.v1.VaultService.BatchTokenize:input_type -> vault.v1.BatchTokenizeRequest
 	10, // 11: vault.v1.VaultService.DeleteKeyset:input_type -> vault.v1.DeleteKeysetRequest
-	2,  // 12: vault.v1.VaultService.Check:output_type -> vault.v1.CheckResponse
-	5,  // 13: vault.v1.VaultService.Tokenize:output_type -> vault.v1.TokenizeResponse
-	9,  // 14: vault.v1.VaultService.BatchTokenize:output_type -> vault.v1.BatchTokenizeResponse
-	11, // 15: vault.v1.VaultService.DeleteKeyset:output_type -> vault.v1.DeleteKeysetResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
+	12, // 12: vault.v1.VaultService.SearchHash:input_type -> vault.v1.SearchHashRequest
+	2,  // 13: vault.v1.VaultService.Check:output_type -> vault.v1.CheckResponse
+	5,  // 14: vault.v1.VaultService.Tokenize:output_type -> vault.v1.TokenizeResponse
+	9,  // 15: vault.v1.VaultService.BatchTokenize:output_type -> vault.v1.BatchTokenizeResponse
+	11, // 16: vault.v1.VaultService.DeleteKeyset:output_type -> vault.v1.DeleteKeysetResponse
+	13, // 17: vault.v1.VaultService.SearchHash:output_type -> vault.v1.SearchHashResponse
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name
@@ -764,7 +918,7 @@ func file_vault_v1_vault_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_vault_v1_vault_proto_rawDesc), len(file_vault_v1_vault_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
