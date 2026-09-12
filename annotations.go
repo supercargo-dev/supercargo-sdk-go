@@ -33,4 +33,3 @@ const (
 	// VisibilityPrivate marks the field as private to the producing service.
 	VisibilityPrivate Visibility = "private"
 )
-

@@ -52,4 +52,3 @@ func TestVisibilityStructTag(t *testing.T) {
 		t.Fatal("expected secretField to be set")
 	}
 }
-
