@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.12.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.11.0...github.com/supercargo-dev/supercargo-sdk-go-v0.12.0) (2026-09-13)
+
+
+### Features
+
+* **privacy:** sovereign blind search hash CLI & query toolkit (sc privacy search-hash) ([#272](https://github.com/supercargo-dev/core/issues/272)) ([#371](https://github.com/supercargo-dev/core/issues/371)) ([435a0fd](https://github.com/supercargo-dev/core/commit/435a0fd62ac233eef0859d676834e6ec6008eee3))
+* **schema:** field visibility scoping and physical port materialization ([#381](https://github.com/supercargo-dev/core/issues/381)) ([ee41174](https://github.com/supercargo-dev/core/commit/ee41174c7d4eb9f8b2b11705a6636034ded634aa))
+* **sentinel:** pre-flight contract drift detector (sc contract diff / plan sensor) ([#352](https://github.com/supercargo-dev/core/issues/352)) ([6bed1b3](https://github.com/supercargo-dev/core/commit/6bed1b398f27afb42331d117d0259a97806f6208))
+
+
+### Bug Fixes
+
+* **proto:** remove misplaced sensitivity options from hubv1 Field and isolate repeated recursion test fixture ([a568be7](https://github.com/supercargo-dev/core/commit/a568be765e225d0c1d06ed8a16a8115645bd82e4))
+* **proto:** remove misplaced sensitivity options from hubv1 Field and resolve bootstrap validation failure ([25dc9cc](https://github.com/supercargo-dev/core/commit/25dc9ccbbba29452a2ae18a9777a38aabdcb7e7b))
+
 ## [0.11.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.10.0...github.com/supercargo-dev/supercargo-sdk-go-v0.11.0) (2026-09-02)
 
 
