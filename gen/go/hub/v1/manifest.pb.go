@@ -32,6 +32,7 @@ const (
 	SLATier_SLA_TIER_1_MISSION_CRITICAL SLATier = 1
 	SLATier_SLA_TIER_2_IMPORTANT        SLATier = 2
 	SLATier_SLA_TIER_3_BEST_EFFORT      SLATier = 3
+	SLATier_SLA_TIER_4_NON_CRITICAL     SLATier = 4
 )
 
 // Enum value maps for SLATier.
@@ -41,12 +42,14 @@ var (
 		1: "SLA_TIER_1_MISSION_CRITICAL",
 		2: "SLA_TIER_2_IMPORTANT",
 		3: "SLA_TIER_3_BEST_EFFORT",
+		4: "SLA_TIER_4_NON_CRITICAL",
 	}
 	SLATier_value = map[string]int32{
 		"SLA_TIER_UNSPECIFIED":        0,
 		"SLA_TIER_1_MISSION_CRITICAL": 1,
 		"SLA_TIER_2_IMPORTANT":        2,
 		"SLA_TIER_3_BEST_EFFORT":      3,
+		"SLA_TIER_4_NON_CRITICAL":     4,
 	}
 )
 
@@ -724,9 +727,11 @@ type IngestionConfig struct {
 	SourceService string                 `protobuf:"bytes,1,opt,name=source_service,json=sourceService,proto3" json:"source_service,omitempty"`
 	Topic         string                 `protobuf:"bytes,2,opt,name=topic,proto3" json:"topic,omitempty"`
 	// Explicit physical name override to avoid heuristic guessing.
-	PhysicalName  string `protobuf:"bytes,3,opt,name=physical_name,json=physicalName,proto3" json:"physical_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	PhysicalName string `protobuf:"bytes,3,opt,name=physical_name,json=physicalName,proto3" json:"physical_name,omitempty"`
+	// When true, private fields are stripped at ingestion boundary.
+	StripPrivateFields bool `protobuf:"varint,4,opt,name=strip_private_fields,json=stripPrivateFields,proto3" json:"strip_private_fields,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *IngestionConfig) Reset() {
@@ -778,6 +783,13 @@ func (x *IngestionConfig) GetPhysicalName() string {
 		return x.PhysicalName
 	}
 	return ""
+}
+
+func (x *IngestionConfig) GetStripPrivateFields() bool {
+	if x != nil {
+		return x.StripPrivateFields
+	}
+	return false
 }
 
 // ProductStatus tracks the internal operational state of the product.
@@ -1394,8 +1406,10 @@ type BigQueryConfig struct {
 	Table string `protobuf:"bytes,7,opt,name=table,proto3" json:"table,omitempty"`
 	// Partition expiration duration (e.g., "180d", "30d").
 	PartitionExpiration *durationpb.Duration `protobuf:"bytes,8,opt,name=partition_expiration,json=partitionExpiration,proto3" json:"partition_expiration,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	// When true, INTERNAL fields are included in the BigQuery schema projection.
+	IncludeInternalFields bool `protobuf:"varint,9,opt,name=include_internal_fields,json=includeInternalFields,proto3" json:"include_internal_fields,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *BigQueryConfig) Reset() {
@@ -1482,6 +1496,13 @@ func (x *BigQueryConfig) GetPartitionExpiration() *durationpb.Duration {
 		return x.PartitionExpiration
 	}
 	return nil
+}
+
+func (x *BigQueryConfig) GetIncludeInternalFields() bool {
+	if x != nil {
+		return x.IncludeInternalFields
+	}
+	return false
 }
 
 // ContractPointer links to a specific version of a Data Contract.
@@ -2023,11 +2044,12 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\fSLAExemption\x12\x10\n" +
 	"\x03fqn\x18\x01 \x01(\tR\x03fqn\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x16\n" +
-	"\x06expiry\x18\x03 \x01(\tR\x06expiry\"s\n" +
+	"\x06expiry\x18\x03 \x01(\tR\x06expiry\"\xa5\x01\n" +
 	"\x0fIngestionConfig\x12%\n" +
 	"\x0esource_service\x18\x01 \x01(\tR\rsourceService\x12\x14\n" +
 	"\x05topic\x18\x02 \x01(\tR\x05topic\x12#\n" +
-	"\rphysical_name\x18\x03 \x01(\tR\fphysicalName\"\xee\x01\n" +
+	"\rphysical_name\x18\x03 \x01(\tR\fphysicalName\x120\n" +
+	"\x14strip_private_fields\x18\x04 \x01(\bR\x12stripPrivateFields\"\xee\x01\n" +
 	"\rProductStatus\x123\n" +
 	"\vsync_status\x18\x01 \x01(\x0e2\x12.hub.v1.SyncStatusR\n" +
 	"syncStatus\x12@\n" +
@@ -2084,7 +2106,7 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\reffective_sla\x18\b \x01(\v2\v.hub.v1.SLAR\feffectiveSla\x12+\n" +
 	"\x11evolution_profile\x18\t \x01(\tR\x10evolutionProfile\"D\n" +
 	"\x0ePhysicalConfig\x122\n" +
-	"\bbigquery\x18\x01 \x01(\v2\x16.hub.v1.BigQueryConfigR\bbigquery\"\xc0\x02\n" +
+	"\bbigquery\x18\x01 \x01(\v2\x16.hub.v1.BigQueryConfigR\bbigquery\"\xf8\x02\n" +
 	"\x0eBigQueryConfig\x12!\n" +
 	"\fpartition_by\x18\x01 \x01(\tR\vpartitionBy\x12\x1d\n" +
 	"\n" +
@@ -2094,7 +2116,8 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\adataset\x18\x05 \x01(\tR\adataset\x12\x1a\n" +
 	"\blocation\x18\x06 \x01(\tR\blocation\x12\x14\n" +
 	"\x05table\x18\a \x01(\tR\x05table\x12L\n" +
-	"\x14partition_expiration\x18\b \x01(\v2\x19.google.protobuf.DurationR\x13partitionExpiration\"\xdf\x01\n" +
+	"\x14partition_expiration\x18\b \x01(\v2\x19.google.protobuf.DurationR\x13partitionExpiration\x126\n" +
+	"\x17include_internal_fields\x18\t \x01(\bR\x15includeInternalFields\"\xdf\x01\n" +
 	"\x0fContractPointer\x12a\n" +
 	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12!\n" +
 	"\aversion\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aversion\x12\x12\n" +
@@ -2139,12 +2162,13 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"old_schema\x18\x02 \x01(\tR\toldSchema\x12\x1d\n" +
 	"\n" +
 	"new_schema\x18\x03 \x01(\tR\tnewSchema\x12\x12\n" +
-	"\x04diff\x18\x04 \x01(\tR\x04diff*z\n" +
+	"\x04diff\x18\x04 \x01(\tR\x04diff*\x97\x01\n" +
 	"\aSLATier\x12\x18\n" +
 	"\x14SLA_TIER_UNSPECIFIED\x10\x00\x12\x1f\n" +
 	"\x1bSLA_TIER_1_MISSION_CRITICAL\x10\x01\x12\x18\n" +
 	"\x14SLA_TIER_2_IMPORTANT\x10\x02\x12\x1a\n" +
-	"\x16SLA_TIER_3_BEST_EFFORT\x10\x03*\x8d\x02\n" +
+	"\x16SLA_TIER_3_BEST_EFFORT\x10\x03\x12\x1b\n" +
+	"\x17SLA_TIER_4_NON_CRITICAL\x10\x04*\x8d\x02\n" +
 	"\n" +
 	"SyncStatus\x12\x1b\n" +
 	"\x17SYNC_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +

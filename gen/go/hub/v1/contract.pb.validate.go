@@ -668,6 +668,8 @@ func (m *Field) validate(all bool) error {
 
 	// no validation rules for SortRank
 
+	// no validation rules for Visibility
+
 	if len(errors) > 0 {
 		return FieldMultiError(errors)
 	}
