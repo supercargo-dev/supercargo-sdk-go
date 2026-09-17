@@ -694,6 +694,8 @@ func (m *IngestionConfig) validate(all bool) error {
 
 	// no validation rules for PhysicalName
 
+	// no validation rules for StripPrivateFields
+
 	if len(errors) > 0 {
 		return IngestionConfigMultiError(errors)
 	}
@@ -1933,6 +1935,8 @@ func (m *BigQueryConfig) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for IncludeInternalFields
 
 	if len(errors) > 0 {
 		return BigQueryConfigMultiError(errors)

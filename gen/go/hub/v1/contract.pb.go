@@ -159,6 +159,62 @@ func (FieldMode) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_contract_proto_rawDescGZIP(), []int{1}
 }
 
+// FieldVisibility defines the accessibility tier of a field across projections and consumers.
+type FieldVisibility int32
+
+const (
+	FieldVisibility_FIELD_VISIBILITY_UNSPECIFIED FieldVisibility = 0
+	FieldVisibility_FIELD_VISIBILITY_PUBLIC      FieldVisibility = 1
+	FieldVisibility_FIELD_VISIBILITY_INTERNAL    FieldVisibility = 2
+	FieldVisibility_FIELD_VISIBILITY_DOMAIN      FieldVisibility = 3
+	FieldVisibility_FIELD_VISIBILITY_PRIVATE     FieldVisibility = 4
+)
+
+// Enum value maps for FieldVisibility.
+var (
+	FieldVisibility_name = map[int32]string{
+		0: "FIELD_VISIBILITY_UNSPECIFIED",
+		1: "FIELD_VISIBILITY_PUBLIC",
+		2: "FIELD_VISIBILITY_INTERNAL",
+		3: "FIELD_VISIBILITY_DOMAIN",
+		4: "FIELD_VISIBILITY_PRIVATE",
+	}
+	FieldVisibility_value = map[string]int32{
+		"FIELD_VISIBILITY_UNSPECIFIED": 0,
+		"FIELD_VISIBILITY_PUBLIC":      1,
+		"FIELD_VISIBILITY_INTERNAL":    2,
+		"FIELD_VISIBILITY_DOMAIN":      3,
+		"FIELD_VISIBILITY_PRIVATE":     4,
+	}
+)
+
+func (x FieldVisibility) Enum() *FieldVisibility {
+	p := new(FieldVisibility)
+	*p = x
+	return p
+}
+
+func (x FieldVisibility) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (FieldVisibility) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_contract_proto_enumTypes[2].Descriptor()
+}
+
+func (FieldVisibility) Type() protoreflect.EnumType {
+	return &file_hub_v1_contract_proto_enumTypes[2]
+}
+
+func (x FieldVisibility) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use FieldVisibility.Descriptor instead.
+func (FieldVisibility) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_contract_proto_rawDescGZIP(), []int{2}
+}
+
 type CompatibilityMode int32
 
 const (
@@ -201,11 +257,11 @@ func (x CompatibilityMode) String() string {
 }
 
 func (CompatibilityMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_contract_proto_enumTypes[2].Descriptor()
+	return file_hub_v1_contract_proto_enumTypes[3].Descriptor()
 }
 
 func (CompatibilityMode) Type() protoreflect.EnumType {
-	return &file_hub_v1_contract_proto_enumTypes[2]
+	return &file_hub_v1_contract_proto_enumTypes[3]
 }
 
 func (x CompatibilityMode) Number() protoreflect.EnumNumber {
@@ -214,7 +270,7 @@ func (x CompatibilityMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CompatibilityMode.Descriptor instead.
 func (CompatibilityMode) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_contract_proto_rawDescGZIP(), []int{2}
+	return file_hub_v1_contract_proto_rawDescGZIP(), []int{3}
 }
 
 type ValidationPolicy int32
@@ -250,11 +306,11 @@ func (x ValidationPolicy) String() string {
 }
 
 func (ValidationPolicy) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_contract_proto_enumTypes[3].Descriptor()
+	return file_hub_v1_contract_proto_enumTypes[4].Descriptor()
 }
 
 func (ValidationPolicy) Type() protoreflect.EnumType {
-	return &file_hub_v1_contract_proto_enumTypes[3]
+	return &file_hub_v1_contract_proto_enumTypes[4]
 }
 
 func (x ValidationPolicy) Number() protoreflect.EnumNumber {
@@ -263,7 +319,7 @@ func (x ValidationPolicy) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ValidationPolicy.Descriptor instead.
 func (ValidationPolicy) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_contract_proto_rawDescGZIP(), []int{3}
+	return file_hub_v1_contract_proto_rawDescGZIP(), []int{4}
 }
 
 // DataContract defines the structure for the logical schema blueprint.
@@ -529,7 +585,9 @@ type Field struct {
 	// True if the field is part of the primary key (single or composite).
 	PrimaryKey bool `protobuf:"varint,21,opt,name=primary_key,json=primaryKey,proto3" json:"primary_key,omitempty"`
 	// Ranked priority for sorting / deterministic tie-breaking (1 = highest priority).
-	SortRank      uint32 `protobuf:"varint,22,opt,name=sort_rank,json=sortRank,proto3" json:"sort_rank,omitempty"`
+	SortRank uint32 `protobuf:"varint,22,opt,name=sort_rank,json=sortRank,proto3" json:"sort_rank,omitempty"`
+	// Field visibility tier for consumption and projection scoping.
+	Visibility    FieldVisibility `protobuf:"varint,23,opt,name=visibility,proto3,enum=hub.v1.FieldVisibility" json:"visibility,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -716,6 +774,13 @@ func (x *Field) GetSortRank() uint32 {
 		return x.SortRank
 	}
 	return 0
+}
+
+func (x *Field) GetVisibility() FieldVisibility {
+	if x != nil {
+		return x.Visibility
+	}
+	return FieldVisibility_FIELD_VISIBILITY_UNSPECIFIED
 }
 
 // Constraints defines data quality rules for a field.
@@ -910,7 +975,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\vdescription\x18\v \x01(\tR\vdescription\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf6\x06\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xaf\a\n" +
 	"\x05Field\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12.\n" +
@@ -940,7 +1005,10 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\aaliases\x18\x14 \x03(\tR\aaliases\x12\x1f\n" +
 	"\vprimary_key\x18\x15 \x01(\bR\n" +
 	"primaryKey\x12\x1b\n" +
-	"\tsort_rank\x18\x16 \x01(\rR\bsortRank\x1a;\n" +
+	"\tsort_rank\x18\x16 \x01(\rR\bsortRank\x127\n" +
+	"\n" +
+	"visibility\x18\x17 \x01(\x0e2\x17.hub.v1.FieldVisibilityR\n" +
+	"visibility\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8f\x05\n" +
@@ -995,7 +1063,13 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x16FIELD_MODE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13FIELD_MODE_NULLABLE\x10\x01\x12\x17\n" +
 	"\x13FIELD_MODE_REQUIRED\x10\x02\x12\x17\n" +
-	"\x13FIELD_MODE_REPEATED\x10\x03*\xd6\x01\n" +
+	"\x13FIELD_MODE_REPEATED\x10\x03*\xaa\x01\n" +
+	"\x0fFieldVisibility\x12 \n" +
+	"\x1cFIELD_VISIBILITY_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17FIELD_VISIBILITY_PUBLIC\x10\x01\x12\x1d\n" +
+	"\x19FIELD_VISIBILITY_INTERNAL\x10\x02\x12\x1b\n" +
+	"\x17FIELD_VISIBILITY_DOMAIN\x10\x03\x12\x1c\n" +
+	"\x18FIELD_VISIBILITY_PRIVATE\x10\x04*\xd6\x01\n" +
 	"\x11CompatibilityMode\x12\"\n" +
 	"\x1eCOMPATIBILITY_MODE_UNSPECIFIED\x10\x00\x12\x1f\n" +
 	"\x1bCOMPATIBILITY_MODE_BACKWARD\x10\x01\x12\x1e\n" +
@@ -1022,40 +1096,42 @@ func file_hub_v1_contract_proto_rawDescGZIP() []byte {
 	return file_hub_v1_contract_proto_rawDescData
 }
 
-var file_hub_v1_contract_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_hub_v1_contract_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
 var file_hub_v1_contract_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_hub_v1_contract_proto_goTypes = []any{
 	(DataType)(0),          // 0: hub.v1.DataType
 	(FieldMode)(0),         // 1: hub.v1.FieldMode
-	(CompatibilityMode)(0), // 2: hub.v1.CompatibilityMode
-	(ValidationPolicy)(0),  // 3: hub.v1.ValidationPolicy
-	(*DataContract)(nil),   // 4: hub.v1.DataContract
-	(*Meta)(nil),           // 5: hub.v1.Meta
-	(*Field)(nil),          // 6: hub.v1.Field
-	(*Constraints)(nil),    // 7: hub.v1.Constraints
-	nil,                    // 8: hub.v1.Meta.LabelsEntry
-	nil,                    // 9: hub.v1.Field.MetadataEntry
-	(*SLA)(nil),            // 10: hub.v1.SLA
-	(*Health)(nil),         // 11: hub.v1.Health
+	(FieldVisibility)(0),   // 2: hub.v1.FieldVisibility
+	(CompatibilityMode)(0), // 3: hub.v1.CompatibilityMode
+	(ValidationPolicy)(0),  // 4: hub.v1.ValidationPolicy
+	(*DataContract)(nil),   // 5: hub.v1.DataContract
+	(*Meta)(nil),           // 6: hub.v1.Meta
+	(*Field)(nil),          // 7: hub.v1.Field
+	(*Constraints)(nil),    // 8: hub.v1.Constraints
+	nil,                    // 9: hub.v1.Meta.LabelsEntry
+	nil,                    // 10: hub.v1.Field.MetadataEntry
+	(*SLA)(nil),            // 11: hub.v1.SLA
+	(*Health)(nil),         // 12: hub.v1.Health
 }
 var file_hub_v1_contract_proto_depIdxs = []int32{
-	5,  // 0: hub.v1.DataContract.meta:type_name -> hub.v1.Meta
-	6,  // 1: hub.v1.DataContract.schema:type_name -> hub.v1.Field
-	10, // 2: hub.v1.DataContract.sla:type_name -> hub.v1.SLA
-	11, // 3: hub.v1.DataContract.health:type_name -> hub.v1.Health
-	3,  // 4: hub.v1.Meta.validation_policy:type_name -> hub.v1.ValidationPolicy
-	8,  // 5: hub.v1.Meta.labels:type_name -> hub.v1.Meta.LabelsEntry
-	2,  // 6: hub.v1.Meta.compatibility_mode:type_name -> hub.v1.CompatibilityMode
+	6,  // 0: hub.v1.DataContract.meta:type_name -> hub.v1.Meta
+	7,  // 1: hub.v1.DataContract.schema:type_name -> hub.v1.Field
+	11, // 2: hub.v1.DataContract.sla:type_name -> hub.v1.SLA
+	12, // 3: hub.v1.DataContract.health:type_name -> hub.v1.Health
+	4,  // 4: hub.v1.Meta.validation_policy:type_name -> hub.v1.ValidationPolicy
+	9,  // 5: hub.v1.Meta.labels:type_name -> hub.v1.Meta.LabelsEntry
+	3,  // 6: hub.v1.Meta.compatibility_mode:type_name -> hub.v1.CompatibilityMode
 	0,  // 7: hub.v1.Field.type:type_name -> hub.v1.DataType
 	1,  // 8: hub.v1.Field.mode:type_name -> hub.v1.FieldMode
-	6,  // 9: hub.v1.Field.fields:type_name -> hub.v1.Field
-	7,  // 10: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
-	9,  // 11: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	7,  // 9: hub.v1.Field.fields:type_name -> hub.v1.Field
+	8,  // 10: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
+	10, // 11: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
+	2,  // 12: hub.v1.Field.visibility:type_name -> hub.v1.FieldVisibility
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_contract_proto_init() }
@@ -1070,7 +1146,7 @@ func file_hub_v1_contract_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_contract_proto_rawDesc), len(file_hub_v1_contract_proto_rawDesc)),
-			NumEnums:      4,
+			NumEnums:      5,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
