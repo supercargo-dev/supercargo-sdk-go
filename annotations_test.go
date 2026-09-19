@@ -86,4 +86,3 @@ func TestSensitivityStructTag(t *testing.T) {
 	assert.Equal(t, "conf", record.ConfidentialData)
 	assert.Equal(t, "rest", record.RestrictedData)
 }
-
