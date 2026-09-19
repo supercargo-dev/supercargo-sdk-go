@@ -1,6 +1,10 @@
 package supercargo
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestDataTypeHints(t *testing.T) {
 	if HintTimestamp != "TIMESTAMP" {
@@ -51,4 +55,34 @@ func TestVisibilityStructTag(t *testing.T) {
 	if user.SecretField == "" {
 		t.Fatal("expected secretField to be set")
 	}
+}
+
+func TestSensitivityConstants(t *testing.T) {
+	t.Parallel()
+	assert.Equal(t, SensitivityLevel("public"), SensitivityPublic)
+	assert.Equal(t, SensitivityLevel("internal"), SensitivityInternal)
+	assert.Equal(t, SensitivityLevel("confidential"), SensitivityConfidential)
+	assert.Equal(t, SensitivityLevel("restricted"), SensitivityRestricted)
+}
+
+func TestSensitivityStructTag(t *testing.T) {
+	t.Parallel()
+	type TestContract struct {
+		PublicData       string `supercargo:"sensitivity=public"`
+		InternalData     string `supercargo:"sensitivity=internal"`
+		ConfidentialData string `supercargo:"sensitivity=confidential,pii=true"`
+		RestrictedData   string `supercargo:"sensitivity=restricted"`
+	}
+
+	record := TestContract{
+		PublicData:       "pub",
+		InternalData:     "int",
+		ConfidentialData: "conf",
+		RestrictedData:   "rest",
+	}
+
+	assert.Equal(t, "pub", record.PublicData)
+	assert.Equal(t, "int", record.InternalData)
+	assert.Equal(t, "conf", record.ConfidentialData)
+	assert.Equal(t, "rest", record.RestrictedData)
 }

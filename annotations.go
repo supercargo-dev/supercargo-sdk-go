@@ -33,3 +33,17 @@ const (
 	// VisibilityPrivate marks the field as private to the producing service.
 	VisibilityPrivate Visibility = "private"
 )
+
+// SensitivityLevel defines the confidentiality tier of a field or contract.
+type SensitivityLevel string
+
+const (
+	// SensitivityPublic marks data intended for public consumption.
+	SensitivityPublic SensitivityLevel = "public"
+	// SensitivityInternal marks data restricted to internal organizational use.
+	SensitivityInternal SensitivityLevel = "internal"
+	// SensitivityConfidential marks sensitive business or personal data.
+	SensitivityConfidential SensitivityLevel = "confidential"
+	// SensitivityRestricted marks highly sensitive or regulated data.
+	SensitivityRestricted SensitivityLevel = "restricted"
+)
