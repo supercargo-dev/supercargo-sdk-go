@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.12.0...github.com/supercargo-dev/supercargo-sdk-go-v0.13.0) (2026-09-21)
+
+
+### Features
+
+* **hub:** implement SLA waterfall tier 4 classification and console governance (issue [#581](https://github.com/supercargo-dev/core/issues/581)) ([#387](https://github.com/supercargo-dev/core/issues/387)) ([2f8840b](https://github.com/supercargo-dev/core/commit/2f8840b446323d2de0a055274cb86faf21065521))
+* **schema:** data sensitivity classification in schema IR and polyglot SDKs ([#568](https://github.com/supercargo-dev/core/issues/568)) ([#401](https://github.com/supercargo-dev/core/issues/401)) ([8b7fbc4](https://github.com/supercargo-dev/core/commit/8b7fbc4e49e63d6bcc0e5fc569cf40b060443bc6))
+
 ## [0.12.0](https://github.com/supercargo-dev/core/compare/github.com/supercargo-dev/supercargo-sdk-go-v0.11.0...github.com/supercargo-dev/supercargo-sdk-go-v0.12.0) (2026-09-13)
 
 
