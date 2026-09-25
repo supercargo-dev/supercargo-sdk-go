@@ -136,7 +136,6 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 			return nil, fmt.Errorf("vault BatchTokenize failed: %w", err)
 		}
 
-
 		if !chunkSucceeded {
 			return nil, fmt.Errorf("exhausted retries in vault BatchTokenize: %w", lastErr)
 		}

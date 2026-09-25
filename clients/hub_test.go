@@ -498,4 +498,3 @@ func TestHubClient_ReportAnomaly_ExhaustedRetries(t *testing.T) {
 	assert.Contains(t, err.Error(), "exhausted retries reporting anomaly on \"urn:sc:test\"")
 	assert.Equal(t, int32(3), mockSrv.reportAnomalyCalls.Load())
 }
-

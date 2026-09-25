@@ -17,7 +17,6 @@ import (
 	hubv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1"
 )
 
-
 var _ io.Closer = (*HubClient)(nil)
 
 // HubClient provides an idiomatic Go client for the Supercargo Hub Service.
@@ -276,7 +275,6 @@ func (c *HubClient) GetBlastRadiusRequest(ctx context.Context, req *hubv1.GetBla
 
 	return nil, fmt.Errorf("exhausted retries getting blast radius for %q: %w", req.Urn, lastErr)
 }
-
 
 // Ping sends a ping message to verify Hub service health.
 func (c *HubClient) Ping(ctx context.Context, message string) (*hubv1.PingResponse, error) {

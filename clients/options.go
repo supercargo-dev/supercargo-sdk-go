@@ -133,4 +133,3 @@ func attachAuthMetadata(ctx context.Context, opts *clientOptions) (context.Conte
 	}
 	return ctx, nil
 }
-
