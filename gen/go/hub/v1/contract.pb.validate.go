@@ -189,6 +189,8 @@ func (m *DataContract) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Sensitivity
+
 	if len(errors) > 0 {
 		return DataContractMultiError(errors)
 	}
@@ -670,6 +672,8 @@ func (m *Field) validate(all bool) error {
 
 	// no validation rules for Visibility
 
+	// no validation rules for Sensitivity
+
 	if len(errors) > 0 {
 		return FieldMultiError(errors)
 	}
@@ -811,6 +815,10 @@ func (m *Constraints) validate(all bool) error {
 
 	if m.MaxLength != nil {
 		// no validation rules for MaxLength
+	}
+
+	if m.Dimensions != nil {
+		// no validation rules for Dimensions
 	}
 
 	if len(errors) > 0 {

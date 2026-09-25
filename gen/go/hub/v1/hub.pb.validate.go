@@ -81,6 +81,14 @@ func (m *ReportAnomalyRequest) validate(all bool) error {
 
 	// no validation rules for Reason
 
+	// no validation rules for IncidentType
+
+	// no validation rules for RunId
+
+	// no validation rules for Reporter
+
+	// no validation rules for Metadata
+
 	if len(errors) > 0 {
 		return ReportAnomalyRequestMultiError(errors)
 	}
@@ -761,6 +769,369 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetHealthHistoryResponseValidationError{}
+
+// Validate checks the field values on GetBlastRadiusRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetBlastRadiusRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetBlastRadiusRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetBlastRadiusRequestMultiError, or nil if none found.
+func (m *GetBlastRadiusRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetBlastRadiusRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetUrn()) < 1 {
+		err := GetBlastRadiusRequestValidationError{
+			field:  "Urn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for MaxDepth
+
+	if len(errors) > 0 {
+		return GetBlastRadiusRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetBlastRadiusRequestMultiError is an error wrapping multiple validation
+// errors returned by GetBlastRadiusRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetBlastRadiusRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetBlastRadiusRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetBlastRadiusRequestMultiError) AllErrors() []error { return m }
+
+// GetBlastRadiusRequestValidationError is the validation error returned by
+// GetBlastRadiusRequest.Validate if the designated constraints aren't met.
+type GetBlastRadiusRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetBlastRadiusRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetBlastRadiusRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetBlastRadiusRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetBlastRadiusRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetBlastRadiusRequestValidationError) ErrorName() string {
+	return "GetBlastRadiusRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetBlastRadiusRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetBlastRadiusRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetBlastRadiusRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetBlastRadiusRequestValidationError{}
+
+// Validate checks the field values on BlastRadiusNode with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *BlastRadiusNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BlastRadiusNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BlastRadiusNodeMultiError, or nil if none found.
+func (m *BlastRadiusNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BlastRadiusNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Urn
+
+	// no validation rules for Type
+
+	// no validation rules for Owner
+
+	// no validation rules for Depth
+
+	if len(errors) > 0 {
+		return BlastRadiusNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// BlastRadiusNodeMultiError is an error wrapping multiple validation errors
+// returned by BlastRadiusNode.ValidateAll() if the designated constraints
+// aren't met.
+type BlastRadiusNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BlastRadiusNodeMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BlastRadiusNodeMultiError) AllErrors() []error { return m }
+
+// BlastRadiusNodeValidationError is the validation error returned by
+// BlastRadiusNode.Validate if the designated constraints aren't met.
+type BlastRadiusNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BlastRadiusNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BlastRadiusNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BlastRadiusNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BlastRadiusNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BlastRadiusNodeValidationError) ErrorName() string { return "BlastRadiusNodeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e BlastRadiusNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBlastRadiusNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BlastRadiusNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BlastRadiusNodeValidationError{}
+
+// Validate checks the field values on GetBlastRadiusResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetBlastRadiusResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetBlastRadiusResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetBlastRadiusResponseMultiError, or nil if none found.
+func (m *GetBlastRadiusResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetBlastRadiusResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RootUrn
+
+	for idx, item := range m.GetDownstreamNodes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetBlastRadiusResponseValidationError{
+						field:  fmt.Sprintf("DownstreamNodes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetBlastRadiusResponseValidationError{
+						field:  fmt.Sprintf("DownstreamNodes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetBlastRadiusResponseValidationError{
+					field:  fmt.Sprintf("DownstreamNodes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for TotalDownstream
+
+	if len(errors) > 0 {
+		return GetBlastRadiusResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetBlastRadiusResponseMultiError is an error wrapping multiple validation
+// errors returned by GetBlastRadiusResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetBlastRadiusResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetBlastRadiusResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetBlastRadiusResponseMultiError) AllErrors() []error { return m }
+
+// GetBlastRadiusResponseValidationError is the validation error returned by
+// GetBlastRadiusResponse.Validate if the designated constraints aren't met.
+type GetBlastRadiusResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetBlastRadiusResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetBlastRadiusResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetBlastRadiusResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetBlastRadiusResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetBlastRadiusResponseValidationError) ErrorName() string {
+	return "GetBlastRadiusResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetBlastRadiusResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetBlastRadiusResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetBlastRadiusResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetBlastRadiusResponseValidationError{}
 
 // Validate checks the field values on ExtractDSARPlanRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -9603,3 +9974,227 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListTeamsResponseValidationError{}
+
+// Validate checks the field values on GetTaxonomyMappingsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetTaxonomyMappingsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetTaxonomyMappingsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetTaxonomyMappingsRequestMultiError, or nil if none found.
+func (m *GetTaxonomyMappingsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetTaxonomyMappingsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetEnvironment()) < 1 {
+		err := GetTaxonomyMappingsRequestValidationError{
+			field:  "Environment",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Location
+
+	if len(errors) > 0 {
+		return GetTaxonomyMappingsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetTaxonomyMappingsRequestMultiError is an error wrapping multiple
+// validation errors returned by GetTaxonomyMappingsRequest.ValidateAll() if
+// the designated constraints aren't met.
+type GetTaxonomyMappingsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetTaxonomyMappingsRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetTaxonomyMappingsRequestMultiError) AllErrors() []error { return m }
+
+// GetTaxonomyMappingsRequestValidationError is the validation error returned
+// by GetTaxonomyMappingsRequest.Validate if the designated constraints aren't met.
+type GetTaxonomyMappingsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetTaxonomyMappingsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetTaxonomyMappingsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetTaxonomyMappingsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetTaxonomyMappingsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetTaxonomyMappingsRequestValidationError) ErrorName() string {
+	return "GetTaxonomyMappingsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetTaxonomyMappingsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetTaxonomyMappingsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetTaxonomyMappingsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetTaxonomyMappingsRequestValidationError{}
+
+// Validate checks the field values on GetTaxonomyMappingsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetTaxonomyMappingsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetTaxonomyMappingsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetTaxonomyMappingsResponseMultiError, or nil if none found.
+func (m *GetTaxonomyMappingsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetTaxonomyMappingsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TaxonomyUrn
+
+	// no validation rules for PolicyTags
+
+	// no validation rules for MaskingRules
+
+	if len(errors) > 0 {
+		return GetTaxonomyMappingsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetTaxonomyMappingsResponseMultiError is an error wrapping multiple
+// validation errors returned by GetTaxonomyMappingsResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetTaxonomyMappingsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetTaxonomyMappingsResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetTaxonomyMappingsResponseMultiError) AllErrors() []error { return m }
+
+// GetTaxonomyMappingsResponseValidationError is the validation error returned
+// by GetTaxonomyMappingsResponse.Validate if the designated constraints
+// aren't met.
+type GetTaxonomyMappingsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetTaxonomyMappingsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetTaxonomyMappingsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetTaxonomyMappingsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetTaxonomyMappingsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetTaxonomyMappingsResponseValidationError) ErrorName() string {
+	return "GetTaxonomyMappingsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetTaxonomyMappingsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetTaxonomyMappingsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetTaxonomyMappingsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetTaxonomyMappingsResponseValidationError{}

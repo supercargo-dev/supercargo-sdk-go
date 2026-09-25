@@ -55,6 +55,8 @@ const (
 	HubService_ReportAnomaly_FullMethodName         = "/hub.v1.HubService/ReportAnomaly"
 	HubService_GetHealth_FullMethodName             = "/hub.v1.HubService/GetHealth"
 	HubService_GetHealthHistory_FullMethodName      = "/hub.v1.HubService/GetHealthHistory"
+	HubService_GetBlastRadius_FullMethodName        = "/hub.v1.HubService/GetBlastRadius"
+	HubService_GetTaxonomyMappings_FullMethodName   = "/hub.v1.HubService/GetTaxonomyMappings"
 )
 
 // HubServiceClient is the client API for HubService service.
@@ -134,6 +136,10 @@ type HubServiceClient interface {
 	GetHealth(ctx context.Context, in *GetHealthRequest, opts ...grpc.CallOption) (*GetHealthResponse, error)
 	// GetHealthHistory retrieves the audit trail of health transitions.
 	GetHealthHistory(ctx context.Context, in *GetHealthHistoryRequest, opts ...grpc.CallOption) (*GetHealthHistoryResponse, error)
+	// GetBlastRadius analyzes downstream blast radius.
+	GetBlastRadius(ctx context.Context, in *GetBlastRadiusRequest, opts ...grpc.CallOption) (*GetBlastRadiusResponse, error)
+	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
+	GetTaxonomyMappings(ctx context.Context, in *GetTaxonomyMappingsRequest, opts ...grpc.CallOption) (*GetTaxonomyMappingsResponse, error)
 }
 
 type hubServiceClient struct {
@@ -504,6 +510,26 @@ func (c *hubServiceClient) GetHealthHistory(ctx context.Context, in *GetHealthHi
 	return out, nil
 }
 
+func (c *hubServiceClient) GetBlastRadius(ctx context.Context, in *GetBlastRadiusRequest, opts ...grpc.CallOption) (*GetBlastRadiusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBlastRadiusResponse)
+	err := c.cc.Invoke(ctx, HubService_GetBlastRadius_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) GetTaxonomyMappings(ctx context.Context, in *GetTaxonomyMappingsRequest, opts ...grpc.CallOption) (*GetTaxonomyMappingsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTaxonomyMappingsResponse)
+	err := c.cc.Invoke(ctx, HubService_GetTaxonomyMappings_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HubServiceServer is the server API for HubService service.
 // All implementations must embed UnimplementedHubServiceServer
 // for forward compatibility.
@@ -581,6 +607,10 @@ type HubServiceServer interface {
 	GetHealth(context.Context, *GetHealthRequest) (*GetHealthResponse, error)
 	// GetHealthHistory retrieves the audit trail of health transitions.
 	GetHealthHistory(context.Context, *GetHealthHistoryRequest) (*GetHealthHistoryResponse, error)
+	// GetBlastRadius analyzes downstream blast radius.
+	GetBlastRadius(context.Context, *GetBlastRadiusRequest) (*GetBlastRadiusResponse, error)
+	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
+	GetTaxonomyMappings(context.Context, *GetTaxonomyMappingsRequest) (*GetTaxonomyMappingsResponse, error)
 	mustEmbedUnimplementedHubServiceServer()
 }
 
@@ -698,6 +728,12 @@ func (UnimplementedHubServiceServer) GetHealth(context.Context, *GetHealthReques
 }
 func (UnimplementedHubServiceServer) GetHealthHistory(context.Context, *GetHealthHistoryRequest) (*GetHealthHistoryResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetHealthHistory not implemented")
+}
+func (UnimplementedHubServiceServer) GetBlastRadius(context.Context, *GetBlastRadiusRequest) (*GetBlastRadiusResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetBlastRadius not implemented")
+}
+func (UnimplementedHubServiceServer) GetTaxonomyMappings(context.Context, *GetTaxonomyMappingsRequest) (*GetTaxonomyMappingsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTaxonomyMappings not implemented")
 }
 func (UnimplementedHubServiceServer) mustEmbedUnimplementedHubServiceServer() {}
 func (UnimplementedHubServiceServer) testEmbeddedByValue()                    {}
@@ -1368,6 +1404,42 @@ func _HubService_GetHealthHistory_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_GetBlastRadius_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlastRadiusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetBlastRadius(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetBlastRadius_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetBlastRadius(ctx, req.(*GetBlastRadiusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_GetTaxonomyMappings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaxonomyMappingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetTaxonomyMappings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetTaxonomyMappings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetTaxonomyMappings(ctx, req.(*GetTaxonomyMappingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HubService_ServiceDesc is the grpc.ServiceDesc for HubService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1518,6 +1590,14 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetHealthHistory",
 			Handler:    _HubService_GetHealthHistory_Handler,
+		},
+		{
+			MethodName: "GetBlastRadius",
+			Handler:    _HubService_GetBlastRadius_Handler,
+		},
+		{
+			MethodName: "GetTaxonomyMappings",
+			Handler:    _HubService_GetTaxonomyMappings_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

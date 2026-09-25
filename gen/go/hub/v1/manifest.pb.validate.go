@@ -994,6 +994,14 @@ func (m *Health) validate(all bool) error {
 
 	// no validation rules for StatusSourceUrn
 
+	// no validation rules for IncidentType
+
+	// no validation rules for RunId
+
+	// no validation rules for Reporter
+
+	// no validation rules for Metadata
+
 	if len(errors) > 0 {
 		return HealthMultiError(errors)
 	}
@@ -1937,6 +1945,10 @@ func (m *BigQueryConfig) validate(all bool) error {
 	}
 
 	// no validation rules for IncludeInternalFields
+
+	// no validation rules for PolicyTags
+
+	// no validation rules for MaskingRules
 
 	if len(errors) > 0 {
 		return BigQueryConfigMultiError(errors)

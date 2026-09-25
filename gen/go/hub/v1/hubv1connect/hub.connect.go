@@ -122,6 +122,12 @@ const (
 	// HubServiceGetHealthHistoryProcedure is the fully-qualified name of the HubService's
 	// GetHealthHistory RPC.
 	HubServiceGetHealthHistoryProcedure = "/hub.v1.HubService/GetHealthHistory"
+	// HubServiceGetBlastRadiusProcedure is the fully-qualified name of the HubService's GetBlastRadius
+	// RPC.
+	HubServiceGetBlastRadiusProcedure = "/hub.v1.HubService/GetBlastRadius"
+	// HubServiceGetTaxonomyMappingsProcedure is the fully-qualified name of the HubService's
+	// GetTaxonomyMappings RPC.
+	HubServiceGetTaxonomyMappingsProcedure = "/hub.v1.HubService/GetTaxonomyMappings"
 )
 
 // HubServiceClient is a client for the hub.v1.HubService service.
@@ -199,6 +205,10 @@ type HubServiceClient interface {
 	GetHealth(context.Context, *connect.Request[v1.GetHealthRequest]) (*connect.Response[v1.GetHealthResponse], error)
 	// GetHealthHistory retrieves the audit trail of health transitions.
 	GetHealthHistory(context.Context, *connect.Request[v1.GetHealthHistoryRequest]) (*connect.Response[v1.GetHealthHistoryResponse], error)
+	// GetBlastRadius analyzes downstream blast radius.
+	GetBlastRadius(context.Context, *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error)
+	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
+	GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error)
 }
 
 // NewHubServiceClient constructs a client for the hub.v1.HubService service. By default, it uses
@@ -428,6 +438,18 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceMethods.ByName("GetHealthHistory")),
 			connect.WithClientOptions(opts...),
 		),
+		getBlastRadius: connect.NewClient[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse](
+			httpClient,
+			baseURL+HubServiceGetBlastRadiusProcedure,
+			connect.WithSchema(hubServiceMethods.ByName("GetBlastRadius")),
+			connect.WithClientOptions(opts...),
+		),
+		getTaxonomyMappings: connect.NewClient[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse](
+			httpClient,
+			baseURL+HubServiceGetTaxonomyMappingsProcedure,
+			connect.WithSchema(hubServiceMethods.ByName("GetTaxonomyMappings")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -469,6 +491,8 @@ type hubServiceClient struct {
 	reportAnomaly         *connect.Client[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse]
 	getHealth             *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
 	getHealthHistory      *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
+	getBlastRadius        *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
+	getTaxonomyMappings   *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
 }
 
 // ValidateProduct calls hub.v1.HubService.ValidateProduct.
@@ -651,6 +675,16 @@ func (c *hubServiceClient) GetHealthHistory(ctx context.Context, req *connect.Re
 	return c.getHealthHistory.CallUnary(ctx, req)
 }
 
+// GetBlastRadius calls hub.v1.HubService.GetBlastRadius.
+func (c *hubServiceClient) GetBlastRadius(ctx context.Context, req *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error) {
+	return c.getBlastRadius.CallUnary(ctx, req)
+}
+
+// GetTaxonomyMappings calls hub.v1.HubService.GetTaxonomyMappings.
+func (c *hubServiceClient) GetTaxonomyMappings(ctx context.Context, req *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error) {
+	return c.getTaxonomyMappings.CallUnary(ctx, req)
+}
+
 // HubServiceHandler is an implementation of the hub.v1.HubService service.
 type HubServiceHandler interface {
 	// Validates a manifest and its contracts without saving.
@@ -726,6 +760,10 @@ type HubServiceHandler interface {
 	GetHealth(context.Context, *connect.Request[v1.GetHealthRequest]) (*connect.Response[v1.GetHealthResponse], error)
 	// GetHealthHistory retrieves the audit trail of health transitions.
 	GetHealthHistory(context.Context, *connect.Request[v1.GetHealthHistoryRequest]) (*connect.Response[v1.GetHealthHistoryResponse], error)
+	// GetBlastRadius analyzes downstream blast radius.
+	GetBlastRadius(context.Context, *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error)
+	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
+	GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error)
 }
 
 // NewHubServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -951,6 +989,18 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceMethods.ByName("GetHealthHistory")),
 		connect.WithHandlerOptions(opts...),
 	)
+	hubServiceGetBlastRadiusHandler := connect.NewUnaryHandler(
+		HubServiceGetBlastRadiusProcedure,
+		svc.GetBlastRadius,
+		connect.WithSchema(hubServiceMethods.ByName("GetBlastRadius")),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetTaxonomyMappingsHandler := connect.NewUnaryHandler(
+		HubServiceGetTaxonomyMappingsProcedure,
+		svc.GetTaxonomyMappings,
+		connect.WithSchema(hubServiceMethods.ByName("GetTaxonomyMappings")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/hub.v1.HubService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case HubServiceValidateProductProcedure:
@@ -1025,6 +1075,10 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceGetHealthHandler.ServeHTTP(w, r)
 		case HubServiceGetHealthHistoryProcedure:
 			hubServiceGetHealthHistoryHandler.ServeHTTP(w, r)
+		case HubServiceGetBlastRadiusProcedure:
+			hubServiceGetBlastRadiusHandler.ServeHTTP(w, r)
+		case HubServiceGetTaxonomyMappingsProcedure:
+			hubServiceGetTaxonomyMappingsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1176,4 +1230,12 @@ func (UnimplementedHubServiceHandler) GetHealth(context.Context, *connect.Reques
 
 func (UnimplementedHubServiceHandler) GetHealthHistory(context.Context, *connect.Request[v1.GetHealthHistoryRequest]) (*connect.Response[v1.GetHealthHistoryResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetHealthHistory is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetBlastRadius(context.Context, *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetBlastRadius is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetTaxonomyMappings is not implemented"))
 }

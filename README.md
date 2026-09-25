@@ -91,3 +91,135 @@ sc init annotations --lang go
 ```
 
 This generates `supercargo_sdk/` helper constants in your current project.
+
+---
+
+## Hub Client & Health Governance
+
+The Supercargo SDK for Go provides `clients.HubClient` (in package `github.com/supercargo-dev/supercargo-sdk-go/clients`) for interacting with the Supercargo Hub Service over gRPC. It enables Go microservices, ingestion daemons, and streaming processors to fetch Data Contracts, report operational health state anomalies, and evaluate downstream blast radius.
+
+### Client Initialization & Configuration
+
+Instantiate a client using `clients.NewHubClient(target, ...opts)`:
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+
+	"github.com/supercargo-dev/supercargo-sdk-go/clients"
+)
+
+func main() {
+	// Configure client with authentication, custom timeouts, and retry policies
+	client, err := clients.NewHubClient(
+		"hub.internal:50051",
+		clients.WithToken("supercargo-service-token"),
+		clients.WithTimeout(5*time.Second),
+		clients.WithMaxRetries(3),
+		clients.WithRetryDelay(500*time.Millisecond),
+	)
+	if err != nil {
+		log.Fatalf("failed to initialize hub client: %v", err)
+	}
+	defer client.Close()
+}
+```
+
+#### Functional Options
+
+| Option | Description |
+| :--- | :--- |
+| `clients.WithToken(token string)` | Sets static Bearer authorization token header. |
+| `clients.WithTokenProvider(func(ctx context.Context) (string, error))` | Dynamic token provider for GCP Cloud Run IAM OIDC or OAuth2 token refreshes. |
+| `clients.WithTimeout(d time.Duration)` | Per-RPC call deadline (default: `10s`). |
+| `clients.WithMaxRetries(n int)` | Maximum retries on transient errors (`UNAVAILABLE`, `RESOURCE_EXHAUSTED`, `DEADLINE_EXCEEDED`). |
+| `clients.WithRetryDelay(d time.Duration)` | Initial jittered exponential backoff delay (default: `500ms`). |
+| `clients.WithInsecure()` | Configures plaintext gRPC transport credentials (for local development / testing). |
+| `clients.WithTransportCredentials(creds credentials.TransportCredentials)` | Injects custom TLS transport credentials. |
+| `clients.WithGRPCConn(conn *grpc.ClientConn)` | Reuses an existing `*grpc.ClientConn`. |
+
+---
+
+### Reporting Health State Anomalies (`ReportAnomaly`)
+
+Use `ReportAnomaly` to notify the Hub when a service, stream consumer, or pipeline detects an operational anomaly or completes recovery.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/supercargo-dev/supercargo-sdk-go/clients"
+	hubv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1"
+)
+
+func reportIncident(client *clients.HubClient) {
+	ctx := context.Background()
+
+	req := &hubv1.ReportAnomalyRequest{
+		Urn:          "urn:sc:product:payment_gateway:v1",
+		State:        hubv1.HealthState_HEALTH_STATE_DEGRADED,
+		Reason:       "Payment processor downstream 504 error rate exceeded 10%",
+		IncidentType: "UPSTREAM_TIMEOUT",
+		RunId:        "batch-2026-09-25T14:30:00Z",
+		Reporter:     "billing-processor-worker-1",
+		Metadata: map[string]string{
+			"error_rate": "12.4%",
+			"gateway":    "stripe",
+			"region":     "us-central1",
+		},
+	}
+
+	resp, err := client.ReportAnomaly(ctx, req)
+	if err != nil {
+		log.Printf("failed to report anomaly to Hub: %v", err)
+		return
+	}
+
+	fmt.Printf("Anomaly recorded successfully. Transition ID: %s\n", resp.TransitionId)
+}
+```
+
+---
+
+### Inspecting Downstream Blast Radius (`GetBlastRadius`)
+
+Use `GetBlastRadius` to evaluate downstream dependencies and owner teams before executing breaking changes or declaring an incident.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/supercargo-dev/supercargo-sdk-go/clients"
+)
+
+func inspectBlastRadius(client *clients.HubClient) {
+	ctx := context.Background()
+
+	// Query downstream blast radius up to 3 levels deep (0 for unbounded lineage traversal)
+	resp, err := client.GetBlastRadius(ctx, "urn:sc:contract:crm_orders:v1", 3)
+	if err != nil {
+		log.Fatalf("failed to query blast radius: %v", err)
+	}
+
+	fmt.Printf("Root Asset: %s\n", resp.RootUrn)
+	fmt.Printf("Total Downstream Assets: %d\n", resp.TotalDownstream)
+	fmt.Printf("Affected Teams: %v\n", resp.AffectedTeams)
+
+	for _, node := range resp.DownstreamNodes {
+		fmt.Printf("  └─ [%s] %s (depth: %d, owner: %s)\n",
+			node.Type, node.Urn, node.Depth, node.Owner)
+	}
+}
+```
