@@ -40,6 +40,7 @@ const (
 	DataType_DATA_TYPE_BIGNUMERIC  DataType = 12
 	DataType_DATA_TYPE_STRUCT      DataType = 13
 	DataType_DATA_TYPE_JSON        DataType = 14
+	DataType_DATA_TYPE_VECTOR      DataType = 15
 )
 
 // Enum value maps for DataType.
@@ -60,6 +61,7 @@ var (
 		12: "DATA_TYPE_BIGNUMERIC",
 		13: "DATA_TYPE_STRUCT",
 		14: "DATA_TYPE_JSON",
+		15: "DATA_TYPE_VECTOR",
 	}
 	DataType_value = map[string]int32{
 		"DATA_TYPE_UNSPECIFIED": 0,
@@ -77,6 +79,7 @@ var (
 		"DATA_TYPE_BIGNUMERIC":  12,
 		"DATA_TYPE_STRUCT":      13,
 		"DATA_TYPE_JSON":        14,
+		"DATA_TYPE_VECTOR":      15,
 	}
 )
 
@@ -322,6 +325,62 @@ func (ValidationPolicy) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_contract_proto_rawDescGZIP(), []int{4}
 }
 
+// SensitivityLevel defines the confidentiality tier for the contract or individual fields.
+type SensitivityLevel int32
+
+const (
+	SensitivityLevel_SENSITIVITY_LEVEL_UNSPECIFIED  SensitivityLevel = 0
+	SensitivityLevel_SENSITIVITY_LEVEL_PUBLIC       SensitivityLevel = 1
+	SensitivityLevel_SENSITIVITY_LEVEL_INTERNAL     SensitivityLevel = 2
+	SensitivityLevel_SENSITIVITY_LEVEL_CONFIDENTIAL SensitivityLevel = 3
+	SensitivityLevel_SENSITIVITY_LEVEL_RESTRICTED   SensitivityLevel = 4
+)
+
+// Enum value maps for SensitivityLevel.
+var (
+	SensitivityLevel_name = map[int32]string{
+		0: "SENSITIVITY_LEVEL_UNSPECIFIED",
+		1: "SENSITIVITY_LEVEL_PUBLIC",
+		2: "SENSITIVITY_LEVEL_INTERNAL",
+		3: "SENSITIVITY_LEVEL_CONFIDENTIAL",
+		4: "SENSITIVITY_LEVEL_RESTRICTED",
+	}
+	SensitivityLevel_value = map[string]int32{
+		"SENSITIVITY_LEVEL_UNSPECIFIED":  0,
+		"SENSITIVITY_LEVEL_PUBLIC":       1,
+		"SENSITIVITY_LEVEL_INTERNAL":     2,
+		"SENSITIVITY_LEVEL_CONFIDENTIAL": 3,
+		"SENSITIVITY_LEVEL_RESTRICTED":   4,
+	}
+)
+
+func (x SensitivityLevel) Enum() *SensitivityLevel {
+	p := new(SensitivityLevel)
+	*p = x
+	return p
+}
+
+func (x SensitivityLevel) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SensitivityLevel) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_contract_proto_enumTypes[5].Descriptor()
+}
+
+func (SensitivityLevel) Type() protoreflect.EnumType {
+	return &file_hub_v1_contract_proto_enumTypes[5]
+}
+
+func (x SensitivityLevel) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SensitivityLevel.Descriptor instead.
+func (SensitivityLevel) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_contract_proto_rawDescGZIP(), []int{5}
+}
+
 // DataContract defines the structure for the logical schema blueprint.
 type DataContract struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
@@ -331,7 +390,9 @@ type DataContract struct {
 	// Service Level Agreement (SLA) for the contract.
 	Sla *SLA `protobuf:"bytes,4,opt,name=sla,proto3" json:"sla,omitempty"`
 	// Health status of the contract.
-	Health        *Health `protobuf:"bytes,5,opt,name=health,proto3" json:"health,omitempty"`
+	Health *Health `protobuf:"bytes,5,opt,name=health,proto3" json:"health,omitempty"`
+	// Sensitivity classification tier for the contract.
+	Sensitivity   SensitivityLevel `protobuf:"varint,6,opt,name=sensitivity,proto3,enum=hub.v1.SensitivityLevel" json:"sensitivity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -399,6 +460,13 @@ func (x *DataContract) GetHealth() *Health {
 		return x.Health
 	}
 	return nil
+}
+
+func (x *DataContract) GetSensitivity() SensitivityLevel {
+	if x != nil {
+		return x.Sensitivity
+	}
+	return SensitivityLevel_SENSITIVITY_LEVEL_UNSPECIFIED
 }
 
 // Meta contains metadata about the contract.
@@ -587,7 +655,11 @@ type Field struct {
 	// Ranked priority for sorting / deterministic tie-breaking (1 = highest priority).
 	SortRank uint32 `protobuf:"varint,22,opt,name=sort_rank,json=sortRank,proto3" json:"sort_rank,omitempty"`
 	// Field visibility tier for consumption and projection scoping.
-	Visibility    FieldVisibility `protobuf:"varint,23,opt,name=visibility,proto3,enum=hub.v1.FieldVisibility" json:"visibility,omitempty"`
+	Visibility FieldVisibility `protobuf:"varint,23,opt,name=visibility,proto3,enum=hub.v1.FieldVisibility" json:"visibility,omitempty"`
+	// Alternate semantic names or synonyms for natural language discovery and agent routing.
+	Synonyms []string `protobuf:"bytes,24,rep,name=synonyms,proto3" json:"synonyms,omitempty"`
+	// Sensitivity classification tier for the field.
+	Sensitivity   SensitivityLevel `protobuf:"varint,25,opt,name=sensitivity,proto3,enum=hub.v1.SensitivityLevel" json:"sensitivity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -783,6 +855,20 @@ func (x *Field) GetVisibility() FieldVisibility {
 	return FieldVisibility_FIELD_VISIBILITY_UNSPECIFIED
 }
 
+func (x *Field) GetSynonyms() []string {
+	if x != nil {
+		return x.Synonyms
+	}
+	return nil
+}
+
+func (x *Field) GetSensitivity() SensitivityLevel {
+	if x != nil {
+		return x.Sensitivity
+	}
+	return SensitivityLevel_SENSITIVITY_LEVEL_UNSPECIFIED
+}
+
 // Constraints defines data quality rules for a field.
 type Constraints struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -813,7 +899,9 @@ type Constraints struct {
 	// Minimum length for strings/bytes.
 	MinLength *int32 `protobuf:"varint,13,opt,name=min_length,json=minLength,proto3,oneof" json:"min_length,omitempty"`
 	// Maximum length for strings/bytes.
-	MaxLength     *int32 `protobuf:"varint,14,opt,name=max_length,json=maxLength,proto3,oneof" json:"max_length,omitempty"`
+	MaxLength *int32 `protobuf:"varint,14,opt,name=max_length,json=maxLength,proto3,oneof" json:"max_length,omitempty"`
+	// Dimensionality constraint for vector embeddings (e.g. 768, 1536).
+	Dimensions    *uint32 `protobuf:"varint,15,opt,name=dimensions,proto3,oneof" json:"dimensions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -946,17 +1034,25 @@ func (x *Constraints) GetMaxLength() int32 {
 	return 0
 }
 
+func (x *Constraints) GetDimensions() uint32 {
+	if x != nil && x.Dimensions != nil {
+		return *x.Dimensions
+	}
+	return 0
+}
+
 var File_hub_v1_contract_proto protoreflect.FileDescriptor
 
 const file_hub_v1_contract_proto_rawDesc = "" +
 	"\n" +
-	"\x15hub/v1/contract.proto\x12\x06hub.v1\x1a\x17validate/validate.proto\x1a\x15hub/v1/manifest.proto\"\xc2\x01\n" +
+	"\x15hub/v1/contract.proto\x12\x06hub.v1\x1a\x17validate/validate.proto\x1a\x15hub/v1/manifest.proto\"\xfe\x01\n" +
 	"\fDataContract\x12*\n" +
 	"\x04meta\x18\x01 \x01(\v2\f.hub.v1.MetaB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x04meta\x12%\n" +
 	"\x06schema\x18\x02 \x03(\v2\r.hub.v1.FieldR\x06schema\x12\x18\n" +
 	"\asamples\x18\x03 \x03(\tR\asamples\x12\x1d\n" +
 	"\x03sla\x18\x04 \x01(\v2\v.hub.v1.SLAR\x03sla\x12&\n" +
-	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\"\xcf\x06\n" +
+	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\x12:\n" +
+	"\vsensitivity\x18\x06 \x01(\x0e2\x18.hub.v1.SensitivityLevelR\vsensitivity\"\xcf\x06\n" +
 	"\x04Meta\x12a\n" +
 	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\xde\x01\n" +
 	"\aversion\x18\x02 \x01(\tB\xc3\x01\xfaB\xbf\x01r\xbc\x01\x10\x012\xb7\x01^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.(?:[0-9a-zA-Z-]+))*))?$R\aversion\x12&\n" +
@@ -975,7 +1071,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\vdescription\x18\v \x01(\tR\vdescription\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xaf\a\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x87\b\n" +
 	"\x05Field\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12.\n" +
@@ -1008,10 +1104,12 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\tsort_rank\x18\x16 \x01(\rR\bsortRank\x127\n" +
 	"\n" +
 	"visibility\x18\x17 \x01(\x0e2\x17.hub.v1.FieldVisibilityR\n" +
-	"visibility\x1a;\n" +
+	"visibility\x12\x1a\n" +
+	"\bsynonyms\x18\x18 \x03(\tR\bsynonyms\x12:\n" +
+	"\vsensitivity\x18\x19 \x01(\x0e2\x18.hub.v1.SensitivityLevelR\vsensitivity\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8f\x05\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc3\x05\n" +
 	"\vConstraints\x12&\n" +
 	"\fgreater_than\x18\x01 \x01(\tH\x00R\vgreaterThan\x88\x01\x01\x12;\n" +
 	"\x18greater_than_or_equal_to\x18\x02 \x01(\tH\x01R\x14greaterThanOrEqualTo\x88\x01\x01\x12 \n" +
@@ -1030,7 +1128,10 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\n" +
 	"min_length\x18\r \x01(\x05H\x06R\tminLength\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"max_length\x18\x0e \x01(\x05H\aR\tmaxLength\x88\x01\x01B\x0f\n" +
+	"max_length\x18\x0e \x01(\x05H\aR\tmaxLength\x88\x01\x01\x12#\n" +
+	"\n" +
+	"dimensions\x18\x0f \x01(\rH\bR\n" +
+	"dimensions\x88\x01\x01B\x0f\n" +
 	"\r_greater_thanB\x1b\n" +
 	"\x19_greater_than_or_equal_toB\f\n" +
 	"\n" +
@@ -1041,7 +1142,8 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\n" +
 	"_max_valueB\r\n" +
 	"\v_min_lengthB\r\n" +
-	"\v_max_length*\xdd\x02\n" +
+	"\v_max_lengthB\r\n" +
+	"\v_dimensions*\xf3\x02\n" +
 	"\bDataType\x12\x19\n" +
 	"\x15DATA_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10DATA_TYPE_STRING\x10\x01\x12\x13\n" +
@@ -1058,7 +1160,8 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x11DATA_TYPE_NUMERIC\x10\v\x12\x18\n" +
 	"\x14DATA_TYPE_BIGNUMERIC\x10\f\x12\x14\n" +
 	"\x10DATA_TYPE_STRUCT\x10\r\x12\x12\n" +
-	"\x0eDATA_TYPE_JSON\x10\x0e*r\n" +
+	"\x0eDATA_TYPE_JSON\x10\x0e\x12\x14\n" +
+	"\x10DATA_TYPE_VECTOR\x10\x0f*r\n" +
 	"\tFieldMode\x12\x1a\n" +
 	"\x16FIELD_MODE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13FIELD_MODE_NULLABLE\x10\x01\x12\x17\n" +
@@ -1080,7 +1183,13 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x10ValidationPolicy\x12!\n" +
 	"\x1dVALIDATION_POLICY_UNSPECIFIED\x10\x00\x12\x1c\n" +
 	"\x18VALIDATION_POLICY_STRICT\x10\x01\x12 \n" +
-	"\x1cVALIDATION_POLICY_QUARANTINE\x10\x02B\x95\x01\n" +
+	"\x1cVALIDATION_POLICY_QUARANTINE\x10\x02*\xb9\x01\n" +
+	"\x10SensitivityLevel\x12!\n" +
+	"\x1dSENSITIVITY_LEVEL_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18SENSITIVITY_LEVEL_PUBLIC\x10\x01\x12\x1e\n" +
+	"\x1aSENSITIVITY_LEVEL_INTERNAL\x10\x02\x12\"\n" +
+	"\x1eSENSITIVITY_LEVEL_CONFIDENTIAL\x10\x03\x12 \n" +
+	"\x1cSENSITIVITY_LEVEL_RESTRICTED\x10\x04B\x95\x01\n" +
 	"\n" +
 	"com.hub.v1B\rContractProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
 
@@ -1096,7 +1205,7 @@ func file_hub_v1_contract_proto_rawDescGZIP() []byte {
 	return file_hub_v1_contract_proto_rawDescData
 }
 
-var file_hub_v1_contract_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_hub_v1_contract_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_hub_v1_contract_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_hub_v1_contract_proto_goTypes = []any{
 	(DataType)(0),          // 0: hub.v1.DataType
@@ -1104,34 +1213,37 @@ var file_hub_v1_contract_proto_goTypes = []any{
 	(FieldVisibility)(0),   // 2: hub.v1.FieldVisibility
 	(CompatibilityMode)(0), // 3: hub.v1.CompatibilityMode
 	(ValidationPolicy)(0),  // 4: hub.v1.ValidationPolicy
-	(*DataContract)(nil),   // 5: hub.v1.DataContract
-	(*Meta)(nil),           // 6: hub.v1.Meta
-	(*Field)(nil),          // 7: hub.v1.Field
-	(*Constraints)(nil),    // 8: hub.v1.Constraints
-	nil,                    // 9: hub.v1.Meta.LabelsEntry
-	nil,                    // 10: hub.v1.Field.MetadataEntry
-	(*SLA)(nil),            // 11: hub.v1.SLA
-	(*Health)(nil),         // 12: hub.v1.Health
+	(SensitivityLevel)(0),  // 5: hub.v1.SensitivityLevel
+	(*DataContract)(nil),   // 6: hub.v1.DataContract
+	(*Meta)(nil),           // 7: hub.v1.Meta
+	(*Field)(nil),          // 8: hub.v1.Field
+	(*Constraints)(nil),    // 9: hub.v1.Constraints
+	nil,                    // 10: hub.v1.Meta.LabelsEntry
+	nil,                    // 11: hub.v1.Field.MetadataEntry
+	(*SLA)(nil),            // 12: hub.v1.SLA
+	(*Health)(nil),         // 13: hub.v1.Health
 }
 var file_hub_v1_contract_proto_depIdxs = []int32{
-	6,  // 0: hub.v1.DataContract.meta:type_name -> hub.v1.Meta
-	7,  // 1: hub.v1.DataContract.schema:type_name -> hub.v1.Field
-	11, // 2: hub.v1.DataContract.sla:type_name -> hub.v1.SLA
-	12, // 3: hub.v1.DataContract.health:type_name -> hub.v1.Health
-	4,  // 4: hub.v1.Meta.validation_policy:type_name -> hub.v1.ValidationPolicy
-	9,  // 5: hub.v1.Meta.labels:type_name -> hub.v1.Meta.LabelsEntry
-	3,  // 6: hub.v1.Meta.compatibility_mode:type_name -> hub.v1.CompatibilityMode
-	0,  // 7: hub.v1.Field.type:type_name -> hub.v1.DataType
-	1,  // 8: hub.v1.Field.mode:type_name -> hub.v1.FieldMode
-	7,  // 9: hub.v1.Field.fields:type_name -> hub.v1.Field
-	8,  // 10: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
-	10, // 11: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
-	2,  // 12: hub.v1.Field.visibility:type_name -> hub.v1.FieldVisibility
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	7,  // 0: hub.v1.DataContract.meta:type_name -> hub.v1.Meta
+	8,  // 1: hub.v1.DataContract.schema:type_name -> hub.v1.Field
+	12, // 2: hub.v1.DataContract.sla:type_name -> hub.v1.SLA
+	13, // 3: hub.v1.DataContract.health:type_name -> hub.v1.Health
+	5,  // 4: hub.v1.DataContract.sensitivity:type_name -> hub.v1.SensitivityLevel
+	4,  // 5: hub.v1.Meta.validation_policy:type_name -> hub.v1.ValidationPolicy
+	10, // 6: hub.v1.Meta.labels:type_name -> hub.v1.Meta.LabelsEntry
+	3,  // 7: hub.v1.Meta.compatibility_mode:type_name -> hub.v1.CompatibilityMode
+	0,  // 8: hub.v1.Field.type:type_name -> hub.v1.DataType
+	1,  // 9: hub.v1.Field.mode:type_name -> hub.v1.FieldMode
+	8,  // 10: hub.v1.Field.fields:type_name -> hub.v1.Field
+	9,  // 11: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
+	11, // 12: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
+	2,  // 13: hub.v1.Field.visibility:type_name -> hub.v1.FieldVisibility
+	5,  // 14: hub.v1.Field.sensitivity:type_name -> hub.v1.SensitivityLevel
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_contract_proto_init() }
@@ -1146,7 +1258,7 @@ func file_hub_v1_contract_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_contract_proto_rawDesc), len(file_hub_v1_contract_proto_rawDesc)),
-			NumEnums:      5,
+			NumEnums:      6,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,

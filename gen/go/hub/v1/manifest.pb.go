@@ -875,7 +875,11 @@ type Health struct {
 	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	LastUpdatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=last_updated_at,json=lastUpdatedAt,proto3" json:"last_updated_at,omitempty"`
 	// The URN of the root cause that triggered this status (e.g., an upstream product).
-	StatusSourceUrn string `protobuf:"bytes,4,opt,name=status_source_urn,json=statusSourceUrn,proto3" json:"status_source_urn,omitempty"`
+	StatusSourceUrn string            `protobuf:"bytes,4,opt,name=status_source_urn,json=statusSourceUrn,proto3" json:"status_source_urn,omitempty"`
+	IncidentType    string            `protobuf:"bytes,5,opt,name=incident_type,json=incidentType,proto3" json:"incident_type,omitempty"`
+	RunId           string            `protobuf:"bytes,6,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Reporter        string            `protobuf:"bytes,7,opt,name=reporter,proto3" json:"reporter,omitempty"`
+	Metadata        map[string]string `protobuf:"bytes,8,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -936,6 +940,34 @@ func (x *Health) GetStatusSourceUrn() string {
 		return x.StatusSourceUrn
 	}
 	return ""
+}
+
+func (x *Health) GetIncidentType() string {
+	if x != nil {
+		return x.IncidentType
+	}
+	return ""
+}
+
+func (x *Health) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *Health) GetReporter() string {
+	if x != nil {
+		return x.Reporter
+	}
+	return ""
+}
+
+func (x *Health) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
 }
 
 // ProductMeta contains the metadata for a data product manifest.
@@ -1408,8 +1440,12 @@ type BigQueryConfig struct {
 	PartitionExpiration *durationpb.Duration `protobuf:"bytes,8,opt,name=partition_expiration,json=partitionExpiration,proto3" json:"partition_expiration,omitempty"`
 	// When true, INTERNAL fields are included in the BigQuery schema projection.
 	IncludeInternalFields bool `protobuf:"varint,9,opt,name=include_internal_fields,json=includeInternalFields,proto3" json:"include_internal_fields,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	// Policy tag URN mapping keyed by sensitivity level (e.g. "confidential", "restricted").
+	PolicyTags map[string]string `protobuf:"bytes,10,rep,name=policy_tags,json=policyTags,proto3" json:"policy_tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Dynamic data masking rule mapping keyed by sensitivity level (e.g. "confidential": "DEFAULT_MASKING", "restricted": "SHA256").
+	MaskingRules  map[string]string `protobuf:"bytes,11,rep,name=masking_rules,json=maskingRules,proto3" json:"masking_rules,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BigQueryConfig) Reset() {
@@ -1503,6 +1539,20 @@ func (x *BigQueryConfig) GetIncludeInternalFields() bool {
 		return x.IncludeInternalFields
 	}
 	return false
+}
+
+func (x *BigQueryConfig) GetPolicyTags() map[string]string {
+	if x != nil {
+		return x.PolicyTags
+	}
+	return nil
+}
+
+func (x *BigQueryConfig) GetMaskingRules() map[string]string {
+	if x != nil {
+		return x.MaskingRules
+	}
+	return nil
 }
 
 // ContractPointer links to a specific version of a Data Contract.
@@ -2058,12 +2108,19 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"sync_error\x18\x03 \x01(\tR\tsyncError\x12\x1f\n" +
 	"\vretry_count\x18\x04 \x01(\x05R\n" +
 	"retryCount\x12&\n" +
-	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\"\xbb\x01\n" +
+	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\"\x8a\x03\n" +
 	"\x06Health\x12)\n" +
 	"\x05state\x18\x01 \x01(\x0e2\x13.hub.v1.HealthStateR\x05state\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\x12B\n" +
 	"\x0flast_updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\rlastUpdatedAt\x12*\n" +
-	"\x11status_source_urn\x18\x04 \x01(\tR\x0fstatusSourceUrn\"\xe2\x03\n" +
+	"\x11status_source_urn\x18\x04 \x01(\tR\x0fstatusSourceUrn\x12#\n" +
+	"\rincident_type\x18\x05 \x01(\tR\fincidentType\x12\x15\n" +
+	"\x06run_id\x18\x06 \x01(\tR\x05runId\x12\x1a\n" +
+	"\breporter\x18\a \x01(\tR\breporter\x128\n" +
+	"\bmetadata\x18\b \x03(\v2\x1c.hub.v1.Health.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe2\x03\n" +
 	"\vProductMeta\x12a\n" +
 	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12!\n" +
 	"\aversion\x18\a \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aversion\x12-\n" +
@@ -2106,7 +2163,7 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\reffective_sla\x18\b \x01(\v2\v.hub.v1.SLAR\feffectiveSla\x12+\n" +
 	"\x11evolution_profile\x18\t \x01(\tR\x10evolutionProfile\"D\n" +
 	"\x0ePhysicalConfig\x122\n" +
-	"\bbigquery\x18\x01 \x01(\v2\x16.hub.v1.BigQueryConfigR\bbigquery\"\xf8\x02\n" +
+	"\bbigquery\x18\x01 \x01(\v2\x16.hub.v1.BigQueryConfigR\bbigquery\"\x90\x05\n" +
 	"\x0eBigQueryConfig\x12!\n" +
 	"\fpartition_by\x18\x01 \x01(\tR\vpartitionBy\x12\x1d\n" +
 	"\n" +
@@ -2117,7 +2174,17 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\blocation\x18\x06 \x01(\tR\blocation\x12\x14\n" +
 	"\x05table\x18\a \x01(\tR\x05table\x12L\n" +
 	"\x14partition_expiration\x18\b \x01(\v2\x19.google.protobuf.DurationR\x13partitionExpiration\x126\n" +
-	"\x17include_internal_fields\x18\t \x01(\bR\x15includeInternalFields\"\xdf\x01\n" +
+	"\x17include_internal_fields\x18\t \x01(\bR\x15includeInternalFields\x12G\n" +
+	"\vpolicy_tags\x18\n" +
+	" \x03(\v2&.hub.v1.BigQueryConfig.PolicyTagsEntryR\n" +
+	"policyTags\x12M\n" +
+	"\rmasking_rules\x18\v \x03(\v2(.hub.v1.BigQueryConfig.MaskingRulesEntryR\fmaskingRules\x1a=\n" +
+	"\x0fPolicyTagsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a?\n" +
+	"\x11MaskingRulesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xdf\x01\n" +
 	"\x0fContractPointer\x12a\n" +
 	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12!\n" +
 	"\aversion\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aversion\x12\x12\n" +
@@ -2226,7 +2293,7 @@ func file_hub_v1_manifest_proto_rawDescGZIP() []byte {
 }
 
 var file_hub_v1_manifest_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
-var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_hub_v1_manifest_proto_goTypes = []any{
 	(SLATier)(0),                  // 0: hub.v1.SLATier
 	(SyncStatus)(0),               // 1: hub.v1.SyncStatus
@@ -2255,9 +2322,12 @@ var file_hub_v1_manifest_proto_goTypes = []any{
 	(*Webhook)(nil),               // 24: hub.v1.Webhook
 	(*FileConfig)(nil),            // 25: hub.v1.FileConfig
 	(*BreakingChange)(nil),        // 26: hub.v1.BreakingChange
-	nil,                           // 27: hub.v1.ProductMeta.LabelsEntry
-	(*timestamppb.Timestamp)(nil), // 28: google.protobuf.Timestamp
-	(*durationpb.Duration)(nil),   // 29: google.protobuf.Duration
+	nil,                           // 27: hub.v1.Health.MetadataEntry
+	nil,                           // 28: hub.v1.ProductMeta.LabelsEntry
+	nil,                           // 29: hub.v1.BigQueryConfig.PolicyTagsEntry
+	nil,                           // 30: hub.v1.BigQueryConfig.MaskingRulesEntry
+	(*timestamppb.Timestamp)(nil), // 31: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),   // 32: google.protobuf.Duration
 }
 var file_hub_v1_manifest_proto_depIdxs = []int32{
 	14, // 0: hub.v1.ProductManifest.meta:type_name -> hub.v1.ProductMeta
@@ -2272,32 +2342,35 @@ var file_hub_v1_manifest_proto_depIdxs = []int32{
 	0,  // 9: hub.v1.SLA.tier:type_name -> hub.v1.SLATier
 	10, // 10: hub.v1.SLA.exemptions:type_name -> hub.v1.SLAExemption
 	1,  // 11: hub.v1.ProductStatus.sync_status:type_name -> hub.v1.SyncStatus
-	28, // 12: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
+	31, // 12: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
 	13, // 13: hub.v1.ProductStatus.health:type_name -> hub.v1.Health
 	2,  // 14: hub.v1.Health.state:type_name -> hub.v1.HealthState
-	28, // 15: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
-	15, // 16: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
-	27, // 17: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
-	20, // 18: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
-	20, // 19: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
-	3,  // 20: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
-	18, // 21: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
-	9,  // 22: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
-	19, // 23: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
-	29, // 24: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
-	21, // 25: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
-	6,  // 26: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
-	4,  // 27: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
-	22, // 28: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
-	5,  // 29: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
-	20, // 30: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
-	7,  // 31: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
-	20, // 32: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
-	33, // [33:33] is the sub-list for method output_type
-	33, // [33:33] is the sub-list for method input_type
-	33, // [33:33] is the sub-list for extension type_name
-	33, // [33:33] is the sub-list for extension extendee
-	0,  // [0:33] is the sub-list for field type_name
+	31, // 15: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
+	27, // 16: hub.v1.Health.metadata:type_name -> hub.v1.Health.MetadataEntry
+	15, // 17: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
+	28, // 18: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
+	20, // 19: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
+	20, // 20: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
+	3,  // 21: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
+	18, // 22: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
+	9,  // 23: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
+	19, // 24: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
+	32, // 25: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
+	29, // 26: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
+	30, // 27: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
+	21, // 28: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
+	6,  // 29: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
+	4,  // 30: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
+	22, // 31: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
+	5,  // 32: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
+	20, // 33: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
+	7,  // 34: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
+	20, // 35: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
+	36, // [36:36] is the sub-list for method output_type
+	36, // [36:36] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_manifest_proto_init() }
@@ -2311,7 +2384,7 @@ func file_hub_v1_manifest_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_manifest_proto_rawDesc), len(file_hub_v1_manifest_proto_rawDesc)),
 			NumEnums:      8,
-			NumMessages:   20,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

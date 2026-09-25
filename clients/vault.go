@@ -69,7 +69,10 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 		return []*vaultv1.EntityCascadeResult{}, nil
 	}
 
-	authCtx := attachAuthMetadata(ctx, c.opts.token)
+	authCtx, err := attachAuthMetadata(ctx, c.opts)
+	if err != nil {
+		return nil, err
+	}
 	chunkSize := c.opts.chunkSize
 	if chunkSize <= 0 {
 		chunkSize = 1000
@@ -115,15 +118,20 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 			}
 
 			st, ok := status.FromError(err)
-			if ok && isRetryableStatusCode(st.Code()) && attempt < c.opts.maxRetries {
-				delay := c.opts.retryDelay * (1 << (attempt - 1))
-				select {
-				case <-ctx.Done():
-					return nil, ctx.Err()
-				case <-time.After(delay):
-				}
+			if ok && isRetryableStatusCode(st.Code()) {
 				lastErr = err
-				continue
+				if attempt < c.opts.maxRetries {
+					delay := computeBackoff(c.opts.retryDelay, attempt)
+					timer := time.NewTimer(delay)
+					select {
+					case <-ctx.Done():
+						timer.Stop()
+						return nil, ctx.Err()
+					case <-timer.C:
+					}
+					continue
+				}
+				break
 			}
 			return nil, fmt.Errorf("vault BatchTokenize failed: %w", err)
 		}

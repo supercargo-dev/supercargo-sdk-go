@@ -3,6 +3,7 @@ package clients
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"google.golang.org/grpc"
@@ -14,15 +15,16 @@ import (
 type Option func(*clientOptions)
 
 type clientOptions struct {
-	token       string
-	timeout     time.Duration
-	maxRetries  int
-	retryDelay  time.Duration
-	chunkSize   int
-	insecure    bool
-	creds       credentials.TransportCredentials
-	conn        *grpc.ClientConn
-	dialOptions []grpc.DialOption
+	token         string
+	tokenProvider func(ctx context.Context) (string, error)
+	timeout       time.Duration
+	maxRetries    int
+	retryDelay    time.Duration
+	chunkSize     int
+	insecure      bool
+	creds         credentials.TransportCredentials
+	conn          *grpc.ClientConn
+	dialOptions   []grpc.DialOption
 }
 
 func defaultOptions() *clientOptions {
@@ -42,6 +44,13 @@ func WithToken(token string) Option {
 	}
 }
 
+// WithTokenProvider sets a dynamic token provider callback for auth metadata.
+func WithTokenProvider(provider func(ctx context.Context) (string, error)) Option {
+	return func(o *clientOptions) {
+		o.tokenProvider = provider
+	}
+}
+
 // WithTimeout sets the per-call RPC timeout.
 func WithTimeout(d time.Duration) Option {
 	return func(o *clientOptions) {
@@ -52,6 +61,9 @@ func WithTimeout(d time.Duration) Option {
 // WithMaxRetries sets the maximum number of retry attempts for transient errors.
 func WithMaxRetries(n int) Option {
 	return func(o *clientOptions) {
+		if n < 1 {
+			n = 1
+		}
 		o.maxRetries = n
 	}
 }
@@ -100,9 +112,24 @@ func WithGRPCDialOptions(opts ...grpc.DialOption) Option {
 	}
 }
 
-func attachAuthMetadata(ctx context.Context, token string) context.Context {
-	if token == "" {
-		return ctx
+func attachAuthMetadata(ctx context.Context, opts *clientOptions) (context.Context, error) {
+	if opts == nil {
+		return ctx, nil
 	}
-	return metadata.AppendToOutgoingContext(ctx, "authorization", fmt.Sprintf("Bearer %s", token))
+	if opts.token != "" {
+		token := strings.TrimPrefix(opts.token, "Bearer ")
+		return metadata.AppendToOutgoingContext(ctx, "authorization", fmt.Sprintf("Bearer %s", token)), nil
+	}
+	if opts.tokenProvider != nil {
+		token, err := opts.tokenProvider(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("failed to acquire token from token provider: %w", err)
+		}
+		token = strings.TrimPrefix(token, "Bearer ")
+		if token == "" {
+			return nil, fmt.Errorf("token provider returned empty token")
+		}
+		return metadata.AppendToOutgoingContext(ctx, "authorization", fmt.Sprintf("Bearer %s", token)), nil
+	}
+	return ctx, nil
 }
