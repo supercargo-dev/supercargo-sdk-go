@@ -144,6 +144,73 @@ func main() {
 
 ---
 
+### Production Deployment on Google Cloud Run (IAM OIDC Authentication)
+
+In Google Cloud environments (Cloud Run, GKE with Workload Identity, Compute Engine, or Cloud Composer), connecting to a production Hub service running on Cloud Run requires a Google-signed OpenID Connect (OIDC) ID token with the Cloud Run service URL as audience (`aud`). The caller's Service Account requires `roles/run.invoker` on the Hub service.
+
+Use the official Google `idtoken` package (`google.golang.org/api/idtoken`) with `clients.WithTokenProvider` to automatically handle token acquisition, local caching, and refresh before the 1-hour expiration:
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+
+	"github.com/supercargo-dev/supercargo-sdk-go/clients"
+	hubv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1"
+	"google.golang.org/api/idtoken"
+)
+
+func main() {
+	ctx := context.Background()
+
+	// 1. Target Cloud Run service URL (must match the Cloud Run service audience)
+	serviceURL := "https://hub-control-plane-xyz-ew.a.run.app"
+
+	// 2. idtoken.NewTokenSource automatically obtains OIDC ID tokens via GCP metadata server
+	// (GKE Workload Identity, Cloud Run, Compute Engine) or local ADC, caching and refreshing them.
+	tokenSource, err := idtoken.NewTokenSource(ctx, serviceURL)
+	if err != nil {
+		log.Fatalf("failed to create Google Cloud IAM OIDC token source: %v", err)
+	}
+
+	// 3. Initialize HubClient with dynamic WithTokenProvider on standard port 443 with TLS
+	client, err := clients.NewHubClient(
+		"hub-control-plane-xyz-ew.a.run.app:443",
+		clients.WithTokenProvider(func(ctx context.Context) (string, error) {
+			token, err := tokenSource.Token()
+			if err != nil {
+				return "", err
+			}
+			return token.AccessToken, nil // Raw OIDC ID token
+		}),
+		clients.WithTimeout(10*time.Second),
+		clients.WithMaxRetries(3),
+	)
+	if err != nil {
+		log.Fatalf("failed to initialize HubClient: %v", err)
+	}
+	defer client.Close()
+
+	// 4. Report health anomaly or query blast radius
+	resp, err := client.ReportAnomaly(ctx, &hubv1.ReportAnomalyRequest{
+		Urn:          "urn:sc:contract:marketing:customer_churn:v1",
+		State:        hubv1.HealthState_HEALTH_STATE_DEGRADED,
+		IncidentType: "PIPELINE_CRASH",
+		Reason:       "OOM killed during Spark feature engineering stage",
+		Reporter:     "pipeline-worker-pod-42",
+	})
+	if err != nil {
+		log.Fatalf("failed to report anomaly: %v", err)
+	}
+	log.Printf("Recorded anomaly transition: %s", resp.TransitionId)
+}
+```
+
+---
+
 ### Reporting Health State Anomalies (`ReportAnomaly`)
 
 Use `ReportAnomaly` to notify the Hub when a service, stream consumer, or pipeline detects an operational anomaly or completes recovery.
