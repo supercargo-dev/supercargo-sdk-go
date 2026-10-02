@@ -24,11 +24,27 @@ type VaultClient struct {
 	opts     *clientOptions
 }
 
+// WithVaultStub specifies a custom VaultServiceClient stub, primarily for testing mock behaviors.
+func WithVaultStub(stub vaultv1.VaultServiceClient) Option {
+	return func(o *clientOptions) {
+		o.vaultStub = stub
+	}
+}
+
 // NewVaultClient creates a new VaultClient for the given target address.
 func NewVaultClient(target string, opts ...Option) (*VaultClient, error) {
 	options := defaultOptions()
 	for _, opt := range opts {
 		opt(options)
+	}
+
+	if stub, ok := options.vaultStub.(vaultv1.VaultServiceClient); ok && stub != nil {
+		return &VaultClient{
+			stub:     stub,
+			conn:     nil,
+			ownsConn: false,
+			opts:     options,
+		}, nil
 	}
 
 	var conn *grpc.ClientConn
@@ -110,7 +126,25 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 
 			if err == nil {
 				if resp == nil {
-					return nil, fmt.Errorf("received nil response from vault service")
+					return nil, fmt.Errorf("%w: received nil response from vault service", ErrSystemUnavailable)
+				}
+				if len(resp.Results) != len(chunk) {
+					return nil, fmt.Errorf("%w: vault response cardinality mismatch: expected %d results, received %d", ErrSystemUnavailable, len(chunk), len(resp.Results))
+				}
+				for i, cascade := range chunk {
+					if cascade == nil {
+						return nil, fmt.Errorf("%w: nil input cascade at index %d", ErrSystemUnavailable, offset+i)
+					}
+					result := resp.Results[i]
+					if result == nil {
+						return nil, fmt.Errorf("%w: nil cascade result at index %d", ErrSystemUnavailable, i)
+					}
+					if cascade.ContextId != "" && result.ContextId != cascade.ContextId {
+						return nil, fmt.Errorf("%w: vault response context_id mismatch: expected '%s', got '%s'", ErrSystemUnavailable, cascade.ContextId, result.ContextId)
+					}
+					if len(cascade.Identifiers) > 0 && len(result.Tokens) == 0 {
+						return nil, fmt.Errorf("%w: fail-closed: vault returned empty token mapping for cascade context_id '%s'", ErrSystemUnavailable, cascade.ContextId)
+					}
 				}
 				chunkResults = resp.Results
 				chunkSucceeded = true

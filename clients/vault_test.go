@@ -2,6 +2,7 @@ package clients_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net"
 	"sync/atomic"
@@ -22,13 +23,21 @@ import (
 
 type mockVaultServer struct {
 	vaultv1.UnimplementedVaultServiceServer
-	batchCalls atomic.Int32
-	failCount  int32
-	chunkSizes []int
+	batchCalls          atomic.Int32
+	failCount           int32
+	chunkSizes          []int
+	overrideResp        *vaultv1.BatchTokenizeResponse
+	customBatchTokenize func(ctx context.Context, req *vaultv1.BatchTokenizeRequest) (*vaultv1.BatchTokenizeResponse, error)
 }
 
 func (m *mockVaultServer) BatchTokenize(ctx context.Context, req *vaultv1.BatchTokenizeRequest) (*vaultv1.BatchTokenizeResponse, error) {
 	call := m.batchCalls.Add(1)
+	if m.customBatchTokenize != nil {
+		return m.customBatchTokenize(ctx, req)
+	}
+	if m.overrideResp != nil {
+		return m.overrideResp, nil
+	}
 	if call <= m.failCount {
 		return nil, status.Error(codes.ResourceExhausted, "quota exceeded temporarily")
 	}
@@ -162,4 +171,290 @@ func TestVaultClient_BatchTokenize_Empty(t *testing.T) {
 	require.NoError(t, err)
 	assert.Empty(t, results)
 	assert.Equal(t, int32(0), mockSrv.batchCalls.Load())
+}
+
+type mockVaultServiceClient struct {
+	vaultv1.VaultServiceClient
+	batchTokenizeFunc func(ctx context.Context, in *vaultv1.BatchTokenizeRequest, opts ...grpc.CallOption) (*vaultv1.BatchTokenizeResponse, error)
+}
+
+func (m *mockVaultServiceClient) BatchTokenize(ctx context.Context, in *vaultv1.BatchTokenizeRequest, opts ...grpc.CallOption) (*vaultv1.BatchTokenizeResponse, error) {
+	if m.batchTokenizeFunc != nil {
+		return m.batchTokenizeFunc(ctx, in, opts...)
+	}
+	return nil, nil
+}
+
+func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
+	tests := []struct {
+		name           string
+		cascades       []*vaultv1.EntityCascade
+		setupMock      func() *mockVaultServer
+		customStub     vaultv1.VaultServiceClient
+		expectErr      bool
+		expectedErrMsg string
+	}{
+		{
+			name: "cardinality mismatch: fewer results than chunk",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-1",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+				{
+					ContextId: "ctx-2",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "b@example.com"},
+					},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-1",
+								Tokens:    map[string]string{"val": "tok-1"},
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "vault response cardinality mismatch: expected 2 results, received 1",
+		},
+		{
+			name: "cardinality mismatch: more results than chunk",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-1",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-1",
+								Tokens:    map[string]string{"val": "tok-1"},
+							},
+							{
+								ContextId: "ctx-extra",
+								Tokens:    map[string]string{"val": "tok-2"},
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "vault response cardinality mismatch: expected 1 results, received 2",
+		},
+		{
+			name: "context_id mismatch between cascade and result",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "expected-ctx-id",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "mismatched-ctx-id",
+								Tokens:    map[string]string{"val": "tok-1"},
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "vault response context_id mismatch: expected 'expected-ctx-id', got 'mismatched-ctx-id'",
+		},
+		{
+			name: "fail-closed: cascade has identifiers but result has empty tokens map",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-1",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-1",
+								Tokens:    map[string]string{},
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "fail-closed: vault returned empty token mapping for cascade context_id 'ctx-1'",
+		},
+		{
+			name: "fail-closed: cascade has identifiers but result has nil tokens map",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-nil-tokens",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-nil-tokens",
+								Tokens:    nil,
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "fail-closed: vault returned empty token mapping for cascade context_id 'ctx-nil-tokens'",
+		},
+		{
+			name: "nil input cascade in request",
+			cascades: []*vaultv1.EntityCascade{
+				nil,
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-any",
+								Tokens:    map[string]string{"key": "tok"},
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "nil input cascade at index 0",
+		},
+		{
+			name: "valid: cascade has no identifiers and result has empty tokens map",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId:   "ctx-empty-identifiers",
+					Identifiers: []*vaultv1.EntityIdentifier{},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-empty-identifiers",
+								Tokens:    map[string]string{},
+							},
+						},
+					},
+				}
+			},
+			expectErr: false,
+		},
+		{
+			name: "nil response from server",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-1",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			customStub: &mockVaultServiceClient{
+				batchTokenizeFunc: func(ctx context.Context, in *vaultv1.BatchTokenizeRequest, opts ...grpc.CallOption) (*vaultv1.BatchTokenizeResponse, error) {
+					return nil, nil
+				},
+			},
+			expectErr:      true,
+			expectedErrMsg: "received nil response from vault service",
+		},
+		{
+			name: "nil cascade result item in results slice",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-1",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			customStub: &mockVaultServiceClient{
+				batchTokenizeFunc: func(ctx context.Context, in *vaultv1.BatchTokenizeRequest, opts ...grpc.CallOption) (*vaultv1.BatchTokenizeResponse, error) {
+					return &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{nil},
+					}, nil
+				},
+			},
+			expectErr:      true,
+			expectedErrMsg: "nil cascade result at index 0",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var client *clients.VaultClient
+			var mockSrv *mockVaultServer
+			var stop func()
+			if tt.customStub != nil {
+				c, err := clients.NewVaultClient(
+					"stub",
+					clients.WithVaultStub(tt.customStub),
+					clients.WithMaxRetries(3),
+					clients.WithRetryDelay(5*time.Millisecond),
+				)
+				require.NoError(t, err)
+				client = c
+				stop = func() {}
+			} else {
+				mockSrv = tt.setupMock()
+				conn, s := startMockVaultServer(t, mockSrv)
+				stop = s
+				c, err := clients.NewVaultClient(
+					"bufnet",
+					clients.WithGRPCConn(conn),
+					clients.WithMaxRetries(3),
+					clients.WithRetryDelay(5*time.Millisecond),
+				)
+				require.NoError(t, err)
+				client = c
+			}
+			defer stop()
+			defer client.Close()
+
+			results, err := client.BatchTokenize(context.Background(), "urn:sc:domain:default", tt.cascades)
+			if tt.expectErr {
+				require.Error(t, err)
+				assert.True(t, errors.Is(err, clients.ErrSystemUnavailable), "expected error to wrap ErrSystemUnavailable, got: %v", err)
+				assert.Contains(t, err.Error(), tt.expectedErrMsg)
+				assert.Nil(t, results)
+				if mockSrv != nil {
+					assert.Equal(t, int32(1), mockSrv.batchCalls.Load())
+				}
+			} else {
+				require.NoError(t, err)
+				assert.Len(t, results, len(tt.cascades))
+			}
+		})
+	}
 }

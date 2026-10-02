@@ -25,6 +25,7 @@ type clientOptions struct {
 	creds         credentials.TransportCredentials
 	conn          *grpc.ClientConn
 	dialOptions   []grpc.DialOption
+	vaultStub     any
 }
 
 func defaultOptions() *clientOptions {
