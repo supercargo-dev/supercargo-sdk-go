@@ -458,4 +458,3 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 		})
 	}
 }
-
