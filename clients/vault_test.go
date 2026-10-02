@@ -305,6 +305,51 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 			expectedErrMsg: "fail-closed: vault returned empty token mapping for cascade context_id 'ctx-1'",
 		},
 		{
+			name: "fail-closed: cascade has identifiers but result has nil tokens map",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-nil-tokens",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+					},
+				},
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-nil-tokens",
+								Tokens:    nil,
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "fail-closed: vault returned empty token mapping for cascade context_id 'ctx-nil-tokens'",
+		},
+		{
+			name: "nil input cascade in request",
+			cascades: []*vaultv1.EntityCascade{
+				nil,
+			},
+			setupMock: func() *mockVaultServer {
+				return &mockVaultServer{
+					overrideResp: &vaultv1.BatchTokenizeResponse{
+						Results: []*vaultv1.EntityCascadeResult{
+							{
+								ContextId: "ctx-any",
+								Tokens:    map[string]string{"key": "tok"},
+							},
+						},
+					},
+				}
+			},
+			expectErr:      true,
+			expectedErrMsg: "nil input cascade at index 0",
+		},
+		{
 			name: "valid: cascade has no identifiers and result has empty tokens map",
 			cascades: []*vaultv1.EntityCascade{
 				{

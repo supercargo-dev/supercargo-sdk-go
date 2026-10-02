@@ -132,6 +132,9 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 					return nil, fmt.Errorf("%w: vault response cardinality mismatch: expected %d results, received %d", ErrSystemUnavailable, len(chunk), len(resp.Results))
 				}
 				for i, cascade := range chunk {
+					if cascade == nil {
+						return nil, fmt.Errorf("%w: nil input cascade at index %d", ErrSystemUnavailable, offset+i)
+					}
 					result := resp.Results[i]
 					if result == nil {
 						return nil, fmt.Errorf("%w: nil cascade result at index %d", ErrSystemUnavailable, i)
