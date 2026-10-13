@@ -202,8 +202,159 @@ func TestValidation_Failure_SliceRecursion(t *testing.T) {
 
 func TestValidation_NilPointer(t *testing.T) {
 	var u *TestUser = nil
-	// Should not panic, should return nil since there's no data to validate
-	supercargotest.AssertValidates(t, u)
+	supercargotest.AssertFailsValidation(t, u, "notNull")
+
+	err := sc.Validate(u)
+	valErr, ok := err.(*sc.ValidationError)
+	if !ok {
+		t.Fatalf("expected *sc.ValidationError, got %T: %v", err, err)
+	}
+	if valErr.Field != "payload" {
+		t.Errorf("expected Field %q, got %q", "payload", valErr.Field)
+	}
+	if valErr.Constraint != "notNull" {
+		t.Errorf("expected Constraint %q, got %q", "notNull", valErr.Constraint)
+	}
+}
+
+func TestValidation_NilAndPrimitivePayloads(t *testing.T) {
+	t.Parallel()
+
+	var nilUserPtr *TestUser
+	var nilDoublePtr **TestUser
+	nonNilPtrToNil := &nilUserPtr
+	var nilIface any
+	ptrToNilIface := &nilIface
+	var cyclicIface any
+	cyclicIface = &cyclicIface
+	num := 42
+
+	tests := []struct {
+		name           string
+		payload        any
+		wantField      string
+		wantConstraint string
+		wantErrSubstr  string
+		forbidSubstr   string
+	}{
+		{
+			name:           "untyped nil payload",
+			payload:        nil,
+			wantField:      "payload",
+			wantConstraint: "notNull",
+			wantErrSubstr:  "payload cannot be nil (constraint: notNull)",
+		},
+		{
+			name:           "typed nil struct pointer",
+			payload:        nilUserPtr,
+			wantField:      "payload",
+			wantConstraint: "notNull",
+			wantErrSubstr:  "payload cannot be nil (constraint: notNull)",
+		},
+		{
+			name:           "multi-level nil struct pointer",
+			payload:        nilDoublePtr,
+			wantField:      "payload",
+			wantConstraint: "notNull",
+			wantErrSubstr:  "payload cannot be nil (constraint: notNull)",
+		},
+		{
+			name:           "non-nil pointer to nil struct pointer",
+			payload:        nonNilPtrToNil,
+			wantField:      "payload",
+			wantConstraint: "notNull",
+			wantErrSubstr:  "payload cannot be nil (constraint: notNull)",
+		},
+		{
+			name:           "pointer to nil interface",
+			payload:        ptrToNilIface,
+			wantField:      "payload",
+			wantConstraint: "notNull",
+			wantErrSubstr:  "payload cannot be nil (constraint: notNull)",
+		},
+		{
+			name:           "cyclic interface pointer fails closed on depth limit",
+			payload:        cyclicIface,
+			wantField:      "payload",
+			wantConstraint: "depth",
+			wantErrSubstr:  "pointer dereference depth limit exceeded",
+		},
+		{
+			name:           "primitive string with sensitive secret does not leak value",
+			payload:        "super-secret-password-token-123",
+			wantField:      "payload",
+			wantConstraint: "struct",
+			wantErrSubstr:  "payload must be a struct or struct pointer, got string",
+			forbidSubstr:   "super-secret-password-token-123",
+		},
+		{
+			name:           "primitive int",
+			payload:        42,
+			wantField:      "payload",
+			wantConstraint: "struct",
+			wantErrSubstr:  "payload must be a struct or struct pointer, got int",
+		},
+		{
+			name:           "pointer to primitive int",
+			payload:        &num,
+			wantField:      "payload",
+			wantConstraint: "struct",
+			wantErrSubstr:  "payload must be a struct or struct pointer, got int",
+		},
+		{
+			name:           "primitive bool",
+			payload:        true,
+			wantField:      "payload",
+			wantConstraint: "struct",
+			wantErrSubstr:  "payload must be a struct or struct pointer, got bool",
+		},
+		{
+			name:           "slice payload",
+			payload:        []string{"a", "b"},
+			wantField:      "payload",
+			wantConstraint: "struct",
+			wantErrSubstr:  "payload must be a struct or struct pointer, got slice",
+		},
+		{
+			name:           "map payload",
+			payload:        map[string]int{"a": 1},
+			wantField:      "payload",
+			wantConstraint: "struct",
+			wantErrSubstr:  "payload must be a struct or struct pointer, got map",
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			err := sc.Validate(tt.payload)
+			if err == nil {
+				t.Fatalf("expected validation error for %s, got nil", tt.name)
+			}
+
+			valErr, ok := err.(*sc.ValidationError)
+			if !ok {
+				t.Fatalf("expected *sc.ValidationError, got %T: %v", err, err)
+			}
+			if valErr.Field != tt.wantField {
+				t.Errorf("expected Field %q, got %q", tt.wantField, valErr.Field)
+			}
+			if valErr.Constraint != tt.wantConstraint {
+				t.Errorf("expected Constraint %q, got %q", tt.wantConstraint, valErr.Constraint)
+			}
+			if valErr.Value != nil {
+				t.Errorf("expected Value to be nil, got %v", valErr.Value)
+			}
+			if !strings.Contains(err.Error(), tt.wantErrSubstr) {
+				t.Errorf("expected error %q to contain %q", err.Error(), tt.wantErrSubstr)
+			}
+			if tt.forbidSubstr != "" && strings.Contains(err.Error(), tt.forbidSubstr) {
+				t.Errorf("sensitive payload value %q leaked into error message: %s", tt.forbidSubstr, err.Error())
+			}
+		})
+	}
 }
 
 func TestValidation_GraphTraversal(t *testing.T) {
@@ -1019,4 +1170,48 @@ func TestValidation_StructTag_Description(t *testing.T) {
 	if schema.Fields["UserID"].Description != "Unique user ID" {
 		t.Errorf("expected schema field UserID description %q, got %q", "Unique user ID", schema.Fields["UserID"].Description)
 	}
+}
+
+type ProgrammaticAndMapContract struct {
+	_       struct{}           `supercargo.contract:"urn=urn:supercargo:contract:prog_map,version=1.0.0,owner_team=platform,data_asset=orders"`
+	Code    string             `supercargo.field:"min_length=2"`
+	Score   int                `supercargo.field:"gt=0"`
+	Entries map[string]Address `json:"entries"`
+}
+
+func (p *ProgrammaticAndMapContract) ContractConstraints() []sc.Rule {
+	return []sc.Rule{
+		sc.Field("Code").NotEmpty().MinLength(3).MaxLength(10).Pattern("^[A-Z]+$").PII(true).ContextID("order").IdentityDomain("urn:supercargo:domain:order").Rank(1),
+		sc.Field("Score").GreaterThan("10").LessThan("100"),
+	}
+}
+
+func TestValidation_ProgrammaticRulesAndMapRecursion(t *testing.T) {
+	t.Parallel()
+
+	// GetValidator on pointer type and non-struct type
+	if _, err := sc.GetValidator(reflect.TypeOf(&ProgrammaticAndMapContract{})); err != nil {
+		t.Fatalf("expected GetValidator on struct pointer to succeed, got %v", err)
+	}
+	if _, err := sc.GetValidator(reflect.TypeOf("not-a-struct")); err == nil {
+		t.Fatalf("expected GetValidator on non-struct type to fail")
+	}
+
+	valid := ProgrammaticAndMapContract{
+		Code:  "ABCD",
+		Score: 50,
+		Entries: map[string]Address{
+			"home": {City: "Stockholm"},
+		},
+	}
+	supercargotest.AssertValidates(t, valid)
+
+	invalidMapElem := ProgrammaticAndMapContract{
+		Code:  "ABCD",
+		Score: 50,
+		Entries: map[string]Address{
+			"broken": {City: ""},
+		},
+	}
+	supercargotest.AssertFailsValidation(t, invalidMapElem, "map value validation failed")
 }

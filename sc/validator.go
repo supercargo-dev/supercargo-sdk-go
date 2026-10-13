@@ -66,19 +66,34 @@ func (v *Validator) Metadata() map[string]FieldMetadata {
 // Validate payload against its defined ContractConstraints and struct tags.
 func Validate(payload any) error {
 	if payload == nil {
-		return nil
+		return newNilPayloadError()
 	}
 
+	const maxDerefDepth = 32
 	val := reflect.ValueOf(payload)
-	for val.Kind() == reflect.Ptr {
+	for depth := 0; val.Kind() == reflect.Ptr || val.Kind() == reflect.Interface; depth++ {
 		if val.IsNil() {
-			return nil
+			return newNilPayloadError()
+		}
+		if depth >= maxDerefDepth {
+			return &ValidationError{
+				Field:      "payload",
+				Constraint: "depth",
+				Reason:     "pointer dereference depth limit exceeded",
+			}
 		}
 		val = val.Elem()
 	}
+	if !val.IsValid() {
+		return newNilPayloadError()
+	}
 
 	if val.Kind() != reflect.Struct {
-		return nil // We only validate structs
+		return &ValidationError{
+			Field:      "payload",
+			Constraint: "struct",
+			Reason:     fmt.Sprintf("payload must be a struct or struct pointer, got %s", val.Kind()),
+		}
 	}
 
 	v, err := getValidator(val.Type())
@@ -90,6 +105,11 @@ func Validate(payload any) error {
 }
 
 func getValidator(typ reflect.Type) (*Validator, error) {
+	if futInter, ok := globalValidatorCache.Load(typ); ok {
+		fut := futInter.(*validatorFuture)
+		<-fut.done
+		return fut.v, fut.err
+	}
 	return getValidatorInternal(typ, make(map[reflect.Type]*Validator))
 }
 
@@ -169,6 +189,14 @@ func (v *Validator) check(val reflect.Value, visited *ptrStack) error {
 		}
 	}
 	return nil
+}
+
+func newNilPayloadError() *ValidationError {
+	return &ValidationError{
+		Field:      "payload",
+		Constraint: "notNull",
+		Reason:     "payload cannot be nil (constraint: notNull)",
+	}
 }
 
 func newValidationError(field, reason string, val any, isPII bool, err error) *ValidationError {

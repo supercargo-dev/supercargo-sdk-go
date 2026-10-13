@@ -31,11 +31,12 @@ type Schema struct {
 
 // ValidationError represents a structured validation failure.
 type ValidationError struct {
-	Field  string
-	Reason string
-	Value  any
-	Err    error // Underlying error, if any
-	IsPII  bool  // Marks if the field contains PII to redact values
+	Field      string
+	Constraint string // Validation constraint identifier that failed (e.g., "notNull", "struct", "depth").
+	Reason     string
+	Value      any
+	Err        error // Underlying error, if any
+	IsPII      bool  // Marks if the field contains PII to redact values
 }
 
 func (v *ValidationError) Error() string {
