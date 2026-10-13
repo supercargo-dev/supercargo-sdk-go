@@ -1215,4 +1215,3 @@ func TestValidation_ProgrammaticRulesAndMapRecursion(t *testing.T) {
 	}
 	supercargotest.AssertFailsValidation(t, invalidMapElem, "map value validation failed")
 }
-
