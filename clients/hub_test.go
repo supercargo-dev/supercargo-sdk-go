@@ -571,4 +571,3 @@ func TestHubClient_OptionsClamping(t *testing.T) {
 	require.Error(t, err)
 	assert.Equal(t, int32(1), mockSrv.getContractCalls.Load(), "WithMaxRetries(0) must clamp to 1 attempt")
 }
-
