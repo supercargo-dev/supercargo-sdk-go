@@ -56,6 +56,7 @@ const (
 	HubService_GetHealth_FullMethodName             = "/hub.v1.HubService/GetHealth"
 	HubService_GetHealthHistory_FullMethodName      = "/hub.v1.HubService/GetHealthHistory"
 	HubService_GetBlastRadius_FullMethodName        = "/hub.v1.HubService/GetBlastRadius"
+	HubService_GetRootCause_FullMethodName          = "/hub.v1.HubService/GetRootCause"
 	HubService_GetTaxonomyMappings_FullMethodName   = "/hub.v1.HubService/GetTaxonomyMappings"
 )
 
@@ -138,6 +139,8 @@ type HubServiceClient interface {
 	GetHealthHistory(ctx context.Context, in *GetHealthHistoryRequest, opts ...grpc.CallOption) (*GetHealthHistoryResponse, error)
 	// GetBlastRadius analyzes downstream blast radius.
 	GetBlastRadius(ctx context.Context, in *GetBlastRadiusRequest, opts ...grpc.CallOption) (*GetBlastRadiusResponse, error)
+	// GetRootCause analyzes upstream lineage and identifies the root causal failure.
+	GetRootCause(ctx context.Context, in *GetRootCauseRequest, opts ...grpc.CallOption) (*GetRootCauseResponse, error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(ctx context.Context, in *GetTaxonomyMappingsRequest, opts ...grpc.CallOption) (*GetTaxonomyMappingsResponse, error)
 }
@@ -520,6 +523,16 @@ func (c *hubServiceClient) GetBlastRadius(ctx context.Context, in *GetBlastRadiu
 	return out, nil
 }
 
+func (c *hubServiceClient) GetRootCause(ctx context.Context, in *GetRootCauseRequest, opts ...grpc.CallOption) (*GetRootCauseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetRootCauseResponse)
+	err := c.cc.Invoke(ctx, HubService_GetRootCause_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *hubServiceClient) GetTaxonomyMappings(ctx context.Context, in *GetTaxonomyMappingsRequest, opts ...grpc.CallOption) (*GetTaxonomyMappingsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetTaxonomyMappingsResponse)
@@ -609,6 +622,8 @@ type HubServiceServer interface {
 	GetHealthHistory(context.Context, *GetHealthHistoryRequest) (*GetHealthHistoryResponse, error)
 	// GetBlastRadius analyzes downstream blast radius.
 	GetBlastRadius(context.Context, *GetBlastRadiusRequest) (*GetBlastRadiusResponse, error)
+	// GetRootCause analyzes upstream lineage and identifies the root causal failure.
+	GetRootCause(context.Context, *GetRootCauseRequest) (*GetRootCauseResponse, error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(context.Context, *GetTaxonomyMappingsRequest) (*GetTaxonomyMappingsResponse, error)
 	mustEmbedUnimplementedHubServiceServer()
@@ -731,6 +746,9 @@ func (UnimplementedHubServiceServer) GetHealthHistory(context.Context, *GetHealt
 }
 func (UnimplementedHubServiceServer) GetBlastRadius(context.Context, *GetBlastRadiusRequest) (*GetBlastRadiusResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetBlastRadius not implemented")
+}
+func (UnimplementedHubServiceServer) GetRootCause(context.Context, *GetRootCauseRequest) (*GetRootCauseResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetRootCause not implemented")
 }
 func (UnimplementedHubServiceServer) GetTaxonomyMappings(context.Context, *GetTaxonomyMappingsRequest) (*GetTaxonomyMappingsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetTaxonomyMappings not implemented")
@@ -1422,6 +1440,24 @@ func _HubService_GetBlastRadius_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_GetRootCause_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRootCauseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetRootCause(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetRootCause_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetRootCause(ctx, req.(*GetRootCauseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _HubService_GetTaxonomyMappings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTaxonomyMappingsRequest)
 	if err := dec(in); err != nil {
@@ -1594,6 +1630,10 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBlastRadius",
 			Handler:    _HubService_GetBlastRadius_Handler,
+		},
+		{
+			MethodName: "GetRootCause",
+			Handler:    _HubService_GetRootCause_Handler,
 		},
 		{
 			MethodName: "GetTaxonomyMappings",

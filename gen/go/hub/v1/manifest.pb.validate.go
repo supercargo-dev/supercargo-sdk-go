@@ -1216,6 +1216,8 @@ func (m *ProductMeta) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for Archetype
+
 	if len(errors) > 0 {
 		return ProductMetaMultiError(errors)
 	}

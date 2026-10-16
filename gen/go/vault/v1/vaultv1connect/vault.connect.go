@@ -47,6 +47,16 @@ const (
 	VaultServiceSearchHashProcedure = "/vault.v1.VaultService/SearchHash"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	vaultServiceServiceDescriptor             = v1.File_vault_v1_vault_proto.Services().ByName("VaultService")
+	vaultServiceCheckMethodDescriptor         = vaultServiceServiceDescriptor.Methods().ByName("Check")
+	vaultServiceTokenizeMethodDescriptor      = vaultServiceServiceDescriptor.Methods().ByName("Tokenize")
+	vaultServiceBatchTokenizeMethodDescriptor = vaultServiceServiceDescriptor.Methods().ByName("BatchTokenize")
+	vaultServiceDeleteKeysetMethodDescriptor  = vaultServiceServiceDescriptor.Methods().ByName("DeleteKeyset")
+	vaultServiceSearchHashMethodDescriptor    = vaultServiceServiceDescriptor.Methods().ByName("SearchHash")
+)
+
 // VaultServiceClient is a client for the vault.v1.VaultService service.
 type VaultServiceClient interface {
 	// Check returns the serving status of the service.
@@ -70,36 +80,35 @@ type VaultServiceClient interface {
 // http://api.acme.com or https://acme.com/grpc).
 func NewVaultServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) VaultServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	vaultServiceMethods := v1.File_vault_v1_vault_proto.Services().ByName("VaultService").Methods()
 	return &vaultServiceClient{
 		check: connect.NewClient[v1.CheckRequest, v1.CheckResponse](
 			httpClient,
 			baseURL+VaultServiceCheckProcedure,
-			connect.WithSchema(vaultServiceMethods.ByName("Check")),
+			connect.WithSchema(vaultServiceCheckMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		tokenize: connect.NewClient[v1.TokenizeRequest, v1.TokenizeResponse](
 			httpClient,
 			baseURL+VaultServiceTokenizeProcedure,
-			connect.WithSchema(vaultServiceMethods.ByName("Tokenize")),
+			connect.WithSchema(vaultServiceTokenizeMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		batchTokenize: connect.NewClient[v1.BatchTokenizeRequest, v1.BatchTokenizeResponse](
 			httpClient,
 			baseURL+VaultServiceBatchTokenizeProcedure,
-			connect.WithSchema(vaultServiceMethods.ByName("BatchTokenize")),
+			connect.WithSchema(vaultServiceBatchTokenizeMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		deleteKeyset: connect.NewClient[v1.DeleteKeysetRequest, v1.DeleteKeysetResponse](
 			httpClient,
 			baseURL+VaultServiceDeleteKeysetProcedure,
-			connect.WithSchema(vaultServiceMethods.ByName("DeleteKeyset")),
+			connect.WithSchema(vaultServiceDeleteKeysetMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		searchHash: connect.NewClient[v1.SearchHashRequest, v1.SearchHashResponse](
 			httpClient,
 			baseURL+VaultServiceSearchHashProcedure,
-			connect.WithSchema(vaultServiceMethods.ByName("SearchHash")),
+			connect.WithSchema(vaultServiceSearchHashMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -159,35 +168,34 @@ type VaultServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewVaultServiceHandler(svc VaultServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	vaultServiceMethods := v1.File_vault_v1_vault_proto.Services().ByName("VaultService").Methods()
 	vaultServiceCheckHandler := connect.NewUnaryHandler(
 		VaultServiceCheckProcedure,
 		svc.Check,
-		connect.WithSchema(vaultServiceMethods.ByName("Check")),
+		connect.WithSchema(vaultServiceCheckMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	vaultServiceTokenizeHandler := connect.NewUnaryHandler(
 		VaultServiceTokenizeProcedure,
 		svc.Tokenize,
-		connect.WithSchema(vaultServiceMethods.ByName("Tokenize")),
+		connect.WithSchema(vaultServiceTokenizeMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	vaultServiceBatchTokenizeHandler := connect.NewUnaryHandler(
 		VaultServiceBatchTokenizeProcedure,
 		svc.BatchTokenize,
-		connect.WithSchema(vaultServiceMethods.ByName("BatchTokenize")),
+		connect.WithSchema(vaultServiceBatchTokenizeMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	vaultServiceDeleteKeysetHandler := connect.NewUnaryHandler(
 		VaultServiceDeleteKeysetProcedure,
 		svc.DeleteKeyset,
-		connect.WithSchema(vaultServiceMethods.ByName("DeleteKeyset")),
+		connect.WithSchema(vaultServiceDeleteKeysetMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	vaultServiceSearchHashHandler := connect.NewUnaryHandler(
 		VaultServiceSearchHashProcedure,
 		svc.SearchHash,
-		connect.WithSchema(vaultServiceMethods.ByName("SearchHash")),
+		connect.WithSchema(vaultServiceSearchHashMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/vault.v1.VaultService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

@@ -37,6 +37,12 @@ const (
 	GatewayServiceIngestProcedure = "/gateway.v1.GatewayService/Ingest"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	gatewayServiceServiceDescriptor      = v1.File_gateway_v1_gateway_proto.Services().ByName("GatewayService")
+	gatewayServiceIngestMethodDescriptor = gatewayServiceServiceDescriptor.Methods().ByName("Ingest")
+)
+
 // GatewayServiceClient is a client for the gateway.v1.GatewayService service.
 type GatewayServiceClient interface {
 	// Ingests a single data record, validates it, encrypts PII, and publishes it.
@@ -52,12 +58,11 @@ type GatewayServiceClient interface {
 // http://api.acme.com or https://acme.com/grpc).
 func NewGatewayServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) GatewayServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	gatewayServiceMethods := v1.File_gateway_v1_gateway_proto.Services().ByName("GatewayService").Methods()
 	return &gatewayServiceClient{
 		ingest: connect.NewClient[v1.IngestRequest, v1.IngestResponse](
 			httpClient,
 			baseURL+GatewayServiceIngestProcedure,
-			connect.WithSchema(gatewayServiceMethods.ByName("Ingest")),
+			connect.WithSchema(gatewayServiceIngestMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -85,11 +90,10 @@ type GatewayServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewGatewayServiceHandler(svc GatewayServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	gatewayServiceMethods := v1.File_gateway_v1_gateway_proto.Services().ByName("GatewayService").Methods()
 	gatewayServiceIngestHandler := connect.NewUnaryHandler(
 		GatewayServiceIngestProcedure,
 		svc.Ingest,
-		connect.WithSchema(gatewayServiceMethods.ByName("Ingest")),
+		connect.WithSchema(gatewayServiceIngestMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/gateway.v1.GatewayService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

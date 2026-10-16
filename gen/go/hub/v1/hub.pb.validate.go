@@ -915,6 +915,8 @@ func (m *BlastRadiusNode) validate(all bool) error {
 
 	// no validation rules for Depth
 
+	// no validation rules for ParentUrn
+
 	if len(errors) > 0 {
 		return BlastRadiusNodeMultiError(errors)
 	}
@@ -1132,6 +1134,439 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetBlastRadiusResponseValidationError{}
+
+// Validate checks the field values on GetRootCauseRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetRootCauseRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetRootCauseRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetRootCauseRequestMultiError, or nil if none found.
+func (m *GetRootCauseRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetRootCauseRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetUrn()) < 1 {
+		err := GetRootCauseRequestValidationError{
+			field:  "Urn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for MaxDepth
+
+	if len(errors) > 0 {
+		return GetRootCauseRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetRootCauseRequestMultiError is an error wrapping multiple validation
+// errors returned by GetRootCauseRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetRootCauseRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetRootCauseRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetRootCauseRequestMultiError) AllErrors() []error { return m }
+
+// GetRootCauseRequestValidationError is the validation error returned by
+// GetRootCauseRequest.Validate if the designated constraints aren't met.
+type GetRootCauseRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetRootCauseRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetRootCauseRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetRootCauseRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetRootCauseRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetRootCauseRequestValidationError) ErrorName() string {
+	return "GetRootCauseRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetRootCauseRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetRootCauseRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetRootCauseRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetRootCauseRequestValidationError{}
+
+// Validate checks the field values on RootCauseChainNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RootCauseChainNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RootCauseChainNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RootCauseChainNodeMultiError, or nil if none found.
+func (m *RootCauseChainNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RootCauseChainNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Urn
+
+	// no validation rules for Type
+
+	// no validation rules for Owner
+
+	// no validation rules for Depth
+
+	// no validation rules for State
+
+	// no validation rules for Reason
+
+	// no validation rules for IncidentType
+
+	// no validation rules for Reporter
+
+	// no validation rules for RunId
+
+	if all {
+		switch v := interface{}(m.GetLastUpdatedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RootCauseChainNodeValidationError{
+					field:  "LastUpdatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RootCauseChainNodeValidationError{
+					field:  "LastUpdatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLastUpdatedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RootCauseChainNodeValidationError{
+				field:  "LastUpdatedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return RootCauseChainNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// RootCauseChainNodeMultiError is an error wrapping multiple validation errors
+// returned by RootCauseChainNode.ValidateAll() if the designated constraints
+// aren't met.
+type RootCauseChainNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RootCauseChainNodeMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RootCauseChainNodeMultiError) AllErrors() []error { return m }
+
+// RootCauseChainNodeValidationError is the validation error returned by
+// RootCauseChainNode.Validate if the designated constraints aren't met.
+type RootCauseChainNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RootCauseChainNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RootCauseChainNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RootCauseChainNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RootCauseChainNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RootCauseChainNodeValidationError) ErrorName() string {
+	return "RootCauseChainNodeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RootCauseChainNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRootCauseChainNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RootCauseChainNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RootCauseChainNodeValidationError{}
+
+// Validate checks the field values on GetRootCauseResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetRootCauseResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetRootCauseResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetRootCauseResponseMultiError, or nil if none found.
+func (m *GetRootCauseResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetRootCauseResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TargetUrn
+
+	if all {
+		switch v := interface{}(m.GetRootCause()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetRootCauseResponseValidationError{
+					field:  "RootCause",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetRootCauseResponseValidationError{
+					field:  "RootCause",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRootCause()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetRootCauseResponseValidationError{
+				field:  "RootCause",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetCausalChain() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetRootCauseResponseValidationError{
+						field:  fmt.Sprintf("CausalChain[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetRootCauseResponseValidationError{
+						field:  fmt.Sprintf("CausalChain[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetRootCauseResponseValidationError{
+					field:  fmt.Sprintf("CausalChain[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for TotalUpstream
+
+	if len(errors) > 0 {
+		return GetRootCauseResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetRootCauseResponseMultiError is an error wrapping multiple validation
+// errors returned by GetRootCauseResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetRootCauseResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetRootCauseResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetRootCauseResponseMultiError) AllErrors() []error { return m }
+
+// GetRootCauseResponseValidationError is the validation error returned by
+// GetRootCauseResponse.Validate if the designated constraints aren't met.
+type GetRootCauseResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetRootCauseResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetRootCauseResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetRootCauseResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetRootCauseResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetRootCauseResponseValidationError) ErrorName() string {
+	return "GetRootCauseResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetRootCauseResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetRootCauseResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetRootCauseResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetRootCauseResponseValidationError{}
 
 // Validate checks the field values on ExtractDSARPlanRequest with the rules
 // defined in the proto definition for this message. If any rules are

@@ -8,6 +8,7 @@ package gatewayv1
 
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
+	_ "github.com/supercargo-dev/supercargo-sdk-go/gen/go/platform/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -84,12 +85,13 @@ func (x *IngestRequest) GetAttributes() map[string]string {
 }
 
 type IngestResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	Success          bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	MessageId        string                 `protobuf:"bytes,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
-	Errors           []string               `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"` // Deprecated: use validation_errors
-	ValidationErrors []*ValidationError     `protobuf:"bytes,4,rep,name=validation_errors,json=validationErrors,proto3" json:"validation_errors,omitempty"`
-	TraceId          string                 `protobuf:"bytes,5,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Success   bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	MessageId string                 `protobuf:"bytes,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	// Deprecated: Marked as deprecated in gateway/v1/gateway.proto.
+	Errors           []string           `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"` // Deprecated: use validation_errors
+	ValidationErrors []*ValidationError `protobuf:"bytes,4,rep,name=validation_errors,json=validationErrors,proto3" json:"validation_errors,omitempty"`
+	TraceId          string             `protobuf:"bytes,5,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -138,6 +140,7 @@ func (x *IngestResponse) GetMessageId() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in gateway/v1/gateway.proto.
 func (x *IngestResponse) GetErrors() []string {
 	if x != nil {
 		return x.Errors
@@ -224,28 +227,28 @@ var File_gateway_v1_gateway_proto protoreflect.FileDescriptor
 const file_gateway_v1_gateway_proto_rawDesc = "" +
 	"\n" +
 	"\x18gateway/v1/gateway.proto\x12\n" +
-	"gateway.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x17validate/validate.proto\"\xeb\x01\n" +
-	"\rIngestRequest\x12\x19\n" +
-	"\x03urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x03urn\x125\n" +
-	"\x04data\x18\x02 \x01(\v2\x17.google.protobuf.StructB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x04data\x12I\n" +
+	"gateway.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x19platform/v1/options.proto\x1a\x17validate/validate.proto\"\xc5\x02\n" +
+	"\rIngestRequest\x12e\n" +
+	"\x03urn\x18\x01 \x01(\tBS\xfaBJrH2F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$\xc2\xc1\x18\x02\b\x01R\x03urn\x12;\n" +
+	"\x04data\x18\x02 \x01(\v2\x17.google.protobuf.StructB\x0e\xfaB\x05\x8a\x01\x02\x10\x01\xc2\xc1\x18\x02\b\x02R\x04data\x12Q\n" +
 	"\n" +
-	"attributes\x18\x03 \x03(\v2).gateway.v1.IngestRequest.AttributesEntryR\n" +
+	"attributes\x18\x03 \x03(\v2).gateway.v1.IngestRequest.AttributesEntryB\x06\xc2\xc1\x18\x02\b\x03R\n" +
 	"attributes\x1a=\n" +
 	"\x0fAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc6\x01\n" +
-	"\x0eIngestResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x1d\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf0\x01\n" +
+	"\x0eIngestResponse\x12 \n" +
+	"\asuccess\x18\x01 \x01(\bB\x06\xc2\xc1\x18\x02\b\x01R\asuccess\x12%\n" +
 	"\n" +
-	"message_id\x18\x02 \x01(\tR\tmessageId\x12\x16\n" +
-	"\x06errors\x18\x03 \x03(\tR\x06errors\x12H\n" +
-	"\x11validation_errors\x18\x04 \x03(\v2\x1b.gateway.v1.ValidationErrorR\x10validationErrors\x12\x19\n" +
-	"\btrace_id\x18\x05 \x01(\tR\atraceId\"r\n" +
-	"\x0fValidationError\x12\x1d\n" +
+	"message_id\x18\x02 \x01(\tB\x06\xc2\xc1\x18\x02\b\x02R\tmessageId\x12 \n" +
+	"\x06errors\x18\x03 \x03(\tB\b\xc2\xc1\x18\x02\b\x03\x18\x01R\x06errors\x12P\n" +
+	"\x11validation_errors\x18\x04 \x03(\v2\x1b.gateway.v1.ValidationErrorB\x06\xc2\xc1\x18\x02\b\x04R\x10validationErrors\x12!\n" +
+	"\btrace_id\x18\x05 \x01(\tB\x06\xc2\xc1\x18\x02\b\x05R\atraceId\"\x8a\x01\n" +
+	"\x0fValidationError\x12%\n" +
 	"\n" +
-	"field_path\x18\x01 \x01(\tR\tfieldPath\x12\x19\n" +
-	"\bfield_id\x18\x02 \x01(\x04R\afieldId\x12%\n" +
-	"\x0eviolation_type\x18\x03 \x01(\tR\rviolationType2Q\n" +
+	"field_path\x18\x01 \x01(\tB\x06\xc2\xc1\x18\x02\b\x01R\tfieldPath\x12!\n" +
+	"\bfield_id\x18\x02 \x01(\x04B\x06\xc2\xc1\x18\x02\b\x02R\afieldId\x12-\n" +
+	"\x0eviolation_type\x18\x03 \x01(\tB\x06\xc2\xc1\x18\x02\b\x03R\rviolationType2Q\n" +
 	"\x0eGatewayService\x12?\n" +
 	"\x06Ingest\x12\x19.gateway.v1.IngestRequest\x1a\x1a.gateway.v1.IngestResponseB\xb0\x01\n" +
 	"\x0ecom.gateway.v1B\fGatewayProtoP\x01ZGgithub.com/supercargo-dev/supercargo-sdk-go/gen/go/gateway/v1;gatewayv1\xa2\x02\x03GXX\xaa\x02\n" +
