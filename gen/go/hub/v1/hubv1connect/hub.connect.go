@@ -125,9 +125,55 @@ const (
 	// HubServiceGetBlastRadiusProcedure is the fully-qualified name of the HubService's GetBlastRadius
 	// RPC.
 	HubServiceGetBlastRadiusProcedure = "/hub.v1.HubService/GetBlastRadius"
+	// HubServiceGetRootCauseProcedure is the fully-qualified name of the HubService's GetRootCause RPC.
+	HubServiceGetRootCauseProcedure = "/hub.v1.HubService/GetRootCause"
 	// HubServiceGetTaxonomyMappingsProcedure is the fully-qualified name of the HubService's
 	// GetTaxonomyMappings RPC.
 	HubServiceGetTaxonomyMappingsProcedure = "/hub.v1.HubService/GetTaxonomyMappings"
+)
+
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	hubServiceServiceDescriptor                     = v1.File_hub_v1_hub_proto.Services().ByName("HubService")
+	hubServiceValidateProductMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ValidateProduct")
+	hubServiceRegisterProductMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("RegisterProduct")
+	hubServiceGetProductMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("GetProduct")
+	hubServiceGetProductSchemaMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("GetProductSchema")
+	hubServiceGetContractMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("GetContract")
+	hubServiceListContractsMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ListContracts")
+	hubServicePingMethodDescriptor                  = hubServiceServiceDescriptor.Methods().ByName("Ping")
+	hubServiceValidateSchemaMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ValidateSchema")
+	hubServiceDeleteProductMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("DeleteProduct")
+	hubServiceResolvePortMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ResolvePort")
+	hubServiceCheckDownstreamImpactMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("CheckDownstreamImpact")
+	hubServiceRegisterEntityMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RegisterEntity")
+	hubServiceGetEntityMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetEntity")
+	hubServiceListEntitiesMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListEntities")
+	hubServiceCheckEntityImpactMethodDescriptor     = hubServiceServiceDescriptor.Methods().ByName("CheckEntityImpact")
+	hubServiceDeleteEntityMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("DeleteEntity")
+	hubServiceRegisterTeamMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("RegisterTeam")
+	hubServiceGetTeamMethodDescriptor               = hubServiceServiceDescriptor.Methods().ByName("GetTeam")
+	hubServiceListTeamsMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("ListTeams")
+	hubServiceRegisterContractMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("RegisterContract")
+	hubServiceListProductsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListProducts")
+	hubServiceSyncProductMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("SyncProduct")
+	hubServiceRecordAuditRunMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RecordAuditRun")
+	hubServiceListAuditRunsMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ListAuditRuns")
+	hubServiceSendAlertMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("SendAlert")
+	hubServiceAnalyzeImpactMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("AnalyzeImpact")
+	hubServiceSubscribeMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("Subscribe")
+	hubServiceUnsubscribeMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("Unsubscribe")
+	hubServiceListSubscriptionsMethodDescriptor     = hubServiceServiceDescriptor.Methods().ByName("ListSubscriptions")
+	hubServiceIngestEventMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("IngestEvent")
+	hubServiceExtractDSARPlanMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ExtractDSARPlan")
+	hubServicePackageDSARMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("PackageDSAR")
+	hubServiceVerifyRTBFMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("VerifyRTBF")
+	hubServiceReportAnomalyMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ReportAnomaly")
+	hubServiceGetHealthMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetHealth")
+	hubServiceGetHealthHistoryMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("GetHealthHistory")
+	hubServiceGetBlastRadiusMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("GetBlastRadius")
+	hubServiceGetRootCauseMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("GetRootCause")
+	hubServiceGetTaxonomyMappingsMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("GetTaxonomyMappings")
 )
 
 // HubServiceClient is a client for the hub.v1.HubService service.
@@ -207,6 +253,8 @@ type HubServiceClient interface {
 	GetHealthHistory(context.Context, *connect.Request[v1.GetHealthHistoryRequest]) (*connect.Response[v1.GetHealthHistoryResponse], error)
 	// GetBlastRadius analyzes downstream blast radius.
 	GetBlastRadius(context.Context, *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error)
+	// GetRootCause analyzes upstream lineage and identifies the root causal failure.
+	GetRootCause(context.Context, *connect.Request[v1.GetRootCauseRequest]) (*connect.Response[v1.GetRootCauseResponse], error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error)
 }
@@ -220,234 +268,239 @@ type HubServiceClient interface {
 // http://api.acme.com or https://acme.com/grpc).
 func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) HubServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	hubServiceMethods := v1.File_hub_v1_hub_proto.Services().ByName("HubService").Methods()
 	return &hubServiceClient{
 		validateProduct: connect.NewClient[v1.ValidateProductRequest, v1.ValidateProductResponse](
 			httpClient,
 			baseURL+HubServiceValidateProductProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ValidateProduct")),
+			connect.WithSchema(hubServiceValidateProductMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		registerProduct: connect.NewClient[v1.RegisterProductRequest, v1.RegisterProductResponse](
 			httpClient,
 			baseURL+HubServiceRegisterProductProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("RegisterProduct")),
+			connect.WithSchema(hubServiceRegisterProductMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getProduct: connect.NewClient[v1.GetProductRequest, v1.GetProductResponse](
 			httpClient,
 			baseURL+HubServiceGetProductProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetProduct")),
+			connect.WithSchema(hubServiceGetProductMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getProductSchema: connect.NewClient[v1.GetProductSchemaRequest, v1.GetProductSchemaResponse](
 			httpClient,
 			baseURL+HubServiceGetProductSchemaProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetProductSchema")),
+			connect.WithSchema(hubServiceGetProductSchemaMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getContract: connect.NewClient[v1.GetContractRequest, v1.GetContractResponse](
 			httpClient,
 			baseURL+HubServiceGetContractProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetContract")),
+			connect.WithSchema(hubServiceGetContractMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		listContracts: connect.NewClient[v1.ListContractsRequest, v1.ListContractsResponse](
 			httpClient,
 			baseURL+HubServiceListContractsProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ListContracts")),
+			connect.WithSchema(hubServiceListContractsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		ping: connect.NewClient[v1.PingRequest, v1.PingResponse](
 			httpClient,
 			baseURL+HubServicePingProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("Ping")),
+			connect.WithSchema(hubServicePingMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		validateSchema: connect.NewClient[v1.ValidateSchemaRequest, v1.ValidateSchemaResponse](
 			httpClient,
 			baseURL+HubServiceValidateSchemaProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ValidateSchema")),
+			connect.WithSchema(hubServiceValidateSchemaMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		deleteProduct: connect.NewClient[v1.DeleteProductRequest, v1.DeleteProductResponse](
 			httpClient,
 			baseURL+HubServiceDeleteProductProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("DeleteProduct")),
+			connect.WithSchema(hubServiceDeleteProductMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		resolvePort: connect.NewClient[v1.ResolvePortRequest, v1.ResolvePortResponse](
 			httpClient,
 			baseURL+HubServiceResolvePortProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ResolvePort")),
+			connect.WithSchema(hubServiceResolvePortMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		checkDownstreamImpact: connect.NewClient[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse](
 			httpClient,
 			baseURL+HubServiceCheckDownstreamImpactProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("CheckDownstreamImpact")),
+			connect.WithSchema(hubServiceCheckDownstreamImpactMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		registerEntity: connect.NewClient[v1.RegisterEntityRequest, v1.RegisterEntityResponse](
 			httpClient,
 			baseURL+HubServiceRegisterEntityProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("RegisterEntity")),
+			connect.WithSchema(hubServiceRegisterEntityMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getEntity: connect.NewClient[v1.GetEntityRequest, v1.GetEntityResponse](
 			httpClient,
 			baseURL+HubServiceGetEntityProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetEntity")),
+			connect.WithSchema(hubServiceGetEntityMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		listEntities: connect.NewClient[v1.ListEntitiesRequest, v1.ListEntitiesResponse](
 			httpClient,
 			baseURL+HubServiceListEntitiesProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ListEntities")),
+			connect.WithSchema(hubServiceListEntitiesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		checkEntityImpact: connect.NewClient[v1.CheckEntityImpactRequest, v1.CheckEntityImpactResponse](
 			httpClient,
 			baseURL+HubServiceCheckEntityImpactProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("CheckEntityImpact")),
+			connect.WithSchema(hubServiceCheckEntityImpactMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		deleteEntity: connect.NewClient[v1.DeleteEntityRequest, v1.DeleteEntityResponse](
 			httpClient,
 			baseURL+HubServiceDeleteEntityProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("DeleteEntity")),
+			connect.WithSchema(hubServiceDeleteEntityMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		registerTeam: connect.NewClient[v1.RegisterTeamRequest, v1.RegisterTeamResponse](
 			httpClient,
 			baseURL+HubServiceRegisterTeamProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("RegisterTeam")),
+			connect.WithSchema(hubServiceRegisterTeamMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getTeam: connect.NewClient[v1.GetTeamRequest, v1.GetTeamResponse](
 			httpClient,
 			baseURL+HubServiceGetTeamProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetTeam")),
+			connect.WithSchema(hubServiceGetTeamMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		listTeams: connect.NewClient[v1.ListTeamsRequest, v1.ListTeamsResponse](
 			httpClient,
 			baseURL+HubServiceListTeamsProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ListTeams")),
+			connect.WithSchema(hubServiceListTeamsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		registerContract: connect.NewClient[v1.RegisterContractRequest, v1.RegisterContractResponse](
 			httpClient,
 			baseURL+HubServiceRegisterContractProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("RegisterContract")),
+			connect.WithSchema(hubServiceRegisterContractMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		listProducts: connect.NewClient[v1.ListProductsRequest, v1.ListProductsResponse](
 			httpClient,
 			baseURL+HubServiceListProductsProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ListProducts")),
+			connect.WithSchema(hubServiceListProductsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		syncProduct: connect.NewClient[v1.SyncProductRequest, v1.SyncProductResponse](
 			httpClient,
 			baseURL+HubServiceSyncProductProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("SyncProduct")),
+			connect.WithSchema(hubServiceSyncProductMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		recordAuditRun: connect.NewClient[v1.RecordAuditRunRequest, v1.RecordAuditRunResponse](
 			httpClient,
 			baseURL+HubServiceRecordAuditRunProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("RecordAuditRun")),
+			connect.WithSchema(hubServiceRecordAuditRunMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		listAuditRuns: connect.NewClient[v1.ListAuditRunsRequest, v1.ListAuditRunsResponse](
 			httpClient,
 			baseURL+HubServiceListAuditRunsProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ListAuditRuns")),
+			connect.WithSchema(hubServiceListAuditRunsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		sendAlert: connect.NewClient[v1.SendAlertRequest, v1.SendAlertResponse](
 			httpClient,
 			baseURL+HubServiceSendAlertProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("SendAlert")),
+			connect.WithSchema(hubServiceSendAlertMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		analyzeImpact: connect.NewClient[v1.AnalyzeImpactRequest, v1.AnalyzeImpactResponse](
 			httpClient,
 			baseURL+HubServiceAnalyzeImpactProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("AnalyzeImpact")),
+			connect.WithSchema(hubServiceAnalyzeImpactMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		subscribe: connect.NewClient[v1.SubscribeRequest, v1.SubscribeResponse](
 			httpClient,
 			baseURL+HubServiceSubscribeProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("Subscribe")),
+			connect.WithSchema(hubServiceSubscribeMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		unsubscribe: connect.NewClient[v1.UnsubscribeRequest, v1.UnsubscribeResponse](
 			httpClient,
 			baseURL+HubServiceUnsubscribeProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("Unsubscribe")),
+			connect.WithSchema(hubServiceUnsubscribeMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		listSubscriptions: connect.NewClient[v1.ListSubscriptionsRequest, v1.ListSubscriptionsResponse](
 			httpClient,
 			baseURL+HubServiceListSubscriptionsProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ListSubscriptions")),
+			connect.WithSchema(hubServiceListSubscriptionsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		ingestEvent: connect.NewClient[v1.IngestEventRequest, v1.IngestEventResponse](
 			httpClient,
 			baseURL+HubServiceIngestEventProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("IngestEvent")),
+			connect.WithSchema(hubServiceIngestEventMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		extractDSARPlan: connect.NewClient[v1.ExtractDSARPlanRequest, v1.ExtractDSARPlanResponse](
 			httpClient,
 			baseURL+HubServiceExtractDSARPlanProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ExtractDSARPlan")),
+			connect.WithSchema(hubServiceExtractDSARPlanMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		packageDSAR: connect.NewClient[v1.PackageDSARRequest, v1.PackageDSARResponse](
 			httpClient,
 			baseURL+HubServicePackageDSARProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("PackageDSAR")),
+			connect.WithSchema(hubServicePackageDSARMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		verifyRTBF: connect.NewClient[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse](
 			httpClient,
 			baseURL+HubServiceVerifyRTBFProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("VerifyRTBF")),
+			connect.WithSchema(hubServiceVerifyRTBFMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		reportAnomaly: connect.NewClient[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse](
 			httpClient,
 			baseURL+HubServiceReportAnomalyProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("ReportAnomaly")),
+			connect.WithSchema(hubServiceReportAnomalyMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getHealth: connect.NewClient[v1.GetHealthRequest, v1.GetHealthResponse](
 			httpClient,
 			baseURL+HubServiceGetHealthProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetHealth")),
+			connect.WithSchema(hubServiceGetHealthMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getHealthHistory: connect.NewClient[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse](
 			httpClient,
 			baseURL+HubServiceGetHealthHistoryProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetHealthHistory")),
+			connect.WithSchema(hubServiceGetHealthHistoryMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getBlastRadius: connect.NewClient[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse](
 			httpClient,
 			baseURL+HubServiceGetBlastRadiusProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetBlastRadius")),
+			connect.WithSchema(hubServiceGetBlastRadiusMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getRootCause: connect.NewClient[v1.GetRootCauseRequest, v1.GetRootCauseResponse](
+			httpClient,
+			baseURL+HubServiceGetRootCauseProcedure,
+			connect.WithSchema(hubServiceGetRootCauseMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getTaxonomyMappings: connect.NewClient[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse](
 			httpClient,
 			baseURL+HubServiceGetTaxonomyMappingsProcedure,
-			connect.WithSchema(hubServiceMethods.ByName("GetTaxonomyMappings")),
+			connect.WithSchema(hubServiceGetTaxonomyMappingsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -492,6 +545,7 @@ type hubServiceClient struct {
 	getHealth             *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
 	getHealthHistory      *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
 	getBlastRadius        *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
+	getRootCause          *connect.Client[v1.GetRootCauseRequest, v1.GetRootCauseResponse]
 	getTaxonomyMappings   *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
 }
 
@@ -680,6 +734,11 @@ func (c *hubServiceClient) GetBlastRadius(ctx context.Context, req *connect.Requ
 	return c.getBlastRadius.CallUnary(ctx, req)
 }
 
+// GetRootCause calls hub.v1.HubService.GetRootCause.
+func (c *hubServiceClient) GetRootCause(ctx context.Context, req *connect.Request[v1.GetRootCauseRequest]) (*connect.Response[v1.GetRootCauseResponse], error) {
+	return c.getRootCause.CallUnary(ctx, req)
+}
+
 // GetTaxonomyMappings calls hub.v1.HubService.GetTaxonomyMappings.
 func (c *hubServiceClient) GetTaxonomyMappings(ctx context.Context, req *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error) {
 	return c.getTaxonomyMappings.CallUnary(ctx, req)
@@ -762,6 +821,8 @@ type HubServiceHandler interface {
 	GetHealthHistory(context.Context, *connect.Request[v1.GetHealthHistoryRequest]) (*connect.Response[v1.GetHealthHistoryResponse], error)
 	// GetBlastRadius analyzes downstream blast radius.
 	GetBlastRadius(context.Context, *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error)
+	// GetRootCause analyzes upstream lineage and identifies the root causal failure.
+	GetRootCause(context.Context, *connect.Request[v1.GetRootCauseRequest]) (*connect.Response[v1.GetRootCauseResponse], error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error)
 }
@@ -772,233 +833,238 @@ type HubServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	hubServiceMethods := v1.File_hub_v1_hub_proto.Services().ByName("HubService").Methods()
 	hubServiceValidateProductHandler := connect.NewUnaryHandler(
 		HubServiceValidateProductProcedure,
 		svc.ValidateProduct,
-		connect.WithSchema(hubServiceMethods.ByName("ValidateProduct")),
+		connect.WithSchema(hubServiceValidateProductMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceRegisterProductHandler := connect.NewUnaryHandler(
 		HubServiceRegisterProductProcedure,
 		svc.RegisterProduct,
-		connect.WithSchema(hubServiceMethods.ByName("RegisterProduct")),
+		connect.WithSchema(hubServiceRegisterProductMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetProductHandler := connect.NewUnaryHandler(
 		HubServiceGetProductProcedure,
 		svc.GetProduct,
-		connect.WithSchema(hubServiceMethods.ByName("GetProduct")),
+		connect.WithSchema(hubServiceGetProductMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetProductSchemaHandler := connect.NewUnaryHandler(
 		HubServiceGetProductSchemaProcedure,
 		svc.GetProductSchema,
-		connect.WithSchema(hubServiceMethods.ByName("GetProductSchema")),
+		connect.WithSchema(hubServiceGetProductSchemaMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetContractHandler := connect.NewUnaryHandler(
 		HubServiceGetContractProcedure,
 		svc.GetContract,
-		connect.WithSchema(hubServiceMethods.ByName("GetContract")),
+		connect.WithSchema(hubServiceGetContractMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceListContractsHandler := connect.NewUnaryHandler(
 		HubServiceListContractsProcedure,
 		svc.ListContracts,
-		connect.WithSchema(hubServiceMethods.ByName("ListContracts")),
+		connect.WithSchema(hubServiceListContractsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServicePingHandler := connect.NewUnaryHandler(
 		HubServicePingProcedure,
 		svc.Ping,
-		connect.WithSchema(hubServiceMethods.ByName("Ping")),
+		connect.WithSchema(hubServicePingMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceValidateSchemaHandler := connect.NewUnaryHandler(
 		HubServiceValidateSchemaProcedure,
 		svc.ValidateSchema,
-		connect.WithSchema(hubServiceMethods.ByName("ValidateSchema")),
+		connect.WithSchema(hubServiceValidateSchemaMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceDeleteProductHandler := connect.NewUnaryHandler(
 		HubServiceDeleteProductProcedure,
 		svc.DeleteProduct,
-		connect.WithSchema(hubServiceMethods.ByName("DeleteProduct")),
+		connect.WithSchema(hubServiceDeleteProductMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceResolvePortHandler := connect.NewUnaryHandler(
 		HubServiceResolvePortProcedure,
 		svc.ResolvePort,
-		connect.WithSchema(hubServiceMethods.ByName("ResolvePort")),
+		connect.WithSchema(hubServiceResolvePortMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceCheckDownstreamImpactHandler := connect.NewUnaryHandler(
 		HubServiceCheckDownstreamImpactProcedure,
 		svc.CheckDownstreamImpact,
-		connect.WithSchema(hubServiceMethods.ByName("CheckDownstreamImpact")),
+		connect.WithSchema(hubServiceCheckDownstreamImpactMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceRegisterEntityHandler := connect.NewUnaryHandler(
 		HubServiceRegisterEntityProcedure,
 		svc.RegisterEntity,
-		connect.WithSchema(hubServiceMethods.ByName("RegisterEntity")),
+		connect.WithSchema(hubServiceRegisterEntityMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetEntityHandler := connect.NewUnaryHandler(
 		HubServiceGetEntityProcedure,
 		svc.GetEntity,
-		connect.WithSchema(hubServiceMethods.ByName("GetEntity")),
+		connect.WithSchema(hubServiceGetEntityMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceListEntitiesHandler := connect.NewUnaryHandler(
 		HubServiceListEntitiesProcedure,
 		svc.ListEntities,
-		connect.WithSchema(hubServiceMethods.ByName("ListEntities")),
+		connect.WithSchema(hubServiceListEntitiesMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceCheckEntityImpactHandler := connect.NewUnaryHandler(
 		HubServiceCheckEntityImpactProcedure,
 		svc.CheckEntityImpact,
-		connect.WithSchema(hubServiceMethods.ByName("CheckEntityImpact")),
+		connect.WithSchema(hubServiceCheckEntityImpactMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceDeleteEntityHandler := connect.NewUnaryHandler(
 		HubServiceDeleteEntityProcedure,
 		svc.DeleteEntity,
-		connect.WithSchema(hubServiceMethods.ByName("DeleteEntity")),
+		connect.WithSchema(hubServiceDeleteEntityMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceRegisterTeamHandler := connect.NewUnaryHandler(
 		HubServiceRegisterTeamProcedure,
 		svc.RegisterTeam,
-		connect.WithSchema(hubServiceMethods.ByName("RegisterTeam")),
+		connect.WithSchema(hubServiceRegisterTeamMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetTeamHandler := connect.NewUnaryHandler(
 		HubServiceGetTeamProcedure,
 		svc.GetTeam,
-		connect.WithSchema(hubServiceMethods.ByName("GetTeam")),
+		connect.WithSchema(hubServiceGetTeamMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceListTeamsHandler := connect.NewUnaryHandler(
 		HubServiceListTeamsProcedure,
 		svc.ListTeams,
-		connect.WithSchema(hubServiceMethods.ByName("ListTeams")),
+		connect.WithSchema(hubServiceListTeamsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceRegisterContractHandler := connect.NewUnaryHandler(
 		HubServiceRegisterContractProcedure,
 		svc.RegisterContract,
-		connect.WithSchema(hubServiceMethods.ByName("RegisterContract")),
+		connect.WithSchema(hubServiceRegisterContractMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceListProductsHandler := connect.NewUnaryHandler(
 		HubServiceListProductsProcedure,
 		svc.ListProducts,
-		connect.WithSchema(hubServiceMethods.ByName("ListProducts")),
+		connect.WithSchema(hubServiceListProductsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceSyncProductHandler := connect.NewUnaryHandler(
 		HubServiceSyncProductProcedure,
 		svc.SyncProduct,
-		connect.WithSchema(hubServiceMethods.ByName("SyncProduct")),
+		connect.WithSchema(hubServiceSyncProductMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceRecordAuditRunHandler := connect.NewUnaryHandler(
 		HubServiceRecordAuditRunProcedure,
 		svc.RecordAuditRun,
-		connect.WithSchema(hubServiceMethods.ByName("RecordAuditRun")),
+		connect.WithSchema(hubServiceRecordAuditRunMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceListAuditRunsHandler := connect.NewUnaryHandler(
 		HubServiceListAuditRunsProcedure,
 		svc.ListAuditRuns,
-		connect.WithSchema(hubServiceMethods.ByName("ListAuditRuns")),
+		connect.WithSchema(hubServiceListAuditRunsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceSendAlertHandler := connect.NewUnaryHandler(
 		HubServiceSendAlertProcedure,
 		svc.SendAlert,
-		connect.WithSchema(hubServiceMethods.ByName("SendAlert")),
+		connect.WithSchema(hubServiceSendAlertMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceAnalyzeImpactHandler := connect.NewUnaryHandler(
 		HubServiceAnalyzeImpactProcedure,
 		svc.AnalyzeImpact,
-		connect.WithSchema(hubServiceMethods.ByName("AnalyzeImpact")),
+		connect.WithSchema(hubServiceAnalyzeImpactMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceSubscribeHandler := connect.NewUnaryHandler(
 		HubServiceSubscribeProcedure,
 		svc.Subscribe,
-		connect.WithSchema(hubServiceMethods.ByName("Subscribe")),
+		connect.WithSchema(hubServiceSubscribeMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceUnsubscribeHandler := connect.NewUnaryHandler(
 		HubServiceUnsubscribeProcedure,
 		svc.Unsubscribe,
-		connect.WithSchema(hubServiceMethods.ByName("Unsubscribe")),
+		connect.WithSchema(hubServiceUnsubscribeMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceListSubscriptionsHandler := connect.NewUnaryHandler(
 		HubServiceListSubscriptionsProcedure,
 		svc.ListSubscriptions,
-		connect.WithSchema(hubServiceMethods.ByName("ListSubscriptions")),
+		connect.WithSchema(hubServiceListSubscriptionsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceIngestEventHandler := connect.NewUnaryHandler(
 		HubServiceIngestEventProcedure,
 		svc.IngestEvent,
-		connect.WithSchema(hubServiceMethods.ByName("IngestEvent")),
+		connect.WithSchema(hubServiceIngestEventMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceExtractDSARPlanHandler := connect.NewUnaryHandler(
 		HubServiceExtractDSARPlanProcedure,
 		svc.ExtractDSARPlan,
-		connect.WithSchema(hubServiceMethods.ByName("ExtractDSARPlan")),
+		connect.WithSchema(hubServiceExtractDSARPlanMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServicePackageDSARHandler := connect.NewUnaryHandler(
 		HubServicePackageDSARProcedure,
 		svc.PackageDSAR,
-		connect.WithSchema(hubServiceMethods.ByName("PackageDSAR")),
+		connect.WithSchema(hubServicePackageDSARMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceVerifyRTBFHandler := connect.NewUnaryHandler(
 		HubServiceVerifyRTBFProcedure,
 		svc.VerifyRTBF,
-		connect.WithSchema(hubServiceMethods.ByName("VerifyRTBF")),
+		connect.WithSchema(hubServiceVerifyRTBFMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceReportAnomalyHandler := connect.NewUnaryHandler(
 		HubServiceReportAnomalyProcedure,
 		svc.ReportAnomaly,
-		connect.WithSchema(hubServiceMethods.ByName("ReportAnomaly")),
+		connect.WithSchema(hubServiceReportAnomalyMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetHealthHandler := connect.NewUnaryHandler(
 		HubServiceGetHealthProcedure,
 		svc.GetHealth,
-		connect.WithSchema(hubServiceMethods.ByName("GetHealth")),
+		connect.WithSchema(hubServiceGetHealthMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetHealthHistoryHandler := connect.NewUnaryHandler(
 		HubServiceGetHealthHistoryProcedure,
 		svc.GetHealthHistory,
-		connect.WithSchema(hubServiceMethods.ByName("GetHealthHistory")),
+		connect.WithSchema(hubServiceGetHealthHistoryMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetBlastRadiusHandler := connect.NewUnaryHandler(
 		HubServiceGetBlastRadiusProcedure,
 		svc.GetBlastRadius,
-		connect.WithSchema(hubServiceMethods.ByName("GetBlastRadius")),
+		connect.WithSchema(hubServiceGetBlastRadiusMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetRootCauseHandler := connect.NewUnaryHandler(
+		HubServiceGetRootCauseProcedure,
+		svc.GetRootCause,
+		connect.WithSchema(hubServiceGetRootCauseMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceGetTaxonomyMappingsHandler := connect.NewUnaryHandler(
 		HubServiceGetTaxonomyMappingsProcedure,
 		svc.GetTaxonomyMappings,
-		connect.WithSchema(hubServiceMethods.ByName("GetTaxonomyMappings")),
+		connect.WithSchema(hubServiceGetTaxonomyMappingsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/hub.v1.HubService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -1077,6 +1143,8 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceGetHealthHistoryHandler.ServeHTTP(w, r)
 		case HubServiceGetBlastRadiusProcedure:
 			hubServiceGetBlastRadiusHandler.ServeHTTP(w, r)
+		case HubServiceGetRootCauseProcedure:
+			hubServiceGetRootCauseHandler.ServeHTTP(w, r)
 		case HubServiceGetTaxonomyMappingsProcedure:
 			hubServiceGetTaxonomyMappingsHandler.ServeHTTP(w, r)
 		default:
@@ -1234,6 +1302,10 @@ func (UnimplementedHubServiceHandler) GetHealthHistory(context.Context, *connect
 
 func (UnimplementedHubServiceHandler) GetBlastRadius(context.Context, *connect.Request[v1.GetBlastRadiusRequest]) (*connect.Response[v1.GetBlastRadiusResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetBlastRadius is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetRootCause(context.Context, *connect.Request[v1.GetRootCauseRequest]) (*connect.Response[v1.GetRootCauseResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetRootCause is not implemented"))
 }
 
 func (UnimplementedHubServiceHandler) GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error) {

@@ -57,10 +57,10 @@ func (m *IngestRequest) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetUrn()) < 1 {
+	if !_IngestRequest_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := IngestRequestValidationError{
 			field:  "Urn",
-			reason: "value length must be at least 1 runes",
+			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$\"",
 		}
 		if !all {
 			return err
@@ -187,6 +187,8 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = IngestRequestValidationError{}
+
+var _IngestRequest_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$")
 
 // Validate checks the field values on IngestResponse with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

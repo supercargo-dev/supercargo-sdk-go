@@ -152,55 +152,56 @@ func (SyncStatus) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{1}
 }
 
-type HealthState int32
+// ProductArchetype categorizes data products according to Data Mesh principles.
+type ProductArchetype int32
 
 const (
-	HealthState_HEALTH_STATE_UNSPECIFIED HealthState = 0
-	HealthState_HEALTH_STATE_HEALTHY     HealthState = 1
-	HealthState_HEALTH_STATE_DEGRADED    HealthState = 2
-	HealthState_HEALTH_STATE_AT_RISK     HealthState = 3
+	ProductArchetype_PRODUCT_ARCHETYPE_UNSPECIFIED      ProductArchetype = 0
+	ProductArchetype_PRODUCT_ARCHETYPE_SOURCE_ALIGNED   ProductArchetype = 1 // SADP: Operational systems of record, CDC, raw domain events
+	ProductArchetype_PRODUCT_ARCHETYPE_INTERMEDIATE     ProductArchetype = 2 // IDP: Transformed, aggregated, and enriched domain abstractions
+	ProductArchetype_PRODUCT_ARCHETYPE_CONSUMER_ALIGNED ProductArchetype = 3 // CADP: Tailored for analytical queries, BI, reporting, ML models
 )
 
-// Enum value maps for HealthState.
+// Enum value maps for ProductArchetype.
 var (
-	HealthState_name = map[int32]string{
-		0: "HEALTH_STATE_UNSPECIFIED",
-		1: "HEALTH_STATE_HEALTHY",
-		2: "HEALTH_STATE_DEGRADED",
-		3: "HEALTH_STATE_AT_RISK",
+	ProductArchetype_name = map[int32]string{
+		0: "PRODUCT_ARCHETYPE_UNSPECIFIED",
+		1: "PRODUCT_ARCHETYPE_SOURCE_ALIGNED",
+		2: "PRODUCT_ARCHETYPE_INTERMEDIATE",
+		3: "PRODUCT_ARCHETYPE_CONSUMER_ALIGNED",
 	}
-	HealthState_value = map[string]int32{
-		"HEALTH_STATE_UNSPECIFIED": 0,
-		"HEALTH_STATE_HEALTHY":     1,
-		"HEALTH_STATE_DEGRADED":    2,
-		"HEALTH_STATE_AT_RISK":     3,
+	ProductArchetype_value = map[string]int32{
+		"PRODUCT_ARCHETYPE_UNSPECIFIED":      0,
+		"PRODUCT_ARCHETYPE_SOURCE_ALIGNED":   1,
+		"PRODUCT_ARCHETYPE_INTERMEDIATE":     2,
+		"PRODUCT_ARCHETYPE_CONSUMER_ALIGNED": 3,
 	}
 )
 
-func (x HealthState) Enum() *HealthState {
-	p := new(HealthState)
+func (x ProductArchetype) Enum() *ProductArchetype {
+	p := new(ProductArchetype)
 	*p = x
 	return p
 }
 
-func (x HealthState) String() string {
+func (x ProductArchetype) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (HealthState) Descriptor() protoreflect.EnumDescriptor {
+func (ProductArchetype) Descriptor() protoreflect.EnumDescriptor {
 	return file_hub_v1_manifest_proto_enumTypes[2].Descriptor()
 }
 
-func (HealthState) Type() protoreflect.EnumType {
+func (ProductArchetype) Type() protoreflect.EnumType {
 	return &file_hub_v1_manifest_proto_enumTypes[2]
 }
 
-func (x HealthState) Number() protoreflect.EnumNumber {
+func (x ProductArchetype) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use HealthState.Descriptor instead.
-func (HealthState) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use ProductArchetype.Descriptor instead.
+func (ProductArchetype) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{2}
 }
 
@@ -991,7 +992,9 @@ type ProductMeta struct {
 	// Immutable Git Commit SHA of the repository that registered this product.
 	CommitSha string `protobuf:"bytes,10,opt,name=commit_sha,json=commitSha,proto3" json:"commit_sha,omitempty"`
 	// The repository identifier (e.g., "github.com/org/repo").
-	Repo          string `protobuf:"bytes,11,opt,name=repo,proto3" json:"repo,omitempty"`
+	Repo string `protobuf:"bytes,11,opt,name=repo,proto3" json:"repo,omitempty"`
+	// Data product archetype (SADP, IDP, CADP).
+	Archetype     ProductArchetype `protobuf:"varint,12,opt,name=archetype,proto3,enum=hub.v1.ProductArchetype" json:"archetype,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1087,6 +1090,13 @@ func (x *ProductMeta) GetRepo() string {
 		return x.Repo
 	}
 	return ""
+}
+
+func (x *ProductMeta) GetArchetype() ProductArchetype {
+	if x != nil {
+		return x.Archetype
+	}
+	return ProductArchetype_PRODUCT_ARCHETYPE_UNSPECIFIED
 }
 
 // Owner defines the responsible party.
@@ -2071,7 +2081,7 @@ var File_hub_v1_manifest_proto protoreflect.FileDescriptor
 
 const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\n" +
-	"\x15hub/v1/manifest.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x17validate/validate.proto\"\xb7\x03\n" +
+	"\x15hub/v1/manifest.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x17validate/validate.proto\x1a\x13hub/v1/health.proto\"\xb7\x03\n" +
 	"\x0fProductManifest\x12'\n" +
 	"\x04meta\x18\x01 \x01(\v2\x13.hub.v1.ProductMetaR\x04meta\x122\n" +
 	"\vinput_ports\x18\x02 \x03(\v2\x11.hub.v1.InputPortR\n" +
@@ -2120,7 +2130,7 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\bmetadata\x18\b \x03(\v2\x1c.hub.v1.Health.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe2\x03\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9a\x04\n" +
 	"\vProductMeta\x12a\n" +
 	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12!\n" +
 	"\aversion\x18\a \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aversion\x12-\n" +
@@ -2133,7 +2143,8 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\n" +
 	"commit_sha\x18\n" +
 	" \x01(\tB\x19\xfaB\x16r\x14\x10(\x18(2\x0e^[0-9a-f]{40}$R\tcommitSha\x12\x1b\n" +
-	"\x04repo\x18\v \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04repo\x1a9\n" +
+	"\x04repo\x18\v \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04repo\x126\n" +
+	"\tarchetype\x18\f \x01(\x0e2\x18.hub.v1.ProductArchetypeR\tarchetype\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"f\n" +
@@ -2245,12 +2256,12 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\x18SYNC_STATUS_FAILED_RETRY\x10\x04\x12$\n" +
 	" SYNC_STATUS_FAILED_UNRECOVERABLE\x10\x05\x12$\n" +
 	" SYNC_STATUS_STALE_AWAITING_INFRA\x10\x06\x12+\n" +
-	"'SYNC_STATUS_STALLED_MANUAL_INTERVENTION\x10\a*z\n" +
-	"\vHealthState\x12\x1c\n" +
-	"\x18HEALTH_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
-	"\x14HEALTH_STATE_HEALTHY\x10\x01\x12\x19\n" +
-	"\x15HEALTH_STATE_DEGRADED\x10\x02\x12\x18\n" +
-	"\x14HEALTH_STATE_AT_RISK\x10\x03*|\n" +
+	"'SYNC_STATUS_STALLED_MANUAL_INTERVENTION\x10\a*\xa7\x01\n" +
+	"\x10ProductArchetype\x12!\n" +
+	"\x1dPRODUCT_ARCHETYPE_UNSPECIFIED\x10\x00\x12$\n" +
+	" PRODUCT_ARCHETYPE_SOURCE_ALIGNED\x10\x01\x12\"\n" +
+	"\x1ePRODUCT_ARCHETYPE_INTERMEDIATE\x10\x02\x12&\n" +
+	"\"PRODUCT_ARCHETYPE_CONSUMER_ALIGNED\x10\x03*|\n" +
 	"\x12ProvisioningPolicy\x12#\n" +
 	"\x1fPROVISIONING_POLICY_UNSPECIFIED\x10\x00\x12\x1f\n" +
 	"\x1bPROVISIONING_POLICY_MANAGED\x10\x01\x12 \n" +
@@ -2278,7 +2289,7 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\x0fFILE_FORMAT_CSV\x10\x01\x12\x15\n" +
 	"\x11FILE_FORMAT_JSONL\x10\x02B\x95\x01\n" +
 	"\n" +
-	"com.hub.v1B\rManifestProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
+	"com.hub.v1B\rManifestProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1P\x03b\x06proto3"
 
 var (
 	file_hub_v1_manifest_proto_rawDescOnce sync.Once
@@ -2297,7 +2308,7 @@ var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_hub_v1_manifest_proto_goTypes = []any{
 	(SLATier)(0),                  // 0: hub.v1.SLATier
 	(SyncStatus)(0),               // 1: hub.v1.SyncStatus
-	(HealthState)(0),              // 2: hub.v1.HealthState
+	(ProductArchetype)(0),         // 2: hub.v1.ProductArchetype
 	(ProvisioningPolicy)(0),       // 3: hub.v1.ProvisioningPolicy
 	(NotificationLevel)(0),        // 4: hub.v1.NotificationLevel
 	(NotificationChannel)(0),      // 5: hub.v1.NotificationChannel
@@ -2327,7 +2338,8 @@ var file_hub_v1_manifest_proto_goTypes = []any{
 	nil,                           // 29: hub.v1.BigQueryConfig.PolicyTagsEntry
 	nil,                           // 30: hub.v1.BigQueryConfig.MaskingRulesEntry
 	(*timestamppb.Timestamp)(nil), // 31: google.protobuf.Timestamp
-	(*durationpb.Duration)(nil),   // 32: google.protobuf.Duration
+	(HealthState)(0),              // 32: hub.v1.HealthState
+	(*durationpb.Duration)(nil),   // 33: google.protobuf.Duration
 }
 var file_hub_v1_manifest_proto_depIdxs = []int32{
 	14, // 0: hub.v1.ProductManifest.meta:type_name -> hub.v1.ProductMeta
@@ -2344,33 +2356,34 @@ var file_hub_v1_manifest_proto_depIdxs = []int32{
 	1,  // 11: hub.v1.ProductStatus.sync_status:type_name -> hub.v1.SyncStatus
 	31, // 12: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
 	13, // 13: hub.v1.ProductStatus.health:type_name -> hub.v1.Health
-	2,  // 14: hub.v1.Health.state:type_name -> hub.v1.HealthState
+	32, // 14: hub.v1.Health.state:type_name -> hub.v1.HealthState
 	31, // 15: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
 	27, // 16: hub.v1.Health.metadata:type_name -> hub.v1.Health.MetadataEntry
 	15, // 17: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
 	28, // 18: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
-	20, // 19: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
-	20, // 20: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
-	3,  // 21: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
-	18, // 22: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
-	9,  // 23: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
-	19, // 24: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
-	32, // 25: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
-	29, // 26: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
-	30, // 27: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
-	21, // 28: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
-	6,  // 29: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
-	4,  // 30: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
-	22, // 31: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
-	5,  // 32: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
-	20, // 33: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
-	7,  // 34: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
-	20, // 35: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
-	36, // [36:36] is the sub-list for method output_type
-	36, // [36:36] is the sub-list for method input_type
-	36, // [36:36] is the sub-list for extension type_name
-	36, // [36:36] is the sub-list for extension extendee
-	0,  // [0:36] is the sub-list for field type_name
+	2,  // 19: hub.v1.ProductMeta.archetype:type_name -> hub.v1.ProductArchetype
+	20, // 20: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
+	20, // 21: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
+	3,  // 22: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
+	18, // 23: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
+	9,  // 24: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
+	19, // 25: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
+	33, // 26: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
+	29, // 27: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
+	30, // 28: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
+	21, // 29: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
+	6,  // 30: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
+	4,  // 31: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
+	22, // 32: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
+	5,  // 33: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
+	20, // 34: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
+	7,  // 35: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
+	20, // 36: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
+	37, // [37:37] is the sub-list for method output_type
+	37, // [37:37] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_manifest_proto_init() }
@@ -2378,6 +2391,7 @@ func file_hub_v1_manifest_proto_init() {
 	if File_hub_v1_manifest_proto != nil {
 		return
 	}
+	file_hub_v1_health_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
