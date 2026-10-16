@@ -71,22 +71,38 @@ func isRetryableStatusCode(code codes.Code) bool {
 	return code == codes.Unavailable || code == codes.ResourceExhausted || code == codes.DeadlineExceeded
 }
 
-// computeBackoff calculates jittered exponential backoff: delay * (0.75 + 0.5 * rand.Float64()) capped at 5 seconds.
+const maxBackoffDelay = 5 * time.Second
+
+// computeBackoff calculates jittered exponential backoff: capped * (0.5 + 0.5 * rand.Float64())
+// where capped = min(baseDelay * 2^(attempt-1), maxBackoffDelay).
 func computeBackoff(baseDelay time.Duration, attempt int) time.Duration {
+	if baseDelay <= 0 {
+		return 0
+	}
 	if attempt <= 0 {
 		attempt = 1
 	}
-	shift := attempt - 1
-	if shift > 6 {
-		shift = 6
+
+	var capped time.Duration
+	if baseDelay >= maxBackoffDelay {
+		capped = maxBackoffDelay
+	} else {
+		shift := attempt - 1
+		if shift > 30 {
+			shift = 30
+		}
+		capped = baseDelay * (1 << shift)
+		if capped > maxBackoffDelay || capped <= 0 {
+			capped = maxBackoffDelay
+		}
 	}
-	delay := baseDelay * (1 << shift)
-	jitter := 0.75 + 0.5*rand.Float64()
-	jittered := time.Duration(float64(delay) * jitter)
-	if jittered > 5*time.Second || jittered < 0 {
-		return 5 * time.Second
+
+	jitter := 0.5 + 0.5*rand.Float64()
+	delay := time.Duration(float64(capped) * jitter)
+	if delay > capped {
+		delay = capped
 	}
-	return jittered
+	return delay
 }
 
 // GetContract retrieves a DataContract by URN and optional version with automatic retry logic.
