@@ -484,11 +484,13 @@ func TestHubClient_ReportAnomaly_ExhaustedRetries(t *testing.T) {
 	conn, stop := startMockHubServer(t, mockSrv)
 	defer stop()
 
+	secretToken := "secret-anomaly-token-abc"
 	client, err := clients.NewHubClient(
 		"bufnet",
 		clients.WithGRPCConn(conn),
 		clients.WithMaxRetries(3),
 		clients.WithRetryDelay(1*time.Millisecond),
+		clients.WithToken(secretToken),
 	)
 	require.NoError(t, err)
 	defer client.Close()
@@ -496,5 +498,76 @@ func TestHubClient_ReportAnomaly_ExhaustedRetries(t *testing.T) {
 	_, err = client.ReportAnomaly(context.Background(), &hubv1.ReportAnomalyRequest{Urn: "urn:sc:test"})
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "exhausted retries reporting anomaly on \"urn:sc:test\"")
+	assert.Equal(t, codes.Unavailable, status.Code(err), "exhausted retries must preserve wrapped gRPC status code")
+	assert.NotContains(t, err.Error(), secretToken, "exhausted retry error must not leak bearer token")
 	assert.Equal(t, int32(3), mockSrv.reportAnomalyCalls.Load())
+}
+
+func TestHubClient_GetContract_ExhaustedRetries(t *testing.T) {
+	mockSrv := &mockHubServer{failCount: 5} // always fail
+	conn, stop := startMockHubServer(t, mockSrv)
+	defer stop()
+
+	secretToken := "secret-contract-token-xyz"
+	client, err := clients.NewHubClient(
+		"bufnet",
+		clients.WithGRPCConn(conn),
+		clients.WithMaxRetries(3),
+		clients.WithRetryDelay(1*time.Millisecond),
+		clients.WithToken(secretToken),
+	)
+	require.NoError(t, err)
+	defer client.Close()
+
+	_, err = client.GetContract(context.Background(), "urn:sc:contract:test", "v1.0.0")
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "exhausted retries fetching contract \"urn:sc:contract:test\"")
+	assert.Equal(t, codes.Unavailable, status.Code(err), "exhausted retries must preserve wrapped gRPC status code")
+	assert.NotContains(t, err.Error(), secretToken, "exhausted retry error must not leak bearer token")
+	assert.Equal(t, int32(3), mockSrv.getContractCalls.Load())
+}
+
+func TestHubClient_GetBlastRadius_ExhaustedRetries(t *testing.T) {
+	mockSrv := &mockHubServer{failCount: 5} // always fail
+	conn, stop := startMockHubServer(t, mockSrv)
+	defer stop()
+
+	secretToken := "secret-blast-radius-token"
+	client, err := clients.NewHubClient(
+		"bufnet",
+		clients.WithGRPCConn(conn),
+		clients.WithMaxRetries(3),
+		clients.WithRetryDelay(1*time.Millisecond),
+		clients.WithToken(secretToken),
+		clients.WithTimeout(5*time.Second),
+	)
+	require.NoError(t, err)
+	defer client.Close()
+
+	_, err = client.GetBlastRadius(context.Background(), "urn:sc:contract:test", 2)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "exhausted retries getting blast radius for \"urn:sc:contract:test\"")
+	assert.Equal(t, codes.Unavailable, status.Code(err), "exhausted retries must preserve wrapped gRPC status code")
+	assert.NotContains(t, err.Error(), secretToken, "exhausted retry error must not leak bearer token")
+	assert.Equal(t, int32(3), mockSrv.getBlastRadiusCalls.Load())
+}
+
+func TestHubClient_OptionsClamping(t *testing.T) {
+	mockSrv := &mockHubServer{failCount: 2}
+	conn, stop := startMockHubServer(t, mockSrv)
+	defer stop()
+
+	// WithMaxRetries(0) should clamp to 1 attempt
+	client, err := clients.NewHubClient(
+		"bufnet",
+		clients.WithGRPCConn(conn),
+		clients.WithMaxRetries(0),
+		clients.WithRetryDelay(1*time.Millisecond),
+	)
+	require.NoError(t, err)
+	defer client.Close()
+
+	_, err = client.GetContract(context.Background(), "urn:sc:contract:test", "v1.0.0")
+	require.Error(t, err)
+	assert.Equal(t, int32(1), mockSrv.getContractCalls.Load(), "WithMaxRetries(0) must clamp to 1 attempt")
 }
