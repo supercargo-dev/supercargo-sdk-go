@@ -9,6 +9,20 @@ import (
 	"unicode/utf8"
 )
 
+// Compile inspects the given struct or type, compiles its validation checks and contract metadata,
+// and returns the Validator. It supports passing either an instance (struct or pointer to struct)
+// or a reflect.Type.
+func Compile(target any) (*Validator, error) {
+	if target == nil {
+		return nil, fmt.Errorf("supercargo: cannot compile nil target")
+	}
+	typ, ok := target.(reflect.Type)
+	if !ok {
+		typ = reflect.TypeOf(target)
+	}
+	return GetValidator(typ)
+}
+
 func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Type]*Validator) (*Validator, error) {
 	v := &Validator{
 		typ:      typ,
@@ -17,10 +31,14 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 	// we must add 'v' to compiling right away so recursive calls find it
 	compiling[typ] = v
 
-	// Scan contract-level tags (e.g., supercargo.contract on anonymous _ struct{})
+	// Scan contract-level tags (e.g., supercargo.contract or supercargo on marker _ struct{})
 	for i := 0; i < typ.NumField(); i++ {
 		f := typ.Field(i)
-		if tag := f.Tag.Get("supercargo.contract"); tag != "" {
+		tag := f.Tag.Get("supercargo.contract")
+		if tag == "" && (f.Name == "_" || (f.Type.Kind() == reflect.Struct && f.Type.NumField() == 0)) {
+			tag = f.Tag.Get("supercargo")
+		}
+		if tag != "" {
 			parts := parseTagKeyValue(tag)
 			for _, part := range parts {
 				kv := strings.SplitN(part, "=", 2)

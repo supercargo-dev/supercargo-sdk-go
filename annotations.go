@@ -4,10 +4,27 @@ package supercargo
 type DataTypeHint string
 
 const (
+	// Canonical DataTypeHint constants corresponding to hub.v1.DataType
+	DataTypeString     DataTypeHint = "STRING"
+	DataTypeBytes      DataTypeHint = "BYTES"
+	DataTypeInt64      DataTypeHint = "INT64"
+	DataTypeFloat64    DataTypeHint = "FLOAT64"
+	DataTypeBool       DataTypeHint = "BOOL"
+	DataTypeTimestamp  DataTypeHint = "TIMESTAMP"
+	DataTypeDate       DataTypeHint = "DATE"
+	DataTypeTime       DataTypeHint = "TIME"
+	DataTypeDatetime   DataTypeHint = "DATETIME"
+	DataTypeGeography  DataTypeHint = "GEOGRAPHY"
+	DataTypeNumeric    DataTypeHint = "NUMERIC"
+	DataTypeBignumeric DataTypeHint = "BIGNUMERIC"
+	DataTypeStruct     DataTypeHint = "STRUCT"
+	DataTypeJson       DataTypeHint = "JSON"
+	DataTypeVector     DataTypeHint = "VECTOR"
+
 	// HintNone represents no specific type hint.
 	HintNone DataTypeHint = "NONE"
-	// HintTimestamp represents a timestamp data type.
-	HintTimestamp DataTypeHint = "TIMESTAMP"
+	// HintTimestamp represents a timestamp data type (alias to DataTypeTimestamp).
+	HintTimestamp = DataTypeTimestamp
 	// HintMapStringString represents a map of string to string.
 	HintMapStringString DataTypeHint = "MAP_STRING_STRING"
 	// HintUUID represents a UUID.
