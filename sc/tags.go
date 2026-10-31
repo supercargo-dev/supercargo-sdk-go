@@ -20,9 +20,14 @@ type FieldMetadata struct {
 }
 
 func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
-	scTag := f.Tag.Get("supercargo.field")
+	if f.Name == "_" {
+		return nil, nil
+	}
+
+	scFieldTag := f.Tag.Get("supercargo.field")
+	scTag := f.Tag.Get("supercargo")
 	valTag := f.Tag.Get("validate")
-	if scTag == "" && valTag == "" {
+	if scFieldTag == "" && scTag == "" && valTag == "" {
 		return nil, nil
 	}
 
@@ -98,91 +103,109 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 		}
 	}
 
-	// 2. Parse sovereign 'supercargo.field' tag (explicit overrides)
+	// 2. Parse 'supercargo' tag (if present)
 	if scTag != "" {
-		parts := parseTagKeyValue(scTag)
-		for _, part := range parts {
-			kv := strings.SplitN(part, "=", 2)
-			key := strings.TrimSpace(kv[0])
-			val := ""
-			if len(kv) > 1 {
-				val = strings.TrimSpace(kv[1])
-			}
-
-			switch key {
-			case "not_empty":
-				builder = builder.NotEmpty()
-			case "pii":
-				if b, err := strconv.ParseBool(val); err == nil {
-					builder = builder.PII(b)
-				} else {
-					builder = builder.PII(true)
-				}
-			case "rank":
-				i, err := strconv.Atoi(val)
-				if err != nil {
-					return nil, fmt.Errorf("supercargo: invalid int for rank on field %s: %w", f.Name, err)
-				}
-				builder = builder.Rank(i)
-			case "context_id":
-				builder = builder.ContextID(val)
-			case "domain", "identity_domain":
-				builder = builder.IdentityDomain(val)
-			case "greater_than", "gt":
-				builder = builder.GreaterThan(val)
-			case "less_than", "lt":
-				builder = builder.LessThan(val)
-			case "greater_than_or_equal_to", "gte":
-				builder = builder.GreaterThanOrEqual(val)
-			case "less_than_or_equal_to", "lte":
-				builder = builder.LessThanOrEqual(val)
-			case "max_length", "max":
-				i, err := strconv.Atoi(val)
-				if err != nil {
-					return nil, fmt.Errorf("supercargo: invalid int for max_length on field %s: %w", f.Name, err)
-				}
-				builder = builder.MaxLength(i)
-			case "min_length", "min":
-				i, err := strconv.Atoi(val)
-				if err != nil {
-					return nil, fmt.Errorf("supercargo: invalid int for min_length on field %s: %w", f.Name, err)
-				}
-				builder = builder.MinLength(i)
-			case "len":
-				i, err := strconv.Atoi(val)
-				if err != nil {
-					return nil, fmt.Errorf("supercargo: invalid int for len on field %s: %w", f.Name, err)
-				}
-				builder = builder.MinLength(i).MaxLength(i)
-			case "pattern":
-				builder = builder.Pattern(val)
-			case "oneof":
-				vals := parseOneOfValues(val)
-				builder = builder.OneOf(vals...)
-			case "primary_key", "pk":
-				b := true
-				if val != "" {
-					parsed, err := strconv.ParseBool(val)
-					if err != nil {
-						return nil, fmt.Errorf("supercargo: invalid boolean for primary_key on field %s: %w", f.Name, err)
-					}
-					b = parsed
-				}
-				builder = builder.PrimaryKey(b)
-			case "sort_rank", "sort_key":
-				i, err := strconv.Atoi(val)
-				if err != nil || i < 0 {
-					return nil, fmt.Errorf("supercargo: invalid int for sort_rank on field %s: must be non-negative integer", f.Name)
-				}
-				builder = builder.SortRank(i)
-			case "description", "desc":
-				builder = builder.Description(val)
-			case "type":
-				// parsed correctly, keeping for compatibility
-			}
+		var err error
+		builder, err = applyTagRules(builder, f, scTag)
+		if err != nil {
+			return nil, err
 		}
 	}
 
+	// 3. Parse sovereign 'supercargo.field' tag (explicit overrides win)
+	if scFieldTag != "" {
+		var err error
+		builder, err = applyTagRules(builder, f, scFieldTag)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return builder, nil
+}
+
+func applyTagRules(builder *FieldRuleBuilder, f reflect.StructField, tag string) (*FieldRuleBuilder, error) {
+	parts := parseTagKeyValue(tag)
+	for _, part := range parts {
+		kv := strings.SplitN(part, "=", 2)
+		key := strings.TrimSpace(kv[0])
+		val := ""
+		if len(kv) > 1 {
+			val = strings.TrimSpace(kv[1])
+		}
+
+		switch key {
+		case "not_empty":
+			builder = builder.NotEmpty()
+		case "pii":
+			if b, err := strconv.ParseBool(val); err == nil {
+				builder = builder.PII(b)
+			} else {
+				builder = builder.PII(true)
+			}
+		case "rank":
+			i, err := strconv.Atoi(val)
+			if err != nil {
+				return nil, fmt.Errorf("supercargo: invalid int for rank on field %s: %w", f.Name, err)
+			}
+			builder = builder.Rank(i)
+		case "context_id":
+			builder = builder.ContextID(val)
+		case "domain", "identity_domain":
+			builder = builder.IdentityDomain(val)
+		case "greater_than", "gt":
+			builder = builder.GreaterThan(val)
+		case "less_than", "lt":
+			builder = builder.LessThan(val)
+		case "greater_than_or_equal_to", "gte":
+			builder = builder.GreaterThanOrEqual(val)
+		case "less_than_or_equal_to", "lte":
+			builder = builder.LessThanOrEqual(val)
+		case "max_length", "max":
+			i, err := strconv.Atoi(val)
+			if err != nil {
+				return nil, fmt.Errorf("supercargo: invalid int for max_length on field %s: %w", f.Name, err)
+			}
+			builder = builder.MaxLength(i)
+		case "min_length", "min":
+			i, err := strconv.Atoi(val)
+			if err != nil {
+				return nil, fmt.Errorf("supercargo: invalid int for min_length on field %s: %w", f.Name, err)
+			}
+			builder = builder.MinLength(i)
+		case "len":
+			i, err := strconv.Atoi(val)
+			if err != nil {
+				return nil, fmt.Errorf("supercargo: invalid int for len on field %s: %w", f.Name, err)
+			}
+			builder = builder.MinLength(i).MaxLength(i)
+		case "pattern":
+			builder = builder.Pattern(val)
+		case "oneof":
+			vals := parseOneOfValues(val)
+			builder = builder.OneOf(vals...)
+		case "primary_key", "pk":
+			b := true
+			if val != "" {
+				parsed, err := strconv.ParseBool(val)
+				if err != nil {
+					return nil, fmt.Errorf("supercargo: invalid boolean for primary_key on field %s: %w", f.Name, err)
+				}
+				b = parsed
+			}
+			builder = builder.PrimaryKey(b)
+		case "sort_rank", "sort_key":
+			i, err := strconv.Atoi(val)
+			if err != nil || i < 0 {
+				return nil, fmt.Errorf("supercargo: invalid int for sort_rank on field %s: must be non-negative integer", f.Name)
+			}
+			builder = builder.SortRank(i)
+		case "description", "desc":
+			builder = builder.Description(val)
+		case "type":
+			// parsed correctly, keeping for compatibility
+		}
+	}
 	return builder, nil
 }
 

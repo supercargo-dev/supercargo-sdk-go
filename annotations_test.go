@@ -18,6 +18,47 @@ func TestDataTypeHints(t *testing.T) {
 	}
 }
 
+func TestCanonicalDataTypeHints(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name     string
+		got      DataTypeHint
+		expected string
+	}{
+		{"DataTypeString", DataTypeString, "STRING"},
+		{"DataTypeBytes", DataTypeBytes, "BYTES"},
+		{"DataTypeInt64", DataTypeInt64, "INT64"},
+		{"DataTypeFloat64", DataTypeFloat64, "FLOAT64"},
+		{"DataTypeBool", DataTypeBool, "BOOL"},
+		{"DataTypeTimestamp", DataTypeTimestamp, "TIMESTAMP"},
+		{"DataTypeDate", DataTypeDate, "DATE"},
+		{"DataTypeTime", DataTypeTime, "TIME"},
+		{"DataTypeDatetime", DataTypeDatetime, "DATETIME"},
+		{"DataTypeGeography", DataTypeGeography, "GEOGRAPHY"},
+		{"DataTypeNumeric", DataTypeNumeric, "NUMERIC"},
+		{"DataTypeBignumeric", DataTypeBignumeric, "BIGNUMERIC"},
+		{"DataTypeStruct", DataTypeStruct, "STRUCT"},
+		{"DataTypeJson", DataTypeJson, "JSON"},
+		{"DataTypeVector", DataTypeVector, "VECTOR"},
+		{"HintNone", HintNone, "NONE"},
+		{"HintTimestamp", HintTimestamp, "TIMESTAMP"},
+		{"HintMapStringString", HintMapStringString, "MAP_STRING_STRING"},
+		{"HintUUID", HintUUID, "UUID"},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			assert.Equal(t, tt.expected, string(tt.got))
+		})
+	}
+
+	// Verify alias equivalence
+	assert.Equal(t, DataTypeTimestamp, HintTimestamp)
+}
+
 func TestVisibilityConstants(t *testing.T) {
 	tests := []struct {
 		name     string
