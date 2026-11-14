@@ -103,7 +103,7 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 					if err := buildFields(f.Type, currentIndex, branchVisited); err != nil {
 						return err
 					}
-				} else if f.Type.Kind() == reflect.Ptr && f.Type.Elem().Kind() == reflect.Struct {
+				} else if f.Type.Kind() == reflect.Pointer && f.Type.Elem().Kind() == reflect.Struct {
 					if err := buildFields(f.Type.Elem(), currentIndex, branchVisited); err != nil {
 						return err
 					}
@@ -124,7 +124,7 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 	for _, r := range progRules {
 		if fRule, ok := r.(*FieldRuleBuilder); ok && fRule != nil {
 			// Ensure typed nil pointer isn't dereferenced
-			if reflect.ValueOf(fRule).Kind() == reflect.Ptr && reflect.ValueOf(fRule).IsNil() {
+			if reflect.ValueOf(fRule).Kind() == reflect.Pointer && reflect.ValueOf(fRule).IsNil() {
 				continue
 			}
 			clonedRule := fRule.Clone()
@@ -202,12 +202,12 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 		// Navigate type to find target kind
 		fTyp := typ
 		for _, i := range idx {
-			for fTyp.Kind() == reflect.Ptr {
+			for fTyp.Kind() == reflect.Pointer {
 				fTyp = fTyp.Elem()
 			}
 			fTyp = fTyp.Field(i).Type
 		}
-		for fTyp.Kind() == reflect.Ptr {
+		for fTyp.Kind() == reflect.Pointer {
 			fTyp = fTyp.Elem()
 		}
 
@@ -224,12 +224,12 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 		// Figure out the element type and prefetch its validator
 		fTyp := typ
 		for _, i := range idx {
-			for fTyp.Kind() == reflect.Ptr {
+			for fTyp.Kind() == reflect.Pointer {
 				fTyp = fTyp.Elem()
 			}
 			fTyp = fTyp.Field(i).Type
 		}
-		for fTyp.Kind() == reflect.Ptr {
+		for fTyp.Kind() == reflect.Pointer {
 			fTyp = fTyp.Elem()
 		}
 
@@ -244,7 +244,7 @@ func buildValidator(typ reflect.Type, progRules []Rule, compiling map[reflect.Ty
 }
 
 func containsStruct(t reflect.Type) bool {
-	for t.Kind() == reflect.Ptr {
+	for t.Kind() == reflect.Pointer {
 		t = t.Elem()
 	}
 	if t.Kind() == reflect.Struct {
@@ -252,7 +252,7 @@ func containsStruct(t reflect.Type) bool {
 	}
 	if t.Kind() == reflect.Slice || t.Kind() == reflect.Array || t.Kind() == reflect.Map {
 		elem := t.Elem()
-		for elem.Kind() == reflect.Ptr {
+		for elem.Kind() == reflect.Pointer {
 			elem = elem.Elem()
 		}
 		if elem.Kind() == reflect.Struct {
@@ -269,7 +269,7 @@ func generateRecursiveValidationClosure(idx []int, fieldTyp reflect.Type, compil
 	} else {
 		elemType = fieldTyp
 	}
-	for elemType.Kind() == reflect.Ptr {
+	for elemType.Kind() == reflect.Pointer {
 		elemType = elemType.Elem()
 	}
 
@@ -286,7 +286,7 @@ func generateRecursiveValidationClosure(idx []int, fieldTyp reflect.Type, compil
 		for _, i := range idx {
 			var isCycle bool
 			fVal, currVisited, isCycle = derefAndCheckCycle(fVal, currVisited)
-			if fVal.Kind() == reflect.Ptr && fVal.IsNil() || isCycle {
+			if fVal.Kind() == reflect.Pointer && fVal.IsNil() || isCycle {
 				return nil
 			}
 			if fVal.Kind() != reflect.Struct {
@@ -301,7 +301,7 @@ func generateRecursiveValidationClosure(idx []int, fieldTyp reflect.Type, compil
 func validateDeep(val reflect.Value, visited *ptrStack, targetV *Validator) error {
 	var isCycle bool
 	val, currVisited, isCycle := derefAndCheckCycle(val, visited)
-	if val.Kind() == reflect.Ptr && val.IsNil() || isCycle {
+	if val.Kind() == reflect.Pointer && val.IsNil() || isCycle {
 		return nil
 	}
 
@@ -313,7 +313,7 @@ func validateDeep(val reflect.Value, visited *ptrStack, targetV *Validator) erro
 		for i := 0; i < val.Len(); i++ {
 			var isCycle bool
 			ev, evVisited, isCycle := derefAndCheckCycle(val.Index(i), currVisited)
-			if ev.Kind() == reflect.Ptr && ev.IsNil() || isCycle {
+			if ev.Kind() == reflect.Pointer && ev.IsNil() || isCycle {
 				continue
 			}
 			if ev.Kind() == reflect.Struct {
@@ -328,7 +328,7 @@ func validateDeep(val reflect.Value, visited *ptrStack, targetV *Validator) erro
 		for iter.Next() {
 			var isCycle bool
 			ev, evVisited, isCycle := derefAndCheckCycle(iter.Value(), currVisited)
-			if ev.Kind() == reflect.Ptr && ev.IsNil() || isCycle {
+			if ev.Kind() == reflect.Pointer && ev.IsNil() || isCycle {
 				continue
 			}
 			if ev.Kind() == reflect.Struct {
@@ -348,7 +348,7 @@ func navigateField(val reflect.Value, idx []int, notEmpty bool, name string, isP
 	for _, i := range idx {
 		var isCycle bool
 		fVal, currVisited, isCycle = derefAndCheckCycle(fVal, currVisited)
-		if fVal.Kind() == reflect.Ptr && fVal.IsNil() {
+		if fVal.Kind() == reflect.Pointer && fVal.IsNil() {
 			if notEmpty {
 				return reflect.Value{}, true, newValidationError(name, "must not be empty", nil, isPII, nil)
 			}
@@ -364,7 +364,7 @@ func navigateField(val reflect.Value, idx []int, notEmpty bool, name string, isP
 	}
 
 	isNilPtr := false
-	for fVal.Kind() == reflect.Ptr {
+	for fVal.Kind() == reflect.Pointer {
 		if fVal.IsNil() {
 			isNilPtr = true
 			break

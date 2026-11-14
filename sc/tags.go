@@ -35,7 +35,7 @@ func parseTagRules(f reflect.StructField) (*FieldRuleBuilder, error) {
 
 	// Determine type kind for type-aware constraint mapping
 	t := f.Type
-	for t.Kind() == reflect.Ptr {
+	for t.Kind() == reflect.Pointer {
 		t = t.Elem()
 	}
 	kind := t.Kind()

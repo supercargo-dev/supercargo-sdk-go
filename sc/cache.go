@@ -22,7 +22,7 @@ type ptrStack struct {
 
 func derefAndCheckCycle(val reflect.Value, visited *ptrStack) (reflect.Value, *ptrStack, bool) {
 	currVisited := visited
-	for val.Kind() == reflect.Ptr {
+	for val.Kind() == reflect.Pointer {
 		if val.IsNil() {
 			return val, currVisited, false
 		}
