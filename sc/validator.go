@@ -28,7 +28,7 @@ func (v *Validator) Schema() Schema {
 
 // GetValidator returns the compiled Validator for the given struct type or pointer to struct.
 func GetValidator(typ reflect.Type) (*Validator, error) {
-	for typ.Kind() == reflect.Ptr {
+	for typ.Kind() == reflect.Pointer {
 		typ = typ.Elem()
 	}
 	if typ.Kind() != reflect.Struct {
@@ -71,7 +71,7 @@ func Validate(payload any) error {
 
 	const maxDerefDepth = 32
 	val := reflect.ValueOf(payload)
-	for depth := 0; val.Kind() == reflect.Ptr || val.Kind() == reflect.Interface; depth++ {
+	for depth := 0; val.Kind() == reflect.Pointer || val.Kind() == reflect.Interface; depth++ {
 		if val.IsNil() {
 			return newNilPayloadError()
 		}

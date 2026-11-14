@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go-version: ['1.22', '1.23', '1.24', '1.25']
+        go-version: ['1.26.11', '1.27.4']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,6 +42,13 @@ jobs:
 
       - name: Verify Module Integrity
         run: go mod verify
+
+      - name: Verify No Toolchain Directive Leak
+        run: |
+          if grep -q '^toolchain' go.mod; then
+            echo "Error: supercargo-sdk-go/go.mod must not contain a toolchain directive" >&2
+            exit 1
+          fi
 
       - name: Check Go Format
         run: |
