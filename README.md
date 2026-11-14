@@ -68,7 +68,7 @@ Attach to individual struct fields:
 | `as` | Semantic data type hint (`UUID`, `TIMESTAMP`, `EMAIL`, etc.). | `as=UUID` |
 | `pii` | Marks field as containing PII (`true`, `false`, or category name). | `pii=true` |
 | `context_id` | Salt / hashing context for pseudonymization. | `context_id=user_salt` |
-| `identity_domain` | Identity Domain URN for cross-system joining. | `identity_domain=urn:supercargo:identity_domain:user` |
+| `identity_domain` | Identity Domain URN for cross-system joining. | `identity_domain=urn:supercargo:hub:identity_domain:user` |
 | `rank` | Identity domain priority rank (1 = Primary). | `rank=1` |
 | `entity` / `entity_ref` | Entity reference URN for federated identity anchoring. | `entity=urn:supercargo:entity:identity:user` |
 | `not_empty` | Enforces non-empty constraint and marks field as `REQUIRED`. | `not_empty=true` |
