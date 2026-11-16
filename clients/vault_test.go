@@ -123,6 +123,45 @@ func TestVaultClient_BatchTokenize_Chunking(t *testing.T) {
 	assert.Equal(t, []int{500, 500, 250}, mockSrv.chunkSizes)
 }
 
+func TestVaultClient_BatchTokenize_DefaultChunkSize_250Cascades(t *testing.T) {
+	mockSrv := &mockVaultServer{}
+	conn, stop := startMockVaultServer(t, mockSrv)
+	defer stop()
+
+	// Initialize VaultClient without WithChunkSize to verify default chunking (100).
+	client, err := clients.NewVaultClient(
+		"bufnet",
+		clients.WithGRPCConn(conn),
+		clients.WithMaxRetries(3),
+		clients.WithRetryDelay(10*time.Millisecond),
+	)
+	require.NoError(t, err)
+	defer client.Close()
+
+	total := 250
+	cascades := make([]*vaultv1.EntityCascade, total)
+	for i := 0; i < total; i++ {
+		cascades[i] = &vaultv1.EntityCascade{
+			ContextId: fmt.Sprintf("user-%d", i),
+			Identifiers: []*vaultv1.EntityIdentifier{
+				{
+					Urn:   "urn:sc:entity:user",
+					Value: fmt.Sprintf("user-%d@example.com", i),
+				},
+			},
+		}
+	}
+
+	ctx := context.Background()
+	results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", cascades)
+	require.NoError(t, err)
+	assert.Len(t, results, total)
+
+	// With total=250 and default chunkSize=100, we expect 3 chunks: 100, 100, 50
+	assert.Equal(t, int32(3), mockSrv.batchCalls.Load())
+	assert.Equal(t, []int{100, 100, 50}, mockSrv.chunkSizes)
+}
+
 func TestVaultClient_BatchTokenize_RetrySuccess(t *testing.T) {
 	mockSrv := &mockVaultServer{failCount: 1}
 	conn, stop := startMockVaultServer(t, mockSrv)
