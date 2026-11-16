@@ -33,7 +33,7 @@ func defaultOptions() *clientOptions {
 		timeout:    10 * time.Second,
 		maxRetries: 3,
 		retryDelay: 500 * time.Millisecond,
-		chunkSize:  1000,
+		chunkSize:  100,
 		insecure:   false,
 	}
 }

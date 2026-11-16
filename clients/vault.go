@@ -91,7 +91,7 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 	}
 	chunkSize := c.opts.chunkSize
 	if chunkSize <= 0 {
-		chunkSize = 1000
+		chunkSize = 100
 	}
 
 	allResults := make([]*vaultv1.EntityCascadeResult, 0, len(cascades))
