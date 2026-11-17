@@ -2,8 +2,11 @@ package clients
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
+	"regexp"
+	"strings"
 	"time"
 
 	"google.golang.org/grpc"
@@ -14,7 +17,11 @@ import (
 	vaultv1 "github.com/supercargo-dev/supercargo-sdk-go/gen/go/vault/v1"
 )
 
-var _ io.Closer = (*VaultClient)(nil)
+var (
+	_ io.Closer = (*VaultClient)(nil)
+
+	bearerTokenPattern = regexp.MustCompile(`(?i)\bBearer\s+(?:\[REDACTED\]|"[^"]*"|'[^']*'|[^\s"',;\)\]]+)`)
+)
 
 // VaultClient provides an idiomatic Go client for the Supercargo Vault Service.
 type VaultClient struct {
@@ -87,7 +94,7 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 
 	authCtx, err := attachAuthMetadata(ctx, c.opts)
 	if err != nil {
-		return nil, err
+		return nil, sanitizeVaultError(err)
 	}
 	chunkSize := c.opts.chunkSize
 	if chunkSize <= 0 {
@@ -132,18 +139,8 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 					return nil, fmt.Errorf("%w: vault response cardinality mismatch: expected %d results, received %d", ErrSystemUnavailable, len(chunk), len(resp.Results))
 				}
 				for i, cascade := range chunk {
-					if cascade == nil {
-						return nil, fmt.Errorf("%w: nil input cascade at index %d", ErrSystemUnavailable, offset+i)
-					}
-					result := resp.Results[i]
-					if result == nil {
-						return nil, fmt.Errorf("%w: nil cascade result at index %d", ErrSystemUnavailable, i)
-					}
-					if cascade.ContextId != "" && result.ContextId != cascade.ContextId {
-						return nil, fmt.Errorf("%w: vault response context_id mismatch: expected '%s', got '%s'", ErrSystemUnavailable, cascade.ContextId, result.ContextId)
-					}
-					if len(cascade.Identifiers) > 0 && len(result.Tokens) == 0 {
-						return nil, fmt.Errorf("%w: fail-closed: vault returned empty token mapping for cascade context_id '%s'", ErrSystemUnavailable, cascade.ContextId)
+					if err := validateCascadeResult(identityDomainURN, offset+i, cascade, resp.Results[i]); err != nil {
+						return nil, err
 					}
 				}
 				chunkResults = resp.Results
@@ -160,18 +157,18 @@ func (c *VaultClient) BatchTokenize(ctx context.Context, identityDomainURN strin
 					select {
 					case <-ctx.Done():
 						timer.Stop()
-						return nil, ctx.Err()
+						return nil, sanitizeVaultError(ctx.Err())
 					case <-timer.C:
 					}
 					continue
 				}
 				break
 			}
-			return nil, fmt.Errorf("vault BatchTokenize failed: %w", err)
+			return nil, fmt.Errorf("vault BatchTokenize failed: %w", sanitizeVaultError(err))
 		}
 
 		if !chunkSucceeded {
-			return nil, fmt.Errorf("exhausted retries in vault BatchTokenize: %w", lastErr)
+			return nil, fmt.Errorf("exhausted retries in vault BatchTokenize: %w", sanitizeVaultError(lastErr))
 		}
 
 		allResults = append(allResults, chunkResults...)
@@ -186,4 +183,106 @@ func (c *VaultClient) Close() error {
 		return c.conn.Close()
 	}
 	return nil
+}
+
+func validateCascadeResult(identityDomainURN string, idx int, cascade *vaultv1.EntityCascade, result *vaultv1.EntityCascadeResult) error {
+	if cascade == nil {
+		return fmt.Errorf("%w: nil input cascade at index %d", ErrSystemUnavailable, idx)
+	}
+	if result == nil {
+		return fmt.Errorf("%w: nil cascade result at index %d", ErrSystemUnavailable, idx)
+	}
+	if result.ContextId != cascade.ContextId {
+		return fmt.Errorf("%w: vault response context_id mismatch: expected '%s', got '%s'", ErrSystemUnavailable, cascade.ContextId, result.ContextId)
+	}
+	if len(cascade.Identifiers) == 0 {
+		return nil
+	}
+	if len(result.Tokens) == 0 {
+		return fmt.Errorf("%w: fail-closed: vault returned empty token mapping for cascade context_id '%s' (remediation: verify Vault service health and identity domain salt configuration)", ErrSystemUnavailable, cascade.ContextId)
+	}
+
+	for _, ident := range cascade.Identifiers {
+		urn := "unknown"
+		if ident != nil && strings.TrimSpace(ident.Urn) != "" {
+			urn = ident.Urn
+		}
+		if ident == nil || strings.TrimSpace(ident.Value) == "" {
+			return fmt.Errorf("%w: fail-closed: invalid or empty identifier '%s' [MASKED] in cascade context_id '%s' (remediation: provide non-empty entity URN and identifier value)", ErrSystemUnavailable, urn, cascade.ContextId)
+		}
+
+		tok, ok := resolveIdentifierToken(result.Tokens, ident, cascade.Identifiers)
+		if !ok || !isValidToken(tok) {
+			return fmt.Errorf("%w: fail-closed: vault returned missing or invalid token for cascade context_id '%s', identifier '%s' [MASKED] in domain '%s' (remediation: verify Vault service health, identity domain salt configuration, and BatchTokenize response integrity)", ErrSystemUnavailable, cascade.ContextId, urn, identityDomainURN)
+		}
+	}
+	return nil
+}
+
+func resolveIdentifierToken(tokens map[string]string, ident *vaultv1.EntityIdentifier, allIdentifiers []*vaultv1.EntityIdentifier) (string, bool) {
+	if ident.Urn != "" {
+		compositeKey := ident.Urn + ":" + ident.Value
+		if tok, ok := tokens[compositeKey]; ok {
+			return tok, true
+		}
+		for _, otherIdent := range allIdentifiers {
+			if otherIdent == nil || otherIdent.Urn == "" {
+				continue
+			}
+			if _, ok := tokens[otherIdent.Urn+":"+ident.Value]; ok {
+				return "", false
+			}
+		}
+	}
+	tok, ok := tokens[ident.Value]
+	return tok, ok
+}
+
+func isValidToken(tok string) bool {
+	if strings.TrimSpace(tok) == "" {
+		return false
+	}
+	for i := 0; i < len(tok); i++ {
+		b := tok[i]
+		if b < 0x20 || b == 0x7f {
+			return false
+		}
+	}
+	return true
+}
+
+func redactBearer(msg string) string {
+	return bearerTokenPattern.ReplaceAllString(msg, "Bearer [REDACTED]")
+}
+
+type sanitizedContextError struct {
+	msg   string
+	cause error
+}
+
+func (e *sanitizedContextError) Error() string { return e.msg }
+func (e *sanitizedContextError) Unwrap() error { return e.cause }
+
+func sanitizeVaultError(err error) error {
+	if err == nil {
+		return nil
+	}
+	if st, ok := status.FromError(err); ok {
+		return status.Error(st.Code(), redactBearer(st.Message()))
+	}
+	msg := redactBearer(err.Error())
+	switch {
+	case errors.Is(err, context.Canceled):
+		if err == context.Canceled {
+			return context.Canceled
+		}
+		return &sanitizedContextError{msg: msg, cause: context.Canceled}
+	case errors.Is(err, context.DeadlineExceeded):
+		if err == context.DeadlineExceeded {
+			return context.DeadlineExceeded
+		}
+		return &sanitizedContextError{msg: msg, cause: context.DeadlineExceeded}
+	default:
+		return errors.New(msg)
+	}
 }

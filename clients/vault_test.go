@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -14,6 +16,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/test/bufconn"
 
@@ -23,6 +26,7 @@ import (
 
 type mockVaultServer struct {
 	vaultv1.UnimplementedVaultServiceServer
+	mu                  sync.Mutex
 	batchCalls          atomic.Int32
 	failCount           int32
 	chunkSizes          []int
@@ -42,14 +46,28 @@ func (m *mockVaultServer) BatchTokenize(ctx context.Context, req *vaultv1.BatchT
 		return nil, status.Error(codes.ResourceExhausted, "quota exceeded temporarily")
 	}
 
+	m.mu.Lock()
 	m.chunkSizes = append(m.chunkSizes, len(req.Cascades))
-	var results []*vaultv1.EntityCascadeResult
+	m.mu.Unlock()
+
+	results := make([]*vaultv1.EntityCascadeResult, 0, len(req.Cascades))
 	for _, c := range req.Cascades {
+		tokens := make(map[string]string, len(c.Identifiers)*2)
+		for idx, ident := range c.Identifiers {
+			if ident == nil {
+				continue
+			}
+			tok := fmt.Sprintf("tok-%s-%d", c.ContextId, idx)
+			if ident.Urn != "" {
+				tokens[ident.Urn+":"+ident.Value] = tok
+			}
+			if _, exists := tokens[ident.Value]; !exists {
+				tokens[ident.Value] = tok
+			}
+		}
 		results = append(results, &vaultv1.EntityCascadeResult{
-			ContextId: c.ContextId,
-			Tokens: map[string]string{
-				"val": "tok-" + c.ContextId,
-			},
+			ContextId:    c.ContextId,
+			Tokens:       tokens,
 			IdSearchHash: "hash-" + c.ContextId,
 		})
 	}
@@ -193,7 +211,8 @@ func TestVaultClient_BatchTokenize_RetrySuccess(t *testing.T) {
 	results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", cascades)
 	require.NoError(t, err)
 	assert.Len(t, results, 1)
-	assert.Equal(t, "tok-user-1", results[0].Tokens["val"])
+	assert.Equal(t, "tok-user-1-0", results[0].Tokens["user-1@example.com"])
+	assert.Equal(t, "tok-user-1-0", results[0].Tokens["urn:sc:entity:user:user-1@example.com"])
 	assert.Equal(t, int32(2), mockSrv.batchCalls.Load())
 }
 
@@ -493,6 +512,497 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				assert.Len(t, results, len(tt.cascades))
+			}
+		})
+	}
+}
+
+func startSubcutaneousVaultServer(t *testing.T, srv *mockVaultServer, expectedToken string) (*grpc.ClientConn, *atomic.Int32) {
+	t.Helper()
+	lis := bufconn.Listen(1024 * 1024)
+	var interceptorCalls atomic.Int32
+
+	authInterceptor := func(
+		ctx context.Context,
+		req any,
+		info *grpc.UnaryServerInfo,
+		handler grpc.UnaryHandler,
+	) (any, error) {
+		interceptorCalls.Add(1)
+		md, ok := metadata.FromIncomingContext(ctx)
+		if !ok {
+			return nil, status.Error(codes.Unauthenticated, "missing authorization metadata")
+		}
+		vals := md.Get("authorization")
+		if len(vals) == 0 {
+			return nil, status.Error(codes.Unauthenticated, "missing authorization header")
+		}
+		if vals[0] != "Bearer "+expectedToken {
+			return nil, status.Errorf(codes.Unauthenticated, "invalid authorization header: %s", vals[0])
+		}
+		return handler(ctx, req)
+	}
+
+	s := grpc.NewServer(grpc.UnaryInterceptor(authInterceptor))
+	vaultv1.RegisterVaultServiceServer(s, srv)
+
+	go func() {
+		_ = s.Serve(lis)
+	}()
+
+	dialer := func(ctx context.Context, _ string) (net.Conn, error) {
+		return lis.DialContext(ctx)
+	}
+
+	conn, err := grpc.NewClient(
+		"passthrough://bufnet",
+		grpc.WithContextDialer(dialer),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	require.NoError(t, err)
+
+	t.Cleanup(func() {
+		_ = conn.Close()
+		s.Stop()
+		_ = lis.Close()
+	})
+
+	return conn, &interceptorCalls
+}
+
+func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
+	t.Parallel()
+	const validSecret = "super-valid-vault-token-905"
+	const invalidSecret = "bad-vault-secret-905"
+
+	t.Run("authenticated multi-identifier cascade with canonical 64-char hex HMAC tokens succeeds", func(t *testing.T) {
+		t.Parallel()
+		hexTok1 := strings.Repeat("a1", 32)
+		hexTok2 := strings.Repeat("b2", 32)
+		hexTok3 := strings.Repeat("c3", 32)
+		mockSrv := &mockVaultServer{
+			overrideResp: &vaultv1.BatchTokenizeResponse{
+				Results: []*vaultv1.EntityCascadeResult{
+					{
+						ContextId: "ctx-hex-1",
+						Tokens: map[string]string{
+							"urn:sc:entity:email:alice@example.com": hexTok1,
+							"alice@example.com":                     hexTok1,
+							"urn:sc:entity:ssn:123-45-6789":         hexTok2,
+							"123-45-6789":                           hexTok2,
+							"urn:sc:entity:phone:+15550199":         hexTok3,
+							"+15550199":                             hexTok3,
+						},
+					},
+				},
+			},
+		}
+		conn, interceptorCalls := startSubcutaneousVaultServer(t, mockSrv, validSecret)
+
+		client, err := clients.NewVaultClient(
+			"bufnet",
+			clients.WithGRPCConn(conn),
+			clients.WithToken(validSecret),
+			clients.WithMaxRetries(3),
+			clients.WithRetryDelay(5*time.Millisecond),
+		)
+		require.NoError(t, err)
+		t.Cleanup(func() { _ = client.Close() })
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+			{
+				ContextId: "ctx-hex-1",
+				Identifiers: []*vaultv1.EntityIdentifier{
+					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+					{Urn: "urn:sc:entity:ssn", Value: "123-45-6789"},
+					{Urn: "urn:sc:entity:phone", Value: "+15550199"},
+				},
+			},
+		})
+		require.NoError(t, err)
+		require.Len(t, results, 1)
+		assert.Equal(t, int32(1), interceptorCalls.Load())
+		assert.Equal(t, int32(1), mockSrv.batchCalls.Load())
+		assert.Equal(t, hexTok1, results[0].Tokens["urn:sc:entity:email:alice@example.com"])
+	})
+
+	t.Run("unauthenticated request fails closed in 1 call and redacts Bearer secret", func(t *testing.T) {
+		t.Parallel()
+		mockSrv := &mockVaultServer{}
+		conn, interceptorCalls := startSubcutaneousVaultServer(t, mockSrv, validSecret)
+
+		client, err := clients.NewVaultClient(
+			"bufnet",
+			clients.WithGRPCConn(conn),
+			clients.WithToken(invalidSecret),
+			clients.WithMaxRetries(3),
+			clients.WithRetryDelay(5*time.Millisecond),
+		)
+		require.NoError(t, err)
+		t.Cleanup(func() { _ = client.Close() })
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		_, err = client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+			{
+				ContextId: "ctx-unauth",
+				Identifiers: []*vaultv1.EntityIdentifier{
+					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+				},
+			},
+		})
+		require.Error(t, err)
+		st, ok := status.FromError(err)
+		require.True(t, ok, "expected gRPC status error, got: %v", err)
+		assert.Equal(t, codes.Unauthenticated, st.Code())
+		assert.Equal(t, int32(1), interceptorCalls.Load(), "codes.Unauthenticated must not be retried")
+		assert.Equal(t, int32(0), mockSrv.batchCalls.Load())
+		assert.Contains(t, err.Error(), "Bearer [REDACTED]")
+		assert.NotContains(t, err.Error(), invalidSecret)
+		for unwrapped := err; unwrapped != nil; unwrapped = errors.Unwrap(unwrapped) {
+			assert.NotContains(t, unwrapped.Error(), invalidSecret)
+		}
+	})
+
+	t.Run("missing auth metadata fails closed with codes.Unauthenticated in 1 call", func(t *testing.T) {
+		t.Parallel()
+		mockSrv := &mockVaultServer{}
+		conn, interceptorCalls := startSubcutaneousVaultServer(t, mockSrv, validSecret)
+
+		client, err := clients.NewVaultClient(
+			"bufnet",
+			clients.WithGRPCConn(conn),
+			clients.WithMaxRetries(3),
+			clients.WithRetryDelay(5*time.Millisecond),
+		)
+		require.NoError(t, err)
+		t.Cleanup(func() { _ = client.Close() })
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		_, err = client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+			{
+				ContextId: "ctx-no-auth",
+				Identifiers: []*vaultv1.EntityIdentifier{
+					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+				},
+			},
+		})
+		require.Error(t, err)
+		st, ok := status.FromError(err)
+		require.True(t, ok)
+		assert.Equal(t, codes.Unauthenticated, st.Code())
+		assert.Equal(t, int32(1), interceptorCalls.Load())
+	})
+
+	t.Run("tokenProvider error redacts Bearer secret and preserves context sentinel without leaking secret in %w chain", func(t *testing.T) {
+		t.Parallel()
+		const providerSecret = "provider-leak-secret-905"
+		mockSrv := &mockVaultServer{}
+		conn, interceptorCalls := startSubcutaneousVaultServer(t, mockSrv, validSecret)
+
+		client, err := clients.NewVaultClient(
+			"bufnet",
+			clients.WithGRPCConn(conn),
+			clients.WithTokenProvider(func(ctx context.Context) (string, error) {
+				return "", fmt.Errorf("oauth refresh failed for Bearer %s: %w", providerSecret, context.DeadlineExceeded)
+			}),
+		)
+		require.NoError(t, err)
+		t.Cleanup(func() { _ = client.Close() })
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		_, err = client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+			{
+				ContextId: "ctx-provider-err",
+				Identifiers: []*vaultv1.EntityIdentifier{
+					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+				},
+			},
+		})
+		require.Error(t, err)
+		assert.Equal(t, int32(0), interceptorCalls.Load())
+		assert.True(t, errors.Is(err, context.DeadlineExceeded), "expected context.DeadlineExceeded to be preserved")
+		assert.Contains(t, err.Error(), "Bearer [REDACTED]")
+		assert.NotContains(t, err.Error(), providerSecret)
+		for unwrapped := err; unwrapped != nil; unwrapped = errors.Unwrap(unwrapped) {
+			assert.NotContains(t, unwrapped.Error(), providerSecret)
+		}
+	})
+}
+
+func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
+	t.Parallel()
+	const validSecret = "valid-vault-token-905"
+
+	tests := []struct {
+		name           string
+		cascades       []*vaultv1.EntityCascade
+		tokens         map[string]string
+		expectErr      bool
+		expectedSubstr string
+		forbiddenPII   []string
+	}{
+		{
+			name: "partial token map: 2 identifiers requested and 1 omitted fails closed without retry",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-partial",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+						{Urn: "urn:sc:entity:ssn", Value: "123-45-6789"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:alice@example.com": "tok-email-1",
+				"alice@example.com":                     "tok-email-1",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"alice@example.com", "123-45-6789"},
+		},
+		{
+			name: "empty string token fails closed",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-empty-tok",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "secret-alice@example.com"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:secret-alice@example.com": "",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"secret-alice@example.com"},
+		},
+		{
+			name: "whitespace-only token fails closed",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-ws-tok",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "secret-bob@example.com"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:secret-bob@example.com": "   \t",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"secret-bob@example.com"},
+		},
+		{
+			name: "control-char NUL token fails closed",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-ctrl-nul",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "secret-carol@example.com"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:secret-carol@example.com": "tok\x00bad",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"secret-carol@example.com"},
+		},
+		{
+			name: "control-char DEL token fails closed",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-ctrl-del",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "secret-dave@example.com"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:secret-dave@example.com": "tok\x7fbad",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"secret-dave@example.com"},
+		},
+		{
+			name: "multi-URN same-cleartext partial omission fails closed instead of falling back to bare value",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-multi-urn",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:primary", Value: "pii-100-secret"},
+						{Urn: "urn:sc:entity:secondary", Value: "pii-100-secret"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:primary:pii-100-secret": "tok-primary",
+				"pii-100-secret":                       "tok-primary",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"pii-100-secret"},
+		},
+		{
+			name: "empty composite shadows bare value and fails closed",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-shadow",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:primary", Value: "pii-200-secret"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:primary:pii-200-secret": "",
+				"pii-200-secret":                       "tok-bare",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"pii-200-secret"},
+		},
+		{
+			name: "nil identifier in cascade fails closed without panic",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-nil-ident",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "valid@example.com"},
+						nil,
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:valid@example.com": "tok-valid",
+				"valid@example.com":                     "tok-valid",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"valid@example.com"},
+		},
+		{
+			name: "blank identifier value fails closed without echoing PII",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-blank-val",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "valid@example.com"},
+						{Urn: "urn:sc:entity:ssn", Value: "   \t"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:valid@example.com": "tok-valid",
+				"valid@example.com":                     "tok-valid",
+			},
+			expectErr:      true,
+			expectedSubstr: "[MASKED]",
+			forbiddenPII:   []string{"valid@example.com"},
+		},
+		{
+			name: "valid: bare-keyed mock response with colon in another bare value does not false-positive",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-bare-colon",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:primary", Value: "100"},
+						{Urn: "", Value: "foo:100"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"100":     "tok_bare_1",
+				"foo:100": "hmac_bare_2",
+			},
+			expectErr: false,
+		},
+		{
+			name: "valid: duplicate identifiers in cascade succeed",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId: "ctx-dup",
+					Identifiers: []*vaultv1.EntityIdentifier{
+						{Urn: "urn:sc:entity:email", Value: "dup@example.com"},
+						{Urn: "urn:sc:entity:email", Value: "dup@example.com"},
+					},
+				},
+			},
+			tokens: map[string]string{
+				"urn:sc:entity:email:dup@example.com": "tok_dup_1",
+				"dup@example.com":                     "tok_dup_1",
+			},
+			expectErr: false,
+		},
+		{
+			name: "valid: empty cascade.Identifiers remains valid with empty token map",
+			cascades: []*vaultv1.EntityCascade{
+				{
+					ContextId:   "ctx-zero-idents",
+					Identifiers: []*vaultv1.EntityIdentifier{},
+				},
+			},
+			tokens:    map[string]string{},
+			expectErr: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			mockSrv := &mockVaultServer{
+				overrideResp: &vaultv1.BatchTokenizeResponse{
+					Results: []*vaultv1.EntityCascadeResult{
+						{
+							ContextId: tt.cascades[0].ContextId,
+							Tokens:    tt.tokens,
+						},
+					},
+				},
+			}
+			conn, interceptorCalls := startSubcutaneousVaultServer(t, mockSrv, validSecret)
+
+			client, err := clients.NewVaultClient(
+				"bufnet",
+				clients.WithGRPCConn(conn),
+				clients.WithToken(validSecret),
+				clients.WithMaxRetries(3),
+				clients.WithRetryDelay(5*time.Millisecond),
+			)
+			require.NoError(t, err)
+			t.Cleanup(func() { _ = client.Close() })
+
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+
+			results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", tt.cascades)
+			if tt.expectErr {
+				require.Error(t, err)
+				assert.True(t, errors.Is(err, clients.ErrSystemUnavailable), "expected ErrSystemUnavailable, got: %v", err)
+				assert.Contains(t, err.Error(), tt.expectedSubstr)
+				assert.Contains(t, err.Error(), "remediation:")
+				for _, pii := range tt.forbiddenPII {
+					assert.NotContains(t, err.Error(), pii, "raw PII must never appear in error messages")
+				}
+				assert.Nil(t, results)
+				assert.Equal(t, int32(1), interceptorCalls.Load(), "fail-closed validation error must not retry")
+				assert.Equal(t, int32(1), mockSrv.batchCalls.Load(), "fail-closed validation error must not retry")
+			} else {
+				require.NoError(t, err)
+				assert.Len(t, results, len(tt.cascades))
+				assert.Equal(t, int32(1), interceptorCalls.Load())
 			}
 		})
 	}
