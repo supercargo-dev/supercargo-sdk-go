@@ -303,7 +303,7 @@ func (m *Meta) validate(all bool) error {
 	if !_Meta_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := MetaValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -497,7 +497,7 @@ var _ interface {
 	ErrorName() string
 } = MetaValidationError{}
 
-var _Meta_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _Meta_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 var _Meta_Version_Pattern = regexp.MustCompile("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.(?:[0-9a-zA-Z-]+))*))?$")
 
@@ -595,15 +595,19 @@ func (m *Field) validate(all bool) error {
 
 	}
 
-	if !_Field_EntityRef_Pattern.MatchString(m.GetEntityRef()) {
-		err := FieldValidationError{
-			field:  "EntityRef",
-			reason: "value does not match regex pattern \"^urn:sc:entity:[a-z_]+:[a-z_]+$\"",
+	if m.GetEntityRef() != "" {
+
+		if !_Field_EntityRef_Pattern.MatchString(m.GetEntityRef()) {
+			err := FieldValidationError{
+				field:  "EntityRef",
+				reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
+
 	}
 
 	// no validation rules for Pii
@@ -662,7 +666,20 @@ func (m *Field) validate(all bool) error {
 
 	// no validation rules for Metadata
 
-	// no validation rules for IdentityDomainUrn
+	if m.GetIdentityDomainUrn() != "" {
+
+		if !_Field_IdentityDomainUrn_Pattern.MatchString(m.GetIdentityDomainUrn()) {
+			err := FieldValidationError{
+				field:  "IdentityDomainUrn",
+				reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
 
 	// no validation rules for Rank
 
@@ -751,7 +768,9 @@ var _ interface {
 	ErrorName() string
 } = FieldValidationError{}
 
-var _Field_EntityRef_Pattern = regexp.MustCompile("^urn:sc:entity:[a-z_]+:[a-z_]+$")
+var _Field_EntityRef_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
+
+var _Field_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
 
 // Validate checks the field values on Constraints with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

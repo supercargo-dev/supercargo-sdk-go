@@ -57,8 +57,6 @@ const (
 	// HubServiceDeleteProductProcedure is the fully-qualified name of the HubService's DeleteProduct
 	// RPC.
 	HubServiceDeleteProductProcedure = "/hub.v1.HubService/DeleteProduct"
-	// HubServiceResolvePortProcedure is the fully-qualified name of the HubService's ResolvePort RPC.
-	HubServiceResolvePortProcedure = "/hub.v1.HubService/ResolvePort"
 	// HubServiceCheckDownstreamImpactProcedure is the fully-qualified name of the HubService's
 	// CheckDownstreamImpact RPC.
 	HubServiceCheckDownstreamImpactProcedure = "/hub.v1.HubService/CheckDownstreamImpact"
@@ -80,6 +78,8 @@ const (
 	HubServiceGetTeamProcedure = "/hub.v1.HubService/GetTeam"
 	// HubServiceListTeamsProcedure is the fully-qualified name of the HubService's ListTeams RPC.
 	HubServiceListTeamsProcedure = "/hub.v1.HubService/ListTeams"
+	// HubServiceDeleteTeamProcedure is the fully-qualified name of the HubService's DeleteTeam RPC.
+	HubServiceDeleteTeamProcedure = "/hub.v1.HubService/DeleteTeam"
 	// HubServiceRegisterContractProcedure is the fully-qualified name of the HubService's
 	// RegisterContract RPC.
 	HubServiceRegisterContractProcedure = "/hub.v1.HubService/RegisterContract"
@@ -130,6 +130,12 @@ const (
 	// HubServiceGetTaxonomyMappingsProcedure is the fully-qualified name of the HubService's
 	// GetTaxonomyMappings RPC.
 	HubServiceGetTaxonomyMappingsProcedure = "/hub.v1.HubService/GetTaxonomyMappings"
+	// HubServiceRegisterDemandLocksProcedure is the fully-qualified name of the HubService's
+	// RegisterDemandLocks RPC.
+	HubServiceRegisterDemandLocksProcedure = "/hub.v1.HubService/RegisterDemandLocks"
+	// HubServiceListDemandLocksProcedure is the fully-qualified name of the HubService's
+	// ListDemandLocks RPC.
+	HubServiceListDemandLocksProcedure = "/hub.v1.HubService/ListDemandLocks"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -144,7 +150,6 @@ var (
 	hubServicePingMethodDescriptor                  = hubServiceServiceDescriptor.Methods().ByName("Ping")
 	hubServiceValidateSchemaMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ValidateSchema")
 	hubServiceDeleteProductMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("DeleteProduct")
-	hubServiceResolvePortMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ResolvePort")
 	hubServiceCheckDownstreamImpactMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("CheckDownstreamImpact")
 	hubServiceRegisterEntityMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RegisterEntity")
 	hubServiceGetEntityMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetEntity")
@@ -154,6 +159,7 @@ var (
 	hubServiceRegisterTeamMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("RegisterTeam")
 	hubServiceGetTeamMethodDescriptor               = hubServiceServiceDescriptor.Methods().ByName("GetTeam")
 	hubServiceListTeamsMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("ListTeams")
+	hubServiceDeleteTeamMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("DeleteTeam")
 	hubServiceRegisterContractMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("RegisterContract")
 	hubServiceListProductsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListProducts")
 	hubServiceSyncProductMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("SyncProduct")
@@ -174,6 +180,8 @@ var (
 	hubServiceGetBlastRadiusMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("GetBlastRadius")
 	hubServiceGetRootCauseMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("GetRootCause")
 	hubServiceGetTaxonomyMappingsMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("GetTaxonomyMappings")
+	hubServiceRegisterDemandLocksMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("RegisterDemandLocks")
+	hubServiceListDemandLocksMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ListDemandLocks")
 )
 
 // HubServiceClient is a client for the hub.v1.HubService service.
@@ -196,9 +204,9 @@ type HubServiceClient interface {
 	ValidateSchema(context.Context, *connect.Request[v1.ValidateSchemaRequest]) (*connect.Response[v1.ValidateSchemaResponse], error)
 	// Deletes a specific product version (used primarily for smoke testing/cleanup).
 	DeleteProduct(context.Context, *connect.Request[v1.DeleteProductRequest]) (*connect.Response[v1.DeleteProductResponse], error)
-	// Resolves a Port URN to its definition and parent product.
-	ResolvePort(context.Context, *connect.Request[v1.ResolvePortRequest]) (*connect.Response[v1.ResolvePortResponse], error)
 	// Analyzes the impact of a proposed contract change on downstream consumers.
+	//
+	// Deprecated: do not use.
 	CheckDownstreamImpact(context.Context, *connect.Request[v1.CheckDownstreamImpactRequest]) (*connect.Response[v1.CheckDownstreamImpactResponse], error)
 	// Registers a new Entity definition.
 	RegisterEntity(context.Context, *connect.Request[v1.RegisterEntityRequest]) (*connect.Response[v1.RegisterEntityResponse], error)
@@ -207,6 +215,8 @@ type HubServiceClient interface {
 	// Lists all registered Entities.
 	ListEntities(context.Context, *connect.Request[v1.ListEntitiesRequest]) (*connect.Response[v1.ListEntitiesResponse], error)
 	// Analyzes the impact of a proposed Entity change on contracts and products.
+	//
+	// Deprecated: do not use.
 	CheckEntityImpact(context.Context, *connect.Request[v1.CheckEntityImpactRequest]) (*connect.Response[v1.CheckEntityImpactResponse], error)
 	// Deletes a specific Entity (used for testing).
 	DeleteEntity(context.Context, *connect.Request[v1.DeleteEntityRequest]) (*connect.Response[v1.DeleteEntityResponse], error)
@@ -216,6 +226,8 @@ type HubServiceClient interface {
 	GetTeam(context.Context, *connect.Request[v1.GetTeamRequest]) (*connect.Response[v1.GetTeamResponse], error)
 	// Lists all registered Teams.
 	ListTeams(context.Context, *connect.Request[v1.ListTeamsRequest]) (*connect.Response[v1.ListTeamsResponse], error)
+	// Deletes a Team by name.
+	DeleteTeam(context.Context, *connect.Request[v1.DeleteTeamRequest]) (*connect.Response[v1.DeleteTeamResponse], error)
 	// Registers a new Data Contract version.
 	RegisterContract(context.Context, *connect.Request[v1.RegisterContractRequest]) (*connect.Response[v1.RegisterContractResponse], error)
 	// Lists all registered Data Products.
@@ -257,6 +269,10 @@ type HubServiceClient interface {
 	GetRootCause(context.Context, *connect.Request[v1.GetRootCauseRequest]) (*connect.Response[v1.GetRootCauseResponse], error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error)
+	// Registers demand locks from a consumer product manifest.
+	RegisterDemandLocks(context.Context, *connect.Request[v1.RegisterDemandLocksRequest]) (*connect.Response[v1.RegisterDemandLocksResponse], error)
+	// Lists demand locks registered for a producer product or port.
+	ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error)
 }
 
 // NewHubServiceClient constructs a client for the hub.v1.HubService service. By default, it uses
@@ -323,12 +339,6 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceDeleteProductMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		resolvePort: connect.NewClient[v1.ResolvePortRequest, v1.ResolvePortResponse](
-			httpClient,
-			baseURL+HubServiceResolvePortProcedure,
-			connect.WithSchema(hubServiceResolvePortMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
 		checkDownstreamImpact: connect.NewClient[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse](
 			httpClient,
 			baseURL+HubServiceCheckDownstreamImpactProcedure,
@@ -381,6 +391,12 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			httpClient,
 			baseURL+HubServiceListTeamsProcedure,
 			connect.WithSchema(hubServiceListTeamsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteTeam: connect.NewClient[v1.DeleteTeamRequest, v1.DeleteTeamResponse](
+			httpClient,
+			baseURL+HubServiceDeleteTeamProcedure,
+			connect.WithSchema(hubServiceDeleteTeamMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		registerContract: connect.NewClient[v1.RegisterContractRequest, v1.RegisterContractResponse](
@@ -503,6 +519,18 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceGetTaxonomyMappingsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		registerDemandLocks: connect.NewClient[v1.RegisterDemandLocksRequest, v1.RegisterDemandLocksResponse](
+			httpClient,
+			baseURL+HubServiceRegisterDemandLocksProcedure,
+			connect.WithSchema(hubServiceRegisterDemandLocksMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listDemandLocks: connect.NewClient[v1.ListDemandLocksRequest, v1.ListDemandLocksResponse](
+			httpClient,
+			baseURL+HubServiceListDemandLocksProcedure,
+			connect.WithSchema(hubServiceListDemandLocksMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -517,7 +545,6 @@ type hubServiceClient struct {
 	ping                  *connect.Client[v1.PingRequest, v1.PingResponse]
 	validateSchema        *connect.Client[v1.ValidateSchemaRequest, v1.ValidateSchemaResponse]
 	deleteProduct         *connect.Client[v1.DeleteProductRequest, v1.DeleteProductResponse]
-	resolvePort           *connect.Client[v1.ResolvePortRequest, v1.ResolvePortResponse]
 	checkDownstreamImpact *connect.Client[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse]
 	registerEntity        *connect.Client[v1.RegisterEntityRequest, v1.RegisterEntityResponse]
 	getEntity             *connect.Client[v1.GetEntityRequest, v1.GetEntityResponse]
@@ -527,6 +554,7 @@ type hubServiceClient struct {
 	registerTeam          *connect.Client[v1.RegisterTeamRequest, v1.RegisterTeamResponse]
 	getTeam               *connect.Client[v1.GetTeamRequest, v1.GetTeamResponse]
 	listTeams             *connect.Client[v1.ListTeamsRequest, v1.ListTeamsResponse]
+	deleteTeam            *connect.Client[v1.DeleteTeamRequest, v1.DeleteTeamResponse]
 	registerContract      *connect.Client[v1.RegisterContractRequest, v1.RegisterContractResponse]
 	listProducts          *connect.Client[v1.ListProductsRequest, v1.ListProductsResponse]
 	syncProduct           *connect.Client[v1.SyncProductRequest, v1.SyncProductResponse]
@@ -547,6 +575,8 @@ type hubServiceClient struct {
 	getBlastRadius        *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
 	getRootCause          *connect.Client[v1.GetRootCauseRequest, v1.GetRootCauseResponse]
 	getTaxonomyMappings   *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
+	registerDemandLocks   *connect.Client[v1.RegisterDemandLocksRequest, v1.RegisterDemandLocksResponse]
+	listDemandLocks       *connect.Client[v1.ListDemandLocksRequest, v1.ListDemandLocksResponse]
 }
 
 // ValidateProduct calls hub.v1.HubService.ValidateProduct.
@@ -594,12 +624,9 @@ func (c *hubServiceClient) DeleteProduct(ctx context.Context, req *connect.Reque
 	return c.deleteProduct.CallUnary(ctx, req)
 }
 
-// ResolvePort calls hub.v1.HubService.ResolvePort.
-func (c *hubServiceClient) ResolvePort(ctx context.Context, req *connect.Request[v1.ResolvePortRequest]) (*connect.Response[v1.ResolvePortResponse], error) {
-	return c.resolvePort.CallUnary(ctx, req)
-}
-
 // CheckDownstreamImpact calls hub.v1.HubService.CheckDownstreamImpact.
+//
+// Deprecated: do not use.
 func (c *hubServiceClient) CheckDownstreamImpact(ctx context.Context, req *connect.Request[v1.CheckDownstreamImpactRequest]) (*connect.Response[v1.CheckDownstreamImpactResponse], error) {
 	return c.checkDownstreamImpact.CallUnary(ctx, req)
 }
@@ -620,6 +647,8 @@ func (c *hubServiceClient) ListEntities(ctx context.Context, req *connect.Reques
 }
 
 // CheckEntityImpact calls hub.v1.HubService.CheckEntityImpact.
+//
+// Deprecated: do not use.
 func (c *hubServiceClient) CheckEntityImpact(ctx context.Context, req *connect.Request[v1.CheckEntityImpactRequest]) (*connect.Response[v1.CheckEntityImpactResponse], error) {
 	return c.checkEntityImpact.CallUnary(ctx, req)
 }
@@ -642,6 +671,11 @@ func (c *hubServiceClient) GetTeam(ctx context.Context, req *connect.Request[v1.
 // ListTeams calls hub.v1.HubService.ListTeams.
 func (c *hubServiceClient) ListTeams(ctx context.Context, req *connect.Request[v1.ListTeamsRequest]) (*connect.Response[v1.ListTeamsResponse], error) {
 	return c.listTeams.CallUnary(ctx, req)
+}
+
+// DeleteTeam calls hub.v1.HubService.DeleteTeam.
+func (c *hubServiceClient) DeleteTeam(ctx context.Context, req *connect.Request[v1.DeleteTeamRequest]) (*connect.Response[v1.DeleteTeamResponse], error) {
+	return c.deleteTeam.CallUnary(ctx, req)
 }
 
 // RegisterContract calls hub.v1.HubService.RegisterContract.
@@ -744,6 +778,16 @@ func (c *hubServiceClient) GetTaxonomyMappings(ctx context.Context, req *connect
 	return c.getTaxonomyMappings.CallUnary(ctx, req)
 }
 
+// RegisterDemandLocks calls hub.v1.HubService.RegisterDemandLocks.
+func (c *hubServiceClient) RegisterDemandLocks(ctx context.Context, req *connect.Request[v1.RegisterDemandLocksRequest]) (*connect.Response[v1.RegisterDemandLocksResponse], error) {
+	return c.registerDemandLocks.CallUnary(ctx, req)
+}
+
+// ListDemandLocks calls hub.v1.HubService.ListDemandLocks.
+func (c *hubServiceClient) ListDemandLocks(ctx context.Context, req *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error) {
+	return c.listDemandLocks.CallUnary(ctx, req)
+}
+
 // HubServiceHandler is an implementation of the hub.v1.HubService service.
 type HubServiceHandler interface {
 	// Validates a manifest and its contracts without saving.
@@ -764,9 +808,9 @@ type HubServiceHandler interface {
 	ValidateSchema(context.Context, *connect.Request[v1.ValidateSchemaRequest]) (*connect.Response[v1.ValidateSchemaResponse], error)
 	// Deletes a specific product version (used primarily for smoke testing/cleanup).
 	DeleteProduct(context.Context, *connect.Request[v1.DeleteProductRequest]) (*connect.Response[v1.DeleteProductResponse], error)
-	// Resolves a Port URN to its definition and parent product.
-	ResolvePort(context.Context, *connect.Request[v1.ResolvePortRequest]) (*connect.Response[v1.ResolvePortResponse], error)
 	// Analyzes the impact of a proposed contract change on downstream consumers.
+	//
+	// Deprecated: do not use.
 	CheckDownstreamImpact(context.Context, *connect.Request[v1.CheckDownstreamImpactRequest]) (*connect.Response[v1.CheckDownstreamImpactResponse], error)
 	// Registers a new Entity definition.
 	RegisterEntity(context.Context, *connect.Request[v1.RegisterEntityRequest]) (*connect.Response[v1.RegisterEntityResponse], error)
@@ -775,6 +819,8 @@ type HubServiceHandler interface {
 	// Lists all registered Entities.
 	ListEntities(context.Context, *connect.Request[v1.ListEntitiesRequest]) (*connect.Response[v1.ListEntitiesResponse], error)
 	// Analyzes the impact of a proposed Entity change on contracts and products.
+	//
+	// Deprecated: do not use.
 	CheckEntityImpact(context.Context, *connect.Request[v1.CheckEntityImpactRequest]) (*connect.Response[v1.CheckEntityImpactResponse], error)
 	// Deletes a specific Entity (used for testing).
 	DeleteEntity(context.Context, *connect.Request[v1.DeleteEntityRequest]) (*connect.Response[v1.DeleteEntityResponse], error)
@@ -784,6 +830,8 @@ type HubServiceHandler interface {
 	GetTeam(context.Context, *connect.Request[v1.GetTeamRequest]) (*connect.Response[v1.GetTeamResponse], error)
 	// Lists all registered Teams.
 	ListTeams(context.Context, *connect.Request[v1.ListTeamsRequest]) (*connect.Response[v1.ListTeamsResponse], error)
+	// Deletes a Team by name.
+	DeleteTeam(context.Context, *connect.Request[v1.DeleteTeamRequest]) (*connect.Response[v1.DeleteTeamResponse], error)
 	// Registers a new Data Contract version.
 	RegisterContract(context.Context, *connect.Request[v1.RegisterContractRequest]) (*connect.Response[v1.RegisterContractResponse], error)
 	// Lists all registered Data Products.
@@ -825,6 +873,10 @@ type HubServiceHandler interface {
 	GetRootCause(context.Context, *connect.Request[v1.GetRootCauseRequest]) (*connect.Response[v1.GetRootCauseResponse], error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error)
+	// Registers demand locks from a consumer product manifest.
+	RegisterDemandLocks(context.Context, *connect.Request[v1.RegisterDemandLocksRequest]) (*connect.Response[v1.RegisterDemandLocksResponse], error)
+	// Lists demand locks registered for a producer product or port.
+	ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error)
 }
 
 // NewHubServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -887,12 +939,6 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceDeleteProductMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	hubServiceResolvePortHandler := connect.NewUnaryHandler(
-		HubServiceResolvePortProcedure,
-		svc.ResolvePort,
-		connect.WithSchema(hubServiceResolvePortMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
 	hubServiceCheckDownstreamImpactHandler := connect.NewUnaryHandler(
 		HubServiceCheckDownstreamImpactProcedure,
 		svc.CheckDownstreamImpact,
@@ -945,6 +991,12 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		HubServiceListTeamsProcedure,
 		svc.ListTeams,
 		connect.WithSchema(hubServiceListTeamsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceDeleteTeamHandler := connect.NewUnaryHandler(
+		HubServiceDeleteTeamProcedure,
+		svc.DeleteTeam,
+		connect.WithSchema(hubServiceDeleteTeamMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	hubServiceRegisterContractHandler := connect.NewUnaryHandler(
@@ -1067,6 +1119,18 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceGetTaxonomyMappingsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	hubServiceRegisterDemandLocksHandler := connect.NewUnaryHandler(
+		HubServiceRegisterDemandLocksProcedure,
+		svc.RegisterDemandLocks,
+		connect.WithSchema(hubServiceRegisterDemandLocksMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceListDemandLocksHandler := connect.NewUnaryHandler(
+		HubServiceListDemandLocksProcedure,
+		svc.ListDemandLocks,
+		connect.WithSchema(hubServiceListDemandLocksMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/hub.v1.HubService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case HubServiceValidateProductProcedure:
@@ -1087,8 +1151,6 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceValidateSchemaHandler.ServeHTTP(w, r)
 		case HubServiceDeleteProductProcedure:
 			hubServiceDeleteProductHandler.ServeHTTP(w, r)
-		case HubServiceResolvePortProcedure:
-			hubServiceResolvePortHandler.ServeHTTP(w, r)
 		case HubServiceCheckDownstreamImpactProcedure:
 			hubServiceCheckDownstreamImpactHandler.ServeHTTP(w, r)
 		case HubServiceRegisterEntityProcedure:
@@ -1107,6 +1169,8 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceGetTeamHandler.ServeHTTP(w, r)
 		case HubServiceListTeamsProcedure:
 			hubServiceListTeamsHandler.ServeHTTP(w, r)
+		case HubServiceDeleteTeamProcedure:
+			hubServiceDeleteTeamHandler.ServeHTTP(w, r)
 		case HubServiceRegisterContractProcedure:
 			hubServiceRegisterContractHandler.ServeHTTP(w, r)
 		case HubServiceListProductsProcedure:
@@ -1147,6 +1211,10 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceGetRootCauseHandler.ServeHTTP(w, r)
 		case HubServiceGetTaxonomyMappingsProcedure:
 			hubServiceGetTaxonomyMappingsHandler.ServeHTTP(w, r)
+		case HubServiceRegisterDemandLocksProcedure:
+			hubServiceRegisterDemandLocksHandler.ServeHTTP(w, r)
+		case HubServiceListDemandLocksProcedure:
+			hubServiceListDemandLocksHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1192,10 +1260,6 @@ func (UnimplementedHubServiceHandler) DeleteProduct(context.Context, *connect.Re
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.DeleteProduct is not implemented"))
 }
 
-func (UnimplementedHubServiceHandler) ResolvePort(context.Context, *connect.Request[v1.ResolvePortRequest]) (*connect.Response[v1.ResolvePortResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ResolvePort is not implemented"))
-}
-
 func (UnimplementedHubServiceHandler) CheckDownstreamImpact(context.Context, *connect.Request[v1.CheckDownstreamImpactRequest]) (*connect.Response[v1.CheckDownstreamImpactResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.CheckDownstreamImpact is not implemented"))
 }
@@ -1230,6 +1294,10 @@ func (UnimplementedHubServiceHandler) GetTeam(context.Context, *connect.Request[
 
 func (UnimplementedHubServiceHandler) ListTeams(context.Context, *connect.Request[v1.ListTeamsRequest]) (*connect.Response[v1.ListTeamsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ListTeams is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) DeleteTeam(context.Context, *connect.Request[v1.DeleteTeamRequest]) (*connect.Response[v1.DeleteTeamResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.DeleteTeam is not implemented"))
 }
 
 func (UnimplementedHubServiceHandler) RegisterContract(context.Context, *connect.Request[v1.RegisterContractRequest]) (*connect.Response[v1.RegisterContractResponse], error) {
@@ -1310,4 +1378,12 @@ func (UnimplementedHubServiceHandler) GetRootCause(context.Context, *connect.Req
 
 func (UnimplementedHubServiceHandler) GetTaxonomyMappings(context.Context, *connect.Request[v1.GetTaxonomyMappingsRequest]) (*connect.Response[v1.GetTaxonomyMappingsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetTaxonomyMappings is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) RegisterDemandLocks(context.Context, *connect.Request[v1.RegisterDemandLocksRequest]) (*connect.Response[v1.RegisterDemandLocksResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.RegisterDemandLocks is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ListDemandLocks is not implemented"))
 }

@@ -228,20 +228,20 @@ var File_hub_v1_health_proto protoreflect.FileDescriptor
 
 const file_hub_v1_health_proto_rawDesc = "" +
 	"\n" +
-	"\x13hub/v1/health.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xc7\x06\n" +
+	"\x13hub/v1/health.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xbb\x06\n" +
 	"\x15HealthTransitionEvent\x12\"\n" +
-	"\bevent_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aeventId\x12l\n" +
-	"\tasset_urn\x18\x02 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\bassetUrn\x12D\n" +
+	"\bevent_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aeventId\x12h\n" +
+	"\tasset_urn\x18\x02 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\bassetUrn\x12D\n" +
 	"\x0eprevious_state\x18\x03 \x01(\x0e2\x13.hub.v1.HealthStateB\b\xfaB\x05\x82\x01\x02\x10\x01R\rpreviousState\x12B\n" +
 	"\rcurrent_state\x18\x04 \x01(\x0e2\x13.hub.v1.HealthStateB\b\xfaB\x05\x82\x01\x02\x10\x01R\fcurrentState\x12 \n" +
 	"\x06reason\x18\x05 \x01(\tB\b\xfaB\x05r\x03\x18\x80 R\x06reason\x12-\n" +
 	"\rincident_type\x18\x06 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\fincidentType\x12\x1f\n" +
 	"\x06run_id\x18\a \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\x05runId\x12$\n" +
-	"\breporter\x18\b \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\breporter\x12|\n" +
-	"\x11status_source_urn\x18\t \x01(\tBP\xfaBMrK2I^(urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$R\x0fstatusSourceUrn\x12B\n" +
+	"\breporter\x18\b \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\breporter\x12x\n" +
+	"\x11status_source_urn\x18\t \x01(\tBL\xfaBIrG2E^(urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$R\x0fstatusSourceUrn\x12B\n" +
 	"\ttimestamp\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\ttimestamp\x12~\n" +
-	"\x0fdownstream_urns\x18\v \x03(\tBU\xfaBR\x92\x01O\x10\xe8\a\"JrH2F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x0edownstreamUrns\x128\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\ttimestamp\x12z\n" +
+	"\x0fdownstream_urns\x18\v \x03(\tBQ\xfaBN\x92\x01K\x10\xe8\a\"FrD2B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x0edownstreamUrns\x128\n" +
 	"\x0eimpacted_teams\x18\f \x03(\tB\x11\xfaB\x0e\x92\x01\v\x10d\"\ar\x05\x10\x01\x18\x80\x01R\rimpactedTeams*\x96\x01\n" +
 	"\vHealthState\x12\x1c\n" +
 	"\x18HEALTH_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +

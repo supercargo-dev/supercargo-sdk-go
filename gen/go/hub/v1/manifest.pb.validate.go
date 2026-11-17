@@ -343,6 +343,74 @@ func (m *ProductManifest) validate(all bool) error {
 		}
 	}
 
+	for idx, item := range m.GetTransforms() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ProductManifestValidationError{
+						field:  fmt.Sprintf("Transforms[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ProductManifestValidationError{
+						field:  fmt.Sprintf("Transforms[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ProductManifestValidationError{
+					field:  fmt.Sprintf("Transforms[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetImportDemands() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ProductManifestValidationError{
+						field:  fmt.Sprintf("ImportDemands[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ProductManifestValidationError{
+						field:  fmt.Sprintf("ImportDemands[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ProductManifestValidationError{
+					field:  fmt.Sprintf("ImportDemands[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return ProductManifestMultiError(errors)
 	}
@@ -420,6 +488,225 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ProductManifestValidationError{}
+
+// Validate checks the field values on TransformPort with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TransformPort) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TransformPort with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TransformPortMultiError, or
+// nil if none found.
+func (m *TransformPort) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TransformPort) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for Type
+
+	// no validation rules for Engine
+
+	// no validation rules for Query
+
+	// no validation rules for Options
+
+	if len(errors) > 0 {
+		return TransformPortMultiError(errors)
+	}
+
+	return nil
+}
+
+// TransformPortMultiError is an error wrapping multiple validation errors
+// returned by TransformPort.ValidateAll() if the designated constraints
+// aren't met.
+type TransformPortMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TransformPortMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TransformPortMultiError) AllErrors() []error { return m }
+
+// TransformPortValidationError is the validation error returned by
+// TransformPort.Validate if the designated constraints aren't met.
+type TransformPortValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TransformPortValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TransformPortValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TransformPortValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TransformPortValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TransformPortValidationError) ErrorName() string { return "TransformPortValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TransformPortValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTransformPort.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TransformPortValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TransformPortValidationError{}
+
+// Validate checks the field values on ImportDemand with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ImportDemand) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ImportDemand with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ImportDemandMultiError, or
+// nil if none found.
+func (m *ImportDemand) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ImportDemand) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for OutputPort
+
+	// no validation rules for MinSlaTier
+
+	// no validation rules for MaxFreshness
+
+	// no validation rules for ExpectedLens
+
+	// no validation rules for SemanticFingerprints
+
+	if len(errors) > 0 {
+		return ImportDemandMultiError(errors)
+	}
+
+	return nil
+}
+
+// ImportDemandMultiError is an error wrapping multiple validation errors
+// returned by ImportDemand.ValidateAll() if the designated constraints aren't met.
+type ImportDemandMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ImportDemandMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ImportDemandMultiError) AllErrors() []error { return m }
+
+// ImportDemandValidationError is the validation error returned by
+// ImportDemand.Validate if the designated constraints aren't met.
+type ImportDemandValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ImportDemandValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ImportDemandValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ImportDemandValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ImportDemandValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ImportDemandValidationError) ErrorName() string { return "ImportDemandValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ImportDemandValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sImportDemand.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ImportDemandValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ImportDemandValidationError{}
 
 // Validate checks the field values on SLA with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -1115,7 +1402,7 @@ func (m *ProductMeta) validate(all bool) error {
 	if !_ProductMeta_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := ProductMetaValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -1295,7 +1582,7 @@ var _ interface {
 	ErrorName() string
 } = ProductMetaValidationError{}
 
-var _ProductMeta_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _ProductMeta_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 var _ProductMeta_CommitSha_Pattern = regexp.MustCompile("^[0-9a-f]{40}$")
 
@@ -1473,6 +1760,53 @@ func (m *InputPort) validate(all bool) error {
 		if err := v.Validate(); err != nil {
 			return InputPortValidationError{
 				field:  "Contract",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Schedule
+
+	// no validation rules for CredentialsSecret
+
+	// no validation rules for CursorField
+
+	// no validation rules for PrimaryKey
+
+	// no validation rules for WriteDisposition
+
+	// no validation rules for ColdStartWindow
+
+	// no validation rules for Entrypoint
+
+	// no validation rules for RecordRef
+
+	// no validation rules for UpstreamPort
+
+	if all {
+		switch v := interface{}(m.GetDemand()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InputPortValidationError{
+					field:  "Demand",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InputPortValidationError{
+					field:  "Demand",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDemand()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InputPortValidationError{
+				field:  "Demand",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1676,6 +2010,12 @@ func (m *OutputPort) validate(all bool) error {
 	}
 
 	// no validation rules for EvolutionProfile
+
+	// no validation rules for Lens
+
+	// no validation rules for SourceRef
+
+	// no validation rules for CursorField
 
 	if len(errors) > 0 {
 		return OutputPortMultiError(errors)
@@ -2066,7 +2406,7 @@ func (m *ContractPointer) validate(all bool) error {
 	if !_ContractPointer_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := ContractPointerValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -2194,7 +2534,7 @@ var _ interface {
 	ErrorName() string
 } = ContractPointerValidationError{}
 
-var _ContractPointer_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _ContractPointer_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 // Validate checks the field values on Definition with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

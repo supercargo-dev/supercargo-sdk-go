@@ -11,15 +11,15 @@ import (
 
 // Golden UX Contract DTO
 type UserSignupEvent struct {
-	_         struct{}  `supercargo:"urn=urn:sc:contract:user_signup:v1,version=1.0.0"`
+	_         struct{}  `supercargo:"urn=urn:supercargo:hub:contract:user-signup:v1,version=1.0.0"`
 	UserID    string    `supercargo:"primary_key,rank=1" json:"user_id"`
-	Email     string    `supercargo:"pii,context_id=user_id,domain=urn:sc:domain:users" json:"email"`
+	Email     string    `supercargo:"pii,context_id=user_id,domain=urn:supercargo:hub:identity_domain:users" json:"email"`
 	Score     int       `supercargo:"gte=0,lte=100" json:"score"`
 	CreatedAt time.Time `supercargo:"type=TIMESTAMP" json:"created_at"`
 }
 
 type DualTagOverrideEvent struct {
-	_      struct{} `supercargo.contract:"urn=urn:sc:contract:dual_tag:v1,version=1.0.0"`
+	_      struct{} `supercargo.contract:"urn=urn:supercargo:hub:contract:dual-tag:v1,version=1.0.0"`
 	Status string   `supercargo:"oneof=draft published" supercargo.field:"oneof=draft archived" json:"status"`
 	Limit  int      `validate:"min=1" supercargo:"gte=5" supercargo.field:"gte=10" json:"limit"`
 }
@@ -46,7 +46,7 @@ func TestUserSignupEvent_Subcutaneous_HappyPath(t *testing.T) {
 	require.NotNil(t, v)
 
 	contract := v.Contract()
-	assert.Equal(t, "urn:sc:contract:user_signup:v1", contract.URN)
+	assert.Equal(t, "urn:supercargo:hub:contract:user-signup:v1", contract.URN)
 	assert.Equal(t, "1.0.0", contract.Version)
 
 	// Verify field metadata
@@ -64,7 +64,7 @@ func TestUserSignupEvent_Subcutaneous_HappyPath(t *testing.T) {
 	require.NotNil(t, emailMeta.IsPII)
 	assert.True(t, *emailMeta.IsPII)
 	assert.Equal(t, "user_id", emailMeta.ContextID)
-	assert.Equal(t, "urn:sc:domain:users", emailMeta.IdentityDomainURI)
+	assert.Equal(t, "urn:supercargo:hub:identity_domain:users", emailMeta.IdentityDomainURI)
 }
 
 func TestUserSignupEvent_Subcutaneous_NegativeErrorPath(t *testing.T) {

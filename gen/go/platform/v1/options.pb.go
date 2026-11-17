@@ -81,7 +81,9 @@ type FieldMetadata struct {
 	// as specifies a semantic type override (e.g., "uuid").
 	As string `protobuf:"bytes,2,opt,name=as,proto3" json:"as,omitempty"`
 	// moved_from is an escape hatch for renames, specifying the previous field name.
-	MovedFrom     string `protobuf:"bytes,3,opt,name=moved_from,json=movedFrom,proto3" json:"moved_from,omitempty"`
+	MovedFrom string `protobuf:"bytes,3,opt,name=moved_from,json=movedFrom,proto3" json:"moved_from,omitempty"`
+	// primary_key specifies if this field is part of the contract primary key.
+	PrimaryKey    bool `protobuf:"varint,4,opt,name=primary_key,json=primaryKey,proto3" json:"primary_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -137,6 +139,13 @@ func (x *FieldMetadata) GetMovedFrom() string {
 	return ""
 }
 
+func (x *FieldMetadata) GetPrimaryKey() bool {
+	if x != nil {
+		return x.PrimaryKey
+	}
+	return false
+}
+
 var file_platform_v1_options_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -182,7 +191,7 @@ var (
 	//
 	// optional string anchored_to = 50101;
 	E_AnchoredTo = &file_platform_v1_options_proto_extTypes[1]
-	// entity_urn specifies the type of entity (e.g., urn:supercargo:entity:user) for federated key resolution.
+	// entity_urn specifies the type of entity (e.g., urn:supercargo:entity:user:id) for federated key resolution.
 	//
 	// optional string entity_urn = 50102;
 	E_EntityUrn = &file_platform_v1_options_proto_extTypes[2]
@@ -196,12 +205,14 @@ var File_platform_v1_options_proto protoreflect.FileDescriptor
 
 const file_platform_v1_options_proto_rawDesc = "" +
 	"\n" +
-	"\x19platform/v1/options.proto\x12\vplatform.v1\x1a google/protobuf/descriptor.proto\x1a\x17validate/validate.proto\"W\n" +
+	"\x19platform/v1/options.proto\x12\vplatform.v1\x1a google/protobuf/descriptor.proto\x1a\x17validate/validate.proto\"x\n" +
 	"\rFieldMetadata\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\x04B\a\xfaB\x042\x02 \x00R\x02id\x12\x0e\n" +
 	"\x02as\x18\x02 \x01(\tR\x02as\x12\x1d\n" +
 	"\n" +
-	"moved_from\x18\x03 \x01(\tR\tmovedFrom*X\n" +
+	"moved_from\x18\x03 \x01(\tR\tmovedFrom\x12\x1f\n" +
+	"\vprimary_key\x18\x04 \x01(\bR\n" +
+	"primaryKey*X\n" +
 	"\vSensitivity\x12\x1b\n" +
 	"\x17SENSITIVITY_UNSPECIFIED\x10\x00\x12\x13\n" +
 	"\x0fSENSITIVITY_PII\x10\x01\x12\x17\n" +

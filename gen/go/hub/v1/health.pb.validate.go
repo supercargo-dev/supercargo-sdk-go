@@ -82,7 +82,7 @@ func (m *HealthTransitionEvent) validate(all bool) error {
 	if !_HealthTransitionEvent_AssetUrn_Pattern.MatchString(m.GetAssetUrn()) {
 		err := HealthTransitionEventValidationError{
 			field:  "AssetUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -159,7 +159,7 @@ func (m *HealthTransitionEvent) validate(all bool) error {
 	if !_HealthTransitionEvent_StatusSourceUrn_Pattern.MatchString(m.GetStatusSourceUrn()) {
 		err := HealthTransitionEventValidationError{
 			field:  "StatusSourceUrn",
-			reason: "value does not match regex pattern \"^(urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$\"",
+			reason: "value does not match regex pattern \"^(urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$\"",
 		}
 		if !all {
 			return err
@@ -195,7 +195,7 @@ func (m *HealthTransitionEvent) validate(all bool) error {
 		if !_HealthTransitionEvent_DownstreamUrns_Pattern.MatchString(item) {
 			err := HealthTransitionEventValidationError{
 				field:  fmt.Sprintf("DownstreamUrns[%v]", idx),
-				reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+				reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 			}
 			if !all {
 				return err
@@ -312,8 +312,8 @@ var _ interface {
 	ErrorName() string
 } = HealthTransitionEventValidationError{}
 
-var _HealthTransitionEvent_AssetUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _HealthTransitionEvent_AssetUrn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
-var _HealthTransitionEvent_StatusSourceUrn_Pattern = regexp.MustCompile("^(urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$")
+var _HealthTransitionEvent_StatusSourceUrn_Pattern = regexp.MustCompile("^(urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$")
 
-var _HealthTransitionEvent_DownstreamUrns_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _HealthTransitionEvent_DownstreamUrns_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")

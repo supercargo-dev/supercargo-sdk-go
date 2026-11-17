@@ -1052,9 +1052,9 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\asamples\x18\x03 \x03(\tR\asamples\x12\x1d\n" +
 	"\x03sla\x18\x04 \x01(\v2\v.hub.v1.SLAR\x03sla\x12&\n" +
 	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\x12:\n" +
-	"\vsensitivity\x18\x06 \x01(\x0e2\x18.hub.v1.SensitivityLevelR\vsensitivity\"\xcf\x06\n" +
-	"\x04Meta\x12a\n" +
-	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\xde\x01\n" +
+	"\vsensitivity\x18\x06 \x01(\x0e2\x18.hub.v1.SensitivityLevelR\vsensitivity\"\xcb\x06\n" +
+	"\x04Meta\x12]\n" +
+	"\x03urn\x18\x01 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\xde\x01\n" +
 	"\aversion\x18\x02 \x01(\tB\xc3\x01\xfaB\xbf\x01r\xbc\x01\x10\x012\xb7\x01^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.(?:[0-9a-zA-Z-]+))*))?$R\aversion\x12&\n" +
 	"\n" +
 	"data_asset\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tdataAsset\x128\n" +
@@ -1071,7 +1071,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\vdescription\x18\v \x01(\tR\vdescription\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x87\b\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf8\t\n" +
 	"\x05Field\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12.\n" +
@@ -1079,9 +1079,9 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x04mode\x18\x04 \x01(\x0e2\x11.hub.v1.FieldModeB\b\xfaB\x05\x82\x01\x02\x10\x01R\x04mode\x12%\n" +
 	"\x06fields\x18\x05 \x03(\v2\r.hub.v1.FieldR\x06fields\x12\x1f\n" +
 	"\vpolicy_tags\x18\x06 \x03(\tR\n" +
-	"policyTags\x12E\n" +
+	"policyTags\x12\xa0\x01\n" +
 	"\n" +
-	"entity_ref\x18\a \x01(\tB&\xfaB#r!2\x1f^urn:sc:entity:[a-z_]+:[a-z_]+$R\tentityRef\x12\x10\n" +
+	"entity_ref\x18\a \x01(\tB\x80\x01\xfaB}r{2v^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\xd0\x01\x01R\tentityRef\x12\x10\n" +
 	"\x03pii\x18\b \x01(\bR\x03pii\x125\n" +
 	"\vconstraints\x18\t \x01(\v2\x13.hub.v1.ConstraintsR\vconstraints\x12\x1d\n" +
 	"\n" +
@@ -1095,8 +1095,8 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\vsource_name\x18\x0f \x01(\tR\n" +
 	"sourceName\x12\x1c\n" +
 	"\ttruncated\x18\x10 \x01(\bR\ttruncated\x127\n" +
-	"\bmetadata\x18\x11 \x03(\v2\x1b.hub.v1.Field.MetadataEntryR\bmetadata\x12.\n" +
-	"\x13identity_domain_urn\x18\x12 \x01(\tR\x11identityDomainUrn\x12\x12\n" +
+	"\bmetadata\x18\x11 \x03(\v2\x1b.hub.v1.Field.MetadataEntryR\bmetadata\x12\xc2\x01\n" +
+	"\x13identity_domain_urn\x18\x12 \x01(\tB\x91\x01\xfaB\x8d\x01r\x8a\x012\x84\x01^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\xd0\x01\x01R\x11identityDomainUrn\x12\x12\n" +
 	"\x04rank\x18\x13 \x01(\x05R\x04rank\x12\x18\n" +
 	"\aaliases\x18\x14 \x03(\tR\aaliases\x12\x1f\n" +
 	"\vprimary_key\x18\x15 \x01(\bR\n" +
