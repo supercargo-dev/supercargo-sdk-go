@@ -276,7 +276,7 @@ func (m *TokenizeRequest) validate(all bool) error {
 	if !_TokenizeRequest_IdentityDomainUrn_Pattern.MatchString(m.GetIdentityDomainUrn()) {
 		err := TokenizeRequestValidationError{
 			field:  "IdentityDomainUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -407,7 +407,7 @@ var _ interface {
 	ErrorName() string
 } = TokenizeRequestValidationError{}
 
-var _TokenizeRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _TokenizeRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
 
 // Validate checks the field values on EntityIdentifier with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -445,7 +445,7 @@ func (m *EntityIdentifier) validate(all bool) error {
 	if !_EntityIdentifier_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := EntityIdentifierValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -553,7 +553,7 @@ var _ interface {
 	ErrorName() string
 } = EntityIdentifierValidationError{}
 
-var _EntityIdentifier_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _EntityIdentifier_Urn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
 
 // Validate checks the field values on TokenizeResponse with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -851,7 +851,7 @@ func (m *BatchTokenizeRequest) validate(all bool) error {
 	if !_BatchTokenizeRequest_IdentityDomainUrn_Pattern.MatchString(m.GetIdentityDomainUrn()) {
 		err := BatchTokenizeRequestValidationError{
 			field:  "IdentityDomainUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -984,7 +984,7 @@ var _ interface {
 	ErrorName() string
 } = BatchTokenizeRequestValidationError{}
 
-var _BatchTokenizeRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _BatchTokenizeRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
 
 // Validate checks the field values on EntityCascadeResult with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1266,7 +1266,7 @@ func (m *DeleteKeysetRequest) validate(all bool) error {
 	if !_DeleteKeysetRequest_EntityUrn_Pattern.MatchString(m.GetEntityUrn()) {
 		err := DeleteKeysetRequestValidationError{
 			field:  "EntityUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -1354,7 +1354,7 @@ var _ interface {
 	ErrorName() string
 } = DeleteKeysetRequestValidationError{}
 
-var _DeleteKeysetRequest_EntityUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _DeleteKeysetRequest_EntityUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
 
 // Validate checks the field values on DeleteKeysetResponse with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1494,7 +1494,7 @@ func (m *SearchHashRequest) validate(all bool) error {
 	if !_SearchHashRequest_IdentityDomainUrn_Pattern.MatchString(m.GetIdentityDomainUrn()) {
 		err := SearchHashRequestValidationError{
 			field:  "IdentityDomainUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -1516,7 +1516,7 @@ func (m *SearchHashRequest) validate(all bool) error {
 	if !_SearchHashRequest_EntityUrn_Pattern.MatchString(m.GetEntityUrn()) {
 		err := SearchHashRequestValidationError{
 			field:  "EntityUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -1528,6 +1528,32 @@ func (m *SearchHashRequest) validate(all bool) error {
 		err := SearchHashRequestValidationError{
 			field:  "Value",
 			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetTicketId() != "" {
+
+		if !_SearchHashRequest_TicketId_Pattern.MatchString(m.GetTicketId()) {
+			err := SearchHashRequestValidationError{
+				field:  "TicketId",
+				reason: "value does not match regex pattern \"^[A-Za-z0-9_-]{3,64}$\"",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if utf8.RuneCountInString(m.GetReason()) > 256 {
+		err := SearchHashRequestValidationError{
+			field:  "Reason",
+			reason: "value length must be at most 256 runes",
 		}
 		if !all {
 			return err
@@ -1615,9 +1641,11 @@ var _ interface {
 	ErrorName() string
 } = SearchHashRequestValidationError{}
 
-var _SearchHashRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$")
+var _SearchHashRequest_IdentityDomainUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
 
-var _SearchHashRequest_EntityUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$")
+var _SearchHashRequest_EntityUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")
+
+var _SearchHashRequest_TicketId_Pattern = regexp.MustCompile("^[A-Za-z0-9_-]{3,64}$")
 
 // Validate checks the field values on SearchHashResponse with the rules
 // defined in the proto definition for this message. If any rules are

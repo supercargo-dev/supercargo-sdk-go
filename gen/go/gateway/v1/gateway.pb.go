@@ -85,13 +85,11 @@ func (x *IngestRequest) GetAttributes() map[string]string {
 }
 
 type IngestResponse struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Success   bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	MessageId string                 `protobuf:"bytes,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
-	// Deprecated: Marked as deprecated in gateway/v1/gateway.proto.
-	Errors           []string           `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"` // Deprecated: use validation_errors
-	ValidationErrors []*ValidationError `protobuf:"bytes,4,rep,name=validation_errors,json=validationErrors,proto3" json:"validation_errors,omitempty"`
-	TraceId          string             `protobuf:"bytes,5,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Success          bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	MessageId        string                 `protobuf:"bytes,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	ValidationErrors []*ValidationError     `protobuf:"bytes,4,rep,name=validation_errors,json=validationErrors,proto3" json:"validation_errors,omitempty"`
+	TraceId          string                 `protobuf:"bytes,5,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -138,14 +136,6 @@ func (x *IngestResponse) GetMessageId() string {
 		return x.MessageId
 	}
 	return ""
-}
-
-// Deprecated: Marked as deprecated in gateway/v1/gateway.proto.
-func (x *IngestResponse) GetErrors() []string {
-	if x != nil {
-		return x.Errors
-	}
-	return nil
 }
 
 func (x *IngestResponse) GetValidationErrors() []*ValidationError {
@@ -227,23 +217,22 @@ var File_gateway_v1_gateway_proto protoreflect.FileDescriptor
 const file_gateway_v1_gateway_proto_rawDesc = "" +
 	"\n" +
 	"\x18gateway/v1/gateway.proto\x12\n" +
-	"gateway.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x19platform/v1/options.proto\x1a\x17validate/validate.proto\"\xc5\x02\n" +
-	"\rIngestRequest\x12e\n" +
-	"\x03urn\x18\x01 \x01(\tBS\xfaBJrH2F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$\xc2\xc1\x18\x02\b\x01R\x03urn\x12;\n" +
+	"gateway.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x19platform/v1/options.proto\x1a\x17validate/validate.proto\"\xc1\x02\n" +
+	"\rIngestRequest\x12a\n" +
+	"\x03urn\x18\x01 \x01(\tBO\xfaBFrD2B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$\xc2\xc1\x18\x02\b\x01R\x03urn\x12;\n" +
 	"\x04data\x18\x02 \x01(\v2\x17.google.protobuf.StructB\x0e\xfaB\x05\x8a\x01\x02\x10\x01\xc2\xc1\x18\x02\b\x02R\x04data\x12Q\n" +
 	"\n" +
 	"attributes\x18\x03 \x03(\v2).gateway.v1.IngestRequest.AttributesEntryB\x06\xc2\xc1\x18\x02\b\x03R\n" +
 	"attributes\x1a=\n" +
 	"\x0fAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf0\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xdc\x01\n" +
 	"\x0eIngestResponse\x12 \n" +
 	"\asuccess\x18\x01 \x01(\bB\x06\xc2\xc1\x18\x02\b\x01R\asuccess\x12%\n" +
 	"\n" +
-	"message_id\x18\x02 \x01(\tB\x06\xc2\xc1\x18\x02\b\x02R\tmessageId\x12 \n" +
-	"\x06errors\x18\x03 \x03(\tB\b\xc2\xc1\x18\x02\b\x03\x18\x01R\x06errors\x12P\n" +
+	"message_id\x18\x02 \x01(\tB\x06\xc2\xc1\x18\x02\b\x02R\tmessageId\x12P\n" +
 	"\x11validation_errors\x18\x04 \x03(\v2\x1b.gateway.v1.ValidationErrorB\x06\xc2\xc1\x18\x02\b\x04R\x10validationErrors\x12!\n" +
-	"\btrace_id\x18\x05 \x01(\tB\x06\xc2\xc1\x18\x02\b\x05R\atraceId\"\x8a\x01\n" +
+	"\btrace_id\x18\x05 \x01(\tB\x06\xc2\xc1\x18\x02\b\x05R\atraceIdJ\x04\b\x03\x10\x04R\x06errors\"\x8a\x01\n" +
 	"\x0fValidationError\x12%\n" +
 	"\n" +
 	"field_path\x18\x01 \x01(\tB\x06\xc2\xc1\x18\x02\b\x01R\tfieldPath\x12!\n" +

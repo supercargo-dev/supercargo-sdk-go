@@ -196,7 +196,7 @@ func main() {
 
 	// 4. Report health anomaly or query blast radius
 	resp, err := client.ReportAnomaly(ctx, &hubv1.ReportAnomalyRequest{
-		Urn:          "urn:sc:contract:marketing:customer_churn:v1",
+		Urn:          "urn:supercargo:marketing:contract:customer-churn:v1",
 		State:        hubv1.HealthState_HEALTH_STATE_DEGRADED,
 		IncidentType: "PIPELINE_CRASH",
 		Reason:       "OOM killed during Spark feature engineering stage",
@@ -231,7 +231,7 @@ func reportIncident(client *clients.HubClient) {
 	ctx := context.Background()
 
 	req := &hubv1.ReportAnomalyRequest{
-		Urn:          "urn:sc:product:payment_gateway:v1",
+		Urn:          "urn:supercargo:hub:product:payment-gateway:v1",
 		State:        hubv1.HealthState_HEALTH_STATE_DEGRADED,
 		Reason:       "Payment processor downstream 504 error rate exceeded 10%",
 		IncidentType: "UPSTREAM_TIMEOUT",
@@ -275,7 +275,7 @@ func inspectBlastRadius(client *clients.HubClient) {
 	ctx := context.Background()
 
 	// Query downstream blast radius up to 3 levels deep (0 for unbounded lineage traversal)
-	resp, err := client.GetBlastRadius(ctx, "urn:sc:contract:crm_orders:v1", 3)
+	resp, err := client.GetBlastRadius(ctx, "urn:supercargo:hub:contract:crm-orders:v1", 3)
 	if err != nil {
 		log.Fatalf("failed to query blast radius: %v", err)
 	}

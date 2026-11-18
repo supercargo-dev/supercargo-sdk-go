@@ -226,7 +226,7 @@ func (x *TokenizeRequest) GetCascade() []*EntityIdentifier {
 
 type EntityIdentifier struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Entity type URN (e.g., urn:sc:entity:contact:email).
+	// Entity type URN (e.g., urn:supercargo:entity:contact:email).
 	Urn string `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
 	// Priority rank (1 is highest priority).
 	Rank int32 `protobuf:"varint,2,opt,name=rank,proto3" json:"rank,omitempty"`
@@ -642,10 +642,12 @@ type SearchHashRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Reference to the IdentityDomain governing the identifier.
 	IdentityDomainUrn string `protobuf:"bytes,1,opt,name=identity_domain_urn,json=identityDomainUrn,proto3" json:"identity_domain_urn,omitempty"`
-	// Entity type URN (e.g. urn:sc:entity:contact:email or urn:supercargo:entity:user:id).
+	// Entity type URN (e.g. urn:supercargo:entity:contact:email or urn:supercargo:entity:user:id).
 	EntityUrn string `protobuf:"bytes,2,opt,name=entity_urn,json=entityUrn,proto3" json:"entity_urn,omitempty"`
 	// The cleartext identifier value to hash (e.g. alice@rockify.io).
 	Value         string `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+	TicketId      string `protobuf:"bytes,4,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
+	Reason        string `protobuf:"bytes,5,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -697,6 +699,20 @@ func (x *SearchHashRequest) GetEntityUrn() string {
 func (x *SearchHashRequest) GetValue() string {
 	if x != nil {
 		return x.Value
+	}
+	return ""
+}
+
+func (x *SearchHashRequest) GetTicketId() string {
+	if x != nil {
+		return x.TicketId
+	}
+	return ""
+}
+
+func (x *SearchHashRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
 	}
 	return ""
 }
@@ -790,12 +806,12 @@ const file_vault_v1_vault_proto_rawDesc = "" +
 	"\"SERVING_STATUS_UNKNOWN_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16SERVING_STATUS_SERVING\x10\x01\x12\x1e\n" +
 	"\x1aSERVING_STATUS_NOT_SERVING\x10\x02\x12\"\n" +
-	"\x1eSERVING_STATUS_SERVICE_UNKNOWN\x10\x03\"\xd2\x01\n" +
-	"\x0fTokenizeRequest\x12\x7f\n" +
-	"\x13identity_domain_urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x11identityDomainUrn\x12>\n" +
-	"\acascade\x18\x02 \x03(\v2\x1a.vault.v1.EntityIdentifierB\b\xfaB\x05\x92\x01\x02\b\x01R\acascade\"\xb1\x01\n" +
-	"\x10EntityIdentifier\x12a\n" +
-	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\x1b\n" +
+	"\x1eSERVING_STATUS_SERVICE_UNKNOWN\x10\x03\"\x95\x02\n" +
+	"\x0fTokenizeRequest\x12\xc1\x01\n" +
+	"\x13identity_domain_urn\x18\x01 \x01(\tB\x90\x01\xfaB\x8c\x01r\x89\x01\x10\x012\x84\x01^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\x11identityDomainUrn\x12>\n" +
+	"\acascade\x18\x02 \x03(\v2\x1a.vault.v1.EntityIdentifierB\b\xfaB\x05\x92\x01\x02\b\x01R\acascade\"\xe2\x01\n" +
+	"\x10EntityIdentifier\x12\x91\x01\n" +
+	"\x03urn\x18\x01 \x01(\tB\x7f\xfaB|rz\x10\x012v^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\x03urn\x12\x1b\n" +
 	"\x04rank\x18\x02 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\x04rank\x12\x1d\n" +
 	"\x05value\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x05value\"\xb3\x01\n" +
 	"\x10TokenizeResponse\x12>\n" +
@@ -807,9 +823,9 @@ const file_vault_v1_vault_proto_rawDesc = "" +
 	"\rEntityCascade\x12&\n" +
 	"\n" +
 	"context_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tcontextId\x12F\n" +
-	"\videntifiers\x18\x02 \x03(\v2\x1a.vault.v1.EntityIdentifierB\b\xfaB\x05\x92\x01\x02\b\x01R\videntifiers\"\xd6\x01\n" +
-	"\x14BatchTokenizeRequest\x12\x7f\n" +
-	"\x13identity_domain_urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x11identityDomainUrn\x12=\n" +
+	"\videntifiers\x18\x02 \x03(\v2\x1a.vault.v1.EntityIdentifierB\b\xfaB\x05\x92\x01\x02\b\x01R\videntifiers\"\x99\x02\n" +
+	"\x14BatchTokenizeRequest\x12\xc1\x01\n" +
+	"\x13identity_domain_urn\x18\x01 \x01(\tB\x90\x01\xfaB\x8c\x01r\x89\x01\x10\x012\x84\x01^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\x11identityDomainUrn\x12=\n" +
 	"\bcascades\x18\x02 \x03(\v2\x17.vault.v1.EntityCascadeB\b\xfaB\x05\x92\x01\x02\b\x01R\bcascades\"\xd8\x01\n" +
 	"\x13EntityCascadeResult\x12\x1d\n" +
 	"\n" +
@@ -820,16 +836,18 @@ const file_vault_v1_vault_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"P\n" +
 	"\x15BatchTokenizeResponse\x127\n" +
-	"\aresults\x18\x01 \x03(\v2\x1d.vault.v1.EntityCascadeResultR\aresults\"\x85\x01\n" +
-	"\x13DeleteKeysetRequest\x12n\n" +
+	"\aresults\x18\x01 \x03(\v2\x1d.vault.v1.EntityCascadeResultR\aresults\"\xb6\x01\n" +
+	"\x13DeleteKeysetRequest\x12\x9e\x01\n" +
 	"\n" +
-	"entity_urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\tentityUrn\"\x16\n" +
-	"\x14DeleteKeysetResponse\"\xac\x02\n" +
-	"\x11SearchHashRequest\x12\x83\x01\n" +
-	"\x13identity_domain_urn\x18\x01 \x01(\tBS\xfaBPrN\x10\x012J^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$R\x11identityDomainUrn\x12r\n" +
+	"entity_urn\x18\x01 \x01(\tB\x7f\xfaB|rz\x10\x012v^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\tentityUrn\"\x16\n" +
+	"\x14DeleteKeysetResponse\"\xf7\x03\n" +
+	"\x11SearchHashRequest\x12\xc1\x01\n" +
+	"\x13identity_domain_urn\x18\x01 \x01(\tB\x90\x01\xfaB\x8c\x01r\x89\x01\x10\x012\x84\x01^urn:supercargo:([a-z0-9-]+:(identity_domain|entity):[a-z0-9._-]+(:[a-z0-9._-]+)?|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\x11identityDomainUrn\x12\x9e\x01\n" +
 	"\n" +
-	"entity_urn\x18\x02 \x01(\tBS\xfaBPrN\x10\x012J^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$R\tentityUrn\x12\x1d\n" +
-	"\x05value\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x05value\"\x94\x01\n" +
+	"entity_urn\x18\x02 \x01(\tB\x7f\xfaB|rz\x10\x012v^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\tentityUrn\x12\x1d\n" +
+	"\x05value\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x05value\x12<\n" +
+	"\tticket_id\x18\x04 \x01(\tB\x1f\xfaB\x1cr\x1a2\x15^[A-Za-z0-9_-]{3,64}$\xd0\x01\x01R\bticketId\x12 \n" +
+	"\x06reason\x18\x05 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\x06reason\"\x94\x01\n" +
 	"\x12SearchHashResponse\x12\x1f\n" +
 	"\vsearch_hash\x18\x01 \x01(\tR\n" +
 	"searchHash\x12$\n" +

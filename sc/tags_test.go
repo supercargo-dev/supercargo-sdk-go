@@ -85,7 +85,7 @@ func TestParseTagRules_MarkerStructIgnored(t *testing.T) {
 	t.Parallel()
 
 	type ContractMarker struct {
-		_    struct{} `supercargo:"urn=urn:sc:contract:test:v1,version=1.0.0"`
+		_    struct{} `supercargo:"urn=urn:supercargo:hub:contract:test:v1,version=1.0.0"`
 		Data string   `supercargo:"not_empty"`
 	}
 

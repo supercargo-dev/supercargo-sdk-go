@@ -1418,7 +1418,7 @@ func (x *VerifyRTBFResponse) GetCertificateJson() string {
 // AnalyzeImpactRequest represents a request to analyze the impact of a field change.
 type AnalyzeImpactRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The URN of the source DTO field (e.g., urn:sc:field:repo:path:field).
+	// The URN of the source DTO field (e.g., urn:supercargo:field:repo:path:field).
 	FieldUrn string `protobuf:"bytes,1,opt,name=field_urn,json=fieldUrn,proto3" json:"field_urn,omitempty"`
 	// Optional: The minimum revision ID required for the materialized closure.
 	// If the materialized closure is older than this, the Hub will fall back to runtime traversal.
@@ -1426,8 +1426,12 @@ type AnalyzeImpactRequest struct {
 	// Optional: The minimum revision timestamp (RFC3339) required for the materialized closure.
 	// This is the preferred way to ensure data freshness.
 	MinRevisionTimestamp string `protobuf:"bytes,3,opt,name=min_revision_timestamp,json=minRevisionTimestamp,proto3" json:"min_revision_timestamp,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Proposed contract for schema impact analysis (facade forwarding from CheckDownstreamImpact).
+	Contract *DataContract `protobuf:"bytes,4,opt,name=contract,proto3" json:"contract,omitempty"`
+	// Entity namespace for entity impact analysis (facade forwarding from CheckEntityImpact).
+	EntityNamespace string `protobuf:"bytes,5,opt,name=entity_namespace,json=entityNamespace,proto3" json:"entity_namespace,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *AnalyzeImpactRequest) Reset() {
@@ -1481,6 +1485,20 @@ func (x *AnalyzeImpactRequest) GetMinRevisionTimestamp() string {
 	return ""
 }
 
+func (x *AnalyzeImpactRequest) GetContract() *DataContract {
+	if x != nil {
+		return x.Contract
+	}
+	return nil
+}
+
+func (x *AnalyzeImpactRequest) GetEntityNamespace() string {
+	if x != nil {
+		return x.EntityNamespace
+	}
+	return ""
+}
+
 // AnalyzeImpactResponse contains the results of the impact analysis.
 type AnalyzeImpactResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -1489,9 +1507,17 @@ type AnalyzeImpactResponse struct {
 	// True if any part of the lineage traversal was truncated due to depth limits.
 	Truncated bool `protobuf:"varint,2,opt,name=truncated,proto3" json:"truncated,omitempty"`
 	// The revision ID of the closure used for this analysis.
-	RevisionId    string `protobuf:"bytes,3,opt,name=revision_id,json=revisionId,proto3" json:"revision_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RevisionId string `protobuf:"bytes,3,opt,name=revision_id,json=revisionId,proto3" json:"revision_id,omitempty"`
+	// Impact severity classification.
+	Severity ImpactSeverity `protobuf:"varint,4,opt,name=severity,proto3,enum=hub.v1.ImpactSeverity" json:"severity,omitempty"`
+	// List of breaking changes detected.
+	BreakingChanges []string `protobuf:"bytes,5,rep,name=breaking_changes,json=breakingChanges,proto3" json:"breaking_changes,omitempty"`
+	// Impacted downstream consumers.
+	Consumers []*DownstreamConsumer `protobuf:"bytes,6,rep,name=consumers,proto3" json:"consumers,omitempty"`
+	// Impacted contract URNs (for entity impact analysis).
+	ImpactedContractUrns []string `protobuf:"bytes,7,rep,name=impacted_contract_urns,json=impactedContractUrns,proto3" json:"impacted_contract_urns,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *AnalyzeImpactResponse) Reset() {
@@ -1543,6 +1569,34 @@ func (x *AnalyzeImpactResponse) GetRevisionId() string {
 		return x.RevisionId
 	}
 	return ""
+}
+
+func (x *AnalyzeImpactResponse) GetSeverity() ImpactSeverity {
+	if x != nil {
+		return x.Severity
+	}
+	return ImpactSeverity_IMPACT_SEVERITY_UNSPECIFIED
+}
+
+func (x *AnalyzeImpactResponse) GetBreakingChanges() []string {
+	if x != nil {
+		return x.BreakingChanges
+	}
+	return nil
+}
+
+func (x *AnalyzeImpactResponse) GetConsumers() []*DownstreamConsumer {
+	if x != nil {
+		return x.Consumers
+	}
+	return nil
+}
+
+func (x *AnalyzeImpactResponse) GetImpactedContractUrns() []string {
+	if x != nil {
+		return x.ImpactedContractUrns
+	}
+	return nil
 }
 
 // LineageImpact represents a single impacted downstream asset.
@@ -3133,104 +3187,6 @@ func (x *DownstreamConsumer) GetOwnerEmail() string {
 	return ""
 }
 
-type ResolvePortRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The URN of the port to resolve.
-	PortUrn       string `protobuf:"bytes,1,opt,name=port_urn,json=portUrn,proto3" json:"port_urn,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ResolvePortRequest) Reset() {
-	*x = ResolvePortRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[49]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ResolvePortRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ResolvePortRequest) ProtoMessage() {}
-
-func (x *ResolvePortRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[49]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResolvePortRequest.ProtoReflect.Descriptor instead.
-func (*ResolvePortRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{49}
-}
-
-func (x *ResolvePortRequest) GetPortUrn() string {
-	if x != nil {
-		return x.PortUrn
-	}
-	return ""
-}
-
-type ResolvePortResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Port  *OutputPort            `protobuf:"bytes,1,opt,name=port,proto3" json:"port,omitempty"`
-	// All contracts associated with the port.
-	Contracts     []*DataContract `protobuf:"bytes,2,rep,name=contracts,proto3" json:"contracts,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ResolvePortResponse) Reset() {
-	*x = ResolvePortResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[50]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ResolvePortResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ResolvePortResponse) ProtoMessage() {}
-
-func (x *ResolvePortResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[50]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResolvePortResponse.ProtoReflect.Descriptor instead.
-func (*ResolvePortResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{50}
-}
-
-func (x *ResolvePortResponse) GetPort() *OutputPort {
-	if x != nil {
-		return x.Port
-	}
-	return nil
-}
-
-func (x *ResolvePortResponse) GetContracts() []*DataContract {
-	if x != nil {
-		return x.Contracts
-	}
-	return nil
-}
-
 type ValidateProductRequest struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	Manifest *ProductManifest       `protobuf:"bytes,1,opt,name=manifest,proto3" json:"manifest,omitempty"`
@@ -3242,7 +3198,7 @@ type ValidateProductRequest struct {
 
 func (x *ValidateProductRequest) Reset() {
 	*x = ValidateProductRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[51]
+	mi := &file_hub_v1_hub_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3254,7 +3210,7 @@ func (x *ValidateProductRequest) String() string {
 func (*ValidateProductRequest) ProtoMessage() {}
 
 func (x *ValidateProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[51]
+	mi := &file_hub_v1_hub_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3267,7 +3223,7 @@ func (x *ValidateProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateProductRequest.ProtoReflect.Descriptor instead.
 func (*ValidateProductRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{51}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *ValidateProductRequest) GetManifest() *ProductManifest {
@@ -3296,7 +3252,7 @@ type ValidateProductResponse struct {
 
 func (x *ValidateProductResponse) Reset() {
 	*x = ValidateProductResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[52]
+	mi := &file_hub_v1_hub_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3308,7 +3264,7 @@ func (x *ValidateProductResponse) String() string {
 func (*ValidateProductResponse) ProtoMessage() {}
 
 func (x *ValidateProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[52]
+	mi := &file_hub_v1_hub_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3321,7 +3277,7 @@ func (x *ValidateProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateProductResponse.ProtoReflect.Descriptor instead.
 func (*ValidateProductResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{52}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *ValidateProductResponse) GetValid() bool {
@@ -3349,7 +3305,7 @@ type RegisterProductRequest struct {
 
 func (x *RegisterProductRequest) Reset() {
 	*x = RegisterProductRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[53]
+	mi := &file_hub_v1_hub_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3361,7 +3317,7 @@ func (x *RegisterProductRequest) String() string {
 func (*RegisterProductRequest) ProtoMessage() {}
 
 func (x *RegisterProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[53]
+	mi := &file_hub_v1_hub_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3374,7 +3330,7 @@ func (x *RegisterProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterProductRequest.ProtoReflect.Descriptor instead.
 func (*RegisterProductRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{53}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *RegisterProductRequest) GetManifest() *ProductManifest {
@@ -3407,7 +3363,7 @@ type RegisterProductResponse struct {
 
 func (x *RegisterProductResponse) Reset() {
 	*x = RegisterProductResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[54]
+	mi := &file_hub_v1_hub_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3419,7 +3375,7 @@ func (x *RegisterProductResponse) String() string {
 func (*RegisterProductResponse) ProtoMessage() {}
 
 func (x *RegisterProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[54]
+	mi := &file_hub_v1_hub_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3432,7 +3388,7 @@ func (x *RegisterProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterProductResponse.ProtoReflect.Descriptor instead.
 func (*RegisterProductResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{54}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *RegisterProductResponse) GetProductUrn() string {
@@ -3475,7 +3431,7 @@ type GetProductRequest struct {
 
 func (x *GetProductRequest) Reset() {
 	*x = GetProductRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[55]
+	mi := &file_hub_v1_hub_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3487,7 +3443,7 @@ func (x *GetProductRequest) String() string {
 func (*GetProductRequest) ProtoMessage() {}
 
 func (x *GetProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[55]
+	mi := &file_hub_v1_hub_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3500,7 +3456,7 @@ func (x *GetProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductRequest.ProtoReflect.Descriptor instead.
 func (*GetProductRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{55}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *GetProductRequest) GetProductUrn() string {
@@ -3528,7 +3484,7 @@ type GetProductResponse struct {
 
 func (x *GetProductResponse) Reset() {
 	*x = GetProductResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[56]
+	mi := &file_hub_v1_hub_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3540,7 +3496,7 @@ func (x *GetProductResponse) String() string {
 func (*GetProductResponse) ProtoMessage() {}
 
 func (x *GetProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[56]
+	mi := &file_hub_v1_hub_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3553,7 +3509,7 @@ func (x *GetProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductResponse.ProtoReflect.Descriptor instead.
 func (*GetProductResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{56}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *GetProductResponse) GetManifest() *ProductManifest {
@@ -3584,7 +3540,7 @@ type GetProductSchemaRequest struct {
 
 func (x *GetProductSchemaRequest) Reset() {
 	*x = GetProductSchemaRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[57]
+	mi := &file_hub_v1_hub_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3596,7 +3552,7 @@ func (x *GetProductSchemaRequest) String() string {
 func (*GetProductSchemaRequest) ProtoMessage() {}
 
 func (x *GetProductSchemaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[57]
+	mi := &file_hub_v1_hub_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3609,7 +3565,7 @@ func (x *GetProductSchemaRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductSchemaRequest.ProtoReflect.Descriptor instead.
 func (*GetProductSchemaRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{57}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *GetProductSchemaRequest) GetProductUrn() string {
@@ -3645,7 +3601,7 @@ type GetProductSchemaResponse struct {
 
 func (x *GetProductSchemaResponse) Reset() {
 	*x = GetProductSchemaResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[58]
+	mi := &file_hub_v1_hub_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3657,7 +3613,7 @@ func (x *GetProductSchemaResponse) String() string {
 func (*GetProductSchemaResponse) ProtoMessage() {}
 
 func (x *GetProductSchemaResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[58]
+	mi := &file_hub_v1_hub_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3670,7 +3626,7 @@ func (x *GetProductSchemaResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductSchemaResponse.ProtoReflect.Descriptor instead.
 func (*GetProductSchemaResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{58}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *GetProductSchemaResponse) GetBigquerySchemaJson() string {
@@ -3699,7 +3655,7 @@ type GetContractRequest struct {
 
 func (x *GetContractRequest) Reset() {
 	*x = GetContractRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[59]
+	mi := &file_hub_v1_hub_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3711,7 +3667,7 @@ func (x *GetContractRequest) String() string {
 func (*GetContractRequest) ProtoMessage() {}
 
 func (x *GetContractRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[59]
+	mi := &file_hub_v1_hub_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3724,7 +3680,7 @@ func (x *GetContractRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetContractRequest.ProtoReflect.Descriptor instead.
 func (*GetContractRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{59}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *GetContractRequest) GetContractUrn() string {
@@ -3750,7 +3706,7 @@ type GetContractResponse struct {
 
 func (x *GetContractResponse) Reset() {
 	*x = GetContractResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[60]
+	mi := &file_hub_v1_hub_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3762,7 +3718,7 @@ func (x *GetContractResponse) String() string {
 func (*GetContractResponse) ProtoMessage() {}
 
 func (x *GetContractResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[60]
+	mi := &file_hub_v1_hub_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3775,7 +3731,7 @@ func (x *GetContractResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetContractResponse.ProtoReflect.Descriptor instead.
 func (*GetContractResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{60}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *GetContractResponse) GetContract() *DataContract {
@@ -3795,7 +3751,7 @@ type ListContractsRequest struct {
 
 func (x *ListContractsRequest) Reset() {
 	*x = ListContractsRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[61]
+	mi := &file_hub_v1_hub_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3807,7 +3763,7 @@ func (x *ListContractsRequest) String() string {
 func (*ListContractsRequest) ProtoMessage() {}
 
 func (x *ListContractsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[61]
+	mi := &file_hub_v1_hub_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3820,7 +3776,7 @@ func (x *ListContractsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListContractsRequest.ProtoReflect.Descriptor instead.
 func (*ListContractsRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{61}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *ListContractsRequest) GetPageSize() int32 {
@@ -3847,7 +3803,7 @@ type ListContractsResponse struct {
 
 func (x *ListContractsResponse) Reset() {
 	*x = ListContractsResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[62]
+	mi := &file_hub_v1_hub_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3859,7 +3815,7 @@ func (x *ListContractsResponse) String() string {
 func (*ListContractsResponse) ProtoMessage() {}
 
 func (x *ListContractsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[62]
+	mi := &file_hub_v1_hub_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3872,7 +3828,7 @@ func (x *ListContractsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListContractsResponse.ProtoReflect.Descriptor instead.
 func (*ListContractsResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{62}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *ListContractsResponse) GetContracts() []*DataContract {
@@ -3898,7 +3854,7 @@ type PingRequest struct {
 
 func (x *PingRequest) Reset() {
 	*x = PingRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[63]
+	mi := &file_hub_v1_hub_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3910,7 +3866,7 @@ func (x *PingRequest) String() string {
 func (*PingRequest) ProtoMessage() {}
 
 func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[63]
+	mi := &file_hub_v1_hub_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3923,7 +3879,7 @@ func (x *PingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
 func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{63}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *PingRequest) GetMessage() string {
@@ -3943,7 +3899,7 @@ type PingResponse struct {
 
 func (x *PingResponse) Reset() {
 	*x = PingResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[64]
+	mi := &file_hub_v1_hub_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3955,7 +3911,7 @@ func (x *PingResponse) String() string {
 func (*PingResponse) ProtoMessage() {}
 
 func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[64]
+	mi := &file_hub_v1_hub_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3968,7 +3924,7 @@ func (x *PingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
 func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{64}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *PingResponse) GetMessage() string {
@@ -3999,7 +3955,7 @@ type ValidateSchemaRequest struct {
 
 func (x *ValidateSchemaRequest) Reset() {
 	*x = ValidateSchemaRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[65]
+	mi := &file_hub_v1_hub_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4011,7 +3967,7 @@ func (x *ValidateSchemaRequest) String() string {
 func (*ValidateSchemaRequest) ProtoMessage() {}
 
 func (x *ValidateSchemaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[65]
+	mi := &file_hub_v1_hub_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4024,7 +3980,7 @@ func (x *ValidateSchemaRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateSchemaRequest.ProtoReflect.Descriptor instead.
 func (*ValidateSchemaRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{65}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *ValidateSchemaRequest) GetContractUrn() string {
@@ -4060,7 +4016,7 @@ type ValidateSchemaResponse struct {
 
 func (x *ValidateSchemaResponse) Reset() {
 	*x = ValidateSchemaResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[66]
+	mi := &file_hub_v1_hub_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4072,7 +4028,7 @@ func (x *ValidateSchemaResponse) String() string {
 func (*ValidateSchemaResponse) ProtoMessage() {}
 
 func (x *ValidateSchemaResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[66]
+	mi := &file_hub_v1_hub_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4085,7 +4041,7 @@ func (x *ValidateSchemaResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateSchemaResponse.ProtoReflect.Descriptor instead.
 func (*ValidateSchemaResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{66}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *ValidateSchemaResponse) GetValid() bool {
@@ -4114,7 +4070,7 @@ type DeleteProductRequest struct {
 
 func (x *DeleteProductRequest) Reset() {
 	*x = DeleteProductRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[67]
+	mi := &file_hub_v1_hub_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4126,7 +4082,7 @@ func (x *DeleteProductRequest) String() string {
 func (*DeleteProductRequest) ProtoMessage() {}
 
 func (x *DeleteProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[67]
+	mi := &file_hub_v1_hub_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4139,7 +4095,7 @@ func (x *DeleteProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProductRequest.ProtoReflect.Descriptor instead.
 func (*DeleteProductRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{67}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *DeleteProductRequest) GetProductUrn() string {
@@ -4166,7 +4122,7 @@ type DeleteProductResponse struct {
 
 func (x *DeleteProductResponse) Reset() {
 	*x = DeleteProductResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[68]
+	mi := &file_hub_v1_hub_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4178,7 +4134,7 @@ func (x *DeleteProductResponse) String() string {
 func (*DeleteProductResponse) ProtoMessage() {}
 
 func (x *DeleteProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[68]
+	mi := &file_hub_v1_hub_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4191,7 +4147,7 @@ func (x *DeleteProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProductResponse.ProtoReflect.Descriptor instead.
 func (*DeleteProductResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{68}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *DeleteProductResponse) GetDeleted() bool {
@@ -4210,7 +4166,7 @@ type RegisterEntityRequest struct {
 
 func (x *RegisterEntityRequest) Reset() {
 	*x = RegisterEntityRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[69]
+	mi := &file_hub_v1_hub_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4222,7 +4178,7 @@ func (x *RegisterEntityRequest) String() string {
 func (*RegisterEntityRequest) ProtoMessage() {}
 
 func (x *RegisterEntityRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[69]
+	mi := &file_hub_v1_hub_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4235,7 +4191,7 @@ func (x *RegisterEntityRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterEntityRequest.ProtoReflect.Descriptor instead.
 func (*RegisterEntityRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{69}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *RegisterEntityRequest) GetEntity() *v1.Entity {
@@ -4254,7 +4210,7 @@ type RegisterEntityResponse struct {
 
 func (x *RegisterEntityResponse) Reset() {
 	*x = RegisterEntityResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[70]
+	mi := &file_hub_v1_hub_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4266,7 +4222,7 @@ func (x *RegisterEntityResponse) String() string {
 func (*RegisterEntityResponse) ProtoMessage() {}
 
 func (x *RegisterEntityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[70]
+	mi := &file_hub_v1_hub_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4279,7 +4235,7 @@ func (x *RegisterEntityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterEntityResponse.ProtoReflect.Descriptor instead.
 func (*RegisterEntityResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{70}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *RegisterEntityResponse) GetEntity() *v1.Entity {
@@ -4298,7 +4254,7 @@ type GetEntityRequest struct {
 
 func (x *GetEntityRequest) Reset() {
 	*x = GetEntityRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[71]
+	mi := &file_hub_v1_hub_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4310,7 +4266,7 @@ func (x *GetEntityRequest) String() string {
 func (*GetEntityRequest) ProtoMessage() {}
 
 func (x *GetEntityRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[71]
+	mi := &file_hub_v1_hub_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4323,7 +4279,7 @@ func (x *GetEntityRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEntityRequest.ProtoReflect.Descriptor instead.
 func (*GetEntityRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{71}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *GetEntityRequest) GetNamespace() string {
@@ -4342,7 +4298,7 @@ type GetEntityResponse struct {
 
 func (x *GetEntityResponse) Reset() {
 	*x = GetEntityResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[72]
+	mi := &file_hub_v1_hub_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4354,7 +4310,7 @@ func (x *GetEntityResponse) String() string {
 func (*GetEntityResponse) ProtoMessage() {}
 
 func (x *GetEntityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[72]
+	mi := &file_hub_v1_hub_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4367,7 +4323,7 @@ func (x *GetEntityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEntityResponse.ProtoReflect.Descriptor instead.
 func (*GetEntityResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{72}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *GetEntityResponse) GetEntity() *v1.Entity {
@@ -4388,7 +4344,7 @@ type ListEntitiesRequest struct {
 
 func (x *ListEntitiesRequest) Reset() {
 	*x = ListEntitiesRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[73]
+	mi := &file_hub_v1_hub_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4400,7 +4356,7 @@ func (x *ListEntitiesRequest) String() string {
 func (*ListEntitiesRequest) ProtoMessage() {}
 
 func (x *ListEntitiesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[73]
+	mi := &file_hub_v1_hub_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4413,7 +4369,7 @@ func (x *ListEntitiesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEntitiesRequest.ProtoReflect.Descriptor instead.
 func (*ListEntitiesRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{73}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *ListEntitiesRequest) GetQuery() string {
@@ -4447,7 +4403,7 @@ type ListEntitiesResponse struct {
 
 func (x *ListEntitiesResponse) Reset() {
 	*x = ListEntitiesResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[74]
+	mi := &file_hub_v1_hub_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4459,7 +4415,7 @@ func (x *ListEntitiesResponse) String() string {
 func (*ListEntitiesResponse) ProtoMessage() {}
 
 func (x *ListEntitiesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[74]
+	mi := &file_hub_v1_hub_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4472,7 +4428,7 @@ func (x *ListEntitiesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEntitiesResponse.ProtoReflect.Descriptor instead.
 func (*ListEntitiesResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{74}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{72}
 }
 
 func (x *ListEntitiesResponse) GetEntities() []*v1.Entity {
@@ -4498,7 +4454,7 @@ type CheckEntityImpactRequest struct {
 
 func (x *CheckEntityImpactRequest) Reset() {
 	*x = CheckEntityImpactRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[75]
+	mi := &file_hub_v1_hub_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4510,7 +4466,7 @@ func (x *CheckEntityImpactRequest) String() string {
 func (*CheckEntityImpactRequest) ProtoMessage() {}
 
 func (x *CheckEntityImpactRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[75]
+	mi := &file_hub_v1_hub_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4523,7 +4479,7 @@ func (x *CheckEntityImpactRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckEntityImpactRequest.ProtoReflect.Descriptor instead.
 func (*CheckEntityImpactRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{75}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *CheckEntityImpactRequest) GetNamespace() string {
@@ -4543,7 +4499,7 @@ type CheckEntityImpactResponse struct {
 
 func (x *CheckEntityImpactResponse) Reset() {
 	*x = CheckEntityImpactResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[76]
+	mi := &file_hub_v1_hub_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4555,7 +4511,7 @@ func (x *CheckEntityImpactResponse) String() string {
 func (*CheckEntityImpactResponse) ProtoMessage() {}
 
 func (x *CheckEntityImpactResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[76]
+	mi := &file_hub_v1_hub_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4568,7 +4524,7 @@ func (x *CheckEntityImpactResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckEntityImpactResponse.ProtoReflect.Descriptor instead.
 func (*CheckEntityImpactResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{76}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *CheckEntityImpactResponse) GetSeverity() ImpactSeverity {
@@ -4594,7 +4550,7 @@ type DeleteEntityRequest struct {
 
 func (x *DeleteEntityRequest) Reset() {
 	*x = DeleteEntityRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[77]
+	mi := &file_hub_v1_hub_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4606,7 +4562,7 @@ func (x *DeleteEntityRequest) String() string {
 func (*DeleteEntityRequest) ProtoMessage() {}
 
 func (x *DeleteEntityRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[77]
+	mi := &file_hub_v1_hub_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4619,7 +4575,7 @@ func (x *DeleteEntityRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteEntityRequest.ProtoReflect.Descriptor instead.
 func (*DeleteEntityRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{77}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *DeleteEntityRequest) GetNamespace() string {
@@ -4638,7 +4594,7 @@ type DeleteEntityResponse struct {
 
 func (x *DeleteEntityResponse) Reset() {
 	*x = DeleteEntityResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[78]
+	mi := &file_hub_v1_hub_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4650,7 +4606,7 @@ func (x *DeleteEntityResponse) String() string {
 func (*DeleteEntityResponse) ProtoMessage() {}
 
 func (x *DeleteEntityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[78]
+	mi := &file_hub_v1_hub_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4663,7 +4619,7 @@ func (x *DeleteEntityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteEntityResponse.ProtoReflect.Descriptor instead.
 func (*DeleteEntityResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{78}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *DeleteEntityResponse) GetDeleted() bool {
@@ -4682,7 +4638,7 @@ type RegisterTeamRequest struct {
 
 func (x *RegisterTeamRequest) Reset() {
 	*x = RegisterTeamRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[79]
+	mi := &file_hub_v1_hub_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4694,7 +4650,7 @@ func (x *RegisterTeamRequest) String() string {
 func (*RegisterTeamRequest) ProtoMessage() {}
 
 func (x *RegisterTeamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[79]
+	mi := &file_hub_v1_hub_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4707,7 +4663,7 @@ func (x *RegisterTeamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterTeamRequest.ProtoReflect.Descriptor instead.
 func (*RegisterTeamRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{79}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *RegisterTeamRequest) GetTeam() *v1.Team {
@@ -4726,7 +4682,7 @@ type RegisterTeamResponse struct {
 
 func (x *RegisterTeamResponse) Reset() {
 	*x = RegisterTeamResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[80]
+	mi := &file_hub_v1_hub_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4738,7 +4694,7 @@ func (x *RegisterTeamResponse) String() string {
 func (*RegisterTeamResponse) ProtoMessage() {}
 
 func (x *RegisterTeamResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[80]
+	mi := &file_hub_v1_hub_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4751,7 +4707,7 @@ func (x *RegisterTeamResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterTeamResponse.ProtoReflect.Descriptor instead.
 func (*RegisterTeamResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{80}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *RegisterTeamResponse) GetTeam() *v1.Team {
@@ -4770,7 +4726,7 @@ type GetTeamRequest struct {
 
 func (x *GetTeamRequest) Reset() {
 	*x = GetTeamRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[81]
+	mi := &file_hub_v1_hub_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4782,7 +4738,7 @@ func (x *GetTeamRequest) String() string {
 func (*GetTeamRequest) ProtoMessage() {}
 
 func (x *GetTeamRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[81]
+	mi := &file_hub_v1_hub_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4795,7 +4751,7 @@ func (x *GetTeamRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTeamRequest.ProtoReflect.Descriptor instead.
 func (*GetTeamRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{81}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *GetTeamRequest) GetName() string {
@@ -4814,7 +4770,7 @@ type GetTeamResponse struct {
 
 func (x *GetTeamResponse) Reset() {
 	*x = GetTeamResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[82]
+	mi := &file_hub_v1_hub_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4826,7 +4782,7 @@ func (x *GetTeamResponse) String() string {
 func (*GetTeamResponse) ProtoMessage() {}
 
 func (x *GetTeamResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[82]
+	mi := &file_hub_v1_hub_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4839,7 +4795,7 @@ func (x *GetTeamResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTeamResponse.ProtoReflect.Descriptor instead.
 func (*GetTeamResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{82}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *GetTeamResponse) GetTeam() *v1.Team {
@@ -4859,7 +4815,7 @@ type ListTeamsRequest struct {
 
 func (x *ListTeamsRequest) Reset() {
 	*x = ListTeamsRequest{}
-	mi := &file_hub_v1_hub_proto_msgTypes[83]
+	mi := &file_hub_v1_hub_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4871,7 +4827,7 @@ func (x *ListTeamsRequest) String() string {
 func (*ListTeamsRequest) ProtoMessage() {}
 
 func (x *ListTeamsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[83]
+	mi := &file_hub_v1_hub_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4884,7 +4840,7 @@ func (x *ListTeamsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTeamsRequest.ProtoReflect.Descriptor instead.
 func (*ListTeamsRequest) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{83}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *ListTeamsRequest) GetPageSize() int32 {
@@ -4911,7 +4867,7 @@ type ListTeamsResponse struct {
 
 func (x *ListTeamsResponse) Reset() {
 	*x = ListTeamsResponse{}
-	mi := &file_hub_v1_hub_proto_msgTypes[84]
+	mi := &file_hub_v1_hub_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4923,7 +4879,7 @@ func (x *ListTeamsResponse) String() string {
 func (*ListTeamsResponse) ProtoMessage() {}
 
 func (x *ListTeamsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_hub_proto_msgTypes[84]
+	mi := &file_hub_v1_hub_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4936,7 +4892,7 @@ func (x *ListTeamsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTeamsResponse.ProtoReflect.Descriptor instead.
 func (*ListTeamsResponse) Descriptor() ([]byte, []int) {
-	return file_hub_v1_hub_proto_rawDescGZIP(), []int{84}
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{82}
 }
 
 func (x *ListTeamsResponse) GetTeams() []*v1.Team {
@@ -4951,6 +4907,94 @@ func (x *ListTeamsResponse) GetNextPageToken() string {
 		return x.NextPageToken
 	}
 	return ""
+}
+
+type DeleteTeamRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTeamRequest) Reset() {
+	*x = DeleteTeamRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[83]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTeamRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTeamRequest) ProtoMessage() {}
+
+func (x *DeleteTeamRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[83]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTeamRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTeamRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{83}
+}
+
+func (x *DeleteTeamRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type DeleteTeamResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Deleted       bool                   `protobuf:"varint,1,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTeamResponse) Reset() {
+	*x = DeleteTeamResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[84]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTeamResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTeamResponse) ProtoMessage() {}
+
+func (x *DeleteTeamResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[84]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTeamResponse.ProtoReflect.Descriptor instead.
+func (*DeleteTeamResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{84}
+}
+
+func (x *DeleteTeamResponse) GetDeleted() bool {
+	if x != nil {
+		return x.Deleted
+	}
+	return false
 }
 
 type GetTaxonomyMappingsRequest struct {
@@ -5065,6 +5109,338 @@ func (x *GetTaxonomyMappingsResponse) GetMaskingRules() map[string]string {
 	return nil
 }
 
+type DemandLock struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	Id                   string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ConsumerProductUrn   string                 `protobuf:"bytes,2,opt,name=consumer_product_urn,json=consumerProductUrn,proto3" json:"consumer_product_urn,omitempty"`
+	ProducerProductUrn   string                 `protobuf:"bytes,3,opt,name=producer_product_urn,json=producerProductUrn,proto3" json:"producer_product_urn,omitempty"`
+	OutputPort           string                 `protobuf:"bytes,4,opt,name=output_port,json=outputPort,proto3" json:"output_port,omitempty"`
+	RequiredColumns      []string               `protobuf:"bytes,5,rep,name=required_columns,json=requiredColumns,proto3" json:"required_columns,omitempty"`
+	MinSlaTier           SLATier                `protobuf:"varint,6,opt,name=min_sla_tier,json=minSlaTier,proto3,enum=hub.v1.SLATier" json:"min_sla_tier,omitempty"`
+	MaxFreshness         string                 `protobuf:"bytes,7,opt,name=max_freshness,json=maxFreshness,proto3" json:"max_freshness,omitempty"`
+	ExpectedLens         LensType               `protobuf:"varint,8,opt,name=expected_lens,json=expectedLens,proto3,enum=hub.v1.LensType" json:"expected_lens,omitempty"`
+	SemanticFingerprints map[string]string      `protobuf:"bytes,9,rep,name=semantic_fingerprints,json=semanticFingerprints,proto3" json:"semantic_fingerprints,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CreatedAt            *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *DemandLock) Reset() {
+	*x = DemandLock{}
+	mi := &file_hub_v1_hub_proto_msgTypes[87]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DemandLock) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DemandLock) ProtoMessage() {}
+
+func (x *DemandLock) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[87]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DemandLock.ProtoReflect.Descriptor instead.
+func (*DemandLock) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{87}
+}
+
+func (x *DemandLock) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DemandLock) GetConsumerProductUrn() string {
+	if x != nil {
+		return x.ConsumerProductUrn
+	}
+	return ""
+}
+
+func (x *DemandLock) GetProducerProductUrn() string {
+	if x != nil {
+		return x.ProducerProductUrn
+	}
+	return ""
+}
+
+func (x *DemandLock) GetOutputPort() string {
+	if x != nil {
+		return x.OutputPort
+	}
+	return ""
+}
+
+func (x *DemandLock) GetRequiredColumns() []string {
+	if x != nil {
+		return x.RequiredColumns
+	}
+	return nil
+}
+
+func (x *DemandLock) GetMinSlaTier() SLATier {
+	if x != nil {
+		return x.MinSlaTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *DemandLock) GetMaxFreshness() string {
+	if x != nil {
+		return x.MaxFreshness
+	}
+	return ""
+}
+
+func (x *DemandLock) GetExpectedLens() LensType {
+	if x != nil {
+		return x.ExpectedLens
+	}
+	return LensType_LENS_TYPE_UNSPECIFIED
+}
+
+func (x *DemandLock) GetSemanticFingerprints() map[string]string {
+	if x != nil {
+		return x.SemanticFingerprints
+	}
+	return nil
+}
+
+func (x *DemandLock) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+type RegisterDemandLocksRequest struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	ConsumerProductUrn string                 `protobuf:"bytes,1,opt,name=consumer_product_urn,json=consumerProductUrn,proto3" json:"consumer_product_urn,omitempty"`
+	Demands            []*ImportDemand        `protobuf:"bytes,2,rep,name=demands,proto3" json:"demands,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *RegisterDemandLocksRequest) Reset() {
+	*x = RegisterDemandLocksRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[88]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterDemandLocksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterDemandLocksRequest) ProtoMessage() {}
+
+func (x *RegisterDemandLocksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[88]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterDemandLocksRequest.ProtoReflect.Descriptor instead.
+func (*RegisterDemandLocksRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{88}
+}
+
+func (x *RegisterDemandLocksRequest) GetConsumerProductUrn() string {
+	if x != nil {
+		return x.ConsumerProductUrn
+	}
+	return ""
+}
+
+func (x *RegisterDemandLocksRequest) GetDemands() []*ImportDemand {
+	if x != nil {
+		return x.Demands
+	}
+	return nil
+}
+
+type RegisterDemandLocksResponse struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	RegisteredLocks []*DemandLock          `protobuf:"bytes,1,rep,name=registered_locks,json=registeredLocks,proto3" json:"registered_locks,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *RegisterDemandLocksResponse) Reset() {
+	*x = RegisterDemandLocksResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[89]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterDemandLocksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterDemandLocksResponse) ProtoMessage() {}
+
+func (x *RegisterDemandLocksResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[89]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterDemandLocksResponse.ProtoReflect.Descriptor instead.
+func (*RegisterDemandLocksResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{89}
+}
+
+func (x *RegisterDemandLocksResponse) GetRegisteredLocks() []*DemandLock {
+	if x != nil {
+		return x.RegisteredLocks
+	}
+	return nil
+}
+
+type ListDemandLocksRequest struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	ProducerProductUrn string                 `protobuf:"bytes,1,opt,name=producer_product_urn,json=producerProductUrn,proto3" json:"producer_product_urn,omitempty"`
+	OutputPort         string                 `protobuf:"bytes,2,opt,name=output_port,json=outputPort,proto3" json:"output_port,omitempty"`
+	PageSize           int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken          string                 `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *ListDemandLocksRequest) Reset() {
+	*x = ListDemandLocksRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[90]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDemandLocksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDemandLocksRequest) ProtoMessage() {}
+
+func (x *ListDemandLocksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[90]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDemandLocksRequest.ProtoReflect.Descriptor instead.
+func (*ListDemandLocksRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{90}
+}
+
+func (x *ListDemandLocksRequest) GetProducerProductUrn() string {
+	if x != nil {
+		return x.ProducerProductUrn
+	}
+	return ""
+}
+
+func (x *ListDemandLocksRequest) GetOutputPort() string {
+	if x != nil {
+		return x.OutputPort
+	}
+	return ""
+}
+
+func (x *ListDemandLocksRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListDemandLocksRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+type ListDemandLocksResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DemandLocks   []*DemandLock          `protobuf:"bytes,1,rep,name=demand_locks,json=demandLocks,proto3" json:"demand_locks,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDemandLocksResponse) Reset() {
+	*x = ListDemandLocksResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[91]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDemandLocksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDemandLocksResponse) ProtoMessage() {}
+
+func (x *ListDemandLocksResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[91]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDemandLocksResponse.ProtoReflect.Descriptor instead.
+func (*ListDemandLocksResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{91}
+}
+
+func (x *ListDemandLocksResponse) GetDemandLocks() []*DemandLock {
+	if x != nil {
+		return x.DemandLocks
+	}
+	return nil
+}
+
+func (x *ListDemandLocksResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
 var File_hub_v1_hub_proto protoreflect.FileDescriptor
 
 const file_hub_v1_hub_proto_rawDesc = "" +
@@ -5174,16 +5550,22 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x15outbox_audit_event_id\x18\x03 \x01(\tR\x12outboxAuditEventId\x126\n" +
 	"\x17deletion_timestamp_unix\x18\x04 \x01(\x03R\x15deletionTimestampUnix\x12+\n" +
 	"\x11unanchored_tables\x18\x05 \x03(\tR\x10unanchoredTables\x12)\n" +
-	"\x10certificate_json\x18\x06 \x01(\tR\x0fcertificateJson\"\x91\x01\n" +
+	"\x10certificate_json\x18\x06 \x01(\tR\x0fcertificateJson\"\xee\x01\n" +
 	"\x14AnalyzeImpactRequest\x12\x1b\n" +
 	"\tfield_urn\x18\x01 \x01(\tR\bfieldUrn\x12&\n" +
 	"\x0fmin_revision_id\x18\x02 \x01(\tR\rminRevisionId\x124\n" +
-	"\x16min_revision_timestamp\x18\x03 \x01(\tR\x14minRevisionTimestamp\"\x87\x01\n" +
+	"\x16min_revision_timestamp\x18\x03 \x01(\tR\x14minRevisionTimestamp\x120\n" +
+	"\bcontract\x18\x04 \x01(\v2\x14.hub.v1.DataContractR\bcontract\x12)\n" +
+	"\x10entity_namespace\x18\x05 \x01(\tR\x0fentityNamespace\"\xd6\x02\n" +
 	"\x15AnalyzeImpactResponse\x12/\n" +
 	"\aimpacts\x18\x01 \x03(\v2\x15.hub.v1.LineageImpactR\aimpacts\x12\x1c\n" +
 	"\ttruncated\x18\x02 \x01(\bR\ttruncated\x12\x1f\n" +
 	"\vrevision_id\x18\x03 \x01(\tR\n" +
-	"revisionId\"~\n" +
+	"revisionId\x122\n" +
+	"\bseverity\x18\x04 \x01(\x0e2\x16.hub.v1.ImpactSeverityR\bseverity\x12)\n" +
+	"\x10breaking_changes\x18\x05 \x03(\tR\x0fbreakingChanges\x128\n" +
+	"\tconsumers\x18\x06 \x03(\v2\x1a.hub.v1.DownstreamConsumerR\tconsumers\x124\n" +
+	"\x16impacted_contract_urns\x18\a \x03(\tR\x14impactedContractUrns\"~\n" +
 	"\rLineageImpact\x12\x1b\n" +
 	"\tasset_urn\x18\x01 \x01(\tR\bassetUrn\x12\x1d\n" +
 	"\n" +
@@ -5305,12 +5687,7 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\n" +
 	"owner_team\x18\x02 \x01(\tR\townerTeam\x12\x1f\n" +
 	"\vowner_email\x18\x03 \x01(\tR\n" +
-	"ownerEmail\"/\n" +
-	"\x12ResolvePortRequest\x12\x19\n" +
-	"\bport_urn\x18\x01 \x01(\tR\aportUrn\"q\n" +
-	"\x13ResolvePortResponse\x12&\n" +
-	"\x04port\x18\x01 \x01(\v2\x12.hub.v1.OutputPortR\x04port\x122\n" +
-	"\tcontracts\x18\x02 \x03(\v2\x14.hub.v1.DataContractR\tcontracts\"\x81\x01\n" +
+	"ownerEmail\"\x81\x01\n" +
 	"\x16ValidateProductRequest\x123\n" +
 	"\bmanifest\x18\x01 \x01(\v2\x17.hub.v1.ProductManifestR\bmanifest\x122\n" +
 	"\tcontracts\x18\x02 \x03(\v2\x14.hub.v1.DataContractR\tcontracts\"G\n" +
@@ -5412,7 +5789,11 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"page_token\x18\x02 \x01(\tR\tpageToken\"d\n" +
 	"\x11ListTeamsResponse\x12'\n" +
 	"\x05teams\x18\x01 \x03(\v2\x11.platform.v1.TeamR\x05teams\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"c\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"0\n" +
+	"\x11DeleteTeamRequest\x12\x1b\n" +
+	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\".\n" +
+	"\x12DeleteTeamResponse\x12\x18\n" +
+	"\adeleted\x18\x01 \x01(\bR\adeleted\"c\n" +
 	"\x1aGetTaxonomyMappingsRequest\x12)\n" +
 	"\venvironment\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\venvironment\x12\x1a\n" +
 	"\blocation\x18\x02 \x01(\tR\blocation\"\xf2\x02\n" +
@@ -5426,7 +5807,41 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a?\n" +
 	"\x11MaskingRulesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\xa9\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc2\x04\n" +
+	"\n" +
+	"DemandLock\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x120\n" +
+	"\x14consumer_product_urn\x18\x02 \x01(\tR\x12consumerProductUrn\x120\n" +
+	"\x14producer_product_urn\x18\x03 \x01(\tR\x12producerProductUrn\x12\x1f\n" +
+	"\voutput_port\x18\x04 \x01(\tR\n" +
+	"outputPort\x12)\n" +
+	"\x10required_columns\x18\x05 \x03(\tR\x0frequiredColumns\x121\n" +
+	"\fmin_sla_tier\x18\x06 \x01(\x0e2\x0f.hub.v1.SLATierR\n" +
+	"minSlaTier\x12#\n" +
+	"\rmax_freshness\x18\a \x01(\tR\fmaxFreshness\x125\n" +
+	"\rexpected_lens\x18\b \x01(\x0e2\x10.hub.v1.LensTypeR\fexpectedLens\x12a\n" +
+	"\x15semantic_fingerprints\x18\t \x03(\v2,.hub.v1.DemandLock.SemanticFingerprintsEntryR\x14semanticFingerprints\x129\n" +
+	"\n" +
+	"created_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x1aG\n" +
+	"\x19SemanticFingerprintsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x87\x01\n" +
+	"\x1aRegisterDemandLocksRequest\x129\n" +
+	"\x14consumer_product_urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x12consumerProductUrn\x12.\n" +
+	"\ademands\x18\x02 \x03(\v2\x14.hub.v1.ImportDemandR\ademands\"\\\n" +
+	"\x1bRegisterDemandLocksResponse\x12=\n" +
+	"\x10registered_locks\x18\x01 \x03(\v2\x12.hub.v1.DemandLockR\x0fregisteredLocks\"\xa7\x01\n" +
+	"\x16ListDemandLocksRequest\x120\n" +
+	"\x14producer_product_urn\x18\x01 \x01(\tR\x12producerProductUrn\x12\x1f\n" +
+	"\voutput_port\x18\x02 \x01(\tR\n" +
+	"outputPort\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\n" +
+	"page_token\x18\x04 \x01(\tR\tpageToken\"x\n" +
+	"\x17ListDemandLocksResponse\x125\n" +
+	"\fdemand_locks\x18\x01 \x03(\v2\x12.hub.v1.DemandLockR\vdemandLocks\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken*\xa9\x01\n" +
 	"\n" +
 	"RTBFStatus\x12\x1b\n" +
 	"\x17RTBF_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
@@ -5438,7 +5853,7 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x1bIMPACT_SEVERITY_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14IMPACT_SEVERITY_NONE\x10\x01\x12\x1b\n" +
 	"\x17IMPACT_SEVERITY_WARNING\x10\x02\x12\x1c\n" +
-	"\x18IMPACT_SEVERITY_BREAKING\x10\x032\xbb\x17\n" +
+	"\x18IMPACT_SEVERITY_BREAKING\x10\x032\xf6\x18\n" +
 	"\n" +
 	"HubService\x12R\n" +
 	"\x0fValidateProduct\x12\x1e.hub.v1.ValidateProductRequest\x1a\x1f.hub.v1.ValidateProductResponse\x12R\n" +
@@ -5450,17 +5865,18 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\rListContracts\x12\x1c.hub.v1.ListContractsRequest\x1a\x1d.hub.v1.ListContractsResponse\x121\n" +
 	"\x04Ping\x12\x13.hub.v1.PingRequest\x1a\x14.hub.v1.PingResponse\x12O\n" +
 	"\x0eValidateSchema\x12\x1d.hub.v1.ValidateSchemaRequest\x1a\x1e.hub.v1.ValidateSchemaResponse\x12L\n" +
-	"\rDeleteProduct\x12\x1c.hub.v1.DeleteProductRequest\x1a\x1d.hub.v1.DeleteProductResponse\x12F\n" +
-	"\vResolvePort\x12\x1a.hub.v1.ResolvePortRequest\x1a\x1b.hub.v1.ResolvePortResponse\x12d\n" +
-	"\x15CheckDownstreamImpact\x12$.hub.v1.CheckDownstreamImpactRequest\x1a%.hub.v1.CheckDownstreamImpactResponse\x12O\n" +
+	"\rDeleteProduct\x12\x1c.hub.v1.DeleteProductRequest\x1a\x1d.hub.v1.DeleteProductResponse\x12i\n" +
+	"\x15CheckDownstreamImpact\x12$.hub.v1.CheckDownstreamImpactRequest\x1a%.hub.v1.CheckDownstreamImpactResponse\"\x03\x88\x02\x01\x12O\n" +
 	"\x0eRegisterEntity\x12\x1d.hub.v1.RegisterEntityRequest\x1a\x1e.hub.v1.RegisterEntityResponse\x12@\n" +
 	"\tGetEntity\x12\x18.hub.v1.GetEntityRequest\x1a\x19.hub.v1.GetEntityResponse\x12I\n" +
-	"\fListEntities\x12\x1b.hub.v1.ListEntitiesRequest\x1a\x1c.hub.v1.ListEntitiesResponse\x12X\n" +
-	"\x11CheckEntityImpact\x12 .hub.v1.CheckEntityImpactRequest\x1a!.hub.v1.CheckEntityImpactResponse\x12I\n" +
+	"\fListEntities\x12\x1b.hub.v1.ListEntitiesRequest\x1a\x1c.hub.v1.ListEntitiesResponse\x12]\n" +
+	"\x11CheckEntityImpact\x12 .hub.v1.CheckEntityImpactRequest\x1a!.hub.v1.CheckEntityImpactResponse\"\x03\x88\x02\x01\x12I\n" +
 	"\fDeleteEntity\x12\x1b.hub.v1.DeleteEntityRequest\x1a\x1c.hub.v1.DeleteEntityResponse\x12I\n" +
 	"\fRegisterTeam\x12\x1b.hub.v1.RegisterTeamRequest\x1a\x1c.hub.v1.RegisterTeamResponse\x12:\n" +
 	"\aGetTeam\x12\x16.hub.v1.GetTeamRequest\x1a\x17.hub.v1.GetTeamResponse\x12@\n" +
-	"\tListTeams\x12\x18.hub.v1.ListTeamsRequest\x1a\x19.hub.v1.ListTeamsResponse\x12U\n" +
+	"\tListTeams\x12\x18.hub.v1.ListTeamsRequest\x1a\x19.hub.v1.ListTeamsResponse\x12C\n" +
+	"\n" +
+	"DeleteTeam\x12\x19.hub.v1.DeleteTeamRequest\x1a\x1a.hub.v1.DeleteTeamResponse\x12U\n" +
 	"\x10RegisterContract\x12\x1f.hub.v1.RegisterContractRequest\x1a .hub.v1.RegisterContractResponse\x12I\n" +
 	"\fListProducts\x12\x1b.hub.v1.ListProductsRequest\x1a\x1c.hub.v1.ListProductsResponse\x12F\n" +
 	"\vSyncProduct\x12\x1a.hub.v1.SyncProductRequest\x1a\x1b.hub.v1.SyncProductResponse\x12O\n" +
@@ -5481,7 +5897,9 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x10GetHealthHistory\x12\x1f.hub.v1.GetHealthHistoryRequest\x1a .hub.v1.GetHealthHistoryResponse\x12O\n" +
 	"\x0eGetBlastRadius\x12\x1d.hub.v1.GetBlastRadiusRequest\x1a\x1e.hub.v1.GetBlastRadiusResponse\x12I\n" +
 	"\fGetRootCause\x12\x1b.hub.v1.GetRootCauseRequest\x1a\x1c.hub.v1.GetRootCauseResponse\x12^\n" +
-	"\x13GetTaxonomyMappings\x12\".hub.v1.GetTaxonomyMappingsRequest\x1a#.hub.v1.GetTaxonomyMappingsResponseB\x90\x01\n" +
+	"\x13GetTaxonomyMappings\x12\".hub.v1.GetTaxonomyMappingsRequest\x1a#.hub.v1.GetTaxonomyMappingsResponse\x12^\n" +
+	"\x13RegisterDemandLocks\x12\".hub.v1.RegisterDemandLocksRequest\x1a#.hub.v1.RegisterDemandLocksResponse\x12R\n" +
+	"\x0fListDemandLocks\x12\x1e.hub.v1.ListDemandLocksRequest\x1a\x1f.hub.v1.ListDemandLocksResponseB\x90\x01\n" +
 	"\n" +
 	"com.hub.v1B\bHubProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
 
@@ -5498,7 +5916,7 @@ func file_hub_v1_hub_proto_rawDescGZIP() []byte {
 }
 
 var file_hub_v1_hub_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 91)
+var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 97)
 var file_hub_v1_hub_proto_goTypes = []any{
 	(RTBFStatus)(0),                       // 0: hub.v1.RTBFStatus
 	(ImpactSeverity)(0),                   // 1: hub.v1.ImpactSeverity
@@ -5551,197 +5969,217 @@ var file_hub_v1_hub_proto_goTypes = []any{
 	(*CheckDownstreamImpactResponse)(nil), // 48: hub.v1.CheckDownstreamImpactResponse
 	(*ImpactSummary)(nil),                 // 49: hub.v1.ImpactSummary
 	(*DownstreamConsumer)(nil),            // 50: hub.v1.DownstreamConsumer
-	(*ResolvePortRequest)(nil),            // 51: hub.v1.ResolvePortRequest
-	(*ResolvePortResponse)(nil),           // 52: hub.v1.ResolvePortResponse
-	(*ValidateProductRequest)(nil),        // 53: hub.v1.ValidateProductRequest
-	(*ValidateProductResponse)(nil),       // 54: hub.v1.ValidateProductResponse
-	(*RegisterProductRequest)(nil),        // 55: hub.v1.RegisterProductRequest
-	(*RegisterProductResponse)(nil),       // 56: hub.v1.RegisterProductResponse
-	(*GetProductRequest)(nil),             // 57: hub.v1.GetProductRequest
-	(*GetProductResponse)(nil),            // 58: hub.v1.GetProductResponse
-	(*GetProductSchemaRequest)(nil),       // 59: hub.v1.GetProductSchemaRequest
-	(*GetProductSchemaResponse)(nil),      // 60: hub.v1.GetProductSchemaResponse
-	(*GetContractRequest)(nil),            // 61: hub.v1.GetContractRequest
-	(*GetContractResponse)(nil),           // 62: hub.v1.GetContractResponse
-	(*ListContractsRequest)(nil),          // 63: hub.v1.ListContractsRequest
-	(*ListContractsResponse)(nil),         // 64: hub.v1.ListContractsResponse
-	(*PingRequest)(nil),                   // 65: hub.v1.PingRequest
-	(*PingResponse)(nil),                  // 66: hub.v1.PingResponse
-	(*ValidateSchemaRequest)(nil),         // 67: hub.v1.ValidateSchemaRequest
-	(*ValidateSchemaResponse)(nil),        // 68: hub.v1.ValidateSchemaResponse
-	(*DeleteProductRequest)(nil),          // 69: hub.v1.DeleteProductRequest
-	(*DeleteProductResponse)(nil),         // 70: hub.v1.DeleteProductResponse
-	(*RegisterEntityRequest)(nil),         // 71: hub.v1.RegisterEntityRequest
-	(*RegisterEntityResponse)(nil),        // 72: hub.v1.RegisterEntityResponse
-	(*GetEntityRequest)(nil),              // 73: hub.v1.GetEntityRequest
-	(*GetEntityResponse)(nil),             // 74: hub.v1.GetEntityResponse
-	(*ListEntitiesRequest)(nil),           // 75: hub.v1.ListEntitiesRequest
-	(*ListEntitiesResponse)(nil),          // 76: hub.v1.ListEntitiesResponse
-	(*CheckEntityImpactRequest)(nil),      // 77: hub.v1.CheckEntityImpactRequest
-	(*CheckEntityImpactResponse)(nil),     // 78: hub.v1.CheckEntityImpactResponse
-	(*DeleteEntityRequest)(nil),           // 79: hub.v1.DeleteEntityRequest
-	(*DeleteEntityResponse)(nil),          // 80: hub.v1.DeleteEntityResponse
-	(*RegisterTeamRequest)(nil),           // 81: hub.v1.RegisterTeamRequest
-	(*RegisterTeamResponse)(nil),          // 82: hub.v1.RegisterTeamResponse
-	(*GetTeamRequest)(nil),                // 83: hub.v1.GetTeamRequest
-	(*GetTeamResponse)(nil),               // 84: hub.v1.GetTeamResponse
-	(*ListTeamsRequest)(nil),              // 85: hub.v1.ListTeamsRequest
-	(*ListTeamsResponse)(nil),             // 86: hub.v1.ListTeamsResponse
+	(*ValidateProductRequest)(nil),        // 51: hub.v1.ValidateProductRequest
+	(*ValidateProductResponse)(nil),       // 52: hub.v1.ValidateProductResponse
+	(*RegisterProductRequest)(nil),        // 53: hub.v1.RegisterProductRequest
+	(*RegisterProductResponse)(nil),       // 54: hub.v1.RegisterProductResponse
+	(*GetProductRequest)(nil),             // 55: hub.v1.GetProductRequest
+	(*GetProductResponse)(nil),            // 56: hub.v1.GetProductResponse
+	(*GetProductSchemaRequest)(nil),       // 57: hub.v1.GetProductSchemaRequest
+	(*GetProductSchemaResponse)(nil),      // 58: hub.v1.GetProductSchemaResponse
+	(*GetContractRequest)(nil),            // 59: hub.v1.GetContractRequest
+	(*GetContractResponse)(nil),           // 60: hub.v1.GetContractResponse
+	(*ListContractsRequest)(nil),          // 61: hub.v1.ListContractsRequest
+	(*ListContractsResponse)(nil),         // 62: hub.v1.ListContractsResponse
+	(*PingRequest)(nil),                   // 63: hub.v1.PingRequest
+	(*PingResponse)(nil),                  // 64: hub.v1.PingResponse
+	(*ValidateSchemaRequest)(nil),         // 65: hub.v1.ValidateSchemaRequest
+	(*ValidateSchemaResponse)(nil),        // 66: hub.v1.ValidateSchemaResponse
+	(*DeleteProductRequest)(nil),          // 67: hub.v1.DeleteProductRequest
+	(*DeleteProductResponse)(nil),         // 68: hub.v1.DeleteProductResponse
+	(*RegisterEntityRequest)(nil),         // 69: hub.v1.RegisterEntityRequest
+	(*RegisterEntityResponse)(nil),        // 70: hub.v1.RegisterEntityResponse
+	(*GetEntityRequest)(nil),              // 71: hub.v1.GetEntityRequest
+	(*GetEntityResponse)(nil),             // 72: hub.v1.GetEntityResponse
+	(*ListEntitiesRequest)(nil),           // 73: hub.v1.ListEntitiesRequest
+	(*ListEntitiesResponse)(nil),          // 74: hub.v1.ListEntitiesResponse
+	(*CheckEntityImpactRequest)(nil),      // 75: hub.v1.CheckEntityImpactRequest
+	(*CheckEntityImpactResponse)(nil),     // 76: hub.v1.CheckEntityImpactResponse
+	(*DeleteEntityRequest)(nil),           // 77: hub.v1.DeleteEntityRequest
+	(*DeleteEntityResponse)(nil),          // 78: hub.v1.DeleteEntityResponse
+	(*RegisterTeamRequest)(nil),           // 79: hub.v1.RegisterTeamRequest
+	(*RegisterTeamResponse)(nil),          // 80: hub.v1.RegisterTeamResponse
+	(*GetTeamRequest)(nil),                // 81: hub.v1.GetTeamRequest
+	(*GetTeamResponse)(nil),               // 82: hub.v1.GetTeamResponse
+	(*ListTeamsRequest)(nil),              // 83: hub.v1.ListTeamsRequest
+	(*ListTeamsResponse)(nil),             // 84: hub.v1.ListTeamsResponse
+	(*DeleteTeamRequest)(nil),             // 85: hub.v1.DeleteTeamRequest
+	(*DeleteTeamResponse)(nil),            // 86: hub.v1.DeleteTeamResponse
 	(*GetTaxonomyMappingsRequest)(nil),    // 87: hub.v1.GetTaxonomyMappingsRequest
 	(*GetTaxonomyMappingsResponse)(nil),   // 88: hub.v1.GetTaxonomyMappingsResponse
-	nil,                                   // 89: hub.v1.ReportAnomalyRequest.MetadataEntry
-	nil,                                   // 90: hub.v1.IngestEventRequest.MetadataEntry
-	nil,                                   // 91: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	nil,                                   // 92: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	(HealthState)(0),                      // 93: hub.v1.HealthState
-	(*Health)(nil),                        // 94: hub.v1.Health
-	(*timestamppb.Timestamp)(nil),         // 95: google.protobuf.Timestamp
-	(TriggerType)(0),                      // 96: hub.v1.TriggerType
-	(*Subscriber)(nil),                    // 97: hub.v1.Subscriber
-	(*ProductManifest)(nil),               // 98: hub.v1.ProductManifest
-	(SyncStatus)(0),                       // 99: hub.v1.SyncStatus
-	(*DataContract)(nil),                  // 100: hub.v1.DataContract
-	(*OutputPort)(nil),                    // 101: hub.v1.OutputPort
-	(*BreakingChange)(nil),                // 102: hub.v1.BreakingChange
-	(*BigQueryConfig)(nil),                // 103: hub.v1.BigQueryConfig
-	(*v1.Entity)(nil),                     // 104: platform.v1.Entity
-	(*v1.Team)(nil),                       // 105: platform.v1.Team
+	(*DemandLock)(nil),                    // 89: hub.v1.DemandLock
+	(*RegisterDemandLocksRequest)(nil),    // 90: hub.v1.RegisterDemandLocksRequest
+	(*RegisterDemandLocksResponse)(nil),   // 91: hub.v1.RegisterDemandLocksResponse
+	(*ListDemandLocksRequest)(nil),        // 92: hub.v1.ListDemandLocksRequest
+	(*ListDemandLocksResponse)(nil),       // 93: hub.v1.ListDemandLocksResponse
+	nil,                                   // 94: hub.v1.ReportAnomalyRequest.MetadataEntry
+	nil,                                   // 95: hub.v1.IngestEventRequest.MetadataEntry
+	nil,                                   // 96: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	nil,                                   // 97: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	nil,                                   // 98: hub.v1.DemandLock.SemanticFingerprintsEntry
+	(HealthState)(0),                      // 99: hub.v1.HealthState
+	(*Health)(nil),                        // 100: hub.v1.Health
+	(*timestamppb.Timestamp)(nil),         // 101: google.protobuf.Timestamp
+	(*DataContract)(nil),                  // 102: hub.v1.DataContract
+	(TriggerType)(0),                      // 103: hub.v1.TriggerType
+	(*Subscriber)(nil),                    // 104: hub.v1.Subscriber
+	(*ProductManifest)(nil),               // 105: hub.v1.ProductManifest
+	(SyncStatus)(0),                       // 106: hub.v1.SyncStatus
+	(*BreakingChange)(nil),                // 107: hub.v1.BreakingChange
+	(*BigQueryConfig)(nil),                // 108: hub.v1.BigQueryConfig
+	(*v1.Entity)(nil),                     // 109: platform.v1.Entity
+	(*v1.Team)(nil),                       // 110: platform.v1.Team
+	(SLATier)(0),                          // 111: hub.v1.SLATier
+	(LensType)(0),                         // 112: hub.v1.LensType
+	(*ImportDemand)(nil),                  // 113: hub.v1.ImportDemand
 }
 var file_hub_v1_hub_proto_depIdxs = []int32{
-	93,  // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
-	89,  // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
-	94,  // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
-	94,  // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
+	99,  // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
+	94,  // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
+	100, // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
+	100, // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
 	9,   // 4: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
-	93,  // 5: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
-	95,  // 6: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
+	99,  // 5: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
+	101, // 6: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
 	12,  // 7: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
 	12,  // 8: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
 	16,  // 9: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
 	0,   // 10: hub.v1.VerifyRTBFResponse.status:type_name -> hub.v1.RTBFStatus
-	23,  // 11: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
-	96,  // 12: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
-	90,  // 13: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
-	97,  // 14: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
-	97,  // 15: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
-	34,  // 16: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
-	39,  // 17: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
-	39,  // 18: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
-	40,  // 19: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
-	98,  // 20: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
-	99,  // 21: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
-	100, // 22: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
-	100, // 23: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
-	100, // 24: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
-	1,   // 25: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	50,  // 26: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	49,  // 27: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
-	101, // 28: hub.v1.ResolvePortResponse.port:type_name -> hub.v1.OutputPort
-	100, // 29: hub.v1.ResolvePortResponse.contracts:type_name -> hub.v1.DataContract
-	98,  // 30: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	100, // 31: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
-	98,  // 32: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	100, // 33: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
-	102, // 34: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
-	98,  // 35: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
-	100, // 36: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
-	103, // 37: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
-	100, // 38: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
-	100, // 39: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
-	104, // 40: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
-	104, // 41: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
-	104, // 42: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
-	104, // 43: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
-	1,   // 44: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	105, // 45: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
-	105, // 46: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
-	105, // 47: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
-	105, // 48: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
-	91,  // 49: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	92,  // 50: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	53,  // 51: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
-	55,  // 52: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
-	57,  // 53: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
-	59,  // 54: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
-	61,  // 55: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
-	63,  // 56: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
-	65,  // 57: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
-	67,  // 58: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
-	69,  // 59: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
-	51,  // 60: hub.v1.HubService.ResolvePort:input_type -> hub.v1.ResolvePortRequest
-	47,  // 61: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
-	71,  // 62: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
-	73,  // 63: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
-	75,  // 64: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
-	77,  // 65: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
-	79,  // 66: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
-	81,  // 67: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
-	83,  // 68: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
-	85,  // 69: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
-	45,  // 70: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
-	41,  // 71: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
-	43,  // 72: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
-	35,  // 73: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
-	37,  // 74: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
-	32,  // 75: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
-	21,  // 76: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
-	26,  // 77: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
-	28,  // 78: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
-	30,  // 79: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
-	24,  // 80: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
-	14,  // 81: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
-	17,  // 82: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
-	19,  // 83: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
-	2,   // 84: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
-	4,   // 85: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
-	6,   // 86: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
-	8,   // 87: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
-	11,  // 88: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
-	87,  // 89: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
-	54,  // 90: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
-	56,  // 91: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
-	58,  // 92: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
-	60,  // 93: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
-	62,  // 94: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
-	64,  // 95: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
-	66,  // 96: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
-	68,  // 97: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
-	70,  // 98: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
-	52,  // 99: hub.v1.HubService.ResolvePort:output_type -> hub.v1.ResolvePortResponse
-	48,  // 100: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
-	72,  // 101: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
-	74,  // 102: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
-	76,  // 103: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
-	78,  // 104: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
-	80,  // 105: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
-	82,  // 106: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
-	84,  // 107: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
-	86,  // 108: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
-	46,  // 109: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
-	42,  // 110: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
-	44,  // 111: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
-	36,  // 112: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
-	38,  // 113: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
-	33,  // 114: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
-	22,  // 115: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
-	27,  // 116: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
-	29,  // 117: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
-	31,  // 118: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
-	25,  // 119: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
-	15,  // 120: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
-	18,  // 121: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
-	20,  // 122: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
-	3,   // 123: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
-	5,   // 124: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
-	7,   // 125: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
-	10,  // 126: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
-	13,  // 127: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
-	88,  // 128: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
-	90,  // [90:129] is the sub-list for method output_type
-	51,  // [51:90] is the sub-list for method input_type
-	51,  // [51:51] is the sub-list for extension type_name
-	51,  // [51:51] is the sub-list for extension extendee
-	0,   // [0:51] is the sub-list for field type_name
+	102, // 11: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
+	23,  // 12: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
+	1,   // 13: hub.v1.AnalyzeImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	50,  // 14: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	103, // 15: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
+	95,  // 16: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
+	104, // 17: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
+	104, // 18: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
+	34,  // 19: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
+	39,  // 20: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
+	39,  // 21: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
+	40,  // 22: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
+	105, // 23: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
+	106, // 24: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
+	102, // 25: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
+	102, // 26: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
+	102, // 27: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
+	1,   // 28: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	50,  // 29: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	49,  // 30: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
+	105, // 31: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	102, // 32: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
+	105, // 33: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	102, // 34: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
+	107, // 35: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
+	105, // 36: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
+	102, // 37: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
+	108, // 38: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
+	102, // 39: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
+	102, // 40: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
+	109, // 41: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
+	109, // 42: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
+	109, // 43: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
+	109, // 44: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
+	1,   // 45: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	110, // 46: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
+	110, // 47: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
+	110, // 48: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
+	110, // 49: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
+	96,  // 50: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	97,  // 51: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	111, // 52: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
+	112, // 53: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
+	98,  // 54: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
+	101, // 55: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
+	113, // 56: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
+	89,  // 57: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
+	89,  // 58: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
+	51,  // 59: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
+	53,  // 60: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
+	55,  // 61: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
+	57,  // 62: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
+	59,  // 63: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
+	61,  // 64: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
+	63,  // 65: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
+	65,  // 66: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
+	67,  // 67: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
+	47,  // 68: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
+	69,  // 69: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
+	71,  // 70: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
+	73,  // 71: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
+	75,  // 72: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
+	77,  // 73: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
+	79,  // 74: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
+	81,  // 75: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
+	83,  // 76: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
+	85,  // 77: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
+	45,  // 78: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
+	41,  // 79: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
+	43,  // 80: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
+	35,  // 81: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
+	37,  // 82: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
+	32,  // 83: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
+	21,  // 84: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
+	26,  // 85: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
+	28,  // 86: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
+	30,  // 87: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
+	24,  // 88: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
+	14,  // 89: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
+	17,  // 90: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
+	19,  // 91: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
+	2,   // 92: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
+	4,   // 93: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
+	6,   // 94: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
+	8,   // 95: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
+	11,  // 96: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
+	87,  // 97: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
+	90,  // 98: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
+	92,  // 99: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
+	52,  // 100: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
+	54,  // 101: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
+	56,  // 102: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
+	58,  // 103: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
+	60,  // 104: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
+	62,  // 105: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
+	64,  // 106: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
+	66,  // 107: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
+	68,  // 108: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
+	48,  // 109: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
+	70,  // 110: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
+	72,  // 111: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
+	74,  // 112: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
+	76,  // 113: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
+	78,  // 114: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
+	80,  // 115: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
+	82,  // 116: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
+	84,  // 117: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
+	86,  // 118: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
+	46,  // 119: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
+	42,  // 120: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
+	44,  // 121: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
+	36,  // 122: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
+	38,  // 123: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
+	33,  // 124: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
+	22,  // 125: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
+	27,  // 126: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
+	29,  // 127: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
+	31,  // 128: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
+	25,  // 129: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
+	15,  // 130: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
+	18,  // 131: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
+	20,  // 132: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
+	3,   // 133: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
+	5,   // 134: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
+	7,   // 135: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
+	10,  // 136: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
+	13,  // 137: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
+	88,  // 138: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
+	91,  // 139: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
+	93,  // 140: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
+	100, // [100:141] is the sub-list for method output_type
+	59,  // [59:100] is the sub-list for method input_type
+	59,  // [59:59] is the sub-list for extension type_name
+	59,  // [59:59] is the sub-list for extension extendee
+	0,   // [0:59] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_hub_proto_init() }
@@ -5758,7 +6196,7 @@ func file_hub_v1_hub_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_hub_proto_rawDesc), len(file_hub_v1_hub_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   91,
+			NumMessages:   97,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

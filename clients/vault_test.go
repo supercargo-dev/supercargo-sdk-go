@@ -124,7 +124,7 @@ func TestVaultClient_BatchTokenize_Chunking(t *testing.T) {
 			ContextId: fmt.Sprintf("user-%d", i),
 			Identifiers: []*vaultv1.EntityIdentifier{
 				{
-					Urn:   "urn:sc:entity:user",
+					Urn:   "urn:supercargo:hub:entity:user",
 					Value: fmt.Sprintf("user-%d@example.com", i),
 				},
 			},
@@ -132,7 +132,7 @@ func TestVaultClient_BatchTokenize_Chunking(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", cascades)
+	results, err := client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", cascades)
 	require.NoError(t, err)
 	assert.Len(t, results, total)
 
@@ -163,7 +163,7 @@ func TestVaultClient_BatchTokenize_DefaultChunkSize_250Cascades(t *testing.T) {
 			ContextId: fmt.Sprintf("user-%d", i),
 			Identifiers: []*vaultv1.EntityIdentifier{
 				{
-					Urn:   "urn:sc:entity:user",
+					Urn:   "urn:supercargo:hub:entity:user",
 					Value: fmt.Sprintf("user-%d@example.com", i),
 				},
 			},
@@ -171,7 +171,7 @@ func TestVaultClient_BatchTokenize_DefaultChunkSize_250Cascades(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", cascades)
+	results, err := client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", cascades)
 	require.NoError(t, err)
 	assert.Len(t, results, total)
 
@@ -200,7 +200,7 @@ func TestVaultClient_BatchTokenize_RetrySuccess(t *testing.T) {
 			ContextId: "user-1",
 			Identifiers: []*vaultv1.EntityIdentifier{
 				{
-					Urn:   "urn:sc:entity:user",
+					Urn:   "urn:supercargo:hub:entity:user",
 					Value: "user-1@example.com",
 				},
 			},
@@ -208,11 +208,11 @@ func TestVaultClient_BatchTokenize_RetrySuccess(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", cascades)
+	results, err := client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", cascades)
 	require.NoError(t, err)
 	assert.Len(t, results, 1)
 	assert.Equal(t, "tok-user-1-0", results[0].Tokens["user-1@example.com"])
-	assert.Equal(t, "tok-user-1-0", results[0].Tokens["urn:sc:entity:user:user-1@example.com"])
+	assert.Equal(t, "tok-user-1-0", results[0].Tokens["urn:supercargo:hub:entity:user:user-1@example.com"])
 	assert.Equal(t, int32(2), mockSrv.batchCalls.Load())
 }
 
@@ -225,7 +225,7 @@ func TestVaultClient_BatchTokenize_Empty(t *testing.T) {
 	require.NoError(t, err)
 	defer client.Close()
 
-	results, err := client.BatchTokenize(context.Background(), "urn:sc:domain:default", nil)
+	results, err := client.BatchTokenize(context.Background(), "urn:supercargo:hub:identity_domain:default", nil)
 	require.NoError(t, err)
 	assert.Empty(t, results)
 	assert.Equal(t, int32(0), mockSrv.batchCalls.Load())
@@ -258,13 +258,13 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "ctx-1",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 				{
 					ContextId: "ctx-2",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "b@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "b@example.com"},
 					},
 				},
 			},
@@ -289,7 +289,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "ctx-1",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 			},
@@ -318,7 +318,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "expected-ctx-id",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 			},
@@ -343,7 +343,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "ctx-1",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 			},
@@ -368,7 +368,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "ctx-nil-tokens",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 			},
@@ -435,7 +435,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "ctx-1",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 			},
@@ -453,7 +453,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 				{
 					ContextId: "ctx-1",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "a@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "a@example.com"},
 					},
 				},
 			},
@@ -500,7 +500,7 @@ func TestVaultClient_BatchTokenize_FailClosedAndValidation(t *testing.T) {
 			defer stop()
 			defer client.Close()
 
-			results, err := client.BatchTokenize(context.Background(), "urn:sc:domain:default", tt.cascades)
+			results, err := client.BatchTokenize(context.Background(), "urn:supercargo:hub:identity_domain:default", tt.cascades)
 			if tt.expectErr {
 				require.Error(t, err)
 				assert.True(t, errors.Is(err, clients.ErrSystemUnavailable), "expected error to wrap ErrSystemUnavailable, got: %v", err)
@@ -586,12 +586,12 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 					{
 						ContextId: "ctx-hex-1",
 						Tokens: map[string]string{
-							"urn:sc:entity:email:alice@example.com": hexTok1,
-							"alice@example.com":                     hexTok1,
-							"urn:sc:entity:ssn:123-45-6789":         hexTok2,
-							"123-45-6789":                           hexTok2,
-							"urn:sc:entity:phone:+15550199":         hexTok3,
-							"+15550199":                             hexTok3,
+							"urn:supercargo:hub:entity:email:alice@example.com": hexTok1,
+							"alice@example.com":                         hexTok1,
+							"urn:supercargo:hub:entity:ssn:123-45-6789": hexTok2,
+							"123-45-6789":                               hexTok2,
+							"urn:supercargo:hub:entity:phone:+15550199": hexTok3,
+							"+15550199":                                 hexTok3,
 						},
 					},
 				},
@@ -612,13 +612,13 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+		results, err := client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", []*vaultv1.EntityCascade{
 			{
 				ContextId: "ctx-hex-1",
 				Identifiers: []*vaultv1.EntityIdentifier{
-					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
-					{Urn: "urn:sc:entity:ssn", Value: "123-45-6789"},
-					{Urn: "urn:sc:entity:phone", Value: "+15550199"},
+					{Urn: "urn:supercargo:hub:entity:email", Value: "alice@example.com"},
+					{Urn: "urn:supercargo:hub:entity:ssn", Value: "123-45-6789"},
+					{Urn: "urn:supercargo:hub:entity:phone", Value: "+15550199"},
 				},
 			},
 		})
@@ -626,7 +626,7 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 		require.Len(t, results, 1)
 		assert.Equal(t, int32(1), interceptorCalls.Load())
 		assert.Equal(t, int32(1), mockSrv.batchCalls.Load())
-		assert.Equal(t, hexTok1, results[0].Tokens["urn:sc:entity:email:alice@example.com"])
+		assert.Equal(t, hexTok1, results[0].Tokens["urn:supercargo:hub:entity:email:alice@example.com"])
 	})
 
 	t.Run("unauthenticated request fails closed in 1 call and redacts Bearer secret", func(t *testing.T) {
@@ -647,11 +647,11 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		_, err = client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+		_, err = client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", []*vaultv1.EntityCascade{
 			{
 				ContextId: "ctx-unauth",
 				Identifiers: []*vaultv1.EntityIdentifier{
-					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+					{Urn: "urn:supercargo:hub:entity:email", Value: "alice@example.com"},
 				},
 			},
 		})
@@ -685,11 +685,11 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		_, err = client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+		_, err = client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", []*vaultv1.EntityCascade{
 			{
 				ContextId: "ctx-no-auth",
 				Identifiers: []*vaultv1.EntityIdentifier{
-					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+					{Urn: "urn:supercargo:hub:entity:email", Value: "alice@example.com"},
 				},
 			},
 		})
@@ -719,11 +719,11 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		_, err = client.BatchTokenize(ctx, "urn:sc:domain:default", []*vaultv1.EntityCascade{
+		_, err = client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", []*vaultv1.EntityCascade{
 			{
 				ContextId: "ctx-provider-err",
 				Identifiers: []*vaultv1.EntityIdentifier{
-					{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
+					{Urn: "urn:supercargo:hub:entity:email", Value: "alice@example.com"},
 				},
 			},
 		})
@@ -756,14 +756,14 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-partial",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "alice@example.com"},
-						{Urn: "urn:sc:entity:ssn", Value: "123-45-6789"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "alice@example.com"},
+						{Urn: "urn:supercargo:hub:entity:ssn", Value: "123-45-6789"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:alice@example.com": "tok-email-1",
-				"alice@example.com":                     "tok-email-1",
+				"urn:supercargo:hub:entity:email:alice@example.com": "tok-email-1",
+				"alice@example.com": "tok-email-1",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -775,12 +775,12 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-empty-tok",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "secret-alice@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "secret-alice@example.com"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:secret-alice@example.com": "",
+				"urn:supercargo:hub:entity:email:secret-alice@example.com": "",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -792,12 +792,12 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-ws-tok",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "secret-bob@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "secret-bob@example.com"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:secret-bob@example.com": "   \t",
+				"urn:supercargo:hub:entity:email:secret-bob@example.com": "   \t",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -809,12 +809,12 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-ctrl-nul",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "secret-carol@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "secret-carol@example.com"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:secret-carol@example.com": "tok\x00bad",
+				"urn:supercargo:hub:entity:email:secret-carol@example.com": "tok\x00bad",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -826,12 +826,12 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-ctrl-del",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "secret-dave@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "secret-dave@example.com"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:secret-dave@example.com": "tok\x7fbad",
+				"urn:supercargo:hub:entity:email:secret-dave@example.com": "tok\x7fbad",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -843,14 +843,14 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-multi-urn",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:primary", Value: "pii-100-secret"},
-						{Urn: "urn:sc:entity:secondary", Value: "pii-100-secret"},
+						{Urn: "urn:supercargo:hub:entity:primary", Value: "pii-100-secret"},
+						{Urn: "urn:supercargo:hub:entity:secondary", Value: "pii-100-secret"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:primary:pii-100-secret": "tok-primary",
-				"pii-100-secret":                       "tok-primary",
+				"urn:supercargo:hub:entity:primary:pii-100-secret": "tok-primary",
+				"pii-100-secret": "tok-primary",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -862,13 +862,13 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-shadow",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:primary", Value: "pii-200-secret"},
+						{Urn: "urn:supercargo:hub:entity:primary", Value: "pii-200-secret"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:primary:pii-200-secret": "",
-				"pii-200-secret":                       "tok-bare",
+				"urn:supercargo:hub:entity:primary:pii-200-secret": "",
+				"pii-200-secret": "tok-bare",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -880,14 +880,14 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-nil-ident",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "valid@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "valid@example.com"},
 						nil,
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:valid@example.com": "tok-valid",
-				"valid@example.com":                     "tok-valid",
+				"urn:supercargo:hub:entity:email:valid@example.com": "tok-valid",
+				"valid@example.com": "tok-valid",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -899,14 +899,14 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-blank-val",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "valid@example.com"},
-						{Urn: "urn:sc:entity:ssn", Value: "   \t"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "valid@example.com"},
+						{Urn: "urn:supercargo:hub:entity:ssn", Value: "   \t"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:valid@example.com": "tok-valid",
-				"valid@example.com":                     "tok-valid",
+				"urn:supercargo:hub:entity:email:valid@example.com": "tok-valid",
+				"valid@example.com": "tok-valid",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -918,7 +918,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-bare-colon",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:primary", Value: "100"},
+						{Urn: "urn:supercargo:hub:entity:primary", Value: "100"},
 						{Urn: "", Value: "foo:100"},
 					},
 				},
@@ -935,14 +935,14 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 				{
 					ContextId: "ctx-dup",
 					Identifiers: []*vaultv1.EntityIdentifier{
-						{Urn: "urn:sc:entity:email", Value: "dup@example.com"},
-						{Urn: "urn:sc:entity:email", Value: "dup@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "dup@example.com"},
+						{Urn: "urn:supercargo:hub:entity:email", Value: "dup@example.com"},
 					},
 				},
 			},
 			tokens: map[string]string{
-				"urn:sc:entity:email:dup@example.com": "tok_dup_1",
-				"dup@example.com":                     "tok_dup_1",
+				"urn:supercargo:hub:entity:email:dup@example.com": "tok_dup_1",
+				"dup@example.com": "tok_dup_1",
 			},
 			expectErr: false,
 		},
@@ -987,7 +987,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
 
-			results, err := client.BatchTokenize(ctx, "urn:sc:domain:default", tt.cascades)
+			results, err := client.BatchTokenize(ctx, "urn:supercargo:hub:identity_domain:default", tt.cascades)
 			if tt.expectErr {
 				require.Error(t, err)
 				assert.True(t, errors.Is(err, clients.ErrSystemUnavailable), "expected ErrSystemUnavailable, got: %v", err)

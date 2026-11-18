@@ -72,6 +72,8 @@ func (m *FieldMetadata) validate(all bool) error {
 
 	// no validation rules for MovedFrom
 
+	// no validation rules for PrimaryKey
+
 	if len(errors) > 0 {
 		return FieldMetadataMultiError(errors)
 	}

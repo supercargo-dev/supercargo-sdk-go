@@ -19,7 +19,7 @@ func TestSearchHashProtoValidation(t *testing.T) {
 		{
 			name: "valid request",
 			req: &vaultv1.SearchHashRequest{
-				IdentityDomainUrn: "urn:sc:hub:identity_domain:rockify",
+				IdentityDomainUrn: "urn:supercargo:hub:identity_domain:rockify",
 				EntityUrn:         "urn:supercargo:entity:user:email",
 				Value:             "alice@rockify.io",
 			},
@@ -37,7 +37,7 @@ func TestSearchHashProtoValidation(t *testing.T) {
 		{
 			name: "empty value",
 			req: &vaultv1.SearchHashRequest{
-				IdentityDomainUrn: "urn:sc:hub:identity_domain:rockify",
+				IdentityDomainUrn: "urn:supercargo:hub:identity_domain:rockify",
 				EntityUrn:         "urn:supercargo:entity:user:email",
 				Value:             "",
 			},
@@ -61,7 +61,7 @@ func TestSearchHashProtoValidation(t *testing.T) {
 	resp := &vaultv1.SearchHashResponse{
 		SearchHash:   "abc",
 		IdSearchHash: "def",
-		AnonId:       "urn:sc:entity:anon:123",
+		AnonId:       "urn:supercargo:entity:anon:123",
 		Registered:   true,
 	}
 	assert.Equal(t, "abc", resp.GetSearchHash())

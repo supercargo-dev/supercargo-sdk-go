@@ -511,7 +511,7 @@ func (x *IdentityDomain) GetCascade() []*IdentityRank {
 // IdentityRank defines priority rank for an entity type within an identity domain cascade.
 type IdentityRank struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Entity URN (e.g., urn:sc:entity:core:customer).
+	// Entity URN (e.g., urn:supercargo:entity:core:customer).
 	EntityUrn string `protobuf:"bytes,1,opt,name=entity_urn,json=entityUrn,proto3" json:"entity_urn,omitempty"`
 	// Priority (1 is highest priority).
 	Rank          int32 `protobuf:"varint,2,opt,name=rank,proto3" json:"rank,omitempty"`
@@ -567,10 +567,10 @@ var File_platform_v1_resource_proto protoreflect.FileDescriptor
 
 const file_platform_v1_resource_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/resource.proto\x12\vplatform.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xf6\x02\n" +
+	"\x1aplatform/v1/resource.proto\x12\vplatform.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xf2\x02\n" +
 	"\x04Team\x12\x1b\n" +
-	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12a\n" +
-	"\x03urn\x18\x04 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
+	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12]\n" +
+	"\x03urn\x18\x04 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
 	"\n" +
 	"data_asset\x18\x05 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tdataAsset\x12\x1b\n" +
 	"\x04repo\x18\a \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04repo\x12\x18\n" +
@@ -579,10 +579,10 @@ const file_platform_v1_resource_proto_rawDesc = "" +
 	"\x06iam_id\x18\x06 \x01(\tR\x05iamId\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xba\x03\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb6\x03\n" +
 	"\x06Entity\x12%\n" +
-	"\tnamespace\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tnamespace\x12a\n" +
-	"\x03urn\x18\b \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tnamespace\x12]\n" +
+	"\x03urn\x18\b \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
 	"\n" +
 	"data_asset\x18\t \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tdataAsset\x12\x1b\n" +
 	"\x04repo\x18\n" +
@@ -596,9 +596,9 @@ const file_platform_v1_resource_proto_rawDesc = "" +
 	"owner_team\x18\a \x01(\tB\a\xfaB\x04r\x02\x10\x01R\townerTeam\"A\n" +
 	"\x11EntityConstraints\x12\x14\n" +
 	"\x05regex\x18\x01 \x01(\tR\x05regex\x12\x16\n" +
-	"\x06format\x18\x02 \x01(\tR\x06format\"\xd5\x01\n" +
-	"\x03Key\x12a\n" +
-	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
+	"\x06format\x18\x02 \x01(\tR\x06format\"\xd1\x01\n" +
+	"\x03Key\x12]\n" +
+	"\x03urn\x18\x01 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
 	"\n" +
 	"entity_urn\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tentityUrn\x12C\n" +
 	"\n" +
@@ -609,14 +609,14 @@ const file_platform_v1_resource_proto_rawDesc = "" +
 	"entity_urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tentityUrn\x12%\n" +
 	"\tnamespace\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tnamespace\x12C\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\tcreatedAt\"\xc5\x01\n" +
-	"\x0eIdentityDomain\x12a\n" +
-	"\x03urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\x1b\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\tcreatedAt\"\xc1\x01\n" +
+	"\x0eIdentityDomain\x12]\n" +
+	"\x03urn\x18\x01 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\x1b\n" +
 	"\x04name\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x123\n" +
-	"\acascade\x18\x03 \x03(\v2\x19.platform.v1.IdentityRankR\acascade\"\x9b\x01\n" +
-	"\fIdentityRank\x12n\n" +
+	"\acascade\x18\x03 \x03(\v2\x19.platform.v1.IdentityRankR\acascade\"\xcc\x01\n" +
+	"\fIdentityRank\x12\x9e\x01\n" +
 	"\n" +
-	"entity_urn\x18\x01 \x01(\tBO\xfaBLrJ\x10\x012F^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\tentityUrn\x12\x1b\n" +
+	"entity_urn\x18\x01 \x01(\tB\x7f\xfaB|rz\x10\x012v^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$R\tentityUrn\x12\x1b\n" +
 	"\x04rank\x18\x02 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\x04rankB\xb8\x01\n" +
 	"\x0fcom.platform.v1B\rResourceProtoP\x01ZIgithub.com/supercargo-dev/supercargo-sdk-go/gen/go/platform/v1;platformv1\xa2\x02\x03PXX\xaa\x02\vPlatform.V1\xca\x02\vPlatform\\V1\xe2\x02\x17Platform\\V1\\GPBMetadata\xea\x02\fPlatform::V1b\x06proto3"
 

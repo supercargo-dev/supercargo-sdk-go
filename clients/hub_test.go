@@ -53,10 +53,10 @@ func (m *mockHubServer) GetContract(ctx context.Context, req *hubv1.GetContractR
 		}
 		return nil, status.Error(code, "transient network failure")
 	}
-	if req.ContractUrn == "urn:sc:notfound" {
+	if req.ContractUrn == "urn:supercargo:hub:contract:notfound" {
 		return nil, status.Error(codes.NotFound, "contract not found")
 	}
-	if req.ContractUrn == "urn:sc:nilpayload" {
+	if req.ContractUrn == "urn:supercargo:hub:contract:nilpayload" {
 		return &hubv1.GetContractResponse{Contract: nil}, nil
 	}
 	return &hubv1.GetContractResponse{
@@ -151,10 +151,10 @@ func TestHubClient_GetContract_RetrySuccess(t *testing.T) {
 	defer client.Close()
 
 	ctx := context.Background()
-	contract, err := client.GetContract(ctx, "urn:sc:contract:test", "v1.0.0")
+	contract, err := client.GetContract(ctx, "urn:supercargo:hub:contract:test", "v1.0.0")
 	require.NoError(t, err)
 	require.NotNil(t, contract)
-	assert.Equal(t, "urn:sc:contract:test", contract.Meta.Urn)
+	assert.Equal(t, "urn:supercargo:hub:contract:test", contract.Meta.Urn)
 	assert.Equal(t, int32(3), mockSrv.getContractCalls.Load())
 }
 
@@ -173,7 +173,7 @@ func TestHubClient_GetContract_NonRetryableError(t *testing.T) {
 	defer client.Close()
 
 	ctx := context.Background()
-	_, err = client.GetContract(ctx, "urn:sc:notfound", "v1.0.0")
+	_, err = client.GetContract(ctx, "urn:supercargo:hub:contract:notfound", "v1.0.0")
 	require.Error(t, err)
 	assert.Equal(t, int32(1), mockSrv.getContractCalls.Load(), "non-retryable error should not be retried")
 }
@@ -210,7 +210,7 @@ func TestHubClient_ReportAnomaly_SuccessAndRetry(t *testing.T) {
 
 	ctx := context.Background()
 	req := &hubv1.ReportAnomalyRequest{
-		Urn:          "urn:sc:product:orders",
+		Urn:          "urn:supercargo:hub:product:orders",
 		State:        hubv1.HealthState_HEALTH_STATE_DEGRADED,
 		Reason:       "High p99 latency detected",
 		IncidentType: "latency",
@@ -240,7 +240,7 @@ func TestHubClient_ReportAnomaly_NonRetryableError(t *testing.T) {
 
 	ctx := context.Background()
 	req := &hubv1.ReportAnomalyRequest{
-		Urn: "urn:sc:product:orders",
+		Urn: "urn:supercargo:hub:product:orders",
 	}
 
 	_, err = client.ReportAnomaly(ctx, req)
@@ -277,10 +277,10 @@ func TestHubClient_GetBlastRadius_SuccessAndRetry(t *testing.T) {
 	defer client.Close()
 
 	ctx := context.Background()
-	resp, err := client.GetBlastRadius(ctx, "urn:sc:contract:crm-orders", 3)
+	resp, err := client.GetBlastRadius(ctx, "urn:supercargo:hub:contract:crm-orders", 3)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	assert.Equal(t, "urn:sc:contract:crm-orders", resp.RootUrn)
+	assert.Equal(t, "urn:supercargo:hub:contract:crm-orders", resp.RootUrn)
 	assert.Equal(t, int32(2), resp.TotalDownstream)
 	assert.Equal(t, []string{"crm-team", "analytics-team"}, resp.AffectedTeams)
 	assert.Equal(t, int32(2), mockSrv.getBlastRadiusCalls.Load())
@@ -301,7 +301,7 @@ func TestHubClient_GetBlastRadius_NonRetryableError(t *testing.T) {
 	defer client.Close()
 
 	ctx := context.Background()
-	_, err = client.GetBlastRadius(ctx, "urn:sc:notfound", 1)
+	_, err = client.GetBlastRadius(ctx, "urn:supercargo:hub:contract:notfound", 1)
 	require.Error(t, err)
 	assert.Equal(t, int32(1), mockSrv.getBlastRadiusCalls.Load(), "non-retryable error should not be retried")
 }
@@ -413,7 +413,7 @@ func TestHubClient_GetBlastRadius_Validation(t *testing.T) {
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "urn cannot be empty")
 
-	_, err = client.GetBlastRadius(context.Background(), "urn:sc:test", -1)
+	_, err = client.GetBlastRadius(context.Background(), "urn:supercargo:hub:contract:test-anomaly", -1)
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "maxDepth cannot be negative")
 }
@@ -427,7 +427,7 @@ func TestHubClient_GetContract_NilContractPayload(t *testing.T) {
 	require.NoError(t, err)
 	defer client.Close()
 
-	_, err = client.GetContract(context.Background(), "urn:sc:nilpayload", "v1.0.0")
+	_, err = client.GetContract(context.Background(), "urn:supercargo:hub:contract:nilpayload", "v1.0.0")
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "received nil response from hub service for contract")
 }
@@ -495,9 +495,9 @@ func TestHubClient_ReportAnomaly_ExhaustedRetries(t *testing.T) {
 	require.NoError(t, err)
 	defer client.Close()
 
-	_, err = client.ReportAnomaly(context.Background(), &hubv1.ReportAnomalyRequest{Urn: "urn:sc:test"})
+	_, err = client.ReportAnomaly(context.Background(), &hubv1.ReportAnomalyRequest{Urn: "urn:supercargo:hub:contract:test-anomaly"})
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "exhausted retries reporting anomaly on \"urn:sc:test\"")
+	assert.Contains(t, err.Error(), "exhausted retries reporting anomaly on \"urn:supercargo:hub:contract:test-anomaly\"")
 	assert.Equal(t, codes.Unavailable, status.Code(err), "exhausted retries must preserve wrapped gRPC status code")
 	assert.NotContains(t, err.Error(), secretToken, "exhausted retry error must not leak bearer token")
 	assert.Equal(t, int32(3), mockSrv.reportAnomalyCalls.Load())
@@ -519,9 +519,9 @@ func TestHubClient_GetContract_ExhaustedRetries(t *testing.T) {
 	require.NoError(t, err)
 	defer client.Close()
 
-	_, err = client.GetContract(context.Background(), "urn:sc:contract:test", "v1.0.0")
+	_, err = client.GetContract(context.Background(), "urn:supercargo:hub:contract:test", "v1.0.0")
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "exhausted retries fetching contract \"urn:sc:contract:test\"")
+	assert.Contains(t, err.Error(), "exhausted retries fetching contract \"urn:supercargo:hub:contract:test\"")
 	assert.Equal(t, codes.Unavailable, status.Code(err), "exhausted retries must preserve wrapped gRPC status code")
 	assert.NotContains(t, err.Error(), secretToken, "exhausted retry error must not leak bearer token")
 	assert.Equal(t, int32(3), mockSrv.getContractCalls.Load())
@@ -544,9 +544,9 @@ func TestHubClient_GetBlastRadius_ExhaustedRetries(t *testing.T) {
 	require.NoError(t, err)
 	defer client.Close()
 
-	_, err = client.GetBlastRadius(context.Background(), "urn:sc:contract:test", 2)
+	_, err = client.GetBlastRadius(context.Background(), "urn:supercargo:hub:contract:test", 2)
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "exhausted retries getting blast radius for \"urn:sc:contract:test\"")
+	assert.Contains(t, err.Error(), "exhausted retries getting blast radius for \"urn:supercargo:hub:contract:test\"")
 	assert.Equal(t, codes.Unavailable, status.Code(err), "exhausted retries must preserve wrapped gRPC status code")
 	assert.NotContains(t, err.Error(), secretToken, "exhausted retry error must not leak bearer token")
 	assert.Equal(t, int32(3), mockSrv.getBlastRadiusCalls.Load())
@@ -567,7 +567,7 @@ func TestHubClient_OptionsClamping(t *testing.T) {
 	require.NoError(t, err)
 	defer client.Close()
 
-	_, err = client.GetContract(context.Background(), "urn:sc:contract:test", "v1.0.0")
+	_, err = client.GetContract(context.Background(), "urn:supercargo:hub:contract:test", "v1.0.0")
 	require.Error(t, err)
 	assert.Equal(t, int32(1), mockSrv.getContractCalls.Load(), "WithMaxRetries(0) must clamp to 1 attempt")
 }

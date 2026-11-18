@@ -28,7 +28,6 @@ const (
 	HubService_Ping_FullMethodName                  = "/hub.v1.HubService/Ping"
 	HubService_ValidateSchema_FullMethodName        = "/hub.v1.HubService/ValidateSchema"
 	HubService_DeleteProduct_FullMethodName         = "/hub.v1.HubService/DeleteProduct"
-	HubService_ResolvePort_FullMethodName           = "/hub.v1.HubService/ResolvePort"
 	HubService_CheckDownstreamImpact_FullMethodName = "/hub.v1.HubService/CheckDownstreamImpact"
 	HubService_RegisterEntity_FullMethodName        = "/hub.v1.HubService/RegisterEntity"
 	HubService_GetEntity_FullMethodName             = "/hub.v1.HubService/GetEntity"
@@ -38,6 +37,7 @@ const (
 	HubService_RegisterTeam_FullMethodName          = "/hub.v1.HubService/RegisterTeam"
 	HubService_GetTeam_FullMethodName               = "/hub.v1.HubService/GetTeam"
 	HubService_ListTeams_FullMethodName             = "/hub.v1.HubService/ListTeams"
+	HubService_DeleteTeam_FullMethodName            = "/hub.v1.HubService/DeleteTeam"
 	HubService_RegisterContract_FullMethodName      = "/hub.v1.HubService/RegisterContract"
 	HubService_ListProducts_FullMethodName          = "/hub.v1.HubService/ListProducts"
 	HubService_SyncProduct_FullMethodName           = "/hub.v1.HubService/SyncProduct"
@@ -58,6 +58,8 @@ const (
 	HubService_GetBlastRadius_FullMethodName        = "/hub.v1.HubService/GetBlastRadius"
 	HubService_GetRootCause_FullMethodName          = "/hub.v1.HubService/GetRootCause"
 	HubService_GetTaxonomyMappings_FullMethodName   = "/hub.v1.HubService/GetTaxonomyMappings"
+	HubService_RegisterDemandLocks_FullMethodName   = "/hub.v1.HubService/RegisterDemandLocks"
+	HubService_ListDemandLocks_FullMethodName       = "/hub.v1.HubService/ListDemandLocks"
 )
 
 // HubServiceClient is the client API for HubService service.
@@ -82,8 +84,7 @@ type HubServiceClient interface {
 	ValidateSchema(ctx context.Context, in *ValidateSchemaRequest, opts ...grpc.CallOption) (*ValidateSchemaResponse, error)
 	// Deletes a specific product version (used primarily for smoke testing/cleanup).
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
-	// Resolves a Port URN to its definition and parent product.
-	ResolvePort(ctx context.Context, in *ResolvePortRequest, opts ...grpc.CallOption) (*ResolvePortResponse, error)
+	// Deprecated: Do not use.
 	// Analyzes the impact of a proposed contract change on downstream consumers.
 	CheckDownstreamImpact(ctx context.Context, in *CheckDownstreamImpactRequest, opts ...grpc.CallOption) (*CheckDownstreamImpactResponse, error)
 	// Registers a new Entity definition.
@@ -92,6 +93,7 @@ type HubServiceClient interface {
 	GetEntity(ctx context.Context, in *GetEntityRequest, opts ...grpc.CallOption) (*GetEntityResponse, error)
 	// Lists all registered Entities.
 	ListEntities(ctx context.Context, in *ListEntitiesRequest, opts ...grpc.CallOption) (*ListEntitiesResponse, error)
+	// Deprecated: Do not use.
 	// Analyzes the impact of a proposed Entity change on contracts and products.
 	CheckEntityImpact(ctx context.Context, in *CheckEntityImpactRequest, opts ...grpc.CallOption) (*CheckEntityImpactResponse, error)
 	// Deletes a specific Entity (used for testing).
@@ -102,6 +104,8 @@ type HubServiceClient interface {
 	GetTeam(ctx context.Context, in *GetTeamRequest, opts ...grpc.CallOption) (*GetTeamResponse, error)
 	// Lists all registered Teams.
 	ListTeams(ctx context.Context, in *ListTeamsRequest, opts ...grpc.CallOption) (*ListTeamsResponse, error)
+	// Deletes a Team by name.
+	DeleteTeam(ctx context.Context, in *DeleteTeamRequest, opts ...grpc.CallOption) (*DeleteTeamResponse, error)
 	// Registers a new Data Contract version.
 	RegisterContract(ctx context.Context, in *RegisterContractRequest, opts ...grpc.CallOption) (*RegisterContractResponse, error)
 	// Lists all registered Data Products.
@@ -143,6 +147,10 @@ type HubServiceClient interface {
 	GetRootCause(ctx context.Context, in *GetRootCauseRequest, opts ...grpc.CallOption) (*GetRootCauseResponse, error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(ctx context.Context, in *GetTaxonomyMappingsRequest, opts ...grpc.CallOption) (*GetTaxonomyMappingsResponse, error)
+	// Registers demand locks from a consumer product manifest.
+	RegisterDemandLocks(ctx context.Context, in *RegisterDemandLocksRequest, opts ...grpc.CallOption) (*RegisterDemandLocksResponse, error)
+	// Lists demand locks registered for a producer product or port.
+	ListDemandLocks(ctx context.Context, in *ListDemandLocksRequest, opts ...grpc.CallOption) (*ListDemandLocksResponse, error)
 }
 
 type hubServiceClient struct {
@@ -243,16 +251,7 @@ func (c *hubServiceClient) DeleteProduct(ctx context.Context, in *DeleteProductR
 	return out, nil
 }
 
-func (c *hubServiceClient) ResolvePort(ctx context.Context, in *ResolvePortRequest, opts ...grpc.CallOption) (*ResolvePortResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ResolvePortResponse)
-	err := c.cc.Invoke(ctx, HubService_ResolvePort_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
+// Deprecated: Do not use.
 func (c *hubServiceClient) CheckDownstreamImpact(ctx context.Context, in *CheckDownstreamImpactRequest, opts ...grpc.CallOption) (*CheckDownstreamImpactResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CheckDownstreamImpactResponse)
@@ -293,6 +292,7 @@ func (c *hubServiceClient) ListEntities(ctx context.Context, in *ListEntitiesReq
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *hubServiceClient) CheckEntityImpact(ctx context.Context, in *CheckEntityImpactRequest, opts ...grpc.CallOption) (*CheckEntityImpactResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CheckEntityImpactResponse)
@@ -337,6 +337,16 @@ func (c *hubServiceClient) ListTeams(ctx context.Context, in *ListTeamsRequest, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListTeamsResponse)
 	err := c.cc.Invoke(ctx, HubService_ListTeams_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) DeleteTeam(ctx context.Context, in *DeleteTeamRequest, opts ...grpc.CallOption) (*DeleteTeamResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteTeamResponse)
+	err := c.cc.Invoke(ctx, HubService_DeleteTeam_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -543,6 +553,26 @@ func (c *hubServiceClient) GetTaxonomyMappings(ctx context.Context, in *GetTaxon
 	return out, nil
 }
 
+func (c *hubServiceClient) RegisterDemandLocks(ctx context.Context, in *RegisterDemandLocksRequest, opts ...grpc.CallOption) (*RegisterDemandLocksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RegisterDemandLocksResponse)
+	err := c.cc.Invoke(ctx, HubService_RegisterDemandLocks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) ListDemandLocks(ctx context.Context, in *ListDemandLocksRequest, opts ...grpc.CallOption) (*ListDemandLocksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDemandLocksResponse)
+	err := c.cc.Invoke(ctx, HubService_ListDemandLocks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HubServiceServer is the server API for HubService service.
 // All implementations must embed UnimplementedHubServiceServer
 // for forward compatibility.
@@ -565,8 +595,7 @@ type HubServiceServer interface {
 	ValidateSchema(context.Context, *ValidateSchemaRequest) (*ValidateSchemaResponse, error)
 	// Deletes a specific product version (used primarily for smoke testing/cleanup).
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
-	// Resolves a Port URN to its definition and parent product.
-	ResolvePort(context.Context, *ResolvePortRequest) (*ResolvePortResponse, error)
+	// Deprecated: Do not use.
 	// Analyzes the impact of a proposed contract change on downstream consumers.
 	CheckDownstreamImpact(context.Context, *CheckDownstreamImpactRequest) (*CheckDownstreamImpactResponse, error)
 	// Registers a new Entity definition.
@@ -575,6 +604,7 @@ type HubServiceServer interface {
 	GetEntity(context.Context, *GetEntityRequest) (*GetEntityResponse, error)
 	// Lists all registered Entities.
 	ListEntities(context.Context, *ListEntitiesRequest) (*ListEntitiesResponse, error)
+	// Deprecated: Do not use.
 	// Analyzes the impact of a proposed Entity change on contracts and products.
 	CheckEntityImpact(context.Context, *CheckEntityImpactRequest) (*CheckEntityImpactResponse, error)
 	// Deletes a specific Entity (used for testing).
@@ -585,6 +615,8 @@ type HubServiceServer interface {
 	GetTeam(context.Context, *GetTeamRequest) (*GetTeamResponse, error)
 	// Lists all registered Teams.
 	ListTeams(context.Context, *ListTeamsRequest) (*ListTeamsResponse, error)
+	// Deletes a Team by name.
+	DeleteTeam(context.Context, *DeleteTeamRequest) (*DeleteTeamResponse, error)
 	// Registers a new Data Contract version.
 	RegisterContract(context.Context, *RegisterContractRequest) (*RegisterContractResponse, error)
 	// Lists all registered Data Products.
@@ -626,6 +658,10 @@ type HubServiceServer interface {
 	GetRootCause(context.Context, *GetRootCauseRequest) (*GetRootCauseResponse, error)
 	// Retrieves Dataplex taxonomy and policy tag mappings for an environment.
 	GetTaxonomyMappings(context.Context, *GetTaxonomyMappingsRequest) (*GetTaxonomyMappingsResponse, error)
+	// Registers demand locks from a consumer product manifest.
+	RegisterDemandLocks(context.Context, *RegisterDemandLocksRequest) (*RegisterDemandLocksResponse, error)
+	// Lists demand locks registered for a producer product or port.
+	ListDemandLocks(context.Context, *ListDemandLocksRequest) (*ListDemandLocksResponse, error)
 	mustEmbedUnimplementedHubServiceServer()
 }
 
@@ -663,9 +699,6 @@ func (UnimplementedHubServiceServer) ValidateSchema(context.Context, *ValidateSc
 func (UnimplementedHubServiceServer) DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteProduct not implemented")
 }
-func (UnimplementedHubServiceServer) ResolvePort(context.Context, *ResolvePortRequest) (*ResolvePortResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ResolvePort not implemented")
-}
 func (UnimplementedHubServiceServer) CheckDownstreamImpact(context.Context, *CheckDownstreamImpactRequest) (*CheckDownstreamImpactResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CheckDownstreamImpact not implemented")
 }
@@ -692,6 +725,9 @@ func (UnimplementedHubServiceServer) GetTeam(context.Context, *GetTeamRequest) (
 }
 func (UnimplementedHubServiceServer) ListTeams(context.Context, *ListTeamsRequest) (*ListTeamsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListTeams not implemented")
+}
+func (UnimplementedHubServiceServer) DeleteTeam(context.Context, *DeleteTeamRequest) (*DeleteTeamResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteTeam not implemented")
 }
 func (UnimplementedHubServiceServer) RegisterContract(context.Context, *RegisterContractRequest) (*RegisterContractResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RegisterContract not implemented")
@@ -752,6 +788,12 @@ func (UnimplementedHubServiceServer) GetRootCause(context.Context, *GetRootCause
 }
 func (UnimplementedHubServiceServer) GetTaxonomyMappings(context.Context, *GetTaxonomyMappingsRequest) (*GetTaxonomyMappingsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetTaxonomyMappings not implemented")
+}
+func (UnimplementedHubServiceServer) RegisterDemandLocks(context.Context, *RegisterDemandLocksRequest) (*RegisterDemandLocksResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RegisterDemandLocks not implemented")
+}
+func (UnimplementedHubServiceServer) ListDemandLocks(context.Context, *ListDemandLocksRequest) (*ListDemandLocksResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListDemandLocks not implemented")
 }
 func (UnimplementedHubServiceServer) mustEmbedUnimplementedHubServiceServer() {}
 func (UnimplementedHubServiceServer) testEmbeddedByValue()                    {}
@@ -936,24 +978,6 @@ func _HubService_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HubService_ResolvePort_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResolvePortRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(HubServiceServer).ResolvePort(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: HubService_ResolvePort_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HubServiceServer).ResolvePort(ctx, req.(*ResolvePortRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _HubService_CheckDownstreamImpact_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckDownstreamImpactRequest)
 	if err := dec(in); err != nil {
@@ -1112,6 +1136,24 @@ func _HubService_ListTeams_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(HubServiceServer).ListTeams(ctx, req.(*ListTeamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_DeleteTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTeamRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).DeleteTeam(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_DeleteTeam_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).DeleteTeam(ctx, req.(*DeleteTeamRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1476,6 +1518,42 @@ func _HubService_GetTaxonomyMappings_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_RegisterDemandLocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterDemandLocksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).RegisterDemandLocks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_RegisterDemandLocks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).RegisterDemandLocks(ctx, req.(*RegisterDemandLocksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_ListDemandLocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDemandLocksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).ListDemandLocks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_ListDemandLocks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).ListDemandLocks(ctx, req.(*ListDemandLocksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HubService_ServiceDesc is the grpc.ServiceDesc for HubService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1520,10 +1598,6 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _HubService_DeleteProduct_Handler,
 		},
 		{
-			MethodName: "ResolvePort",
-			Handler:    _HubService_ResolvePort_Handler,
-		},
-		{
 			MethodName: "CheckDownstreamImpact",
 			Handler:    _HubService_CheckDownstreamImpact_Handler,
 		},
@@ -1558,6 +1632,10 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTeams",
 			Handler:    _HubService_ListTeams_Handler,
+		},
+		{
+			MethodName: "DeleteTeam",
+			Handler:    _HubService_DeleteTeam_Handler,
 		},
 		{
 			MethodName: "RegisterContract",
@@ -1638,6 +1716,14 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTaxonomyMappings",
 			Handler:    _HubService_GetTaxonomyMappings_Handler,
+		},
+		{
+			MethodName: "RegisterDemandLocks",
+			Handler:    _HubService_RegisterDemandLocks_Handler,
+		},
+		{
+			MethodName: "ListDemandLocks",
+			Handler:    _HubService_ListDemandLocks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

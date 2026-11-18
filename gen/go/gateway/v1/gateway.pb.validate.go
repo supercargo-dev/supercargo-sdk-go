@@ -60,7 +60,7 @@ func (m *IngestRequest) validate(all bool) error {
 	if !_IngestRequest_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := IngestRequestValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$\"",
 		}
 		if !all {
 			return err
@@ -188,7 +188,7 @@ var _ interface {
 	ErrorName() string
 } = IngestRequestValidationError{}
 
-var _IngestRequest_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$")
+var _IngestRequest_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)*$")
 
 // Validate checks the field values on IngestResponse with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

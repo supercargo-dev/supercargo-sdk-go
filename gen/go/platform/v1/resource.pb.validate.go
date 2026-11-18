@@ -81,7 +81,7 @@ func (m *Team) validate(all bool) error {
 	if !_Team_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := TeamValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -192,7 +192,7 @@ var _ interface {
 	ErrorName() string
 } = TeamValidationError{}
 
-var _Team_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _Team_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 // Validate checks the field values on Entity with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -240,7 +240,7 @@ func (m *Entity) validate(all bool) error {
 	if !_Entity_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := EntityValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -393,7 +393,7 @@ var _ interface {
 	ErrorName() string
 } = EntityValidationError{}
 
-var _Entity_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _Entity_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 // Validate checks the field values on EntityConstraints with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -536,7 +536,7 @@ func (m *Key) validate(all bool) error {
 	if !_Key_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := KeyValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -643,7 +643,7 @@ var _ interface {
 	ErrorName() string
 } = KeyValidationError{}
 
-var _Key_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _Key_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 // Validate checks the field values on KeyCreated with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -813,7 +813,7 @@ func (m *IdentityDomain) validate(all bool) error {
 	if !_IdentityDomain_Urn_Pattern.MatchString(m.GetUrn()) {
 		err := IdentityDomainValidationError{
 			field:  "Urn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
 		}
 		if !all {
 			return err
@@ -944,7 +944,7 @@ var _ interface {
 	ErrorName() string
 } = IdentityDomainValidationError{}
 
-var _IdentityDomain_Urn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _IdentityDomain_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
 
 // Validate checks the field values on IdentityRank with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -982,7 +982,7 @@ func (m *IdentityRank) validate(all bool) error {
 	if !_IdentityRank_EntityUrn_Pattern.MatchString(m.GetEntityUrn()) {
 		err := IdentityRankValidationError{
 			field:  "EntityUrn",
-			reason: "value does not match regex pattern \"^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$\"",
+			reason: "value does not match regex pattern \"^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$\"",
 		}
 		if !all {
 			return err
@@ -1078,4 +1078,4 @@ var _ interface {
 	ErrorName() string
 } = IdentityRankValidationError{}
 
-var _IdentityRank_EntityUrn_Pattern = regexp.MustCompile("^urn:(supercargo|sc):[a-z0-9-]+:[a-z0-9-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+var _IdentityRank_EntityUrn_Pattern = regexp.MustCompile("^urn:supercargo:([a-z0-9-]+:entity:[a-z0-9._-]+(:[a-z0-9._-]+){0,2}|entity:[a-z0-9._-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?)$")

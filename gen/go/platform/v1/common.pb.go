@@ -24,7 +24,7 @@ const (
 // Standard validation patterns for the Supercargo platform.
 type ValidationPatterns struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// pattern: ^urn:(supercargo|sc):[a-z0-9_-]+:[a-z0-9_-]+:[a-z0-9._-]+(:[a-z0-9._-]+)?$
+	// pattern: ^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$
 	UrnPattern    string `protobuf:"bytes,1,opt,name=urn_pattern,json=urnPattern,proto3" json:"urn_pattern,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
