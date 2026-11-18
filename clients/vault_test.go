@@ -587,11 +587,11 @@ func TestVaultClient_Subcutaneous_DualAuthAndRedaction(t *testing.T) {
 						ContextId: "ctx-hex-1",
 						Tokens: map[string]string{
 							"urn:supercargo:hub:entity:email:alice@example.com": hexTok1,
-							"alice@example.com":                     hexTok1,
-							"urn:supercargo:hub:entity:ssn:123-45-6789":         hexTok2,
-							"123-45-6789":                           hexTok2,
-							"urn:supercargo:hub:entity:phone:+15550199":         hexTok3,
-							"+15550199":                             hexTok3,
+							"alice@example.com":                         hexTok1,
+							"urn:supercargo:hub:entity:ssn:123-45-6789": hexTok2,
+							"123-45-6789":                               hexTok2,
+							"urn:supercargo:hub:entity:phone:+15550199": hexTok3,
+							"+15550199":                                 hexTok3,
 						},
 					},
 				},
@@ -763,7 +763,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			},
 			tokens: map[string]string{
 				"urn:supercargo:hub:entity:email:alice@example.com": "tok-email-1",
-				"alice@example.com":                     "tok-email-1",
+				"alice@example.com": "tok-email-1",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -850,7 +850,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			},
 			tokens: map[string]string{
 				"urn:supercargo:hub:entity:primary:pii-100-secret": "tok-primary",
-				"pii-100-secret":                       "tok-primary",
+				"pii-100-secret": "tok-primary",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -868,7 +868,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			},
 			tokens: map[string]string{
 				"urn:supercargo:hub:entity:primary:pii-200-secret": "",
-				"pii-200-secret":                       "tok-bare",
+				"pii-200-secret": "tok-bare",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -887,7 +887,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			},
 			tokens: map[string]string{
 				"urn:supercargo:hub:entity:email:valid@example.com": "tok-valid",
-				"valid@example.com":                     "tok-valid",
+				"valid@example.com": "tok-valid",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -906,7 +906,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			},
 			tokens: map[string]string{
 				"urn:supercargo:hub:entity:email:valid@example.com": "tok-valid",
-				"valid@example.com":                     "tok-valid",
+				"valid@example.com": "tok-valid",
 			},
 			expectErr:      true,
 			expectedSubstr: "[MASKED]",
@@ -942,7 +942,7 @@ func TestVaultClient_Subcutaneous_PerIdentifierFailClosed(t *testing.T) {
 			},
 			tokens: map[string]string{
 				"urn:supercargo:hub:entity:email:dup@example.com": "tok_dup_1",
-				"dup@example.com":                     "tok_dup_1",
+				"dup@example.com": "tok_dup_1",
 			},
 			expectErr: false,
 		},
