@@ -136,52 +136,56 @@ const (
 	// HubServiceListDemandLocksProcedure is the fully-qualified name of the HubService's
 	// ListDemandLocks RPC.
 	HubServiceListDemandLocksProcedure = "/hub.v1.HubService/ListDemandLocks"
+	// HubServiceGetInfrastructureDriftProcedure is the fully-qualified name of the HubService's
+	// GetInfrastructureDrift RPC.
+	HubServiceGetInfrastructureDriftProcedure = "/hub.v1.HubService/GetInfrastructureDrift"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	hubServiceServiceDescriptor                     = v1.File_hub_v1_hub_proto.Services().ByName("HubService")
-	hubServiceValidateProductMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ValidateProduct")
-	hubServiceRegisterProductMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("RegisterProduct")
-	hubServiceGetProductMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("GetProduct")
-	hubServiceGetProductSchemaMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("GetProductSchema")
-	hubServiceGetContractMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("GetContract")
-	hubServiceListContractsMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ListContracts")
-	hubServicePingMethodDescriptor                  = hubServiceServiceDescriptor.Methods().ByName("Ping")
-	hubServiceValidateSchemaMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ValidateSchema")
-	hubServiceDeleteProductMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("DeleteProduct")
-	hubServiceCheckDownstreamImpactMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("CheckDownstreamImpact")
-	hubServiceRegisterEntityMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RegisterEntity")
-	hubServiceGetEntityMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetEntity")
-	hubServiceListEntitiesMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListEntities")
-	hubServiceCheckEntityImpactMethodDescriptor     = hubServiceServiceDescriptor.Methods().ByName("CheckEntityImpact")
-	hubServiceDeleteEntityMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("DeleteEntity")
-	hubServiceRegisterTeamMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("RegisterTeam")
-	hubServiceGetTeamMethodDescriptor               = hubServiceServiceDescriptor.Methods().ByName("GetTeam")
-	hubServiceListTeamsMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("ListTeams")
-	hubServiceDeleteTeamMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("DeleteTeam")
-	hubServiceRegisterContractMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("RegisterContract")
-	hubServiceListProductsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListProducts")
-	hubServiceSyncProductMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("SyncProduct")
-	hubServiceRecordAuditRunMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RecordAuditRun")
-	hubServiceListAuditRunsMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ListAuditRuns")
-	hubServiceSendAlertMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("SendAlert")
-	hubServiceAnalyzeImpactMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("AnalyzeImpact")
-	hubServiceSubscribeMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("Subscribe")
-	hubServiceUnsubscribeMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("Unsubscribe")
-	hubServiceListSubscriptionsMethodDescriptor     = hubServiceServiceDescriptor.Methods().ByName("ListSubscriptions")
-	hubServiceIngestEventMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("IngestEvent")
-	hubServiceExtractDSARPlanMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ExtractDSARPlan")
-	hubServicePackageDSARMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("PackageDSAR")
-	hubServiceVerifyRTBFMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("VerifyRTBF")
-	hubServiceReportAnomalyMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ReportAnomaly")
-	hubServiceGetHealthMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetHealth")
-	hubServiceGetHealthHistoryMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("GetHealthHistory")
-	hubServiceGetBlastRadiusMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("GetBlastRadius")
-	hubServiceGetRootCauseMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("GetRootCause")
-	hubServiceGetTaxonomyMappingsMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("GetTaxonomyMappings")
-	hubServiceRegisterDemandLocksMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("RegisterDemandLocks")
-	hubServiceListDemandLocksMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ListDemandLocks")
+	hubServiceServiceDescriptor                      = v1.File_hub_v1_hub_proto.Services().ByName("HubService")
+	hubServiceValidateProductMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ValidateProduct")
+	hubServiceRegisterProductMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RegisterProduct")
+	hubServiceGetProductMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetProduct")
+	hubServiceGetProductSchemaMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("GetProductSchema")
+	hubServiceGetContractMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("GetContract")
+	hubServiceListContractsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListContracts")
+	hubServicePingMethodDescriptor                   = hubServiceServiceDescriptor.Methods().ByName("Ping")
+	hubServiceValidateSchemaMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ValidateSchema")
+	hubServiceDeleteProductMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("DeleteProduct")
+	hubServiceCheckDownstreamImpactMethodDescriptor  = hubServiceServiceDescriptor.Methods().ByName("CheckDownstreamImpact")
+	hubServiceRegisterEntityMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("RegisterEntity")
+	hubServiceGetEntityMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("GetEntity")
+	hubServiceListEntitiesMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ListEntities")
+	hubServiceCheckEntityImpactMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("CheckEntityImpact")
+	hubServiceDeleteEntityMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("DeleteEntity")
+	hubServiceRegisterTeamMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("RegisterTeam")
+	hubServiceGetTeamMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("GetTeam")
+	hubServiceListTeamsMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("ListTeams")
+	hubServiceDeleteTeamMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("DeleteTeam")
+	hubServiceRegisterContractMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("RegisterContract")
+	hubServiceListProductsMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ListProducts")
+	hubServiceSyncProductMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("SyncProduct")
+	hubServiceRecordAuditRunMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("RecordAuditRun")
+	hubServiceListAuditRunsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListAuditRuns")
+	hubServiceSendAlertMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("SendAlert")
+	hubServiceAnalyzeImpactMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("AnalyzeImpact")
+	hubServiceSubscribeMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("Subscribe")
+	hubServiceUnsubscribeMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("Unsubscribe")
+	hubServiceListSubscriptionsMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("ListSubscriptions")
+	hubServiceIngestEventMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("IngestEvent")
+	hubServiceExtractDSARPlanMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ExtractDSARPlan")
+	hubServicePackageDSARMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("PackageDSAR")
+	hubServiceVerifyRTBFMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("VerifyRTBF")
+	hubServiceReportAnomalyMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ReportAnomaly")
+	hubServiceGetHealthMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("GetHealth")
+	hubServiceGetHealthHistoryMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("GetHealthHistory")
+	hubServiceGetBlastRadiusMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("GetBlastRadius")
+	hubServiceGetRootCauseMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("GetRootCause")
+	hubServiceGetTaxonomyMappingsMethodDescriptor    = hubServiceServiceDescriptor.Methods().ByName("GetTaxonomyMappings")
+	hubServiceRegisterDemandLocksMethodDescriptor    = hubServiceServiceDescriptor.Methods().ByName("RegisterDemandLocks")
+	hubServiceListDemandLocksMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ListDemandLocks")
+	hubServiceGetInfrastructureDriftMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("GetInfrastructureDrift")
 )
 
 // HubServiceClient is a client for the hub.v1.HubService service.
@@ -273,6 +277,8 @@ type HubServiceClient interface {
 	RegisterDemandLocks(context.Context, *connect.Request[v1.RegisterDemandLocksRequest]) (*connect.Response[v1.RegisterDemandLocksResponse], error)
 	// Lists demand locks registered for a producer product or port.
 	ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error)
+	// Compares declared contract and manifest intent against live cloud infrastructure reality.
+	GetInfrastructureDrift(context.Context, *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error)
 }
 
 // NewHubServiceClient constructs a client for the hub.v1.HubService service. By default, it uses
@@ -531,52 +537,59 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceListDemandLocksMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getInfrastructureDrift: connect.NewClient[v1.GetInfrastructureDriftRequest, v1.GetInfrastructureDriftResponse](
+			httpClient,
+			baseURL+HubServiceGetInfrastructureDriftProcedure,
+			connect.WithSchema(hubServiceGetInfrastructureDriftMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // hubServiceClient implements HubServiceClient.
 type hubServiceClient struct {
-	validateProduct       *connect.Client[v1.ValidateProductRequest, v1.ValidateProductResponse]
-	registerProduct       *connect.Client[v1.RegisterProductRequest, v1.RegisterProductResponse]
-	getProduct            *connect.Client[v1.GetProductRequest, v1.GetProductResponse]
-	getProductSchema      *connect.Client[v1.GetProductSchemaRequest, v1.GetProductSchemaResponse]
-	getContract           *connect.Client[v1.GetContractRequest, v1.GetContractResponse]
-	listContracts         *connect.Client[v1.ListContractsRequest, v1.ListContractsResponse]
-	ping                  *connect.Client[v1.PingRequest, v1.PingResponse]
-	validateSchema        *connect.Client[v1.ValidateSchemaRequest, v1.ValidateSchemaResponse]
-	deleteProduct         *connect.Client[v1.DeleteProductRequest, v1.DeleteProductResponse]
-	checkDownstreamImpact *connect.Client[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse]
-	registerEntity        *connect.Client[v1.RegisterEntityRequest, v1.RegisterEntityResponse]
-	getEntity             *connect.Client[v1.GetEntityRequest, v1.GetEntityResponse]
-	listEntities          *connect.Client[v1.ListEntitiesRequest, v1.ListEntitiesResponse]
-	checkEntityImpact     *connect.Client[v1.CheckEntityImpactRequest, v1.CheckEntityImpactResponse]
-	deleteEntity          *connect.Client[v1.DeleteEntityRequest, v1.DeleteEntityResponse]
-	registerTeam          *connect.Client[v1.RegisterTeamRequest, v1.RegisterTeamResponse]
-	getTeam               *connect.Client[v1.GetTeamRequest, v1.GetTeamResponse]
-	listTeams             *connect.Client[v1.ListTeamsRequest, v1.ListTeamsResponse]
-	deleteTeam            *connect.Client[v1.DeleteTeamRequest, v1.DeleteTeamResponse]
-	registerContract      *connect.Client[v1.RegisterContractRequest, v1.RegisterContractResponse]
-	listProducts          *connect.Client[v1.ListProductsRequest, v1.ListProductsResponse]
-	syncProduct           *connect.Client[v1.SyncProductRequest, v1.SyncProductResponse]
-	recordAuditRun        *connect.Client[v1.RecordAuditRunRequest, v1.RecordAuditRunResponse]
-	listAuditRuns         *connect.Client[v1.ListAuditRunsRequest, v1.ListAuditRunsResponse]
-	sendAlert             *connect.Client[v1.SendAlertRequest, v1.SendAlertResponse]
-	analyzeImpact         *connect.Client[v1.AnalyzeImpactRequest, v1.AnalyzeImpactResponse]
-	subscribe             *connect.Client[v1.SubscribeRequest, v1.SubscribeResponse]
-	unsubscribe           *connect.Client[v1.UnsubscribeRequest, v1.UnsubscribeResponse]
-	listSubscriptions     *connect.Client[v1.ListSubscriptionsRequest, v1.ListSubscriptionsResponse]
-	ingestEvent           *connect.Client[v1.IngestEventRequest, v1.IngestEventResponse]
-	extractDSARPlan       *connect.Client[v1.ExtractDSARPlanRequest, v1.ExtractDSARPlanResponse]
-	packageDSAR           *connect.Client[v1.PackageDSARRequest, v1.PackageDSARResponse]
-	verifyRTBF            *connect.Client[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse]
-	reportAnomaly         *connect.Client[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse]
-	getHealth             *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
-	getHealthHistory      *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
-	getBlastRadius        *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
-	getRootCause          *connect.Client[v1.GetRootCauseRequest, v1.GetRootCauseResponse]
-	getTaxonomyMappings   *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
-	registerDemandLocks   *connect.Client[v1.RegisterDemandLocksRequest, v1.RegisterDemandLocksResponse]
-	listDemandLocks       *connect.Client[v1.ListDemandLocksRequest, v1.ListDemandLocksResponse]
+	validateProduct        *connect.Client[v1.ValidateProductRequest, v1.ValidateProductResponse]
+	registerProduct        *connect.Client[v1.RegisterProductRequest, v1.RegisterProductResponse]
+	getProduct             *connect.Client[v1.GetProductRequest, v1.GetProductResponse]
+	getProductSchema       *connect.Client[v1.GetProductSchemaRequest, v1.GetProductSchemaResponse]
+	getContract            *connect.Client[v1.GetContractRequest, v1.GetContractResponse]
+	listContracts          *connect.Client[v1.ListContractsRequest, v1.ListContractsResponse]
+	ping                   *connect.Client[v1.PingRequest, v1.PingResponse]
+	validateSchema         *connect.Client[v1.ValidateSchemaRequest, v1.ValidateSchemaResponse]
+	deleteProduct          *connect.Client[v1.DeleteProductRequest, v1.DeleteProductResponse]
+	checkDownstreamImpact  *connect.Client[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse]
+	registerEntity         *connect.Client[v1.RegisterEntityRequest, v1.RegisterEntityResponse]
+	getEntity              *connect.Client[v1.GetEntityRequest, v1.GetEntityResponse]
+	listEntities           *connect.Client[v1.ListEntitiesRequest, v1.ListEntitiesResponse]
+	checkEntityImpact      *connect.Client[v1.CheckEntityImpactRequest, v1.CheckEntityImpactResponse]
+	deleteEntity           *connect.Client[v1.DeleteEntityRequest, v1.DeleteEntityResponse]
+	registerTeam           *connect.Client[v1.RegisterTeamRequest, v1.RegisterTeamResponse]
+	getTeam                *connect.Client[v1.GetTeamRequest, v1.GetTeamResponse]
+	listTeams              *connect.Client[v1.ListTeamsRequest, v1.ListTeamsResponse]
+	deleteTeam             *connect.Client[v1.DeleteTeamRequest, v1.DeleteTeamResponse]
+	registerContract       *connect.Client[v1.RegisterContractRequest, v1.RegisterContractResponse]
+	listProducts           *connect.Client[v1.ListProductsRequest, v1.ListProductsResponse]
+	syncProduct            *connect.Client[v1.SyncProductRequest, v1.SyncProductResponse]
+	recordAuditRun         *connect.Client[v1.RecordAuditRunRequest, v1.RecordAuditRunResponse]
+	listAuditRuns          *connect.Client[v1.ListAuditRunsRequest, v1.ListAuditRunsResponse]
+	sendAlert              *connect.Client[v1.SendAlertRequest, v1.SendAlertResponse]
+	analyzeImpact          *connect.Client[v1.AnalyzeImpactRequest, v1.AnalyzeImpactResponse]
+	subscribe              *connect.Client[v1.SubscribeRequest, v1.SubscribeResponse]
+	unsubscribe            *connect.Client[v1.UnsubscribeRequest, v1.UnsubscribeResponse]
+	listSubscriptions      *connect.Client[v1.ListSubscriptionsRequest, v1.ListSubscriptionsResponse]
+	ingestEvent            *connect.Client[v1.IngestEventRequest, v1.IngestEventResponse]
+	extractDSARPlan        *connect.Client[v1.ExtractDSARPlanRequest, v1.ExtractDSARPlanResponse]
+	packageDSAR            *connect.Client[v1.PackageDSARRequest, v1.PackageDSARResponse]
+	verifyRTBF             *connect.Client[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse]
+	reportAnomaly          *connect.Client[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse]
+	getHealth              *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
+	getHealthHistory       *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
+	getBlastRadius         *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
+	getRootCause           *connect.Client[v1.GetRootCauseRequest, v1.GetRootCauseResponse]
+	getTaxonomyMappings    *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
+	registerDemandLocks    *connect.Client[v1.RegisterDemandLocksRequest, v1.RegisterDemandLocksResponse]
+	listDemandLocks        *connect.Client[v1.ListDemandLocksRequest, v1.ListDemandLocksResponse]
+	getInfrastructureDrift *connect.Client[v1.GetInfrastructureDriftRequest, v1.GetInfrastructureDriftResponse]
 }
 
 // ValidateProduct calls hub.v1.HubService.ValidateProduct.
@@ -788,6 +801,11 @@ func (c *hubServiceClient) ListDemandLocks(ctx context.Context, req *connect.Req
 	return c.listDemandLocks.CallUnary(ctx, req)
 }
 
+// GetInfrastructureDrift calls hub.v1.HubService.GetInfrastructureDrift.
+func (c *hubServiceClient) GetInfrastructureDrift(ctx context.Context, req *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error) {
+	return c.getInfrastructureDrift.CallUnary(ctx, req)
+}
+
 // HubServiceHandler is an implementation of the hub.v1.HubService service.
 type HubServiceHandler interface {
 	// Validates a manifest and its contracts without saving.
@@ -877,6 +895,8 @@ type HubServiceHandler interface {
 	RegisterDemandLocks(context.Context, *connect.Request[v1.RegisterDemandLocksRequest]) (*connect.Response[v1.RegisterDemandLocksResponse], error)
 	// Lists demand locks registered for a producer product or port.
 	ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error)
+	// Compares declared contract and manifest intent against live cloud infrastructure reality.
+	GetInfrastructureDrift(context.Context, *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error)
 }
 
 // NewHubServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -1131,6 +1151,12 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceListDemandLocksMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	hubServiceGetInfrastructureDriftHandler := connect.NewUnaryHandler(
+		HubServiceGetInfrastructureDriftProcedure,
+		svc.GetInfrastructureDrift,
+		connect.WithSchema(hubServiceGetInfrastructureDriftMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/hub.v1.HubService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case HubServiceValidateProductProcedure:
@@ -1215,6 +1241,8 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceRegisterDemandLocksHandler.ServeHTTP(w, r)
 		case HubServiceListDemandLocksProcedure:
 			hubServiceListDemandLocksHandler.ServeHTTP(w, r)
+		case HubServiceGetInfrastructureDriftProcedure:
+			hubServiceGetInfrastructureDriftHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1386,4 +1414,8 @@ func (UnimplementedHubServiceHandler) RegisterDemandLocks(context.Context, *conn
 
 func (UnimplementedHubServiceHandler) ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ListDemandLocks is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetInfrastructureDrift(context.Context, *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetInfrastructureDrift is not implemented"))
 }

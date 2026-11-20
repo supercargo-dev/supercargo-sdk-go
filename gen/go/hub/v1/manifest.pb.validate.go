@@ -411,6 +411,75 @@ func (m *ProductManifest) validate(all bool) error {
 
 	}
 
+	if _, ok := LifecycleStatus_name[int32(m.GetLifecycleStatus())]; !ok {
+		err := ProductManifestValidationError{
+			field:  "LifecycleStatus",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetTermsOfUse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ProductManifestValidationError{
+					field:  "TermsOfUse",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ProductManifestValidationError{
+					field:  "TermsOfUse",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTermsOfUse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ProductManifestValidationError{
+				field:  "TermsOfUse",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAiContext()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ProductManifestValidationError{
+					field:  "AiContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ProductManifestValidationError{
+					field:  "AiContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAiContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ProductManifestValidationError{
+				field:  "AiContext",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return ProductManifestMultiError(errors)
 	}
@@ -488,6 +557,353 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ProductManifestValidationError{}
+
+// Validate checks the field values on TermsOfUse with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TermsOfUse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TermsOfUse with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TermsOfUseMultiError, or
+// nil if none found.
+func (m *TermsOfUse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TermsOfUse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Purpose
+
+	// no validation rules for Usage
+
+	// no validation rules for Limitations
+
+	if len(errors) > 0 {
+		return TermsOfUseMultiError(errors)
+	}
+
+	return nil
+}
+
+// TermsOfUseMultiError is an error wrapping multiple validation errors
+// returned by TermsOfUse.ValidateAll() if the designated constraints aren't met.
+type TermsOfUseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TermsOfUseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TermsOfUseMultiError) AllErrors() []error { return m }
+
+// TermsOfUseValidationError is the validation error returned by
+// TermsOfUse.Validate if the designated constraints aren't met.
+type TermsOfUseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TermsOfUseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TermsOfUseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TermsOfUseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TermsOfUseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TermsOfUseValidationError) ErrorName() string { return "TermsOfUseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TermsOfUseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTermsOfUse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TermsOfUseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TermsOfUseValidationError{}
+
+// Validate checks the field values on Context with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Context) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Context with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in ContextMultiError, or nil if none found.
+func (m *Context) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Context) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetVerifiedStatements() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ContextValidationError{
+						field:  fmt.Sprintf("VerifiedStatements[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ContextValidationError{
+						field:  fmt.Sprintf("VerifiedStatements[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ContextValidationError{
+					field:  fmt.Sprintf("VerifiedStatements[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ContextMultiError(errors)
+	}
+
+	return nil
+}
+
+// ContextMultiError is an error wrapping multiple validation errors returned
+// by Context.ValidateAll() if the designated constraints aren't met.
+type ContextMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ContextMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ContextMultiError) AllErrors() []error { return m }
+
+// ContextValidationError is the validation error returned by Context.Validate
+// if the designated constraints aren't met.
+type ContextValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ContextValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ContextValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ContextValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ContextValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ContextValidationError) ErrorName() string { return "ContextValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ContextValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sContext.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ContextValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ContextValidationError{}
+
+// Validate checks the field values on VerifiedStatement with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *VerifiedStatement) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VerifiedStatement with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// VerifiedStatementMultiError, or nil if none found.
+func (m *VerifiedStatement) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VerifiedStatement) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Question
+
+	// no validation rules for Query
+
+	// no validation rules for Answer
+
+	if len(errors) > 0 {
+		return VerifiedStatementMultiError(errors)
+	}
+
+	return nil
+}
+
+// VerifiedStatementMultiError is an error wrapping multiple validation errors
+// returned by VerifiedStatement.ValidateAll() if the designated constraints
+// aren't met.
+type VerifiedStatementMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VerifiedStatementMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VerifiedStatementMultiError) AllErrors() []error { return m }
+
+// VerifiedStatementValidationError is the validation error returned by
+// VerifiedStatement.Validate if the designated constraints aren't met.
+type VerifiedStatementValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VerifiedStatementValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VerifiedStatementValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VerifiedStatementValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VerifiedStatementValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VerifiedStatementValidationError) ErrorName() string {
+	return "VerifiedStatementValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e VerifiedStatementValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVerifiedStatement.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VerifiedStatementValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VerifiedStatementValidationError{}
 
 // Validate checks the field values on TransformPort with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -2016,6 +2432,75 @@ func (m *OutputPort) validate(all bool) error {
 	// no validation rules for SourceRef
 
 	// no validation rules for CursorField
+
+	if _, ok := LifecycleStatus_name[int32(m.GetLifecycleStatus())]; !ok {
+		err := OutputPortValidationError{
+			field:  "LifecycleStatus",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetTermsOfUse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, OutputPortValidationError{
+					field:  "TermsOfUse",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, OutputPortValidationError{
+					field:  "TermsOfUse",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTermsOfUse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return OutputPortValidationError{
+				field:  "TermsOfUse",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAiContext()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, OutputPortValidationError{
+					field:  "AiContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, OutputPortValidationError{
+					field:  "AiContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAiContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return OutputPortValidationError{
+				field:  "AiContext",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return OutputPortMultiError(errors)

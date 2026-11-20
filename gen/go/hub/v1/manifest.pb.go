@@ -24,6 +24,65 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// LifecycleStatus defines the governance lifecycle stage of a product, port, or contract.
+type LifecycleStatus int32
+
+const (
+	LifecycleStatus_LIFECYCLE_STATUS_UNSPECIFIED    LifecycleStatus = 0
+	LifecycleStatus_LIFECYCLE_STATUS_DRAFT          LifecycleStatus = 1
+	LifecycleStatus_LIFECYCLE_STATUS_IN_DEVELOPMENT LifecycleStatus = 2
+	LifecycleStatus_LIFECYCLE_STATUS_ACTIVE         LifecycleStatus = 3
+	LifecycleStatus_LIFECYCLE_STATUS_DEPRECATED     LifecycleStatus = 4
+	LifecycleStatus_LIFECYCLE_STATUS_RETIRED        LifecycleStatus = 5
+)
+
+// Enum value maps for LifecycleStatus.
+var (
+	LifecycleStatus_name = map[int32]string{
+		0: "LIFECYCLE_STATUS_UNSPECIFIED",
+		1: "LIFECYCLE_STATUS_DRAFT",
+		2: "LIFECYCLE_STATUS_IN_DEVELOPMENT",
+		3: "LIFECYCLE_STATUS_ACTIVE",
+		4: "LIFECYCLE_STATUS_DEPRECATED",
+		5: "LIFECYCLE_STATUS_RETIRED",
+	}
+	LifecycleStatus_value = map[string]int32{
+		"LIFECYCLE_STATUS_UNSPECIFIED":    0,
+		"LIFECYCLE_STATUS_DRAFT":          1,
+		"LIFECYCLE_STATUS_IN_DEVELOPMENT": 2,
+		"LIFECYCLE_STATUS_ACTIVE":         3,
+		"LIFECYCLE_STATUS_DEPRECATED":     4,
+		"LIFECYCLE_STATUS_RETIRED":        5,
+	}
+)
+
+func (x LifecycleStatus) Enum() *LifecycleStatus {
+	p := new(LifecycleStatus)
+	*p = x
+	return p
+}
+
+func (x LifecycleStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LifecycleStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_manifest_proto_enumTypes[0].Descriptor()
+}
+
+func (LifecycleStatus) Type() protoreflect.EnumType {
+	return &file_hub_v1_manifest_proto_enumTypes[0]
+}
+
+func (x LifecycleStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LifecycleStatus.Descriptor instead.
+func (LifecycleStatus) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{0}
+}
+
 // LensType defines the degree of refinement or curation of the data asset.
 type LensType int32
 
@@ -93,11 +152,11 @@ func (x LensType) String() string {
 }
 
 func (LensType) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[0].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[1].Descriptor()
 }
 
 func (LensType) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[0]
+	return &file_hub_v1_manifest_proto_enumTypes[1]
 }
 
 func (x LensType) Number() protoreflect.EnumNumber {
@@ -106,7 +165,7 @@ func (x LensType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LensType.Descriptor instead.
 func (LensType) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{0}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{1}
 }
 
 // SLATier defines the criticality of the product.
@@ -149,11 +208,11 @@ func (x SLATier) String() string {
 }
 
 func (SLATier) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[1].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[2].Descriptor()
 }
 
 func (SLATier) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[1]
+	return &file_hub_v1_manifest_proto_enumTypes[2]
 }
 
 func (x SLATier) Number() protoreflect.EnumNumber {
@@ -162,7 +221,7 @@ func (x SLATier) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use SLATier.Descriptor instead.
 func (SLATier) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{1}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{2}
 }
 
 // SyncStatus defines the possible states of Dataplex synchronization.
@@ -221,11 +280,11 @@ func (x SyncStatus) String() string {
 }
 
 func (SyncStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[2].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[3].Descriptor()
 }
 
 func (SyncStatus) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[2]
+	return &file_hub_v1_manifest_proto_enumTypes[3]
 }
 
 func (x SyncStatus) Number() protoreflect.EnumNumber {
@@ -234,7 +293,7 @@ func (x SyncStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use SyncStatus.Descriptor instead.
 func (SyncStatus) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{2}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{3}
 }
 
 // ProductArchetype categorizes data products according to Data Mesh principles.
@@ -274,11 +333,11 @@ func (x ProductArchetype) String() string {
 }
 
 func (ProductArchetype) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[3].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[4].Descriptor()
 }
 
 func (ProductArchetype) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[3]
+	return &file_hub_v1_manifest_proto_enumTypes[4]
 }
 
 func (x ProductArchetype) Number() protoreflect.EnumNumber {
@@ -287,7 +346,7 @@ func (x ProductArchetype) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ProductArchetype.Descriptor instead.
 func (ProductArchetype) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{3}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{4}
 }
 
 type ProvisioningPolicy int32
@@ -323,11 +382,11 @@ func (x ProvisioningPolicy) String() string {
 }
 
 func (ProvisioningPolicy) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[4].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[5].Descriptor()
 }
 
 func (ProvisioningPolicy) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[4]
+	return &file_hub_v1_manifest_proto_enumTypes[5]
 }
 
 func (x ProvisioningPolicy) Number() protoreflect.EnumNumber {
@@ -336,7 +395,7 @@ func (x ProvisioningPolicy) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ProvisioningPolicy.Descriptor instead.
 func (ProvisioningPolicy) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{4}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{5}
 }
 
 type NotificationLevel int32
@@ -375,11 +434,11 @@ func (x NotificationLevel) String() string {
 }
 
 func (NotificationLevel) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[5].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[6].Descriptor()
 }
 
 func (NotificationLevel) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[5]
+	return &file_hub_v1_manifest_proto_enumTypes[6]
 }
 
 func (x NotificationLevel) Number() protoreflect.EnumNumber {
@@ -388,7 +447,7 @@ func (x NotificationLevel) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use NotificationLevel.Descriptor instead.
 func (NotificationLevel) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{5}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{6}
 }
 
 type NotificationChannel int32
@@ -427,11 +486,11 @@ func (x NotificationChannel) String() string {
 }
 
 func (NotificationChannel) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[6].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[7].Descriptor()
 }
 
 func (NotificationChannel) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[6]
+	return &file_hub_v1_manifest_proto_enumTypes[7]
 }
 
 func (x NotificationChannel) Number() protoreflect.EnumNumber {
@@ -440,7 +499,7 @@ func (x NotificationChannel) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use NotificationChannel.Descriptor instead.
 func (NotificationChannel) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{6}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{7}
 }
 
 type TriggerType int32
@@ -485,11 +544,11 @@ func (x TriggerType) String() string {
 }
 
 func (TriggerType) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[7].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[8].Descriptor()
 }
 
 func (TriggerType) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[7]
+	return &file_hub_v1_manifest_proto_enumTypes[8]
 }
 
 func (x TriggerType) Number() protoreflect.EnumNumber {
@@ -498,7 +557,7 @@ func (x TriggerType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TriggerType.Descriptor instead.
 func (TriggerType) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{7}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{8}
 }
 
 type FileFormat int32
@@ -534,11 +593,11 @@ func (x FileFormat) String() string {
 }
 
 func (FileFormat) Descriptor() protoreflect.EnumDescriptor {
-	return file_hub_v1_manifest_proto_enumTypes[8].Descriptor()
+	return file_hub_v1_manifest_proto_enumTypes[9].Descriptor()
 }
 
 func (FileFormat) Type() protoreflect.EnumType {
-	return &file_hub_v1_manifest_proto_enumTypes[8]
+	return &file_hub_v1_manifest_proto_enumTypes[9]
 }
 
 func (x FileFormat) Number() protoreflect.EnumNumber {
@@ -547,7 +606,7 @@ func (x FileFormat) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use FileFormat.Descriptor instead.
 func (FileFormat) EnumDescriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{8}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{9}
 }
 
 // ProductManifest defines the structure for the dataproduct.yaml file.
@@ -569,6 +628,12 @@ type ProductManifest struct {
 	Transforms []*TransformPort `protobuf:"bytes,10,rep,name=transforms,proto3" json:"transforms,omitempty"`
 	// Declared dependency demand locks for consumers.
 	ImportDemands []*ImportDemand `protobuf:"bytes,11,rep,name=import_demands,json=importDemands,proto3" json:"import_demands,omitempty"`
+	// Lifecycle status of the product.
+	LifecycleStatus LifecycleStatus `protobuf:"varint,12,opt,name=lifecycle_status,json=lifecycleStatus,proto3,enum=hub.v1.LifecycleStatus" json:"lifecycle_status,omitempty"`
+	// Structured terms of use and governing policy URLs.
+	TermsOfUse *TermsOfUse `protobuf:"bytes,13,opt,name=terms_of_use,json=termsOfUse,proto3" json:"terms_of_use,omitempty"`
+	// Structured AI and semantic context for agents.
+	AiContext     *Context `protobuf:"bytes,14,opt,name=ai_context,json=aiContext,proto3" json:"ai_context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -680,6 +745,226 @@ func (x *ProductManifest) GetImportDemands() []*ImportDemand {
 	return nil
 }
 
+func (x *ProductManifest) GetLifecycleStatus() LifecycleStatus {
+	if x != nil {
+		return x.LifecycleStatus
+	}
+	return LifecycleStatus_LIFECYCLE_STATUS_UNSPECIFIED
+}
+
+func (x *ProductManifest) GetTermsOfUse() *TermsOfUse {
+	if x != nil {
+		return x.TermsOfUse
+	}
+	return nil
+}
+
+func (x *ProductManifest) GetAiContext() *Context {
+	if x != nil {
+		return x.AiContext
+	}
+	return nil
+}
+
+// TermsOfUse defines business purpose, intended usage, limitations, and governing policy URLs.
+type TermsOfUse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Purpose       string                 `protobuf:"bytes,1,opt,name=purpose,proto3" json:"purpose,omitempty"`
+	Usage         string                 `protobuf:"bytes,2,opt,name=usage,proto3" json:"usage,omitempty"`
+	Limitations   string                 `protobuf:"bytes,3,opt,name=limitations,proto3" json:"limitations,omitempty"`
+	PolicyUrls    []string               `protobuf:"bytes,4,rep,name=policy_urls,json=policyUrls,proto3" json:"policy_urls,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TermsOfUse) Reset() {
+	*x = TermsOfUse{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TermsOfUse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TermsOfUse) ProtoMessage() {}
+
+func (x *TermsOfUse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TermsOfUse.ProtoReflect.Descriptor instead.
+func (*TermsOfUse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *TermsOfUse) GetPurpose() string {
+	if x != nil {
+		return x.Purpose
+	}
+	return ""
+}
+
+func (x *TermsOfUse) GetUsage() string {
+	if x != nil {
+		return x.Usage
+	}
+	return ""
+}
+
+func (x *TermsOfUse) GetLimitations() string {
+	if x != nil {
+		return x.Limitations
+	}
+	return ""
+}
+
+func (x *TermsOfUse) GetPolicyUrls() []string {
+	if x != nil {
+		return x.PolicyUrls
+	}
+	return nil
+}
+
+// Context defines structured AI and semantic guidance for agents and consumers.
+type Context struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Instructions       []string               `protobuf:"bytes,1,rep,name=instructions,proto3" json:"instructions,omitempty"`
+	Constraints        []string               `protobuf:"bytes,2,rep,name=constraints,proto3" json:"constraints,omitempty"`
+	VerifiedStatements []*VerifiedStatement   `protobuf:"bytes,3,rep,name=verified_statements,json=verifiedStatements,proto3" json:"verified_statements,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *Context) Reset() {
+	*x = Context{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Context) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Context) ProtoMessage() {}
+
+func (x *Context) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Context.ProtoReflect.Descriptor instead.
+func (*Context) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Context) GetInstructions() []string {
+	if x != nil {
+		return x.Instructions
+	}
+	return nil
+}
+
+func (x *Context) GetConstraints() []string {
+	if x != nil {
+		return x.Constraints
+	}
+	return nil
+}
+
+func (x *Context) GetVerifiedStatements() []*VerifiedStatement {
+	if x != nil {
+		return x.VerifiedStatements
+	}
+	return nil
+}
+
+// VerifiedStatement defines a canonical question and optional verified SQL/answer pair.
+type VerifiedStatement struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Question      string                 `protobuf:"bytes,2,opt,name=question,proto3" json:"question,omitempty"`
+	Query         string                 `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
+	Answer        string                 `protobuf:"bytes,4,opt,name=answer,proto3" json:"answer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifiedStatement) Reset() {
+	*x = VerifiedStatement{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifiedStatement) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifiedStatement) ProtoMessage() {}
+
+func (x *VerifiedStatement) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifiedStatement.ProtoReflect.Descriptor instead.
+func (*VerifiedStatement) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *VerifiedStatement) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *VerifiedStatement) GetQuestion() string {
+	if x != nil {
+		return x.Question
+	}
+	return ""
+}
+
+func (x *VerifiedStatement) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+func (x *VerifiedStatement) GetAnswer() string {
+	if x != nil {
+		return x.Answer
+	}
+	return ""
+}
+
 // TransformPort defines an internal processing or transformation stage.
 type TransformPort struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -703,7 +988,7 @@ type TransformPort struct {
 
 func (x *TransformPort) Reset() {
 	*x = TransformPort{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[1]
+	mi := &file_hub_v1_manifest_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -715,7 +1000,7 @@ func (x *TransformPort) String() string {
 func (*TransformPort) ProtoMessage() {}
 
 func (x *TransformPort) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[1]
+	mi := &file_hub_v1_manifest_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -728,7 +1013,7 @@ func (x *TransformPort) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransformPort.ProtoReflect.Descriptor instead.
 func (*TransformPort) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{1}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *TransformPort) GetName() string {
@@ -801,7 +1086,7 @@ type ImportDemand struct {
 
 func (x *ImportDemand) Reset() {
 	*x = ImportDemand{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[2]
+	mi := &file_hub_v1_manifest_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -813,7 +1098,7 @@ func (x *ImportDemand) String() string {
 func (*ImportDemand) ProtoMessage() {}
 
 func (x *ImportDemand) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[2]
+	mi := &file_hub_v1_manifest_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -826,7 +1111,7 @@ func (x *ImportDemand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportDemand.ProtoReflect.Descriptor instead.
 func (*ImportDemand) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{2}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ImportDemand) GetOutputPort() string {
@@ -889,7 +1174,7 @@ type SLA struct {
 
 func (x *SLA) Reset() {
 	*x = SLA{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[3]
+	mi := &file_hub_v1_manifest_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -901,7 +1186,7 @@ func (x *SLA) String() string {
 func (*SLA) ProtoMessage() {}
 
 func (x *SLA) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[3]
+	mi := &file_hub_v1_manifest_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -914,7 +1199,7 @@ func (x *SLA) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SLA.ProtoReflect.Descriptor instead.
 func (*SLA) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{3}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *SLA) GetTier() SLATier {
@@ -967,7 +1252,7 @@ type SLAExemption struct {
 
 func (x *SLAExemption) Reset() {
 	*x = SLAExemption{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[4]
+	mi := &file_hub_v1_manifest_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -979,7 +1264,7 @@ func (x *SLAExemption) String() string {
 func (*SLAExemption) ProtoMessage() {}
 
 func (x *SLAExemption) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[4]
+	mi := &file_hub_v1_manifest_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -992,7 +1277,7 @@ func (x *SLAExemption) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SLAExemption.ProtoReflect.Descriptor instead.
 func (*SLAExemption) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{4}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *SLAExemption) GetFqn() string {
@@ -1031,7 +1316,7 @@ type IngestionConfig struct {
 
 func (x *IngestionConfig) Reset() {
 	*x = IngestionConfig{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[5]
+	mi := &file_hub_v1_manifest_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1043,7 +1328,7 @@ func (x *IngestionConfig) String() string {
 func (*IngestionConfig) ProtoMessage() {}
 
 func (x *IngestionConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[5]
+	mi := &file_hub_v1_manifest_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1056,7 +1341,7 @@ func (x *IngestionConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IngestionConfig.ProtoReflect.Descriptor instead.
 func (*IngestionConfig) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{5}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *IngestionConfig) GetSourceService() string {
@@ -1101,7 +1386,7 @@ type ProductStatus struct {
 
 func (x *ProductStatus) Reset() {
 	*x = ProductStatus{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[6]
+	mi := &file_hub_v1_manifest_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1113,7 +1398,7 @@ func (x *ProductStatus) String() string {
 func (*ProductStatus) ProtoMessage() {}
 
 func (x *ProductStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[6]
+	mi := &file_hub_v1_manifest_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1126,7 +1411,7 @@ func (x *ProductStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProductStatus.ProtoReflect.Descriptor instead.
 func (*ProductStatus) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{6}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ProductStatus) GetSyncStatus() SyncStatus {
@@ -1181,7 +1466,7 @@ type Health struct {
 
 func (x *Health) Reset() {
 	*x = Health{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[7]
+	mi := &file_hub_v1_manifest_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1193,7 +1478,7 @@ func (x *Health) String() string {
 func (*Health) ProtoMessage() {}
 
 func (x *Health) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[7]
+	mi := &file_hub_v1_manifest_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1206,7 +1491,7 @@ func (x *Health) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Health.ProtoReflect.Descriptor instead.
 func (*Health) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{7}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Health) GetState() HealthState {
@@ -1295,7 +1580,7 @@ type ProductMeta struct {
 
 func (x *ProductMeta) Reset() {
 	*x = ProductMeta{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[8]
+	mi := &file_hub_v1_manifest_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1307,7 +1592,7 @@ func (x *ProductMeta) String() string {
 func (*ProductMeta) ProtoMessage() {}
 
 func (x *ProductMeta) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[8]
+	mi := &file_hub_v1_manifest_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1320,7 +1605,7 @@ func (x *ProductMeta) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProductMeta.ProtoReflect.Descriptor instead.
 func (*ProductMeta) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{8}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ProductMeta) GetUrn() string {
@@ -1408,7 +1693,7 @@ type Owner struct {
 
 func (x *Owner) Reset() {
 	*x = Owner{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[9]
+	mi := &file_hub_v1_manifest_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1420,7 +1705,7 @@ func (x *Owner) String() string {
 func (*Owner) ProtoMessage() {}
 
 func (x *Owner) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[9]
+	mi := &file_hub_v1_manifest_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1433,7 +1718,7 @@ func (x *Owner) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Owner.ProtoReflect.Descriptor instead.
 func (*Owner) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{9}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Owner) GetTeamName() string {
@@ -1495,7 +1780,7 @@ type InputPort struct {
 
 func (x *InputPort) Reset() {
 	*x = InputPort{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[10]
+	mi := &file_hub_v1_manifest_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1507,7 +1792,7 @@ func (x *InputPort) String() string {
 func (*InputPort) ProtoMessage() {}
 
 func (x *InputPort) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[10]
+	mi := &file_hub_v1_manifest_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1520,7 +1805,7 @@ func (x *InputPort) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InputPort.ProtoReflect.Descriptor instead.
 func (*InputPort) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{10}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *InputPort) GetUrn() string {
@@ -1680,13 +1965,19 @@ type OutputPort struct {
 	CursorField string `protobuf:"bytes,13,opt,name=cursor_field,json=cursorField,proto3" json:"cursor_field,omitempty"`
 	// Authorized roles permitted to access this port.
 	AuthorizedRoles []string `protobuf:"bytes,14,rep,name=authorized_roles,json=authorizedRoles,proto3" json:"authorized_roles,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Lifecycle status override for this output port.
+	LifecycleStatus LifecycleStatus `protobuf:"varint,15,opt,name=lifecycle_status,json=lifecycleStatus,proto3,enum=hub.v1.LifecycleStatus" json:"lifecycle_status,omitempty"`
+	// Structured terms of use override for this output port.
+	TermsOfUse *TermsOfUse `protobuf:"bytes,16,opt,name=terms_of_use,json=termsOfUse,proto3" json:"terms_of_use,omitempty"`
+	// Structured AI and semantic context for this output port.
+	AiContext     *Context `protobuf:"bytes,17,opt,name=ai_context,json=aiContext,proto3" json:"ai_context,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *OutputPort) Reset() {
 	*x = OutputPort{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[11]
+	mi := &file_hub_v1_manifest_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1698,7 +1989,7 @@ func (x *OutputPort) String() string {
 func (*OutputPort) ProtoMessage() {}
 
 func (x *OutputPort) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[11]
+	mi := &file_hub_v1_manifest_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1711,7 +2002,7 @@ func (x *OutputPort) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OutputPort.ProtoReflect.Descriptor instead.
 func (*OutputPort) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{11}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *OutputPort) GetUrn() string {
@@ -1812,6 +2103,27 @@ func (x *OutputPort) GetAuthorizedRoles() []string {
 	return nil
 }
 
+func (x *OutputPort) GetLifecycleStatus() LifecycleStatus {
+	if x != nil {
+		return x.LifecycleStatus
+	}
+	return LifecycleStatus_LIFECYCLE_STATUS_UNSPECIFIED
+}
+
+func (x *OutputPort) GetTermsOfUse() *TermsOfUse {
+	if x != nil {
+		return x.TermsOfUse
+	}
+	return nil
+}
+
+func (x *OutputPort) GetAiContext() *Context {
+	if x != nil {
+		return x.AiContext
+	}
+	return nil
+}
+
 // PhysicalConfig defines the physical storage layout and optimization strategy.
 type PhysicalConfig struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1822,7 +2134,7 @@ type PhysicalConfig struct {
 
 func (x *PhysicalConfig) Reset() {
 	*x = PhysicalConfig{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[12]
+	mi := &file_hub_v1_manifest_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1834,7 +2146,7 @@ func (x *PhysicalConfig) String() string {
 func (*PhysicalConfig) ProtoMessage() {}
 
 func (x *PhysicalConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[12]
+	mi := &file_hub_v1_manifest_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1847,7 +2159,7 @@ func (x *PhysicalConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PhysicalConfig.ProtoReflect.Descriptor instead.
 func (*PhysicalConfig) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{12}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *PhysicalConfig) GetBigquery() *BigQueryConfig {
@@ -1889,7 +2201,7 @@ type BigQueryConfig struct {
 
 func (x *BigQueryConfig) Reset() {
 	*x = BigQueryConfig{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[13]
+	mi := &file_hub_v1_manifest_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1901,7 +2213,7 @@ func (x *BigQueryConfig) String() string {
 func (*BigQueryConfig) ProtoMessage() {}
 
 func (x *BigQueryConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[13]
+	mi := &file_hub_v1_manifest_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1914,7 +2226,7 @@ func (x *BigQueryConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BigQueryConfig.ProtoReflect.Descriptor instead.
 func (*BigQueryConfig) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{13}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *BigQueryConfig) GetPartitionBy() string {
@@ -2012,7 +2324,7 @@ type ContractPointer struct {
 
 func (x *ContractPointer) Reset() {
 	*x = ContractPointer{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[14]
+	mi := &file_hub_v1_manifest_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2024,7 +2336,7 @@ func (x *ContractPointer) String() string {
 func (*ContractPointer) ProtoMessage() {}
 
 func (x *ContractPointer) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[14]
+	mi := &file_hub_v1_manifest_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2037,7 +2349,7 @@ func (x *ContractPointer) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContractPointer.ProtoReflect.Descriptor instead.
 func (*ContractPointer) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{14}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ContractPointer) GetUrn() string {
@@ -2080,7 +2392,7 @@ type Definition struct {
 
 func (x *Definition) Reset() {
 	*x = Definition{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[15]
+	mi := &file_hub_v1_manifest_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2092,7 +2404,7 @@ func (x *Definition) String() string {
 func (*Definition) ProtoMessage() {}
 
 func (x *Definition) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[15]
+	mi := &file_hub_v1_manifest_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2105,7 +2417,7 @@ func (x *Definition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Definition.ProtoReflect.Descriptor instead.
 func (*Definition) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{15}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *Definition) GetType() string {
@@ -2148,7 +2460,7 @@ type SubscriptionRule struct {
 
 func (x *SubscriptionRule) Reset() {
 	*x = SubscriptionRule{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[16]
+	mi := &file_hub_v1_manifest_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2160,7 +2472,7 @@ func (x *SubscriptionRule) String() string {
 func (*SubscriptionRule) ProtoMessage() {}
 
 func (x *SubscriptionRule) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[16]
+	mi := &file_hub_v1_manifest_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2173,7 +2485,7 @@ func (x *SubscriptionRule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscriptionRule.ProtoReflect.Descriptor instead.
 func (*SubscriptionRule) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{16}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *SubscriptionRule) GetTrigger() TriggerType {
@@ -2206,7 +2518,7 @@ type Subscriber struct {
 
 func (x *Subscriber) Reset() {
 	*x = Subscriber{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[17]
+	mi := &file_hub_v1_manifest_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2218,7 +2530,7 @@ func (x *Subscriber) String() string {
 func (*Subscriber) ProtoMessage() {}
 
 func (x *Subscriber) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[17]
+	mi := &file_hub_v1_manifest_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2231,7 +2543,7 @@ func (x *Subscriber) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Subscriber.ProtoReflect.Descriptor instead.
 func (*Subscriber) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{17}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *Subscriber) GetName() string {
@@ -2296,7 +2608,7 @@ type Webhook struct {
 
 func (x *Webhook) Reset() {
 	*x = Webhook{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[18]
+	mi := &file_hub_v1_manifest_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2308,7 +2620,7 @@ func (x *Webhook) String() string {
 func (*Webhook) ProtoMessage() {}
 
 func (x *Webhook) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[18]
+	mi := &file_hub_v1_manifest_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2321,7 +2633,7 @@ func (x *Webhook) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Webhook.ProtoReflect.Descriptor instead.
 func (*Webhook) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{18}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *Webhook) GetName() string {
@@ -2368,7 +2680,7 @@ type FileConfig struct {
 
 func (x *FileConfig) Reset() {
 	*x = FileConfig{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[19]
+	mi := &file_hub_v1_manifest_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2380,7 +2692,7 @@ func (x *FileConfig) String() string {
 func (*FileConfig) ProtoMessage() {}
 
 func (x *FileConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[19]
+	mi := &file_hub_v1_manifest_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2393,7 +2705,7 @@ func (x *FileConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileConfig.ProtoReflect.Descriptor instead.
 func (*FileConfig) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{19}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *FileConfig) GetName() string {
@@ -2450,7 +2762,7 @@ type BreakingChange struct {
 
 func (x *BreakingChange) Reset() {
 	*x = BreakingChange{}
-	mi := &file_hub_v1_manifest_proto_msgTypes[20]
+	mi := &file_hub_v1_manifest_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2462,7 +2774,7 @@ func (x *BreakingChange) String() string {
 func (*BreakingChange) ProtoMessage() {}
 
 func (x *BreakingChange) ProtoReflect() protoreflect.Message {
-	mi := &file_hub_v1_manifest_proto_msgTypes[20]
+	mi := &file_hub_v1_manifest_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2475,7 +2787,7 @@ func (x *BreakingChange) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BreakingChange.ProtoReflect.Descriptor instead.
 func (*BreakingChange) Descriptor() ([]byte, []int) {
-	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{20}
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *BreakingChange) GetAssetId() string {
@@ -2510,7 +2822,7 @@ var File_hub_v1_manifest_proto protoreflect.FileDescriptor
 
 const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\n" +
-	"\x15hub/v1/manifest.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x17validate/validate.proto\x1a\x13hub/v1/health.proto\"\xab\x04\n" +
+	"\x15hub/v1/manifest.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x17validate/validate.proto\x1a\x13hub/v1/health.proto\"\xdf\x05\n" +
 	"\x0fProductManifest\x12'\n" +
 	"\x04meta\x18\x01 \x01(\v2\x13.hub.v1.ProductMetaR\x04meta\x122\n" +
 	"\vinput_ports\x18\x02 \x03(\v2\x11.hub.v1.InputPortR\n" +
@@ -2526,7 +2838,28 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"transforms\x18\n" +
 	" \x03(\v2\x15.hub.v1.TransformPortR\n" +
 	"transforms\x12;\n" +
-	"\x0eimport_demands\x18\v \x03(\v2\x14.hub.v1.ImportDemandR\rimportDemands\"\xab\x02\n" +
+	"\x0eimport_demands\x18\v \x03(\v2\x14.hub.v1.ImportDemandR\rimportDemands\x12L\n" +
+	"\x10lifecycle_status\x18\f \x01(\x0e2\x17.hub.v1.LifecycleStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0flifecycleStatus\x124\n" +
+	"\fterms_of_use\x18\r \x01(\v2\x12.hub.v1.TermsOfUseR\n" +
+	"termsOfUse\x12.\n" +
+	"\n" +
+	"ai_context\x18\x0e \x01(\v2\x0f.hub.v1.ContextR\taiContext\"\x7f\n" +
+	"\n" +
+	"TermsOfUse\x12\x18\n" +
+	"\apurpose\x18\x01 \x01(\tR\apurpose\x12\x14\n" +
+	"\x05usage\x18\x02 \x01(\tR\x05usage\x12 \n" +
+	"\vlimitations\x18\x03 \x01(\tR\vlimitations\x12\x1f\n" +
+	"\vpolicy_urls\x18\x04 \x03(\tR\n" +
+	"policyUrls\"\x9b\x01\n" +
+	"\aContext\x12\"\n" +
+	"\finstructions\x18\x01 \x03(\tR\finstructions\x12 \n" +
+	"\vconstraints\x18\x02 \x03(\tR\vconstraints\x12J\n" +
+	"\x13verified_statements\x18\x03 \x03(\v2\x19.hub.v1.VerifiedStatementR\x12verifiedStatements\"m\n" +
+	"\x11VerifiedStatement\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
+	"\bquestion\x18\x02 \x01(\tR\bquestion\x12\x14\n" +
+	"\x05query\x18\x03 \x01(\tR\x05query\x12\x16\n" +
+	"\x06answer\x18\x04 \x01(\tR\x06answer\"\xab\x02\n" +
 	"\rTransformPort\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x16\n" +
@@ -2633,7 +2966,7 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\n" +
 	"record_ref\x18\x11 \x01(\tR\trecordRef\x12#\n" +
 	"\rupstream_port\x18\x12 \x01(\tR\fupstreamPort\x12,\n" +
-	"\x06demand\x18\x13 \x01(\v2\x14.hub.v1.ImportDemandR\x06demand\"\xa9\x04\n" +
+	"\x06demand\x18\x13 \x01(\v2\x14.hub.v1.ImportDemandR\x06demand\"\xdd\x05\n" +
 	"\n" +
 	"OutputPort\x12\x10\n" +
 	"\x03urn\x18\x01 \x01(\tR\x03urn\x12\x12\n" +
@@ -2652,7 +2985,12 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"\vprimary_key\x18\f \x03(\tR\n" +
 	"primaryKey\x12!\n" +
 	"\fcursor_field\x18\r \x01(\tR\vcursorField\x12)\n" +
-	"\x10authorized_roles\x18\x0e \x03(\tR\x0fauthorizedRoles\"D\n" +
+	"\x10authorized_roles\x18\x0e \x03(\tR\x0fauthorizedRoles\x12L\n" +
+	"\x10lifecycle_status\x18\x0f \x01(\x0e2\x17.hub.v1.LifecycleStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0flifecycleStatus\x124\n" +
+	"\fterms_of_use\x18\x10 \x01(\v2\x12.hub.v1.TermsOfUseR\n" +
+	"termsOfUse\x12.\n" +
+	"\n" +
+	"ai_context\x18\x11 \x01(\v2\x0f.hub.v1.ContextR\taiContext\"D\n" +
 	"\x0ePhysicalConfig\x122\n" +
 	"\bbigquery\x18\x01 \x01(\v2\x16.hub.v1.BigQueryConfigR\bbigquery\"\x90\x05\n" +
 	"\x0eBigQueryConfig\x12!\n" +
@@ -2720,7 +3058,14 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"old_schema\x18\x02 \x01(\tR\toldSchema\x12\x1d\n" +
 	"\n" +
 	"new_schema\x18\x03 \x01(\tR\tnewSchema\x12\x12\n" +
-	"\x04diff\x18\x04 \x01(\tR\x04diff*\x8c\x02\n" +
+	"\x04diff\x18\x04 \x01(\tR\x04diff*\xd0\x01\n" +
+	"\x0fLifecycleStatus\x12 \n" +
+	"\x1cLIFECYCLE_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16LIFECYCLE_STATUS_DRAFT\x10\x01\x12#\n" +
+	"\x1fLIFECYCLE_STATUS_IN_DEVELOPMENT\x10\x02\x12\x1b\n" +
+	"\x17LIFECYCLE_STATUS_ACTIVE\x10\x03\x12\x1f\n" +
+	"\x1bLIFECYCLE_STATUS_DEPRECATED\x10\x04\x12\x1c\n" +
+	"\x18LIFECYCLE_STATUS_RETIRED\x10\x05*\x8c\x02\n" +
 	"\bLensType\x12\x19\n" +
 	"\x15LENS_TYPE_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rLENS_TYPE_RAW\x10\x01\x12\x16\n" +
@@ -2796,100 +3141,111 @@ func file_hub_v1_manifest_proto_rawDescGZIP() []byte {
 	return file_hub_v1_manifest_proto_rawDescData
 }
 
-var file_hub_v1_manifest_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
-var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
+var file_hub_v1_manifest_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
+var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_hub_v1_manifest_proto_goTypes = []any{
-	(LensType)(0),                 // 0: hub.v1.LensType
-	(SLATier)(0),                  // 1: hub.v1.SLATier
-	(SyncStatus)(0),               // 2: hub.v1.SyncStatus
-	(ProductArchetype)(0),         // 3: hub.v1.ProductArchetype
-	(ProvisioningPolicy)(0),       // 4: hub.v1.ProvisioningPolicy
-	(NotificationLevel)(0),        // 5: hub.v1.NotificationLevel
-	(NotificationChannel)(0),      // 6: hub.v1.NotificationChannel
-	(TriggerType)(0),              // 7: hub.v1.TriggerType
-	(FileFormat)(0),               // 8: hub.v1.FileFormat
-	(*ProductManifest)(nil),       // 9: hub.v1.ProductManifest
-	(*TransformPort)(nil),         // 10: hub.v1.TransformPort
-	(*ImportDemand)(nil),          // 11: hub.v1.ImportDemand
-	(*SLA)(nil),                   // 12: hub.v1.SLA
-	(*SLAExemption)(nil),          // 13: hub.v1.SLAExemption
-	(*IngestionConfig)(nil),       // 14: hub.v1.IngestionConfig
-	(*ProductStatus)(nil),         // 15: hub.v1.ProductStatus
-	(*Health)(nil),                // 16: hub.v1.Health
-	(*ProductMeta)(nil),           // 17: hub.v1.ProductMeta
-	(*Owner)(nil),                 // 18: hub.v1.Owner
-	(*InputPort)(nil),             // 19: hub.v1.InputPort
-	(*OutputPort)(nil),            // 20: hub.v1.OutputPort
-	(*PhysicalConfig)(nil),        // 21: hub.v1.PhysicalConfig
-	(*BigQueryConfig)(nil),        // 22: hub.v1.BigQueryConfig
-	(*ContractPointer)(nil),       // 23: hub.v1.ContractPointer
-	(*Definition)(nil),            // 24: hub.v1.Definition
-	(*SubscriptionRule)(nil),      // 25: hub.v1.SubscriptionRule
-	(*Subscriber)(nil),            // 26: hub.v1.Subscriber
-	(*Webhook)(nil),               // 27: hub.v1.Webhook
-	(*FileConfig)(nil),            // 28: hub.v1.FileConfig
-	(*BreakingChange)(nil),        // 29: hub.v1.BreakingChange
-	nil,                           // 30: hub.v1.TransformPort.OptionsEntry
-	nil,                           // 31: hub.v1.ImportDemand.SemanticFingerprintsEntry
-	nil,                           // 32: hub.v1.Health.MetadataEntry
-	nil,                           // 33: hub.v1.ProductMeta.LabelsEntry
-	nil,                           // 34: hub.v1.BigQueryConfig.PolicyTagsEntry
-	nil,                           // 35: hub.v1.BigQueryConfig.MaskingRulesEntry
-	(*timestamppb.Timestamp)(nil), // 36: google.protobuf.Timestamp
-	(HealthState)(0),              // 37: hub.v1.HealthState
-	(*durationpb.Duration)(nil),   // 38: google.protobuf.Duration
+	(LifecycleStatus)(0),          // 0: hub.v1.LifecycleStatus
+	(LensType)(0),                 // 1: hub.v1.LensType
+	(SLATier)(0),                  // 2: hub.v1.SLATier
+	(SyncStatus)(0),               // 3: hub.v1.SyncStatus
+	(ProductArchetype)(0),         // 4: hub.v1.ProductArchetype
+	(ProvisioningPolicy)(0),       // 5: hub.v1.ProvisioningPolicy
+	(NotificationLevel)(0),        // 6: hub.v1.NotificationLevel
+	(NotificationChannel)(0),      // 7: hub.v1.NotificationChannel
+	(TriggerType)(0),              // 8: hub.v1.TriggerType
+	(FileFormat)(0),               // 9: hub.v1.FileFormat
+	(*ProductManifest)(nil),       // 10: hub.v1.ProductManifest
+	(*TermsOfUse)(nil),            // 11: hub.v1.TermsOfUse
+	(*Context)(nil),               // 12: hub.v1.Context
+	(*VerifiedStatement)(nil),     // 13: hub.v1.VerifiedStatement
+	(*TransformPort)(nil),         // 14: hub.v1.TransformPort
+	(*ImportDemand)(nil),          // 15: hub.v1.ImportDemand
+	(*SLA)(nil),                   // 16: hub.v1.SLA
+	(*SLAExemption)(nil),          // 17: hub.v1.SLAExemption
+	(*IngestionConfig)(nil),       // 18: hub.v1.IngestionConfig
+	(*ProductStatus)(nil),         // 19: hub.v1.ProductStatus
+	(*Health)(nil),                // 20: hub.v1.Health
+	(*ProductMeta)(nil),           // 21: hub.v1.ProductMeta
+	(*Owner)(nil),                 // 22: hub.v1.Owner
+	(*InputPort)(nil),             // 23: hub.v1.InputPort
+	(*OutputPort)(nil),            // 24: hub.v1.OutputPort
+	(*PhysicalConfig)(nil),        // 25: hub.v1.PhysicalConfig
+	(*BigQueryConfig)(nil),        // 26: hub.v1.BigQueryConfig
+	(*ContractPointer)(nil),       // 27: hub.v1.ContractPointer
+	(*Definition)(nil),            // 28: hub.v1.Definition
+	(*SubscriptionRule)(nil),      // 29: hub.v1.SubscriptionRule
+	(*Subscriber)(nil),            // 30: hub.v1.Subscriber
+	(*Webhook)(nil),               // 31: hub.v1.Webhook
+	(*FileConfig)(nil),            // 32: hub.v1.FileConfig
+	(*BreakingChange)(nil),        // 33: hub.v1.BreakingChange
+	nil,                           // 34: hub.v1.TransformPort.OptionsEntry
+	nil,                           // 35: hub.v1.ImportDemand.SemanticFingerprintsEntry
+	nil,                           // 36: hub.v1.Health.MetadataEntry
+	nil,                           // 37: hub.v1.ProductMeta.LabelsEntry
+	nil,                           // 38: hub.v1.BigQueryConfig.PolicyTagsEntry
+	nil,                           // 39: hub.v1.BigQueryConfig.MaskingRulesEntry
+	(*timestamppb.Timestamp)(nil), // 40: google.protobuf.Timestamp
+	(HealthState)(0),              // 41: hub.v1.HealthState
+	(*durationpb.Duration)(nil),   // 42: google.protobuf.Duration
 }
 var file_hub_v1_manifest_proto_depIdxs = []int32{
-	17, // 0: hub.v1.ProductManifest.meta:type_name -> hub.v1.ProductMeta
-	19, // 1: hub.v1.ProductManifest.input_ports:type_name -> hub.v1.InputPort
-	20, // 2: hub.v1.ProductManifest.output_ports:type_name -> hub.v1.OutputPort
-	26, // 3: hub.v1.ProductManifest.subscribers:type_name -> hub.v1.Subscriber
-	27, // 4: hub.v1.ProductManifest.webhooks:type_name -> hub.v1.Webhook
-	28, // 5: hub.v1.ProductManifest.files:type_name -> hub.v1.FileConfig
-	15, // 6: hub.v1.ProductManifest.status:type_name -> hub.v1.ProductStatus
-	14, // 7: hub.v1.ProductManifest.ingestion:type_name -> hub.v1.IngestionConfig
-	12, // 8: hub.v1.ProductManifest.sla:type_name -> hub.v1.SLA
-	10, // 9: hub.v1.ProductManifest.transforms:type_name -> hub.v1.TransformPort
-	11, // 10: hub.v1.ProductManifest.import_demands:type_name -> hub.v1.ImportDemand
-	30, // 11: hub.v1.TransformPort.options:type_name -> hub.v1.TransformPort.OptionsEntry
-	1,  // 12: hub.v1.ImportDemand.min_sla_tier:type_name -> hub.v1.SLATier
-	0,  // 13: hub.v1.ImportDemand.expected_lens:type_name -> hub.v1.LensType
-	31, // 14: hub.v1.ImportDemand.semantic_fingerprints:type_name -> hub.v1.ImportDemand.SemanticFingerprintsEntry
-	1,  // 15: hub.v1.SLA.tier:type_name -> hub.v1.SLATier
-	13, // 16: hub.v1.SLA.exemptions:type_name -> hub.v1.SLAExemption
-	2,  // 17: hub.v1.ProductStatus.sync_status:type_name -> hub.v1.SyncStatus
-	36, // 18: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
-	16, // 19: hub.v1.ProductStatus.health:type_name -> hub.v1.Health
-	37, // 20: hub.v1.Health.state:type_name -> hub.v1.HealthState
-	36, // 21: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
-	32, // 22: hub.v1.Health.metadata:type_name -> hub.v1.Health.MetadataEntry
-	18, // 23: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
-	33, // 24: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
-	3,  // 25: hub.v1.ProductMeta.archetype:type_name -> hub.v1.ProductArchetype
-	23, // 26: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
-	11, // 27: hub.v1.InputPort.demand:type_name -> hub.v1.ImportDemand
-	23, // 28: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
-	4,  // 29: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
-	21, // 30: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
-	12, // 31: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
-	0,  // 32: hub.v1.OutputPort.lens:type_name -> hub.v1.LensType
-	22, // 33: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
-	38, // 34: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
-	34, // 35: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
-	35, // 36: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
-	24, // 37: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
-	7,  // 38: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
-	5,  // 39: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
-	25, // 40: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
-	6,  // 41: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
-	23, // 42: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
-	8,  // 43: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
-	23, // 44: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
-	45, // [45:45] is the sub-list for method output_type
-	45, // [45:45] is the sub-list for method input_type
-	45, // [45:45] is the sub-list for extension type_name
-	45, // [45:45] is the sub-list for extension extendee
-	0,  // [0:45] is the sub-list for field type_name
+	21, // 0: hub.v1.ProductManifest.meta:type_name -> hub.v1.ProductMeta
+	23, // 1: hub.v1.ProductManifest.input_ports:type_name -> hub.v1.InputPort
+	24, // 2: hub.v1.ProductManifest.output_ports:type_name -> hub.v1.OutputPort
+	30, // 3: hub.v1.ProductManifest.subscribers:type_name -> hub.v1.Subscriber
+	31, // 4: hub.v1.ProductManifest.webhooks:type_name -> hub.v1.Webhook
+	32, // 5: hub.v1.ProductManifest.files:type_name -> hub.v1.FileConfig
+	19, // 6: hub.v1.ProductManifest.status:type_name -> hub.v1.ProductStatus
+	18, // 7: hub.v1.ProductManifest.ingestion:type_name -> hub.v1.IngestionConfig
+	16, // 8: hub.v1.ProductManifest.sla:type_name -> hub.v1.SLA
+	14, // 9: hub.v1.ProductManifest.transforms:type_name -> hub.v1.TransformPort
+	15, // 10: hub.v1.ProductManifest.import_demands:type_name -> hub.v1.ImportDemand
+	0,  // 11: hub.v1.ProductManifest.lifecycle_status:type_name -> hub.v1.LifecycleStatus
+	11, // 12: hub.v1.ProductManifest.terms_of_use:type_name -> hub.v1.TermsOfUse
+	12, // 13: hub.v1.ProductManifest.ai_context:type_name -> hub.v1.Context
+	13, // 14: hub.v1.Context.verified_statements:type_name -> hub.v1.VerifiedStatement
+	34, // 15: hub.v1.TransformPort.options:type_name -> hub.v1.TransformPort.OptionsEntry
+	2,  // 16: hub.v1.ImportDemand.min_sla_tier:type_name -> hub.v1.SLATier
+	1,  // 17: hub.v1.ImportDemand.expected_lens:type_name -> hub.v1.LensType
+	35, // 18: hub.v1.ImportDemand.semantic_fingerprints:type_name -> hub.v1.ImportDemand.SemanticFingerprintsEntry
+	2,  // 19: hub.v1.SLA.tier:type_name -> hub.v1.SLATier
+	17, // 20: hub.v1.SLA.exemptions:type_name -> hub.v1.SLAExemption
+	3,  // 21: hub.v1.ProductStatus.sync_status:type_name -> hub.v1.SyncStatus
+	40, // 22: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
+	20, // 23: hub.v1.ProductStatus.health:type_name -> hub.v1.Health
+	41, // 24: hub.v1.Health.state:type_name -> hub.v1.HealthState
+	40, // 25: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
+	36, // 26: hub.v1.Health.metadata:type_name -> hub.v1.Health.MetadataEntry
+	22, // 27: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
+	37, // 28: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
+	4,  // 29: hub.v1.ProductMeta.archetype:type_name -> hub.v1.ProductArchetype
+	27, // 30: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
+	15, // 31: hub.v1.InputPort.demand:type_name -> hub.v1.ImportDemand
+	27, // 32: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
+	5,  // 33: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
+	25, // 34: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
+	16, // 35: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
+	1,  // 36: hub.v1.OutputPort.lens:type_name -> hub.v1.LensType
+	0,  // 37: hub.v1.OutputPort.lifecycle_status:type_name -> hub.v1.LifecycleStatus
+	11, // 38: hub.v1.OutputPort.terms_of_use:type_name -> hub.v1.TermsOfUse
+	12, // 39: hub.v1.OutputPort.ai_context:type_name -> hub.v1.Context
+	26, // 40: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
+	42, // 41: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
+	38, // 42: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
+	39, // 43: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
+	28, // 44: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
+	8,  // 45: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
+	6,  // 46: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
+	29, // 47: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
+	7,  // 48: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
+	27, // 49: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
+	9,  // 50: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
+	27, // 51: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
+	52, // [52:52] is the sub-list for method output_type
+	52, // [52:52] is the sub-list for method input_type
+	52, // [52:52] is the sub-list for extension type_name
+	52, // [52:52] is the sub-list for extension extendee
+	0,  // [0:52] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_manifest_proto_init() }
@@ -2903,8 +3259,8 @@ func file_hub_v1_manifest_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_manifest_proto_rawDesc), len(file_hub_v1_manifest_proto_rawDesc)),
-			NumEnums:      9,
-			NumMessages:   27,
+			NumEnums:      10,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

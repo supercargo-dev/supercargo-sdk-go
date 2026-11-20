@@ -138,6 +138,385 @@ func (ImpactSeverity) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_hub_proto_rawDescGZIP(), []int{1}
 }
 
+type DriftOverallStatus int32
+
+const (
+	DriftOverallStatus_DRIFT_OVERALL_STATUS_UNSPECIFIED    DriftOverallStatus = 0
+	DriftOverallStatus_DRIFT_OVERALL_STATUS_ALIGNED        DriftOverallStatus = 1
+	DriftOverallStatus_DRIFT_OVERALL_STATUS_DRIFT_DETECTED DriftOverallStatus = 2
+	DriftOverallStatus_DRIFT_OVERALL_STATUS_UNAVAILABLE    DriftOverallStatus = 3
+)
+
+// Enum value maps for DriftOverallStatus.
+var (
+	DriftOverallStatus_name = map[int32]string{
+		0: "DRIFT_OVERALL_STATUS_UNSPECIFIED",
+		1: "DRIFT_OVERALL_STATUS_ALIGNED",
+		2: "DRIFT_OVERALL_STATUS_DRIFT_DETECTED",
+		3: "DRIFT_OVERALL_STATUS_UNAVAILABLE",
+	}
+	DriftOverallStatus_value = map[string]int32{
+		"DRIFT_OVERALL_STATUS_UNSPECIFIED":    0,
+		"DRIFT_OVERALL_STATUS_ALIGNED":        1,
+		"DRIFT_OVERALL_STATUS_DRIFT_DETECTED": 2,
+		"DRIFT_OVERALL_STATUS_UNAVAILABLE":    3,
+	}
+)
+
+func (x DriftOverallStatus) Enum() *DriftOverallStatus {
+	p := new(DriftOverallStatus)
+	*p = x
+	return p
+}
+
+func (x DriftOverallStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DriftOverallStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[2].Descriptor()
+}
+
+func (DriftOverallStatus) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[2]
+}
+
+func (x DriftOverallStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DriftOverallStatus.Descriptor instead.
+func (DriftOverallStatus) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{2}
+}
+
+type AssetLayer int32
+
+const (
+	AssetLayer_ASSET_LAYER_UNSPECIFIED     AssetLayer = 0
+	AssetLayer_ASSET_LAYER_INTERNAL_TABLE  AssetLayer = 1 // Layer 1: <product>_internal.<record>
+	AssetLayer_ASSET_LAYER_AUTHORIZED_VIEW AssetLayer = 2 // Layer 2: <product>.<port> view
+	AssetLayer_ASSET_LAYER_DIRECT_TABLE    AssetLayer = 3 // Direct or transform-backed physical table
+)
+
+// Enum value maps for AssetLayer.
+var (
+	AssetLayer_name = map[int32]string{
+		0: "ASSET_LAYER_UNSPECIFIED",
+		1: "ASSET_LAYER_INTERNAL_TABLE",
+		2: "ASSET_LAYER_AUTHORIZED_VIEW",
+		3: "ASSET_LAYER_DIRECT_TABLE",
+	}
+	AssetLayer_value = map[string]int32{
+		"ASSET_LAYER_UNSPECIFIED":     0,
+		"ASSET_LAYER_INTERNAL_TABLE":  1,
+		"ASSET_LAYER_AUTHORIZED_VIEW": 2,
+		"ASSET_LAYER_DIRECT_TABLE":    3,
+	}
+)
+
+func (x AssetLayer) Enum() *AssetLayer {
+	p := new(AssetLayer)
+	*p = x
+	return p
+}
+
+func (x AssetLayer) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AssetLayer) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[3].Descriptor()
+}
+
+func (AssetLayer) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[3]
+}
+
+func (x AssetLayer) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AssetLayer.Descriptor instead.
+func (AssetLayer) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{3}
+}
+
+type AssetExistence int32
+
+const (
+	AssetExistence_ASSET_EXISTENCE_UNSPECIFIED AssetExistence = 0
+	AssetExistence_ASSET_EXISTENCE_EXISTS      AssetExistence = 1
+	AssetExistence_ASSET_EXISTENCE_MISSING     AssetExistence = 2
+	AssetExistence_ASSET_EXISTENCE_UNAVAILABLE AssetExistence = 3
+)
+
+// Enum value maps for AssetExistence.
+var (
+	AssetExistence_name = map[int32]string{
+		0: "ASSET_EXISTENCE_UNSPECIFIED",
+		1: "ASSET_EXISTENCE_EXISTS",
+		2: "ASSET_EXISTENCE_MISSING",
+		3: "ASSET_EXISTENCE_UNAVAILABLE",
+	}
+	AssetExistence_value = map[string]int32{
+		"ASSET_EXISTENCE_UNSPECIFIED": 0,
+		"ASSET_EXISTENCE_EXISTS":      1,
+		"ASSET_EXISTENCE_MISSING":     2,
+		"ASSET_EXISTENCE_UNAVAILABLE": 3,
+	}
+)
+
+func (x AssetExistence) Enum() *AssetExistence {
+	p := new(AssetExistence)
+	*p = x
+	return p
+}
+
+func (x AssetExistence) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AssetExistence) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[4].Descriptor()
+}
+
+func (AssetExistence) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[4]
+}
+
+func (x AssetExistence) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AssetExistence.Descriptor instead.
+func (AssetExistence) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{4}
+}
+
+type FieldDriftStatus int32
+
+const (
+	FieldDriftStatus_FIELD_DRIFT_STATUS_UNSPECIFIED         FieldDriftStatus = 0
+	FieldDriftStatus_FIELD_DRIFT_STATUS_MATCH               FieldDriftStatus = 1
+	FieldDriftStatus_FIELD_DRIFT_STATUS_MISSING_IN_PHYSICAL FieldDriftStatus = 2
+	FieldDriftStatus_FIELD_DRIFT_STATUS_UNGOVERNED_COLUMN   FieldDriftStatus = 3
+	FieldDriftStatus_FIELD_DRIFT_STATUS_TYPE_MISMATCH       FieldDriftStatus = 4
+)
+
+// Enum value maps for FieldDriftStatus.
+var (
+	FieldDriftStatus_name = map[int32]string{
+		0: "FIELD_DRIFT_STATUS_UNSPECIFIED",
+		1: "FIELD_DRIFT_STATUS_MATCH",
+		2: "FIELD_DRIFT_STATUS_MISSING_IN_PHYSICAL",
+		3: "FIELD_DRIFT_STATUS_UNGOVERNED_COLUMN",
+		4: "FIELD_DRIFT_STATUS_TYPE_MISMATCH",
+	}
+	FieldDriftStatus_value = map[string]int32{
+		"FIELD_DRIFT_STATUS_UNSPECIFIED":         0,
+		"FIELD_DRIFT_STATUS_MATCH":               1,
+		"FIELD_DRIFT_STATUS_MISSING_IN_PHYSICAL": 2,
+		"FIELD_DRIFT_STATUS_UNGOVERNED_COLUMN":   3,
+		"FIELD_DRIFT_STATUS_TYPE_MISMATCH":       4,
+	}
+)
+
+func (x FieldDriftStatus) Enum() *FieldDriftStatus {
+	p := new(FieldDriftStatus)
+	*p = x
+	return p
+}
+
+func (x FieldDriftStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (FieldDriftStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[5].Descriptor()
+}
+
+func (FieldDriftStatus) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[5]
+}
+
+func (x FieldDriftStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use FieldDriftStatus.Descriptor instead.
+func (FieldDriftStatus) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{5}
+}
+
+type GovernanceDriftType int32
+
+const (
+	GovernanceDriftType_GOVERNANCE_DRIFT_TYPE_UNSPECIFIED               GovernanceDriftType = 0
+	GovernanceDriftType_GOVERNANCE_DRIFT_TYPE_MISSING_POLICY_TAG        GovernanceDriftType = 1
+	GovernanceDriftType_GOVERNANCE_DRIFT_TYPE_POLICY_TAG_MISMATCH       GovernanceDriftType = 2
+	GovernanceDriftType_GOVERNANCE_DRIFT_TYPE_MISSING_DESCRIPTION       GovernanceDriftType = 3
+	GovernanceDriftType_GOVERNANCE_DRIFT_TYPE_ICEBERG_FIELD_ID_MISMATCH GovernanceDriftType = 4
+)
+
+// Enum value maps for GovernanceDriftType.
+var (
+	GovernanceDriftType_name = map[int32]string{
+		0: "GOVERNANCE_DRIFT_TYPE_UNSPECIFIED",
+		1: "GOVERNANCE_DRIFT_TYPE_MISSING_POLICY_TAG",
+		2: "GOVERNANCE_DRIFT_TYPE_POLICY_TAG_MISMATCH",
+		3: "GOVERNANCE_DRIFT_TYPE_MISSING_DESCRIPTION",
+		4: "GOVERNANCE_DRIFT_TYPE_ICEBERG_FIELD_ID_MISMATCH",
+	}
+	GovernanceDriftType_value = map[string]int32{
+		"GOVERNANCE_DRIFT_TYPE_UNSPECIFIED":               0,
+		"GOVERNANCE_DRIFT_TYPE_MISSING_POLICY_TAG":        1,
+		"GOVERNANCE_DRIFT_TYPE_POLICY_TAG_MISMATCH":       2,
+		"GOVERNANCE_DRIFT_TYPE_MISSING_DESCRIPTION":       3,
+		"GOVERNANCE_DRIFT_TYPE_ICEBERG_FIELD_ID_MISMATCH": 4,
+	}
+)
+
+func (x GovernanceDriftType) Enum() *GovernanceDriftType {
+	p := new(GovernanceDriftType)
+	*p = x
+	return p
+}
+
+func (x GovernanceDriftType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GovernanceDriftType) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[6].Descriptor()
+}
+
+func (GovernanceDriftType) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[6]
+}
+
+func (x GovernanceDriftType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GovernanceDriftType.Descriptor instead.
+func (GovernanceDriftType) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{6}
+}
+
+type LayoutDriftType int32
+
+const (
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_UNSPECIFIED                       LayoutDriftType = 0
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_PARTITION_KEY_MISMATCH            LayoutDriftType = 1
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_PARTITION_EXPIRATION_MISMATCH     LayoutDriftType = 2
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_CLUSTERING_MISMATCH               LayoutDriftType = 3
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_REQUIRE_PARTITION_FILTER_MISMATCH LayoutDriftType = 4
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_TABLE_TYPE_MISMATCH               LayoutDriftType = 5
+	LayoutDriftType_LAYOUT_DRIFT_TYPE_MISSING_AUTHORIZED_VIEW_ACL       LayoutDriftType = 6
+)
+
+// Enum value maps for LayoutDriftType.
+var (
+	LayoutDriftType_name = map[int32]string{
+		0: "LAYOUT_DRIFT_TYPE_UNSPECIFIED",
+		1: "LAYOUT_DRIFT_TYPE_PARTITION_KEY_MISMATCH",
+		2: "LAYOUT_DRIFT_TYPE_PARTITION_EXPIRATION_MISMATCH",
+		3: "LAYOUT_DRIFT_TYPE_CLUSTERING_MISMATCH",
+		4: "LAYOUT_DRIFT_TYPE_REQUIRE_PARTITION_FILTER_MISMATCH",
+		5: "LAYOUT_DRIFT_TYPE_TABLE_TYPE_MISMATCH",
+		6: "LAYOUT_DRIFT_TYPE_MISSING_AUTHORIZED_VIEW_ACL",
+	}
+	LayoutDriftType_value = map[string]int32{
+		"LAYOUT_DRIFT_TYPE_UNSPECIFIED":                       0,
+		"LAYOUT_DRIFT_TYPE_PARTITION_KEY_MISMATCH":            1,
+		"LAYOUT_DRIFT_TYPE_PARTITION_EXPIRATION_MISMATCH":     2,
+		"LAYOUT_DRIFT_TYPE_CLUSTERING_MISMATCH":               3,
+		"LAYOUT_DRIFT_TYPE_REQUIRE_PARTITION_FILTER_MISMATCH": 4,
+		"LAYOUT_DRIFT_TYPE_TABLE_TYPE_MISMATCH":               5,
+		"LAYOUT_DRIFT_TYPE_MISSING_AUTHORIZED_VIEW_ACL":       6,
+	}
+)
+
+func (x LayoutDriftType) Enum() *LayoutDriftType {
+	p := new(LayoutDriftType)
+	*p = x
+	return p
+}
+
+func (x LayoutDriftType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LayoutDriftType) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[7].Descriptor()
+}
+
+func (LayoutDriftType) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[7]
+}
+
+func (x LayoutDriftType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LayoutDriftType.Descriptor instead.
+func (LayoutDriftType) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{7}
+}
+
+type DriftSeverity int32
+
+const (
+	DriftSeverity_DRIFT_SEVERITY_UNSPECIFIED DriftSeverity = 0
+	DriftSeverity_DRIFT_SEVERITY_INFO        DriftSeverity = 1
+	DriftSeverity_DRIFT_SEVERITY_WARNING     DriftSeverity = 2
+	DriftSeverity_DRIFT_SEVERITY_CRITICAL    DriftSeverity = 3
+)
+
+// Enum value maps for DriftSeverity.
+var (
+	DriftSeverity_name = map[int32]string{
+		0: "DRIFT_SEVERITY_UNSPECIFIED",
+		1: "DRIFT_SEVERITY_INFO",
+		2: "DRIFT_SEVERITY_WARNING",
+		3: "DRIFT_SEVERITY_CRITICAL",
+	}
+	DriftSeverity_value = map[string]int32{
+		"DRIFT_SEVERITY_UNSPECIFIED": 0,
+		"DRIFT_SEVERITY_INFO":        1,
+		"DRIFT_SEVERITY_WARNING":     2,
+		"DRIFT_SEVERITY_CRITICAL":    3,
+	}
+)
+
+func (x DriftSeverity) Enum() *DriftSeverity {
+	p := new(DriftSeverity)
+	*p = x
+	return p
+}
+
+func (x DriftSeverity) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DriftSeverity) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[8].Descriptor()
+}
+
+func (DriftSeverity) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[8]
+}
+
+func (x DriftSeverity) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DriftSeverity.Descriptor instead.
+func (DriftSeverity) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{8}
+}
+
 // ReportAnomalyRequest represents a request to report a health degradation or recovery.
 type ReportAnomalyRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -5441,6 +5820,778 @@ func (x *ListDemandLocksResponse) GetNextPageToken() string {
 	return ""
 }
 
+type GetInfrastructureDriftRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductUrn    string                 `protobuf:"bytes,1,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	Version       string                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	BypassCache   bool                   `protobuf:"varint,3,opt,name=bypass_cache,json=bypassCache,proto3" json:"bypass_cache,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetInfrastructureDriftRequest) Reset() {
+	*x = GetInfrastructureDriftRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[92]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInfrastructureDriftRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInfrastructureDriftRequest) ProtoMessage() {}
+
+func (x *GetInfrastructureDriftRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[92]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInfrastructureDriftRequest.ProtoReflect.Descriptor instead.
+func (*GetInfrastructureDriftRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{92}
+}
+
+func (x *GetInfrastructureDriftRequest) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *GetInfrastructureDriftRequest) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+func (x *GetInfrastructureDriftRequest) GetBypassCache() bool {
+	if x != nil {
+		return x.BypassCache
+	}
+	return false
+}
+
+type FieldDriftDelta struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FieldPath     string                 `protobuf:"bytes,1,opt,name=field_path,json=fieldPath,proto3" json:"field_path,omitempty"`
+	Status        FieldDriftStatus       `protobuf:"varint,2,opt,name=status,proto3,enum=hub.v1.FieldDriftStatus" json:"status,omitempty"`
+	DeclaredType  string                 `protobuf:"bytes,3,opt,name=declared_type,json=declaredType,proto3" json:"declared_type,omitempty"`
+	DeclaredMode  string                 `protobuf:"bytes,4,opt,name=declared_mode,json=declaredMode,proto3" json:"declared_mode,omitempty"`
+	ObservedType  string                 `protobuf:"bytes,5,opt,name=observed_type,json=observedType,proto3" json:"observed_type,omitempty"`
+	ObservedMode  string                 `protobuf:"bytes,6,opt,name=observed_mode,json=observedMode,proto3" json:"observed_mode,omitempty"`
+	Detail        string                 `protobuf:"bytes,7,opt,name=detail,proto3" json:"detail,omitempty"`
+	Remediation   string                 `protobuf:"bytes,8,opt,name=remediation,proto3" json:"remediation,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FieldDriftDelta) Reset() {
+	*x = FieldDriftDelta{}
+	mi := &file_hub_v1_hub_proto_msgTypes[93]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FieldDriftDelta) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FieldDriftDelta) ProtoMessage() {}
+
+func (x *FieldDriftDelta) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[93]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FieldDriftDelta.ProtoReflect.Descriptor instead.
+func (*FieldDriftDelta) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{93}
+}
+
+func (x *FieldDriftDelta) GetFieldPath() string {
+	if x != nil {
+		return x.FieldPath
+	}
+	return ""
+}
+
+func (x *FieldDriftDelta) GetStatus() FieldDriftStatus {
+	if x != nil {
+		return x.Status
+	}
+	return FieldDriftStatus_FIELD_DRIFT_STATUS_UNSPECIFIED
+}
+
+func (x *FieldDriftDelta) GetDeclaredType() string {
+	if x != nil {
+		return x.DeclaredType
+	}
+	return ""
+}
+
+func (x *FieldDriftDelta) GetDeclaredMode() string {
+	if x != nil {
+		return x.DeclaredMode
+	}
+	return ""
+}
+
+func (x *FieldDriftDelta) GetObservedType() string {
+	if x != nil {
+		return x.ObservedType
+	}
+	return ""
+}
+
+func (x *FieldDriftDelta) GetObservedMode() string {
+	if x != nil {
+		return x.ObservedMode
+	}
+	return ""
+}
+
+func (x *FieldDriftDelta) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+func (x *FieldDriftDelta) GetRemediation() string {
+	if x != nil {
+		return x.Remediation
+	}
+	return ""
+}
+
+type GovernanceDriftDelta struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	FieldPath          string                 `protobuf:"bytes,1,opt,name=field_path,json=fieldPath,proto3" json:"field_path,omitempty"`
+	DriftType          GovernanceDriftType    `protobuf:"varint,2,opt,name=drift_type,json=driftType,proto3,enum=hub.v1.GovernanceDriftType" json:"drift_type,omitempty"`
+	Severity           DriftSeverity          `protobuf:"varint,3,opt,name=severity,proto3,enum=hub.v1.DriftSeverity" json:"severity,omitempty"`
+	DeclaredPolicyTags []string               `protobuf:"bytes,4,rep,name=declared_policy_tags,json=declaredPolicyTags,proto3" json:"declared_policy_tags,omitempty"`
+	ObservedPolicyTags []string               `protobuf:"bytes,5,rep,name=observed_policy_tags,json=observedPolicyTags,proto3" json:"observed_policy_tags,omitempty"`
+	DeclaredValue      string                 `protobuf:"bytes,6,opt,name=declared_value,json=declaredValue,proto3" json:"declared_value,omitempty"`
+	ObservedValue      string                 `protobuf:"bytes,7,opt,name=observed_value,json=observedValue,proto3" json:"observed_value,omitempty"`
+	Detail             string                 `protobuf:"bytes,8,opt,name=detail,proto3" json:"detail,omitempty"`
+	Remediation        string                 `protobuf:"bytes,9,opt,name=remediation,proto3" json:"remediation,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *GovernanceDriftDelta) Reset() {
+	*x = GovernanceDriftDelta{}
+	mi := &file_hub_v1_hub_proto_msgTypes[94]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GovernanceDriftDelta) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GovernanceDriftDelta) ProtoMessage() {}
+
+func (x *GovernanceDriftDelta) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[94]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GovernanceDriftDelta.ProtoReflect.Descriptor instead.
+func (*GovernanceDriftDelta) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{94}
+}
+
+func (x *GovernanceDriftDelta) GetFieldPath() string {
+	if x != nil {
+		return x.FieldPath
+	}
+	return ""
+}
+
+func (x *GovernanceDriftDelta) GetDriftType() GovernanceDriftType {
+	if x != nil {
+		return x.DriftType
+	}
+	return GovernanceDriftType_GOVERNANCE_DRIFT_TYPE_UNSPECIFIED
+}
+
+func (x *GovernanceDriftDelta) GetSeverity() DriftSeverity {
+	if x != nil {
+		return x.Severity
+	}
+	return DriftSeverity_DRIFT_SEVERITY_UNSPECIFIED
+}
+
+func (x *GovernanceDriftDelta) GetDeclaredPolicyTags() []string {
+	if x != nil {
+		return x.DeclaredPolicyTags
+	}
+	return nil
+}
+
+func (x *GovernanceDriftDelta) GetObservedPolicyTags() []string {
+	if x != nil {
+		return x.ObservedPolicyTags
+	}
+	return nil
+}
+
+func (x *GovernanceDriftDelta) GetDeclaredValue() string {
+	if x != nil {
+		return x.DeclaredValue
+	}
+	return ""
+}
+
+func (x *GovernanceDriftDelta) GetObservedValue() string {
+	if x != nil {
+		return x.ObservedValue
+	}
+	return ""
+}
+
+func (x *GovernanceDriftDelta) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+func (x *GovernanceDriftDelta) GetRemediation() string {
+	if x != nil {
+		return x.Remediation
+	}
+	return ""
+}
+
+type LayoutDriftDelta struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DriftType     LayoutDriftType        `protobuf:"varint,1,opt,name=drift_type,json=driftType,proto3,enum=hub.v1.LayoutDriftType" json:"drift_type,omitempty"`
+	Severity      DriftSeverity          `protobuf:"varint,2,opt,name=severity,proto3,enum=hub.v1.DriftSeverity" json:"severity,omitempty"`
+	DeclaredValue string                 `protobuf:"bytes,3,opt,name=declared_value,json=declaredValue,proto3" json:"declared_value,omitempty"`
+	ObservedValue string                 `protobuf:"bytes,4,opt,name=observed_value,json=observedValue,proto3" json:"observed_value,omitempty"`
+	Detail        string                 `protobuf:"bytes,5,opt,name=detail,proto3" json:"detail,omitempty"`
+	Remediation   string                 `protobuf:"bytes,6,opt,name=remediation,proto3" json:"remediation,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LayoutDriftDelta) Reset() {
+	*x = LayoutDriftDelta{}
+	mi := &file_hub_v1_hub_proto_msgTypes[95]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LayoutDriftDelta) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LayoutDriftDelta) ProtoMessage() {}
+
+func (x *LayoutDriftDelta) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[95]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LayoutDriftDelta.ProtoReflect.Descriptor instead.
+func (*LayoutDriftDelta) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{95}
+}
+
+func (x *LayoutDriftDelta) GetDriftType() LayoutDriftType {
+	if x != nil {
+		return x.DriftType
+	}
+	return LayoutDriftType_LAYOUT_DRIFT_TYPE_UNSPECIFIED
+}
+
+func (x *LayoutDriftDelta) GetSeverity() DriftSeverity {
+	if x != nil {
+		return x.Severity
+	}
+	return DriftSeverity_DRIFT_SEVERITY_UNSPECIFIED
+}
+
+func (x *LayoutDriftDelta) GetDeclaredValue() string {
+	if x != nil {
+		return x.DeclaredValue
+	}
+	return ""
+}
+
+func (x *LayoutDriftDelta) GetObservedValue() string {
+	if x != nil {
+		return x.ObservedValue
+	}
+	return ""
+}
+
+func (x *LayoutDriftDelta) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+func (x *LayoutDriftDelta) GetRemediation() string {
+	if x != nil {
+		return x.Remediation
+	}
+	return ""
+}
+
+type DriftSummaryCounts struct {
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	TotalAssets            int32                  `protobuf:"varint,1,opt,name=total_assets,json=totalAssets,proto3" json:"total_assets,omitempty"`
+	AlignedAssets          int32                  `protobuf:"varint,2,opt,name=aligned_assets,json=alignedAssets,proto3" json:"aligned_assets,omitempty"`
+	DriftedAssets          int32                  `protobuf:"varint,3,opt,name=drifted_assets,json=driftedAssets,proto3" json:"drifted_assets,omitempty"`
+	UnavailableAssets      int32                  `protobuf:"varint,4,opt,name=unavailable_assets,json=unavailableAssets,proto3" json:"unavailable_assets,omitempty"`
+	MatchedFields          int32                  `protobuf:"varint,5,opt,name=matched_fields,json=matchedFields,proto3" json:"matched_fields,omitempty"`
+	MissingInPhysicalCount int32                  `protobuf:"varint,6,opt,name=missing_in_physical_count,json=missingInPhysicalCount,proto3" json:"missing_in_physical_count,omitempty"`
+	UngovernedColumnCount  int32                  `protobuf:"varint,7,opt,name=ungoverned_column_count,json=ungovernedColumnCount,proto3" json:"ungoverned_column_count,omitempty"`
+	TypeMismatchCount      int32                  `protobuf:"varint,8,opt,name=type_mismatch_count,json=typeMismatchCount,proto3" json:"type_mismatch_count,omitempty"`
+	GovernanceDriftCount   int32                  `protobuf:"varint,9,opt,name=governance_drift_count,json=governanceDriftCount,proto3" json:"governance_drift_count,omitempty"`
+	LayoutDriftCount       int32                  `protobuf:"varint,10,opt,name=layout_drift_count,json=layoutDriftCount,proto3" json:"layout_drift_count,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *DriftSummaryCounts) Reset() {
+	*x = DriftSummaryCounts{}
+	mi := &file_hub_v1_hub_proto_msgTypes[96]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DriftSummaryCounts) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DriftSummaryCounts) ProtoMessage() {}
+
+func (x *DriftSummaryCounts) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[96]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DriftSummaryCounts.ProtoReflect.Descriptor instead.
+func (*DriftSummaryCounts) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{96}
+}
+
+func (x *DriftSummaryCounts) GetTotalAssets() int32 {
+	if x != nil {
+		return x.TotalAssets
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetAlignedAssets() int32 {
+	if x != nil {
+		return x.AlignedAssets
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetDriftedAssets() int32 {
+	if x != nil {
+		return x.DriftedAssets
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetUnavailableAssets() int32 {
+	if x != nil {
+		return x.UnavailableAssets
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetMatchedFields() int32 {
+	if x != nil {
+		return x.MatchedFields
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetMissingInPhysicalCount() int32 {
+	if x != nil {
+		return x.MissingInPhysicalCount
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetUngovernedColumnCount() int32 {
+	if x != nil {
+		return x.UngovernedColumnCount
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetTypeMismatchCount() int32 {
+	if x != nil {
+		return x.TypeMismatchCount
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetGovernanceDriftCount() int32 {
+	if x != nil {
+		return x.GovernanceDriftCount
+	}
+	return 0
+}
+
+func (x *DriftSummaryCounts) GetLayoutDriftCount() int32 {
+	if x != nil {
+		return x.LayoutDriftCount
+	}
+	return 0
+}
+
+type AssetDriftReport struct {
+	state                          protoimpl.MessageState  `protogen:"open.v1"`
+	PortName                       string                  `protobuf:"bytes,1,opt,name=port_name,json=portName,proto3" json:"port_name,omitempty"`
+	ContractUrn                    string                  `protobuf:"bytes,2,opt,name=contract_urn,json=contractUrn,proto3" json:"contract_urn,omitempty"`
+	Layer                          AssetLayer              `protobuf:"varint,3,opt,name=layer,proto3,enum=hub.v1.AssetLayer" json:"layer,omitempty"`
+	Lens                           LensType                `protobuf:"varint,4,opt,name=lens,proto3,enum=hub.v1.LensType" json:"lens,omitempty"`
+	PhysicalFqn                    string                  `protobuf:"bytes,5,opt,name=physical_fqn,json=physicalFqn,proto3" json:"physical_fqn,omitempty"`                     // canonical project.dataset.table
+	ObservedTableType              string                  `protobuf:"bytes,6,opt,name=observed_table_type,json=observedTableType,proto3" json:"observed_table_type,omitempty"` // "TABLE", "VIEW", or ""
+	Existence                      AssetExistence          `protobuf:"varint,7,opt,name=existence,proto3,enum=hub.v1.AssetExistence" json:"existence,omitempty"`
+	Status                         DriftOverallStatus      `protobuf:"varint,8,opt,name=status,proto3,enum=hub.v1.DriftOverallStatus" json:"status,omitempty"`
+	FieldDeltas                    []*FieldDriftDelta      `protobuf:"bytes,9,rep,name=field_deltas,json=fieldDeltas,proto3" json:"field_deltas,omitempty"`
+	GovernanceDeltas               []*GovernanceDriftDelta `protobuf:"bytes,10,rep,name=governance_deltas,json=governanceDeltas,proto3" json:"governance_deltas,omitempty"`
+	LayoutDeltas                   []*LayoutDriftDelta     `protobuf:"bytes,11,rep,name=layout_deltas,json=layoutDeltas,proto3" json:"layout_deltas,omitempty"`
+	AuthorizedViewAclVerified      *bool                   `protobuf:"varint,12,opt,name=authorized_view_acl_verified,json=authorizedViewAclVerified,proto3,oneof" json:"authorized_view_acl_verified,omitempty"` // populated ONLY for ASSET_LAYER_AUTHORIZED_VIEW
+	DeclaredPartitionBy            string                  `protobuf:"bytes,13,opt,name=declared_partition_by,json=declaredPartitionBy,proto3" json:"declared_partition_by,omitempty"`
+	ObservedPartitionBy            string                  `protobuf:"bytes,14,opt,name=observed_partition_by,json=observedPartitionBy,proto3" json:"observed_partition_by,omitempty"`
+	DeclaredClusterBy              []string                `protobuf:"bytes,15,rep,name=declared_cluster_by,json=declaredClusterBy,proto3" json:"declared_cluster_by,omitempty"`
+	ObservedClusterBy              []string                `protobuf:"bytes,16,rep,name=observed_cluster_by,json=observedClusterBy,proto3" json:"observed_cluster_by,omitempty"`
+	DeclaredRequirePartitionFilter *bool                   `protobuf:"varint,17,opt,name=declared_require_partition_filter,json=declaredRequirePartitionFilter,proto3,oneof" json:"declared_require_partition_filter,omitempty"`
+	ObservedRequirePartitionFilter *bool                   `protobuf:"varint,18,opt,name=observed_require_partition_filter,json=observedRequirePartitionFilter,proto3,oneof" json:"observed_require_partition_filter,omitempty"`
+	DiagnosticError                string                  `protobuf:"bytes,19,opt,name=diagnostic_error,json=diagnosticError,proto3" json:"diagnostic_error,omitempty"`
+	Remediation                    string                  `protobuf:"bytes,20,opt,name=remediation,proto3" json:"remediation,omitempty"`
+	unknownFields                  protoimpl.UnknownFields
+	sizeCache                      protoimpl.SizeCache
+}
+
+func (x *AssetDriftReport) Reset() {
+	*x = AssetDriftReport{}
+	mi := &file_hub_v1_hub_proto_msgTypes[97]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssetDriftReport) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssetDriftReport) ProtoMessage() {}
+
+func (x *AssetDriftReport) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[97]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssetDriftReport.ProtoReflect.Descriptor instead.
+func (*AssetDriftReport) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{97}
+}
+
+func (x *AssetDriftReport) GetPortName() string {
+	if x != nil {
+		return x.PortName
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetContractUrn() string {
+	if x != nil {
+		return x.ContractUrn
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetLayer() AssetLayer {
+	if x != nil {
+		return x.Layer
+	}
+	return AssetLayer_ASSET_LAYER_UNSPECIFIED
+}
+
+func (x *AssetDriftReport) GetLens() LensType {
+	if x != nil {
+		return x.Lens
+	}
+	return LensType_LENS_TYPE_UNSPECIFIED
+}
+
+func (x *AssetDriftReport) GetPhysicalFqn() string {
+	if x != nil {
+		return x.PhysicalFqn
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetObservedTableType() string {
+	if x != nil {
+		return x.ObservedTableType
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetExistence() AssetExistence {
+	if x != nil {
+		return x.Existence
+	}
+	return AssetExistence_ASSET_EXISTENCE_UNSPECIFIED
+}
+
+func (x *AssetDriftReport) GetStatus() DriftOverallStatus {
+	if x != nil {
+		return x.Status
+	}
+	return DriftOverallStatus_DRIFT_OVERALL_STATUS_UNSPECIFIED
+}
+
+func (x *AssetDriftReport) GetFieldDeltas() []*FieldDriftDelta {
+	if x != nil {
+		return x.FieldDeltas
+	}
+	return nil
+}
+
+func (x *AssetDriftReport) GetGovernanceDeltas() []*GovernanceDriftDelta {
+	if x != nil {
+		return x.GovernanceDeltas
+	}
+	return nil
+}
+
+func (x *AssetDriftReport) GetLayoutDeltas() []*LayoutDriftDelta {
+	if x != nil {
+		return x.LayoutDeltas
+	}
+	return nil
+}
+
+func (x *AssetDriftReport) GetAuthorizedViewAclVerified() bool {
+	if x != nil && x.AuthorizedViewAclVerified != nil {
+		return *x.AuthorizedViewAclVerified
+	}
+	return false
+}
+
+func (x *AssetDriftReport) GetDeclaredPartitionBy() string {
+	if x != nil {
+		return x.DeclaredPartitionBy
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetObservedPartitionBy() string {
+	if x != nil {
+		return x.ObservedPartitionBy
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetDeclaredClusterBy() []string {
+	if x != nil {
+		return x.DeclaredClusterBy
+	}
+	return nil
+}
+
+func (x *AssetDriftReport) GetObservedClusterBy() []string {
+	if x != nil {
+		return x.ObservedClusterBy
+	}
+	return nil
+}
+
+func (x *AssetDriftReport) GetDeclaredRequirePartitionFilter() bool {
+	if x != nil && x.DeclaredRequirePartitionFilter != nil {
+		return *x.DeclaredRequirePartitionFilter
+	}
+	return false
+}
+
+func (x *AssetDriftReport) GetObservedRequirePartitionFilter() bool {
+	if x != nil && x.ObservedRequirePartitionFilter != nil {
+		return *x.ObservedRequirePartitionFilter
+	}
+	return false
+}
+
+func (x *AssetDriftReport) GetDiagnosticError() string {
+	if x != nil {
+		return x.DiagnosticError
+	}
+	return ""
+}
+
+func (x *AssetDriftReport) GetRemediation() string {
+	if x != nil {
+		return x.Remediation
+	}
+	return ""
+}
+
+type GetInfrastructureDriftResponse struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	ProductUrn        string                 `protobuf:"bytes,1,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	ProductVersion    string                 `protobuf:"bytes,2,opt,name=product_version,json=productVersion,proto3" json:"product_version,omitempty"`
+	OverallStatus     DriftOverallStatus     `protobuf:"varint,3,opt,name=overall_status,json=overallStatus,proto3,enum=hub.v1.DriftOverallStatus" json:"overall_status,omitempty"`
+	InspectedAt       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=inspected_at,json=inspectedAt,proto3" json:"inspected_at,omitempty"`
+	Summary           *DriftSummaryCounts    `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
+	Assets            []*AssetDriftReport    `protobuf:"bytes,6,rep,name=assets,proto3" json:"assets,omitempty"`
+	LatestAuditRunId  string                 `protobuf:"bytes,7,opt,name=latest_audit_run_id,json=latestAuditRunId,proto3" json:"latest_audit_run_id,omitempty"`
+	UnavailableReason string                 `protobuf:"bytes,8,opt,name=unavailable_reason,json=unavailableReason,proto3" json:"unavailable_reason,omitempty"`
+	Remediation       string                 `protobuf:"bytes,9,opt,name=remediation,proto3" json:"remediation,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetInfrastructureDriftResponse) Reset() {
+	*x = GetInfrastructureDriftResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[98]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInfrastructureDriftResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInfrastructureDriftResponse) ProtoMessage() {}
+
+func (x *GetInfrastructureDriftResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[98]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInfrastructureDriftResponse.ProtoReflect.Descriptor instead.
+func (*GetInfrastructureDriftResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{98}
+}
+
+func (x *GetInfrastructureDriftResponse) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *GetInfrastructureDriftResponse) GetProductVersion() string {
+	if x != nil {
+		return x.ProductVersion
+	}
+	return ""
+}
+
+func (x *GetInfrastructureDriftResponse) GetOverallStatus() DriftOverallStatus {
+	if x != nil {
+		return x.OverallStatus
+	}
+	return DriftOverallStatus_DRIFT_OVERALL_STATUS_UNSPECIFIED
+}
+
+func (x *GetInfrastructureDriftResponse) GetInspectedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.InspectedAt
+	}
+	return nil
+}
+
+func (x *GetInfrastructureDriftResponse) GetSummary() *DriftSummaryCounts {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
+func (x *GetInfrastructureDriftResponse) GetAssets() []*AssetDriftReport {
+	if x != nil {
+		return x.Assets
+	}
+	return nil
+}
+
+func (x *GetInfrastructureDriftResponse) GetLatestAuditRunId() string {
+	if x != nil {
+		return x.LatestAuditRunId
+	}
+	return ""
+}
+
+func (x *GetInfrastructureDriftResponse) GetUnavailableReason() string {
+	if x != nil {
+		return x.UnavailableReason
+	}
+	return ""
+}
+
+func (x *GetInfrastructureDriftResponse) GetRemediation() string {
+	if x != nil {
+		return x.Remediation
+	}
+	return ""
+}
+
 var File_hub_v1_hub_proto protoreflect.FileDescriptor
 
 const file_hub_v1_hub_proto_rawDesc = "" +
@@ -5841,7 +6992,90 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"page_token\x18\x04 \x01(\tR\tpageToken\"x\n" +
 	"\x17ListDemandLocksResponse\x125\n" +
 	"\fdemand_locks\x18\x01 \x03(\v2\x12.hub.v1.DemandLockR\vdemandLocks\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken*\xa9\x01\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x86\x01\n" +
+	"\x1dGetInfrastructureDriftRequest\x12(\n" +
+	"\vproduct_urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\n" +
+	"productUrn\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\x12!\n" +
+	"\fbypass_cache\x18\x03 \x01(\bR\vbypassCache\"\xb0\x02\n" +
+	"\x0fFieldDriftDelta\x12\x1d\n" +
+	"\n" +
+	"field_path\x18\x01 \x01(\tR\tfieldPath\x120\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x18.hub.v1.FieldDriftStatusR\x06status\x12#\n" +
+	"\rdeclared_type\x18\x03 \x01(\tR\fdeclaredType\x12#\n" +
+	"\rdeclared_mode\x18\x04 \x01(\tR\fdeclaredMode\x12#\n" +
+	"\robserved_type\x18\x05 \x01(\tR\fobservedType\x12#\n" +
+	"\robserved_mode\x18\x06 \x01(\tR\fobservedMode\x12\x16\n" +
+	"\x06detail\x18\a \x01(\tR\x06detail\x12 \n" +
+	"\vremediation\x18\b \x01(\tR\vremediation\"\x90\x03\n" +
+	"\x14GovernanceDriftDelta\x12\x1d\n" +
+	"\n" +
+	"field_path\x18\x01 \x01(\tR\tfieldPath\x12:\n" +
+	"\n" +
+	"drift_type\x18\x02 \x01(\x0e2\x1b.hub.v1.GovernanceDriftTypeR\tdriftType\x121\n" +
+	"\bseverity\x18\x03 \x01(\x0e2\x15.hub.v1.DriftSeverityR\bseverity\x120\n" +
+	"\x14declared_policy_tags\x18\x04 \x03(\tR\x12declaredPolicyTags\x120\n" +
+	"\x14observed_policy_tags\x18\x05 \x03(\tR\x12observedPolicyTags\x12%\n" +
+	"\x0edeclared_value\x18\x06 \x01(\tR\rdeclaredValue\x12%\n" +
+	"\x0eobserved_value\x18\a \x01(\tR\robservedValue\x12\x16\n" +
+	"\x06detail\x18\b \x01(\tR\x06detail\x12 \n" +
+	"\vremediation\x18\t \x01(\tR\vremediation\"\x85\x02\n" +
+	"\x10LayoutDriftDelta\x126\n" +
+	"\n" +
+	"drift_type\x18\x01 \x01(\x0e2\x17.hub.v1.LayoutDriftTypeR\tdriftType\x121\n" +
+	"\bseverity\x18\x02 \x01(\x0e2\x15.hub.v1.DriftSeverityR\bseverity\x12%\n" +
+	"\x0edeclared_value\x18\x03 \x01(\tR\rdeclaredValue\x12%\n" +
+	"\x0eobserved_value\x18\x04 \x01(\tR\robservedValue\x12\x16\n" +
+	"\x06detail\x18\x05 \x01(\tR\x06detail\x12 \n" +
+	"\vremediation\x18\x06 \x01(\tR\vremediation\"\xe2\x03\n" +
+	"\x12DriftSummaryCounts\x12!\n" +
+	"\ftotal_assets\x18\x01 \x01(\x05R\vtotalAssets\x12%\n" +
+	"\x0ealigned_assets\x18\x02 \x01(\x05R\ralignedAssets\x12%\n" +
+	"\x0edrifted_assets\x18\x03 \x01(\x05R\rdriftedAssets\x12-\n" +
+	"\x12unavailable_assets\x18\x04 \x01(\x05R\x11unavailableAssets\x12%\n" +
+	"\x0ematched_fields\x18\x05 \x01(\x05R\rmatchedFields\x129\n" +
+	"\x19missing_in_physical_count\x18\x06 \x01(\x05R\x16missingInPhysicalCount\x126\n" +
+	"\x17ungoverned_column_count\x18\a \x01(\x05R\x15ungovernedColumnCount\x12.\n" +
+	"\x13type_mismatch_count\x18\b \x01(\x05R\x11typeMismatchCount\x124\n" +
+	"\x16governance_drift_count\x18\t \x01(\x05R\x14governanceDriftCount\x12,\n" +
+	"\x12layout_drift_count\x18\n" +
+	" \x01(\x05R\x10layoutDriftCount\"\x8d\t\n" +
+	"\x10AssetDriftReport\x12\x1b\n" +
+	"\tport_name\x18\x01 \x01(\tR\bportName\x12!\n" +
+	"\fcontract_urn\x18\x02 \x01(\tR\vcontractUrn\x12(\n" +
+	"\x05layer\x18\x03 \x01(\x0e2\x12.hub.v1.AssetLayerR\x05layer\x12$\n" +
+	"\x04lens\x18\x04 \x01(\x0e2\x10.hub.v1.LensTypeR\x04lens\x12!\n" +
+	"\fphysical_fqn\x18\x05 \x01(\tR\vphysicalFqn\x12.\n" +
+	"\x13observed_table_type\x18\x06 \x01(\tR\x11observedTableType\x124\n" +
+	"\texistence\x18\a \x01(\x0e2\x16.hub.v1.AssetExistenceR\texistence\x122\n" +
+	"\x06status\x18\b \x01(\x0e2\x1a.hub.v1.DriftOverallStatusR\x06status\x12:\n" +
+	"\ffield_deltas\x18\t \x03(\v2\x17.hub.v1.FieldDriftDeltaR\vfieldDeltas\x12I\n" +
+	"\x11governance_deltas\x18\n" +
+	" \x03(\v2\x1c.hub.v1.GovernanceDriftDeltaR\x10governanceDeltas\x12=\n" +
+	"\rlayout_deltas\x18\v \x03(\v2\x18.hub.v1.LayoutDriftDeltaR\flayoutDeltas\x12D\n" +
+	"\x1cauthorized_view_acl_verified\x18\f \x01(\bH\x00R\x19authorizedViewAclVerified\x88\x01\x01\x122\n" +
+	"\x15declared_partition_by\x18\r \x01(\tR\x13declaredPartitionBy\x122\n" +
+	"\x15observed_partition_by\x18\x0e \x01(\tR\x13observedPartitionBy\x12.\n" +
+	"\x13declared_cluster_by\x18\x0f \x03(\tR\x11declaredClusterBy\x12.\n" +
+	"\x13observed_cluster_by\x18\x10 \x03(\tR\x11observedClusterBy\x12N\n" +
+	"!declared_require_partition_filter\x18\x11 \x01(\bH\x01R\x1edeclaredRequirePartitionFilter\x88\x01\x01\x12N\n" +
+	"!observed_require_partition_filter\x18\x12 \x01(\bH\x02R\x1eobservedRequirePartitionFilter\x88\x01\x01\x12)\n" +
+	"\x10diagnostic_error\x18\x13 \x01(\tR\x0fdiagnosticError\x12 \n" +
+	"\vremediation\x18\x14 \x01(\tR\vremediationB\x1f\n" +
+	"\x1d_authorized_view_acl_verifiedB$\n" +
+	"\"_declared_require_partition_filterB$\n" +
+	"\"_observed_require_partition_filter\"\xd4\x03\n" +
+	"\x1eGetInfrastructureDriftResponse\x12\x1f\n" +
+	"\vproduct_urn\x18\x01 \x01(\tR\n" +
+	"productUrn\x12'\n" +
+	"\x0fproduct_version\x18\x02 \x01(\tR\x0eproductVersion\x12A\n" +
+	"\x0eoverall_status\x18\x03 \x01(\x0e2\x1a.hub.v1.DriftOverallStatusR\roverallStatus\x12=\n" +
+	"\finspected_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vinspectedAt\x124\n" +
+	"\asummary\x18\x05 \x01(\v2\x1a.hub.v1.DriftSummaryCountsR\asummary\x120\n" +
+	"\x06assets\x18\x06 \x03(\v2\x18.hub.v1.AssetDriftReportR\x06assets\x12-\n" +
+	"\x13latest_audit_run_id\x18\a \x01(\tR\x10latestAuditRunId\x12-\n" +
+	"\x12unavailable_reason\x18\b \x01(\tR\x11unavailableReason\x12 \n" +
+	"\vremediation\x18\t \x01(\tR\vremediation*\xa9\x01\n" +
 	"\n" +
 	"RTBFStatus\x12\x1b\n" +
 	"\x17RTBF_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
@@ -5853,7 +7087,48 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x1bIMPACT_SEVERITY_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14IMPACT_SEVERITY_NONE\x10\x01\x12\x1b\n" +
 	"\x17IMPACT_SEVERITY_WARNING\x10\x02\x12\x1c\n" +
-	"\x18IMPACT_SEVERITY_BREAKING\x10\x032\xf6\x18\n" +
+	"\x18IMPACT_SEVERITY_BREAKING\x10\x03*\xab\x01\n" +
+	"\x12DriftOverallStatus\x12$\n" +
+	" DRIFT_OVERALL_STATUS_UNSPECIFIED\x10\x00\x12 \n" +
+	"\x1cDRIFT_OVERALL_STATUS_ALIGNED\x10\x01\x12'\n" +
+	"#DRIFT_OVERALL_STATUS_DRIFT_DETECTED\x10\x02\x12$\n" +
+	" DRIFT_OVERALL_STATUS_UNAVAILABLE\x10\x03*\x88\x01\n" +
+	"\n" +
+	"AssetLayer\x12\x1b\n" +
+	"\x17ASSET_LAYER_UNSPECIFIED\x10\x00\x12\x1e\n" +
+	"\x1aASSET_LAYER_INTERNAL_TABLE\x10\x01\x12\x1f\n" +
+	"\x1bASSET_LAYER_AUTHORIZED_VIEW\x10\x02\x12\x1c\n" +
+	"\x18ASSET_LAYER_DIRECT_TABLE\x10\x03*\x8b\x01\n" +
+	"\x0eAssetExistence\x12\x1f\n" +
+	"\x1bASSET_EXISTENCE_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16ASSET_EXISTENCE_EXISTS\x10\x01\x12\x1b\n" +
+	"\x17ASSET_EXISTENCE_MISSING\x10\x02\x12\x1f\n" +
+	"\x1bASSET_EXISTENCE_UNAVAILABLE\x10\x03*\xd0\x01\n" +
+	"\x10FieldDriftStatus\x12\"\n" +
+	"\x1eFIELD_DRIFT_STATUS_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18FIELD_DRIFT_STATUS_MATCH\x10\x01\x12*\n" +
+	"&FIELD_DRIFT_STATUS_MISSING_IN_PHYSICAL\x10\x02\x12(\n" +
+	"$FIELD_DRIFT_STATUS_UNGOVERNED_COLUMN\x10\x03\x12$\n" +
+	" FIELD_DRIFT_STATUS_TYPE_MISMATCH\x10\x04*\xfd\x01\n" +
+	"\x13GovernanceDriftType\x12%\n" +
+	"!GOVERNANCE_DRIFT_TYPE_UNSPECIFIED\x10\x00\x12,\n" +
+	"(GOVERNANCE_DRIFT_TYPE_MISSING_POLICY_TAG\x10\x01\x12-\n" +
+	")GOVERNANCE_DRIFT_TYPE_POLICY_TAG_MISMATCH\x10\x02\x12-\n" +
+	")GOVERNANCE_DRIFT_TYPE_MISSING_DESCRIPTION\x10\x03\x123\n" +
+	"/GOVERNANCE_DRIFT_TYPE_ICEBERG_FIELD_ID_MISMATCH\x10\x04*\xd9\x02\n" +
+	"\x0fLayoutDriftType\x12!\n" +
+	"\x1dLAYOUT_DRIFT_TYPE_UNSPECIFIED\x10\x00\x12,\n" +
+	"(LAYOUT_DRIFT_TYPE_PARTITION_KEY_MISMATCH\x10\x01\x123\n" +
+	"/LAYOUT_DRIFT_TYPE_PARTITION_EXPIRATION_MISMATCH\x10\x02\x12)\n" +
+	"%LAYOUT_DRIFT_TYPE_CLUSTERING_MISMATCH\x10\x03\x127\n" +
+	"3LAYOUT_DRIFT_TYPE_REQUIRE_PARTITION_FILTER_MISMATCH\x10\x04\x12)\n" +
+	"%LAYOUT_DRIFT_TYPE_TABLE_TYPE_MISMATCH\x10\x05\x121\n" +
+	"-LAYOUT_DRIFT_TYPE_MISSING_AUTHORIZED_VIEW_ACL\x10\x06*\x81\x01\n" +
+	"\rDriftSeverity\x12\x1e\n" +
+	"\x1aDRIFT_SEVERITY_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13DRIFT_SEVERITY_INFO\x10\x01\x12\x1a\n" +
+	"\x16DRIFT_SEVERITY_WARNING\x10\x02\x12\x1b\n" +
+	"\x17DRIFT_SEVERITY_CRITICAL\x10\x032\xdf\x19\n" +
 	"\n" +
 	"HubService\x12R\n" +
 	"\x0fValidateProduct\x12\x1e.hub.v1.ValidateProductRequest\x1a\x1f.hub.v1.ValidateProductResponse\x12R\n" +
@@ -5899,7 +7174,8 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\fGetRootCause\x12\x1b.hub.v1.GetRootCauseRequest\x1a\x1c.hub.v1.GetRootCauseResponse\x12^\n" +
 	"\x13GetTaxonomyMappings\x12\".hub.v1.GetTaxonomyMappingsRequest\x1a#.hub.v1.GetTaxonomyMappingsResponse\x12^\n" +
 	"\x13RegisterDemandLocks\x12\".hub.v1.RegisterDemandLocksRequest\x1a#.hub.v1.RegisterDemandLocksResponse\x12R\n" +
-	"\x0fListDemandLocks\x12\x1e.hub.v1.ListDemandLocksRequest\x1a\x1f.hub.v1.ListDemandLocksResponseB\x90\x01\n" +
+	"\x0fListDemandLocks\x12\x1e.hub.v1.ListDemandLocksRequest\x1a\x1f.hub.v1.ListDemandLocksResponse\x12g\n" +
+	"\x16GetInfrastructureDrift\x12%.hub.v1.GetInfrastructureDriftRequest\x1a&.hub.v1.GetInfrastructureDriftResponseB\x90\x01\n" +
 	"\n" +
 	"com.hub.v1B\bHubProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
 
@@ -5915,271 +7191,303 @@ func file_hub_v1_hub_proto_rawDescGZIP() []byte {
 	return file_hub_v1_hub_proto_rawDescData
 }
 
-var file_hub_v1_hub_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 97)
+var file_hub_v1_hub_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
+var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 104)
 var file_hub_v1_hub_proto_goTypes = []any{
-	(RTBFStatus)(0),                       // 0: hub.v1.RTBFStatus
-	(ImpactSeverity)(0),                   // 1: hub.v1.ImpactSeverity
-	(*ReportAnomalyRequest)(nil),          // 2: hub.v1.ReportAnomalyRequest
-	(*ReportAnomalyResponse)(nil),         // 3: hub.v1.ReportAnomalyResponse
-	(*GetHealthRequest)(nil),              // 4: hub.v1.GetHealthRequest
-	(*GetHealthResponse)(nil),             // 5: hub.v1.GetHealthResponse
-	(*GetHealthHistoryRequest)(nil),       // 6: hub.v1.GetHealthHistoryRequest
-	(*GetHealthHistoryResponse)(nil),      // 7: hub.v1.GetHealthHistoryResponse
-	(*GetBlastRadiusRequest)(nil),         // 8: hub.v1.GetBlastRadiusRequest
-	(*BlastRadiusNode)(nil),               // 9: hub.v1.BlastRadiusNode
-	(*GetBlastRadiusResponse)(nil),        // 10: hub.v1.GetBlastRadiusResponse
-	(*GetRootCauseRequest)(nil),           // 11: hub.v1.GetRootCauseRequest
-	(*RootCauseChainNode)(nil),            // 12: hub.v1.RootCauseChainNode
-	(*GetRootCauseResponse)(nil),          // 13: hub.v1.GetRootCauseResponse
-	(*ExtractDSARPlanRequest)(nil),        // 14: hub.v1.ExtractDSARPlanRequest
-	(*ExtractDSARPlanResponse)(nil),       // 15: hub.v1.ExtractDSARPlanResponse
-	(*DSARLocation)(nil),                  // 16: hub.v1.DSARLocation
-	(*PackageDSARRequest)(nil),            // 17: hub.v1.PackageDSARRequest
-	(*PackageDSARResponse)(nil),           // 18: hub.v1.PackageDSARResponse
-	(*VerifyRTBFRequest)(nil),             // 19: hub.v1.VerifyRTBFRequest
-	(*VerifyRTBFResponse)(nil),            // 20: hub.v1.VerifyRTBFResponse
-	(*AnalyzeImpactRequest)(nil),          // 21: hub.v1.AnalyzeImpactRequest
-	(*AnalyzeImpactResponse)(nil),         // 22: hub.v1.AnalyzeImpactResponse
-	(*LineageImpact)(nil),                 // 23: hub.v1.LineageImpact
-	(*IngestEventRequest)(nil),            // 24: hub.v1.IngestEventRequest
-	(*IngestEventResponse)(nil),           // 25: hub.v1.IngestEventResponse
-	(*SubscribeRequest)(nil),              // 26: hub.v1.SubscribeRequest
-	(*SubscribeResponse)(nil),             // 27: hub.v1.SubscribeResponse
-	(*UnsubscribeRequest)(nil),            // 28: hub.v1.UnsubscribeRequest
-	(*UnsubscribeResponse)(nil),           // 29: hub.v1.UnsubscribeResponse
-	(*ListSubscriptionsRequest)(nil),      // 30: hub.v1.ListSubscriptionsRequest
-	(*ListSubscriptionsResponse)(nil),     // 31: hub.v1.ListSubscriptionsResponse
-	(*SendAlertRequest)(nil),              // 32: hub.v1.SendAlertRequest
-	(*SendAlertResponse)(nil),             // 33: hub.v1.SendAlertResponse
-	(*Alert)(nil),                         // 34: hub.v1.Alert
-	(*RecordAuditRunRequest)(nil),         // 35: hub.v1.RecordAuditRunRequest
-	(*RecordAuditRunResponse)(nil),        // 36: hub.v1.RecordAuditRunResponse
-	(*ListAuditRunsRequest)(nil),          // 37: hub.v1.ListAuditRunsRequest
-	(*ListAuditRunsResponse)(nil),         // 38: hub.v1.ListAuditRunsResponse
-	(*AuditRun)(nil),                      // 39: hub.v1.AuditRun
-	(*AuditViolation)(nil),                // 40: hub.v1.AuditViolation
-	(*ListProductsRequest)(nil),           // 41: hub.v1.ListProductsRequest
-	(*ListProductsResponse)(nil),          // 42: hub.v1.ListProductsResponse
-	(*SyncProductRequest)(nil),            // 43: hub.v1.SyncProductRequest
-	(*SyncProductResponse)(nil),           // 44: hub.v1.SyncProductResponse
-	(*RegisterContractRequest)(nil),       // 45: hub.v1.RegisterContractRequest
-	(*RegisterContractResponse)(nil),      // 46: hub.v1.RegisterContractResponse
-	(*CheckDownstreamImpactRequest)(nil),  // 47: hub.v1.CheckDownstreamImpactRequest
-	(*CheckDownstreamImpactResponse)(nil), // 48: hub.v1.CheckDownstreamImpactResponse
-	(*ImpactSummary)(nil),                 // 49: hub.v1.ImpactSummary
-	(*DownstreamConsumer)(nil),            // 50: hub.v1.DownstreamConsumer
-	(*ValidateProductRequest)(nil),        // 51: hub.v1.ValidateProductRequest
-	(*ValidateProductResponse)(nil),       // 52: hub.v1.ValidateProductResponse
-	(*RegisterProductRequest)(nil),        // 53: hub.v1.RegisterProductRequest
-	(*RegisterProductResponse)(nil),       // 54: hub.v1.RegisterProductResponse
-	(*GetProductRequest)(nil),             // 55: hub.v1.GetProductRequest
-	(*GetProductResponse)(nil),            // 56: hub.v1.GetProductResponse
-	(*GetProductSchemaRequest)(nil),       // 57: hub.v1.GetProductSchemaRequest
-	(*GetProductSchemaResponse)(nil),      // 58: hub.v1.GetProductSchemaResponse
-	(*GetContractRequest)(nil),            // 59: hub.v1.GetContractRequest
-	(*GetContractResponse)(nil),           // 60: hub.v1.GetContractResponse
-	(*ListContractsRequest)(nil),          // 61: hub.v1.ListContractsRequest
-	(*ListContractsResponse)(nil),         // 62: hub.v1.ListContractsResponse
-	(*PingRequest)(nil),                   // 63: hub.v1.PingRequest
-	(*PingResponse)(nil),                  // 64: hub.v1.PingResponse
-	(*ValidateSchemaRequest)(nil),         // 65: hub.v1.ValidateSchemaRequest
-	(*ValidateSchemaResponse)(nil),        // 66: hub.v1.ValidateSchemaResponse
-	(*DeleteProductRequest)(nil),          // 67: hub.v1.DeleteProductRequest
-	(*DeleteProductResponse)(nil),         // 68: hub.v1.DeleteProductResponse
-	(*RegisterEntityRequest)(nil),         // 69: hub.v1.RegisterEntityRequest
-	(*RegisterEntityResponse)(nil),        // 70: hub.v1.RegisterEntityResponse
-	(*GetEntityRequest)(nil),              // 71: hub.v1.GetEntityRequest
-	(*GetEntityResponse)(nil),             // 72: hub.v1.GetEntityResponse
-	(*ListEntitiesRequest)(nil),           // 73: hub.v1.ListEntitiesRequest
-	(*ListEntitiesResponse)(nil),          // 74: hub.v1.ListEntitiesResponse
-	(*CheckEntityImpactRequest)(nil),      // 75: hub.v1.CheckEntityImpactRequest
-	(*CheckEntityImpactResponse)(nil),     // 76: hub.v1.CheckEntityImpactResponse
-	(*DeleteEntityRequest)(nil),           // 77: hub.v1.DeleteEntityRequest
-	(*DeleteEntityResponse)(nil),          // 78: hub.v1.DeleteEntityResponse
-	(*RegisterTeamRequest)(nil),           // 79: hub.v1.RegisterTeamRequest
-	(*RegisterTeamResponse)(nil),          // 80: hub.v1.RegisterTeamResponse
-	(*GetTeamRequest)(nil),                // 81: hub.v1.GetTeamRequest
-	(*GetTeamResponse)(nil),               // 82: hub.v1.GetTeamResponse
-	(*ListTeamsRequest)(nil),              // 83: hub.v1.ListTeamsRequest
-	(*ListTeamsResponse)(nil),             // 84: hub.v1.ListTeamsResponse
-	(*DeleteTeamRequest)(nil),             // 85: hub.v1.DeleteTeamRequest
-	(*DeleteTeamResponse)(nil),            // 86: hub.v1.DeleteTeamResponse
-	(*GetTaxonomyMappingsRequest)(nil),    // 87: hub.v1.GetTaxonomyMappingsRequest
-	(*GetTaxonomyMappingsResponse)(nil),   // 88: hub.v1.GetTaxonomyMappingsResponse
-	(*DemandLock)(nil),                    // 89: hub.v1.DemandLock
-	(*RegisterDemandLocksRequest)(nil),    // 90: hub.v1.RegisterDemandLocksRequest
-	(*RegisterDemandLocksResponse)(nil),   // 91: hub.v1.RegisterDemandLocksResponse
-	(*ListDemandLocksRequest)(nil),        // 92: hub.v1.ListDemandLocksRequest
-	(*ListDemandLocksResponse)(nil),       // 93: hub.v1.ListDemandLocksResponse
-	nil,                                   // 94: hub.v1.ReportAnomalyRequest.MetadataEntry
-	nil,                                   // 95: hub.v1.IngestEventRequest.MetadataEntry
-	nil,                                   // 96: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	nil,                                   // 97: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	nil,                                   // 98: hub.v1.DemandLock.SemanticFingerprintsEntry
-	(HealthState)(0),                      // 99: hub.v1.HealthState
-	(*Health)(nil),                        // 100: hub.v1.Health
-	(*timestamppb.Timestamp)(nil),         // 101: google.protobuf.Timestamp
-	(*DataContract)(nil),                  // 102: hub.v1.DataContract
-	(TriggerType)(0),                      // 103: hub.v1.TriggerType
-	(*Subscriber)(nil),                    // 104: hub.v1.Subscriber
-	(*ProductManifest)(nil),               // 105: hub.v1.ProductManifest
-	(SyncStatus)(0),                       // 106: hub.v1.SyncStatus
-	(*BreakingChange)(nil),                // 107: hub.v1.BreakingChange
-	(*BigQueryConfig)(nil),                // 108: hub.v1.BigQueryConfig
-	(*v1.Entity)(nil),                     // 109: platform.v1.Entity
-	(*v1.Team)(nil),                       // 110: platform.v1.Team
-	(SLATier)(0),                          // 111: hub.v1.SLATier
-	(LensType)(0),                         // 112: hub.v1.LensType
-	(*ImportDemand)(nil),                  // 113: hub.v1.ImportDemand
+	(RTBFStatus)(0),                        // 0: hub.v1.RTBFStatus
+	(ImpactSeverity)(0),                    // 1: hub.v1.ImpactSeverity
+	(DriftOverallStatus)(0),                // 2: hub.v1.DriftOverallStatus
+	(AssetLayer)(0),                        // 3: hub.v1.AssetLayer
+	(AssetExistence)(0),                    // 4: hub.v1.AssetExistence
+	(FieldDriftStatus)(0),                  // 5: hub.v1.FieldDriftStatus
+	(GovernanceDriftType)(0),               // 6: hub.v1.GovernanceDriftType
+	(LayoutDriftType)(0),                   // 7: hub.v1.LayoutDriftType
+	(DriftSeverity)(0),                     // 8: hub.v1.DriftSeverity
+	(*ReportAnomalyRequest)(nil),           // 9: hub.v1.ReportAnomalyRequest
+	(*ReportAnomalyResponse)(nil),          // 10: hub.v1.ReportAnomalyResponse
+	(*GetHealthRequest)(nil),               // 11: hub.v1.GetHealthRequest
+	(*GetHealthResponse)(nil),              // 12: hub.v1.GetHealthResponse
+	(*GetHealthHistoryRequest)(nil),        // 13: hub.v1.GetHealthHistoryRequest
+	(*GetHealthHistoryResponse)(nil),       // 14: hub.v1.GetHealthHistoryResponse
+	(*GetBlastRadiusRequest)(nil),          // 15: hub.v1.GetBlastRadiusRequest
+	(*BlastRadiusNode)(nil),                // 16: hub.v1.BlastRadiusNode
+	(*GetBlastRadiusResponse)(nil),         // 17: hub.v1.GetBlastRadiusResponse
+	(*GetRootCauseRequest)(nil),            // 18: hub.v1.GetRootCauseRequest
+	(*RootCauseChainNode)(nil),             // 19: hub.v1.RootCauseChainNode
+	(*GetRootCauseResponse)(nil),           // 20: hub.v1.GetRootCauseResponse
+	(*ExtractDSARPlanRequest)(nil),         // 21: hub.v1.ExtractDSARPlanRequest
+	(*ExtractDSARPlanResponse)(nil),        // 22: hub.v1.ExtractDSARPlanResponse
+	(*DSARLocation)(nil),                   // 23: hub.v1.DSARLocation
+	(*PackageDSARRequest)(nil),             // 24: hub.v1.PackageDSARRequest
+	(*PackageDSARResponse)(nil),            // 25: hub.v1.PackageDSARResponse
+	(*VerifyRTBFRequest)(nil),              // 26: hub.v1.VerifyRTBFRequest
+	(*VerifyRTBFResponse)(nil),             // 27: hub.v1.VerifyRTBFResponse
+	(*AnalyzeImpactRequest)(nil),           // 28: hub.v1.AnalyzeImpactRequest
+	(*AnalyzeImpactResponse)(nil),          // 29: hub.v1.AnalyzeImpactResponse
+	(*LineageImpact)(nil),                  // 30: hub.v1.LineageImpact
+	(*IngestEventRequest)(nil),             // 31: hub.v1.IngestEventRequest
+	(*IngestEventResponse)(nil),            // 32: hub.v1.IngestEventResponse
+	(*SubscribeRequest)(nil),               // 33: hub.v1.SubscribeRequest
+	(*SubscribeResponse)(nil),              // 34: hub.v1.SubscribeResponse
+	(*UnsubscribeRequest)(nil),             // 35: hub.v1.UnsubscribeRequest
+	(*UnsubscribeResponse)(nil),            // 36: hub.v1.UnsubscribeResponse
+	(*ListSubscriptionsRequest)(nil),       // 37: hub.v1.ListSubscriptionsRequest
+	(*ListSubscriptionsResponse)(nil),      // 38: hub.v1.ListSubscriptionsResponse
+	(*SendAlertRequest)(nil),               // 39: hub.v1.SendAlertRequest
+	(*SendAlertResponse)(nil),              // 40: hub.v1.SendAlertResponse
+	(*Alert)(nil),                          // 41: hub.v1.Alert
+	(*RecordAuditRunRequest)(nil),          // 42: hub.v1.RecordAuditRunRequest
+	(*RecordAuditRunResponse)(nil),         // 43: hub.v1.RecordAuditRunResponse
+	(*ListAuditRunsRequest)(nil),           // 44: hub.v1.ListAuditRunsRequest
+	(*ListAuditRunsResponse)(nil),          // 45: hub.v1.ListAuditRunsResponse
+	(*AuditRun)(nil),                       // 46: hub.v1.AuditRun
+	(*AuditViolation)(nil),                 // 47: hub.v1.AuditViolation
+	(*ListProductsRequest)(nil),            // 48: hub.v1.ListProductsRequest
+	(*ListProductsResponse)(nil),           // 49: hub.v1.ListProductsResponse
+	(*SyncProductRequest)(nil),             // 50: hub.v1.SyncProductRequest
+	(*SyncProductResponse)(nil),            // 51: hub.v1.SyncProductResponse
+	(*RegisterContractRequest)(nil),        // 52: hub.v1.RegisterContractRequest
+	(*RegisterContractResponse)(nil),       // 53: hub.v1.RegisterContractResponse
+	(*CheckDownstreamImpactRequest)(nil),   // 54: hub.v1.CheckDownstreamImpactRequest
+	(*CheckDownstreamImpactResponse)(nil),  // 55: hub.v1.CheckDownstreamImpactResponse
+	(*ImpactSummary)(nil),                  // 56: hub.v1.ImpactSummary
+	(*DownstreamConsumer)(nil),             // 57: hub.v1.DownstreamConsumer
+	(*ValidateProductRequest)(nil),         // 58: hub.v1.ValidateProductRequest
+	(*ValidateProductResponse)(nil),        // 59: hub.v1.ValidateProductResponse
+	(*RegisterProductRequest)(nil),         // 60: hub.v1.RegisterProductRequest
+	(*RegisterProductResponse)(nil),        // 61: hub.v1.RegisterProductResponse
+	(*GetProductRequest)(nil),              // 62: hub.v1.GetProductRequest
+	(*GetProductResponse)(nil),             // 63: hub.v1.GetProductResponse
+	(*GetProductSchemaRequest)(nil),        // 64: hub.v1.GetProductSchemaRequest
+	(*GetProductSchemaResponse)(nil),       // 65: hub.v1.GetProductSchemaResponse
+	(*GetContractRequest)(nil),             // 66: hub.v1.GetContractRequest
+	(*GetContractResponse)(nil),            // 67: hub.v1.GetContractResponse
+	(*ListContractsRequest)(nil),           // 68: hub.v1.ListContractsRequest
+	(*ListContractsResponse)(nil),          // 69: hub.v1.ListContractsResponse
+	(*PingRequest)(nil),                    // 70: hub.v1.PingRequest
+	(*PingResponse)(nil),                   // 71: hub.v1.PingResponse
+	(*ValidateSchemaRequest)(nil),          // 72: hub.v1.ValidateSchemaRequest
+	(*ValidateSchemaResponse)(nil),         // 73: hub.v1.ValidateSchemaResponse
+	(*DeleteProductRequest)(nil),           // 74: hub.v1.DeleteProductRequest
+	(*DeleteProductResponse)(nil),          // 75: hub.v1.DeleteProductResponse
+	(*RegisterEntityRequest)(nil),          // 76: hub.v1.RegisterEntityRequest
+	(*RegisterEntityResponse)(nil),         // 77: hub.v1.RegisterEntityResponse
+	(*GetEntityRequest)(nil),               // 78: hub.v1.GetEntityRequest
+	(*GetEntityResponse)(nil),              // 79: hub.v1.GetEntityResponse
+	(*ListEntitiesRequest)(nil),            // 80: hub.v1.ListEntitiesRequest
+	(*ListEntitiesResponse)(nil),           // 81: hub.v1.ListEntitiesResponse
+	(*CheckEntityImpactRequest)(nil),       // 82: hub.v1.CheckEntityImpactRequest
+	(*CheckEntityImpactResponse)(nil),      // 83: hub.v1.CheckEntityImpactResponse
+	(*DeleteEntityRequest)(nil),            // 84: hub.v1.DeleteEntityRequest
+	(*DeleteEntityResponse)(nil),           // 85: hub.v1.DeleteEntityResponse
+	(*RegisterTeamRequest)(nil),            // 86: hub.v1.RegisterTeamRequest
+	(*RegisterTeamResponse)(nil),           // 87: hub.v1.RegisterTeamResponse
+	(*GetTeamRequest)(nil),                 // 88: hub.v1.GetTeamRequest
+	(*GetTeamResponse)(nil),                // 89: hub.v1.GetTeamResponse
+	(*ListTeamsRequest)(nil),               // 90: hub.v1.ListTeamsRequest
+	(*ListTeamsResponse)(nil),              // 91: hub.v1.ListTeamsResponse
+	(*DeleteTeamRequest)(nil),              // 92: hub.v1.DeleteTeamRequest
+	(*DeleteTeamResponse)(nil),             // 93: hub.v1.DeleteTeamResponse
+	(*GetTaxonomyMappingsRequest)(nil),     // 94: hub.v1.GetTaxonomyMappingsRequest
+	(*GetTaxonomyMappingsResponse)(nil),    // 95: hub.v1.GetTaxonomyMappingsResponse
+	(*DemandLock)(nil),                     // 96: hub.v1.DemandLock
+	(*RegisterDemandLocksRequest)(nil),     // 97: hub.v1.RegisterDemandLocksRequest
+	(*RegisterDemandLocksResponse)(nil),    // 98: hub.v1.RegisterDemandLocksResponse
+	(*ListDemandLocksRequest)(nil),         // 99: hub.v1.ListDemandLocksRequest
+	(*ListDemandLocksResponse)(nil),        // 100: hub.v1.ListDemandLocksResponse
+	(*GetInfrastructureDriftRequest)(nil),  // 101: hub.v1.GetInfrastructureDriftRequest
+	(*FieldDriftDelta)(nil),                // 102: hub.v1.FieldDriftDelta
+	(*GovernanceDriftDelta)(nil),           // 103: hub.v1.GovernanceDriftDelta
+	(*LayoutDriftDelta)(nil),               // 104: hub.v1.LayoutDriftDelta
+	(*DriftSummaryCounts)(nil),             // 105: hub.v1.DriftSummaryCounts
+	(*AssetDriftReport)(nil),               // 106: hub.v1.AssetDriftReport
+	(*GetInfrastructureDriftResponse)(nil), // 107: hub.v1.GetInfrastructureDriftResponse
+	nil,                                    // 108: hub.v1.ReportAnomalyRequest.MetadataEntry
+	nil,                                    // 109: hub.v1.IngestEventRequest.MetadataEntry
+	nil,                                    // 110: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	nil,                                    // 111: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	nil,                                    // 112: hub.v1.DemandLock.SemanticFingerprintsEntry
+	(HealthState)(0),                       // 113: hub.v1.HealthState
+	(*Health)(nil),                         // 114: hub.v1.Health
+	(*timestamppb.Timestamp)(nil),          // 115: google.protobuf.Timestamp
+	(*DataContract)(nil),                   // 116: hub.v1.DataContract
+	(TriggerType)(0),                       // 117: hub.v1.TriggerType
+	(*Subscriber)(nil),                     // 118: hub.v1.Subscriber
+	(*ProductManifest)(nil),                // 119: hub.v1.ProductManifest
+	(SyncStatus)(0),                        // 120: hub.v1.SyncStatus
+	(*BreakingChange)(nil),                 // 121: hub.v1.BreakingChange
+	(*BigQueryConfig)(nil),                 // 122: hub.v1.BigQueryConfig
+	(*v1.Entity)(nil),                      // 123: platform.v1.Entity
+	(*v1.Team)(nil),                        // 124: platform.v1.Team
+	(SLATier)(0),                           // 125: hub.v1.SLATier
+	(LensType)(0),                          // 126: hub.v1.LensType
+	(*ImportDemand)(nil),                   // 127: hub.v1.ImportDemand
 }
 var file_hub_v1_hub_proto_depIdxs = []int32{
-	99,  // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
-	94,  // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
-	100, // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
-	100, // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
-	9,   // 4: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
-	99,  // 5: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
-	101, // 6: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
-	12,  // 7: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
-	12,  // 8: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
-	16,  // 9: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
+	113, // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
+	108, // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
+	114, // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
+	114, // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
+	16,  // 4: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
+	113, // 5: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
+	115, // 6: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
+	19,  // 7: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
+	19,  // 8: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
+	23,  // 9: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
 	0,   // 10: hub.v1.VerifyRTBFResponse.status:type_name -> hub.v1.RTBFStatus
-	102, // 11: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
-	23,  // 12: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
+	116, // 11: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
+	30,  // 12: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
 	1,   // 13: hub.v1.AnalyzeImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	50,  // 14: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	103, // 15: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
-	95,  // 16: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
-	104, // 17: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
-	104, // 18: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
-	34,  // 19: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
-	39,  // 20: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
-	39,  // 21: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
-	40,  // 22: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
-	105, // 23: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
-	106, // 24: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
-	102, // 25: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
-	102, // 26: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
-	102, // 27: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
+	57,  // 14: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	117, // 15: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
+	109, // 16: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
+	118, // 17: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
+	118, // 18: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
+	41,  // 19: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
+	46,  // 20: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
+	46,  // 21: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
+	47,  // 22: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
+	119, // 23: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
+	120, // 24: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
+	116, // 25: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
+	116, // 26: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
+	116, // 27: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
 	1,   // 28: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	50,  // 29: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	49,  // 30: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
-	105, // 31: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	102, // 32: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
-	105, // 33: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	102, // 34: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
-	107, // 35: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
-	105, // 36: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
-	102, // 37: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
-	108, // 38: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
-	102, // 39: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
-	102, // 40: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
-	109, // 41: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
-	109, // 42: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
-	109, // 43: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
-	109, // 44: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
+	57,  // 29: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	56,  // 30: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
+	119, // 31: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	116, // 32: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
+	119, // 33: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	116, // 34: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
+	121, // 35: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
+	119, // 36: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
+	116, // 37: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
+	122, // 38: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
+	116, // 39: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
+	116, // 40: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
+	123, // 41: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
+	123, // 42: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
+	123, // 43: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
+	123, // 44: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
 	1,   // 45: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	110, // 46: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
-	110, // 47: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
-	110, // 48: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
-	110, // 49: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
-	96,  // 50: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	97,  // 51: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	111, // 52: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
-	112, // 53: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
-	98,  // 54: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
-	101, // 55: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
-	113, // 56: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
-	89,  // 57: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
-	89,  // 58: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
-	51,  // 59: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
-	53,  // 60: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
-	55,  // 61: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
-	57,  // 62: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
-	59,  // 63: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
-	61,  // 64: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
-	63,  // 65: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
-	65,  // 66: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
-	67,  // 67: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
-	47,  // 68: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
-	69,  // 69: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
-	71,  // 70: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
-	73,  // 71: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
-	75,  // 72: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
-	77,  // 73: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
-	79,  // 74: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
-	81,  // 75: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
-	83,  // 76: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
-	85,  // 77: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
-	45,  // 78: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
-	41,  // 79: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
-	43,  // 80: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
-	35,  // 81: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
-	37,  // 82: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
-	32,  // 83: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
-	21,  // 84: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
-	26,  // 85: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
-	28,  // 86: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
-	30,  // 87: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
-	24,  // 88: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
-	14,  // 89: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
-	17,  // 90: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
-	19,  // 91: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
-	2,   // 92: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
-	4,   // 93: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
-	6,   // 94: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
-	8,   // 95: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
-	11,  // 96: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
-	87,  // 97: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
-	90,  // 98: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
-	92,  // 99: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
-	52,  // 100: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
-	54,  // 101: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
-	56,  // 102: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
-	58,  // 103: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
-	60,  // 104: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
-	62,  // 105: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
-	64,  // 106: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
-	66,  // 107: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
-	68,  // 108: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
-	48,  // 109: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
-	70,  // 110: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
-	72,  // 111: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
-	74,  // 112: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
-	76,  // 113: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
-	78,  // 114: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
-	80,  // 115: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
-	82,  // 116: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
-	84,  // 117: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
-	86,  // 118: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
-	46,  // 119: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
-	42,  // 120: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
-	44,  // 121: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
-	36,  // 122: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
-	38,  // 123: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
-	33,  // 124: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
-	22,  // 125: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
-	27,  // 126: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
-	29,  // 127: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
-	31,  // 128: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
-	25,  // 129: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
-	15,  // 130: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
-	18,  // 131: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
-	20,  // 132: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
-	3,   // 133: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
-	5,   // 134: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
-	7,   // 135: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
-	10,  // 136: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
-	13,  // 137: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
-	88,  // 138: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
-	91,  // 139: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
-	93,  // 140: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
-	100, // [100:141] is the sub-list for method output_type
-	59,  // [59:100] is the sub-list for method input_type
-	59,  // [59:59] is the sub-list for extension type_name
-	59,  // [59:59] is the sub-list for extension extendee
-	0,   // [0:59] is the sub-list for field type_name
+	124, // 46: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
+	124, // 47: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
+	124, // 48: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
+	124, // 49: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
+	110, // 50: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	111, // 51: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	125, // 52: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
+	126, // 53: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
+	112, // 54: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
+	115, // 55: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
+	127, // 56: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
+	96,  // 57: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
+	96,  // 58: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
+	5,   // 59: hub.v1.FieldDriftDelta.status:type_name -> hub.v1.FieldDriftStatus
+	6,   // 60: hub.v1.GovernanceDriftDelta.drift_type:type_name -> hub.v1.GovernanceDriftType
+	8,   // 61: hub.v1.GovernanceDriftDelta.severity:type_name -> hub.v1.DriftSeverity
+	7,   // 62: hub.v1.LayoutDriftDelta.drift_type:type_name -> hub.v1.LayoutDriftType
+	8,   // 63: hub.v1.LayoutDriftDelta.severity:type_name -> hub.v1.DriftSeverity
+	3,   // 64: hub.v1.AssetDriftReport.layer:type_name -> hub.v1.AssetLayer
+	126, // 65: hub.v1.AssetDriftReport.lens:type_name -> hub.v1.LensType
+	4,   // 66: hub.v1.AssetDriftReport.existence:type_name -> hub.v1.AssetExistence
+	2,   // 67: hub.v1.AssetDriftReport.status:type_name -> hub.v1.DriftOverallStatus
+	102, // 68: hub.v1.AssetDriftReport.field_deltas:type_name -> hub.v1.FieldDriftDelta
+	103, // 69: hub.v1.AssetDriftReport.governance_deltas:type_name -> hub.v1.GovernanceDriftDelta
+	104, // 70: hub.v1.AssetDriftReport.layout_deltas:type_name -> hub.v1.LayoutDriftDelta
+	2,   // 71: hub.v1.GetInfrastructureDriftResponse.overall_status:type_name -> hub.v1.DriftOverallStatus
+	115, // 72: hub.v1.GetInfrastructureDriftResponse.inspected_at:type_name -> google.protobuf.Timestamp
+	105, // 73: hub.v1.GetInfrastructureDriftResponse.summary:type_name -> hub.v1.DriftSummaryCounts
+	106, // 74: hub.v1.GetInfrastructureDriftResponse.assets:type_name -> hub.v1.AssetDriftReport
+	58,  // 75: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
+	60,  // 76: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
+	62,  // 77: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
+	64,  // 78: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
+	66,  // 79: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
+	68,  // 80: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
+	70,  // 81: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
+	72,  // 82: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
+	74,  // 83: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
+	54,  // 84: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
+	76,  // 85: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
+	78,  // 86: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
+	80,  // 87: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
+	82,  // 88: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
+	84,  // 89: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
+	86,  // 90: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
+	88,  // 91: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
+	90,  // 92: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
+	92,  // 93: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
+	52,  // 94: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
+	48,  // 95: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
+	50,  // 96: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
+	42,  // 97: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
+	44,  // 98: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
+	39,  // 99: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
+	28,  // 100: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
+	33,  // 101: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
+	35,  // 102: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
+	37,  // 103: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
+	31,  // 104: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
+	21,  // 105: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
+	24,  // 106: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
+	26,  // 107: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
+	9,   // 108: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
+	11,  // 109: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
+	13,  // 110: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
+	15,  // 111: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
+	18,  // 112: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
+	94,  // 113: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
+	97,  // 114: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
+	99,  // 115: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
+	101, // 116: hub.v1.HubService.GetInfrastructureDrift:input_type -> hub.v1.GetInfrastructureDriftRequest
+	59,  // 117: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
+	61,  // 118: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
+	63,  // 119: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
+	65,  // 120: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
+	67,  // 121: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
+	69,  // 122: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
+	71,  // 123: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
+	73,  // 124: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
+	75,  // 125: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
+	55,  // 126: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
+	77,  // 127: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
+	79,  // 128: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
+	81,  // 129: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
+	83,  // 130: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
+	85,  // 131: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
+	87,  // 132: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
+	89,  // 133: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
+	91,  // 134: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
+	93,  // 135: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
+	53,  // 136: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
+	49,  // 137: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
+	51,  // 138: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
+	43,  // 139: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
+	45,  // 140: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
+	40,  // 141: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
+	29,  // 142: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
+	34,  // 143: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
+	36,  // 144: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
+	38,  // 145: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
+	32,  // 146: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
+	22,  // 147: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
+	25,  // 148: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
+	27,  // 149: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
+	10,  // 150: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
+	12,  // 151: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
+	14,  // 152: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
+	17,  // 153: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
+	20,  // 154: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
+	95,  // 155: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
+	98,  // 156: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
+	100, // 157: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
+	107, // 158: hub.v1.HubService.GetInfrastructureDrift:output_type -> hub.v1.GetInfrastructureDriftResponse
+	117, // [117:159] is the sub-list for method output_type
+	75,  // [75:117] is the sub-list for method input_type
+	75,  // [75:75] is the sub-list for extension type_name
+	75,  // [75:75] is the sub-list for extension extendee
+	0,   // [0:75] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_hub_proto_init() }
@@ -6190,13 +7498,14 @@ func file_hub_v1_hub_proto_init() {
 	file_hub_v1_contract_proto_init()
 	file_hub_v1_health_proto_init()
 	file_hub_v1_manifest_proto_init()
+	file_hub_v1_hub_proto_msgTypes[97].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_hub_proto_rawDesc), len(file_hub_v1_hub_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   97,
+			NumEnums:      9,
+			NumMessages:   104,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
