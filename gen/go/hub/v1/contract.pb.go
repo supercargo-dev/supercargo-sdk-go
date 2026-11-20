@@ -392,7 +392,13 @@ type DataContract struct {
 	// Health status of the contract.
 	Health *Health `protobuf:"bytes,5,opt,name=health,proto3" json:"health,omitempty"`
 	// Sensitivity classification tier for the contract.
-	Sensitivity   SensitivityLevel `protobuf:"varint,6,opt,name=sensitivity,proto3,enum=hub.v1.SensitivityLevel" json:"sensitivity,omitempty"`
+	Sensitivity SensitivityLevel `protobuf:"varint,6,opt,name=sensitivity,proto3,enum=hub.v1.SensitivityLevel" json:"sensitivity,omitempty"`
+	// Lifecycle status of the contract.
+	Status LifecycleStatus `protobuf:"varint,7,opt,name=status,proto3,enum=hub.v1.LifecycleStatus" json:"status,omitempty"`
+	// Structured terms of use and governing policy URLs.
+	TermsOfUse *TermsOfUse `protobuf:"bytes,8,opt,name=terms_of_use,json=termsOfUse,proto3" json:"terms_of_use,omitempty"`
+	// Structured AI and semantic context for agents.
+	Context       *Context `protobuf:"bytes,9,opt,name=context,proto3" json:"context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -467,6 +473,27 @@ func (x *DataContract) GetSensitivity() SensitivityLevel {
 		return x.Sensitivity
 	}
 	return SensitivityLevel_SENSITIVITY_LEVEL_UNSPECIFIED
+}
+
+func (x *DataContract) GetStatus() LifecycleStatus {
+	if x != nil {
+		return x.Status
+	}
+	return LifecycleStatus_LIFECYCLE_STATUS_UNSPECIFIED
+}
+
+func (x *DataContract) GetTermsOfUse() *TermsOfUse {
+	if x != nil {
+		return x.TermsOfUse
+	}
+	return nil
+}
+
+func (x *DataContract) GetContext() *Context {
+	if x != nil {
+		return x.Context
+	}
+	return nil
 }
 
 // Meta contains metadata about the contract.
@@ -1045,14 +1072,18 @@ var File_hub_v1_contract_proto protoreflect.FileDescriptor
 
 const file_hub_v1_contract_proto_rawDesc = "" +
 	"\n" +
-	"\x15hub/v1/contract.proto\x12\x06hub.v1\x1a\x17validate/validate.proto\x1a\x15hub/v1/manifest.proto\"\xfe\x01\n" +
+	"\x15hub/v1/contract.proto\x12\x06hub.v1\x1a\x17validate/validate.proto\x1a\x15hub/v1/manifest.proto\"\x9a\x03\n" +
 	"\fDataContract\x12*\n" +
 	"\x04meta\x18\x01 \x01(\v2\f.hub.v1.MetaB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x04meta\x12%\n" +
 	"\x06schema\x18\x02 \x03(\v2\r.hub.v1.FieldR\x06schema\x12\x18\n" +
 	"\asamples\x18\x03 \x03(\tR\asamples\x12\x1d\n" +
 	"\x03sla\x18\x04 \x01(\v2\v.hub.v1.SLAR\x03sla\x12&\n" +
 	"\x06health\x18\x05 \x01(\v2\x0e.hub.v1.HealthR\x06health\x12:\n" +
-	"\vsensitivity\x18\x06 \x01(\x0e2\x18.hub.v1.SensitivityLevelR\vsensitivity\"\xcb\x06\n" +
+	"\vsensitivity\x18\x06 \x01(\x0e2\x18.hub.v1.SensitivityLevelR\vsensitivity\x129\n" +
+	"\x06status\x18\a \x01(\x0e2\x17.hub.v1.LifecycleStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x06status\x124\n" +
+	"\fterms_of_use\x18\b \x01(\v2\x12.hub.v1.TermsOfUseR\n" +
+	"termsOfUse\x12)\n" +
+	"\acontext\x18\t \x01(\v2\x0f.hub.v1.ContextR\acontext\"\xcb\x06\n" +
 	"\x04Meta\x12]\n" +
 	"\x03urn\x18\x01 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\xde\x01\n" +
 	"\aversion\x18\x02 \x01(\tB\xc3\x01\xfaB\xbf\x01r\xbc\x01\x10\x012\xb7\x01^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.(?:[0-9a-zA-Z-]+))*))?$R\aversion\x12&\n" +
@@ -1222,6 +1253,9 @@ var file_hub_v1_contract_proto_goTypes = []any{
 	nil,                    // 11: hub.v1.Field.MetadataEntry
 	(*SLA)(nil),            // 12: hub.v1.SLA
 	(*Health)(nil),         // 13: hub.v1.Health
+	(LifecycleStatus)(0),   // 14: hub.v1.LifecycleStatus
+	(*TermsOfUse)(nil),     // 15: hub.v1.TermsOfUse
+	(*Context)(nil),        // 16: hub.v1.Context
 }
 var file_hub_v1_contract_proto_depIdxs = []int32{
 	7,  // 0: hub.v1.DataContract.meta:type_name -> hub.v1.Meta
@@ -1229,21 +1263,24 @@ var file_hub_v1_contract_proto_depIdxs = []int32{
 	12, // 2: hub.v1.DataContract.sla:type_name -> hub.v1.SLA
 	13, // 3: hub.v1.DataContract.health:type_name -> hub.v1.Health
 	5,  // 4: hub.v1.DataContract.sensitivity:type_name -> hub.v1.SensitivityLevel
-	4,  // 5: hub.v1.Meta.validation_policy:type_name -> hub.v1.ValidationPolicy
-	10, // 6: hub.v1.Meta.labels:type_name -> hub.v1.Meta.LabelsEntry
-	3,  // 7: hub.v1.Meta.compatibility_mode:type_name -> hub.v1.CompatibilityMode
-	0,  // 8: hub.v1.Field.type:type_name -> hub.v1.DataType
-	1,  // 9: hub.v1.Field.mode:type_name -> hub.v1.FieldMode
-	8,  // 10: hub.v1.Field.fields:type_name -> hub.v1.Field
-	9,  // 11: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
-	11, // 12: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
-	2,  // 13: hub.v1.Field.visibility:type_name -> hub.v1.FieldVisibility
-	5,  // 14: hub.v1.Field.sensitivity:type_name -> hub.v1.SensitivityLevel
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	14, // 5: hub.v1.DataContract.status:type_name -> hub.v1.LifecycleStatus
+	15, // 6: hub.v1.DataContract.terms_of_use:type_name -> hub.v1.TermsOfUse
+	16, // 7: hub.v1.DataContract.context:type_name -> hub.v1.Context
+	4,  // 8: hub.v1.Meta.validation_policy:type_name -> hub.v1.ValidationPolicy
+	10, // 9: hub.v1.Meta.labels:type_name -> hub.v1.Meta.LabelsEntry
+	3,  // 10: hub.v1.Meta.compatibility_mode:type_name -> hub.v1.CompatibilityMode
+	0,  // 11: hub.v1.Field.type:type_name -> hub.v1.DataType
+	1,  // 12: hub.v1.Field.mode:type_name -> hub.v1.FieldMode
+	8,  // 13: hub.v1.Field.fields:type_name -> hub.v1.Field
+	9,  // 14: hub.v1.Field.constraints:type_name -> hub.v1.Constraints
+	11, // 15: hub.v1.Field.metadata:type_name -> hub.v1.Field.MetadataEntry
+	2,  // 16: hub.v1.Field.visibility:type_name -> hub.v1.FieldVisibility
+	5,  // 17: hub.v1.Field.sensitivity:type_name -> hub.v1.SensitivityLevel
+	18, // [18:18] is the sub-list for method output_type
+	18, // [18:18] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_contract_proto_init() }

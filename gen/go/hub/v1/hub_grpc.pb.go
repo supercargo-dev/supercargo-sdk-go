@@ -19,47 +19,48 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HubService_ValidateProduct_FullMethodName       = "/hub.v1.HubService/ValidateProduct"
-	HubService_RegisterProduct_FullMethodName       = "/hub.v1.HubService/RegisterProduct"
-	HubService_GetProduct_FullMethodName            = "/hub.v1.HubService/GetProduct"
-	HubService_GetProductSchema_FullMethodName      = "/hub.v1.HubService/GetProductSchema"
-	HubService_GetContract_FullMethodName           = "/hub.v1.HubService/GetContract"
-	HubService_ListContracts_FullMethodName         = "/hub.v1.HubService/ListContracts"
-	HubService_Ping_FullMethodName                  = "/hub.v1.HubService/Ping"
-	HubService_ValidateSchema_FullMethodName        = "/hub.v1.HubService/ValidateSchema"
-	HubService_DeleteProduct_FullMethodName         = "/hub.v1.HubService/DeleteProduct"
-	HubService_CheckDownstreamImpact_FullMethodName = "/hub.v1.HubService/CheckDownstreamImpact"
-	HubService_RegisterEntity_FullMethodName        = "/hub.v1.HubService/RegisterEntity"
-	HubService_GetEntity_FullMethodName             = "/hub.v1.HubService/GetEntity"
-	HubService_ListEntities_FullMethodName          = "/hub.v1.HubService/ListEntities"
-	HubService_CheckEntityImpact_FullMethodName     = "/hub.v1.HubService/CheckEntityImpact"
-	HubService_DeleteEntity_FullMethodName          = "/hub.v1.HubService/DeleteEntity"
-	HubService_RegisterTeam_FullMethodName          = "/hub.v1.HubService/RegisterTeam"
-	HubService_GetTeam_FullMethodName               = "/hub.v1.HubService/GetTeam"
-	HubService_ListTeams_FullMethodName             = "/hub.v1.HubService/ListTeams"
-	HubService_DeleteTeam_FullMethodName            = "/hub.v1.HubService/DeleteTeam"
-	HubService_RegisterContract_FullMethodName      = "/hub.v1.HubService/RegisterContract"
-	HubService_ListProducts_FullMethodName          = "/hub.v1.HubService/ListProducts"
-	HubService_SyncProduct_FullMethodName           = "/hub.v1.HubService/SyncProduct"
-	HubService_RecordAuditRun_FullMethodName        = "/hub.v1.HubService/RecordAuditRun"
-	HubService_ListAuditRuns_FullMethodName         = "/hub.v1.HubService/ListAuditRuns"
-	HubService_SendAlert_FullMethodName             = "/hub.v1.HubService/SendAlert"
-	HubService_AnalyzeImpact_FullMethodName         = "/hub.v1.HubService/AnalyzeImpact"
-	HubService_Subscribe_FullMethodName             = "/hub.v1.HubService/Subscribe"
-	HubService_Unsubscribe_FullMethodName           = "/hub.v1.HubService/Unsubscribe"
-	HubService_ListSubscriptions_FullMethodName     = "/hub.v1.HubService/ListSubscriptions"
-	HubService_IngestEvent_FullMethodName           = "/hub.v1.HubService/IngestEvent"
-	HubService_ExtractDSARPlan_FullMethodName       = "/hub.v1.HubService/ExtractDSARPlan"
-	HubService_PackageDSAR_FullMethodName           = "/hub.v1.HubService/PackageDSAR"
-	HubService_VerifyRTBF_FullMethodName            = "/hub.v1.HubService/VerifyRTBF"
-	HubService_ReportAnomaly_FullMethodName         = "/hub.v1.HubService/ReportAnomaly"
-	HubService_GetHealth_FullMethodName             = "/hub.v1.HubService/GetHealth"
-	HubService_GetHealthHistory_FullMethodName      = "/hub.v1.HubService/GetHealthHistory"
-	HubService_GetBlastRadius_FullMethodName        = "/hub.v1.HubService/GetBlastRadius"
-	HubService_GetRootCause_FullMethodName          = "/hub.v1.HubService/GetRootCause"
-	HubService_GetTaxonomyMappings_FullMethodName   = "/hub.v1.HubService/GetTaxonomyMappings"
-	HubService_RegisterDemandLocks_FullMethodName   = "/hub.v1.HubService/RegisterDemandLocks"
-	HubService_ListDemandLocks_FullMethodName       = "/hub.v1.HubService/ListDemandLocks"
+	HubService_ValidateProduct_FullMethodName        = "/hub.v1.HubService/ValidateProduct"
+	HubService_RegisterProduct_FullMethodName        = "/hub.v1.HubService/RegisterProduct"
+	HubService_GetProduct_FullMethodName             = "/hub.v1.HubService/GetProduct"
+	HubService_GetProductSchema_FullMethodName       = "/hub.v1.HubService/GetProductSchema"
+	HubService_GetContract_FullMethodName            = "/hub.v1.HubService/GetContract"
+	HubService_ListContracts_FullMethodName          = "/hub.v1.HubService/ListContracts"
+	HubService_Ping_FullMethodName                   = "/hub.v1.HubService/Ping"
+	HubService_ValidateSchema_FullMethodName         = "/hub.v1.HubService/ValidateSchema"
+	HubService_DeleteProduct_FullMethodName          = "/hub.v1.HubService/DeleteProduct"
+	HubService_CheckDownstreamImpact_FullMethodName  = "/hub.v1.HubService/CheckDownstreamImpact"
+	HubService_RegisterEntity_FullMethodName         = "/hub.v1.HubService/RegisterEntity"
+	HubService_GetEntity_FullMethodName              = "/hub.v1.HubService/GetEntity"
+	HubService_ListEntities_FullMethodName           = "/hub.v1.HubService/ListEntities"
+	HubService_CheckEntityImpact_FullMethodName      = "/hub.v1.HubService/CheckEntityImpact"
+	HubService_DeleteEntity_FullMethodName           = "/hub.v1.HubService/DeleteEntity"
+	HubService_RegisterTeam_FullMethodName           = "/hub.v1.HubService/RegisterTeam"
+	HubService_GetTeam_FullMethodName                = "/hub.v1.HubService/GetTeam"
+	HubService_ListTeams_FullMethodName              = "/hub.v1.HubService/ListTeams"
+	HubService_DeleteTeam_FullMethodName             = "/hub.v1.HubService/DeleteTeam"
+	HubService_RegisterContract_FullMethodName       = "/hub.v1.HubService/RegisterContract"
+	HubService_ListProducts_FullMethodName           = "/hub.v1.HubService/ListProducts"
+	HubService_SyncProduct_FullMethodName            = "/hub.v1.HubService/SyncProduct"
+	HubService_RecordAuditRun_FullMethodName         = "/hub.v1.HubService/RecordAuditRun"
+	HubService_ListAuditRuns_FullMethodName          = "/hub.v1.HubService/ListAuditRuns"
+	HubService_SendAlert_FullMethodName              = "/hub.v1.HubService/SendAlert"
+	HubService_AnalyzeImpact_FullMethodName          = "/hub.v1.HubService/AnalyzeImpact"
+	HubService_Subscribe_FullMethodName              = "/hub.v1.HubService/Subscribe"
+	HubService_Unsubscribe_FullMethodName            = "/hub.v1.HubService/Unsubscribe"
+	HubService_ListSubscriptions_FullMethodName      = "/hub.v1.HubService/ListSubscriptions"
+	HubService_IngestEvent_FullMethodName            = "/hub.v1.HubService/IngestEvent"
+	HubService_ExtractDSARPlan_FullMethodName        = "/hub.v1.HubService/ExtractDSARPlan"
+	HubService_PackageDSAR_FullMethodName            = "/hub.v1.HubService/PackageDSAR"
+	HubService_VerifyRTBF_FullMethodName             = "/hub.v1.HubService/VerifyRTBF"
+	HubService_ReportAnomaly_FullMethodName          = "/hub.v1.HubService/ReportAnomaly"
+	HubService_GetHealth_FullMethodName              = "/hub.v1.HubService/GetHealth"
+	HubService_GetHealthHistory_FullMethodName       = "/hub.v1.HubService/GetHealthHistory"
+	HubService_GetBlastRadius_FullMethodName         = "/hub.v1.HubService/GetBlastRadius"
+	HubService_GetRootCause_FullMethodName           = "/hub.v1.HubService/GetRootCause"
+	HubService_GetTaxonomyMappings_FullMethodName    = "/hub.v1.HubService/GetTaxonomyMappings"
+	HubService_RegisterDemandLocks_FullMethodName    = "/hub.v1.HubService/RegisterDemandLocks"
+	HubService_ListDemandLocks_FullMethodName        = "/hub.v1.HubService/ListDemandLocks"
+	HubService_GetInfrastructureDrift_FullMethodName = "/hub.v1.HubService/GetInfrastructureDrift"
 )
 
 // HubServiceClient is the client API for HubService service.
@@ -151,6 +152,8 @@ type HubServiceClient interface {
 	RegisterDemandLocks(ctx context.Context, in *RegisterDemandLocksRequest, opts ...grpc.CallOption) (*RegisterDemandLocksResponse, error)
 	// Lists demand locks registered for a producer product or port.
 	ListDemandLocks(ctx context.Context, in *ListDemandLocksRequest, opts ...grpc.CallOption) (*ListDemandLocksResponse, error)
+	// Compares declared contract and manifest intent against live cloud infrastructure reality.
+	GetInfrastructureDrift(ctx context.Context, in *GetInfrastructureDriftRequest, opts ...grpc.CallOption) (*GetInfrastructureDriftResponse, error)
 }
 
 type hubServiceClient struct {
@@ -573,6 +576,16 @@ func (c *hubServiceClient) ListDemandLocks(ctx context.Context, in *ListDemandLo
 	return out, nil
 }
 
+func (c *hubServiceClient) GetInfrastructureDrift(ctx context.Context, in *GetInfrastructureDriftRequest, opts ...grpc.CallOption) (*GetInfrastructureDriftResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetInfrastructureDriftResponse)
+	err := c.cc.Invoke(ctx, HubService_GetInfrastructureDrift_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HubServiceServer is the server API for HubService service.
 // All implementations must embed UnimplementedHubServiceServer
 // for forward compatibility.
@@ -662,6 +675,8 @@ type HubServiceServer interface {
 	RegisterDemandLocks(context.Context, *RegisterDemandLocksRequest) (*RegisterDemandLocksResponse, error)
 	// Lists demand locks registered for a producer product or port.
 	ListDemandLocks(context.Context, *ListDemandLocksRequest) (*ListDemandLocksResponse, error)
+	// Compares declared contract and manifest intent against live cloud infrastructure reality.
+	GetInfrastructureDrift(context.Context, *GetInfrastructureDriftRequest) (*GetInfrastructureDriftResponse, error)
 	mustEmbedUnimplementedHubServiceServer()
 }
 
@@ -794,6 +809,9 @@ func (UnimplementedHubServiceServer) RegisterDemandLocks(context.Context, *Regis
 }
 func (UnimplementedHubServiceServer) ListDemandLocks(context.Context, *ListDemandLocksRequest) (*ListDemandLocksResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListDemandLocks not implemented")
+}
+func (UnimplementedHubServiceServer) GetInfrastructureDrift(context.Context, *GetInfrastructureDriftRequest) (*GetInfrastructureDriftResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetInfrastructureDrift not implemented")
 }
 func (UnimplementedHubServiceServer) mustEmbedUnimplementedHubServiceServer() {}
 func (UnimplementedHubServiceServer) testEmbeddedByValue()                    {}
@@ -1554,6 +1572,24 @@ func _HubService_ListDemandLocks_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_GetInfrastructureDrift_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInfrastructureDriftRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetInfrastructureDrift(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetInfrastructureDrift_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetInfrastructureDrift(ctx, req.(*GetInfrastructureDriftRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HubService_ServiceDesc is the grpc.ServiceDesc for HubService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1724,6 +1760,10 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListDemandLocks",
 			Handler:    _HubService_ListDemandLocks_Handler,
+		},
+		{
+			MethodName: "GetInfrastructureDrift",
+			Handler:    _HubService_GetInfrastructureDrift_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

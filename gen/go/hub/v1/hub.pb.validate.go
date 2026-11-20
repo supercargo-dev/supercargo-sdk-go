@@ -11324,3 +11324,1032 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListDemandLocksResponseValidationError{}
+
+// Validate checks the field values on GetInfrastructureDriftRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetInfrastructureDriftRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetInfrastructureDriftRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetInfrastructureDriftRequestMultiError, or nil if none found.
+func (m *GetInfrastructureDriftRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetInfrastructureDriftRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetProductUrn()) < 1 {
+		err := GetInfrastructureDriftRequestValidationError{
+			field:  "ProductUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Version
+
+	// no validation rules for BypassCache
+
+	if len(errors) > 0 {
+		return GetInfrastructureDriftRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetInfrastructureDriftRequestMultiError is an error wrapping multiple
+// validation errors returned by GetInfrastructureDriftRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetInfrastructureDriftRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetInfrastructureDriftRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetInfrastructureDriftRequestMultiError) AllErrors() []error { return m }
+
+// GetInfrastructureDriftRequestValidationError is the validation error
+// returned by GetInfrastructureDriftRequest.Validate if the designated
+// constraints aren't met.
+type GetInfrastructureDriftRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetInfrastructureDriftRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetInfrastructureDriftRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetInfrastructureDriftRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetInfrastructureDriftRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetInfrastructureDriftRequestValidationError) ErrorName() string {
+	return "GetInfrastructureDriftRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetInfrastructureDriftRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetInfrastructureDriftRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetInfrastructureDriftRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetInfrastructureDriftRequestValidationError{}
+
+// Validate checks the field values on FieldDriftDelta with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *FieldDriftDelta) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FieldDriftDelta with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// FieldDriftDeltaMultiError, or nil if none found.
+func (m *FieldDriftDelta) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FieldDriftDelta) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FieldPath
+
+	// no validation rules for Status
+
+	// no validation rules for DeclaredType
+
+	// no validation rules for DeclaredMode
+
+	// no validation rules for ObservedType
+
+	// no validation rules for ObservedMode
+
+	// no validation rules for Detail
+
+	// no validation rules for Remediation
+
+	if len(errors) > 0 {
+		return FieldDriftDeltaMultiError(errors)
+	}
+
+	return nil
+}
+
+// FieldDriftDeltaMultiError is an error wrapping multiple validation errors
+// returned by FieldDriftDelta.ValidateAll() if the designated constraints
+// aren't met.
+type FieldDriftDeltaMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FieldDriftDeltaMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FieldDriftDeltaMultiError) AllErrors() []error { return m }
+
+// FieldDriftDeltaValidationError is the validation error returned by
+// FieldDriftDelta.Validate if the designated constraints aren't met.
+type FieldDriftDeltaValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FieldDriftDeltaValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FieldDriftDeltaValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FieldDriftDeltaValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FieldDriftDeltaValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FieldDriftDeltaValidationError) ErrorName() string { return "FieldDriftDeltaValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FieldDriftDeltaValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFieldDriftDelta.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FieldDriftDeltaValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FieldDriftDeltaValidationError{}
+
+// Validate checks the field values on GovernanceDriftDelta with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GovernanceDriftDelta) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GovernanceDriftDelta with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GovernanceDriftDeltaMultiError, or nil if none found.
+func (m *GovernanceDriftDelta) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GovernanceDriftDelta) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FieldPath
+
+	// no validation rules for DriftType
+
+	// no validation rules for Severity
+
+	// no validation rules for DeclaredValue
+
+	// no validation rules for ObservedValue
+
+	// no validation rules for Detail
+
+	// no validation rules for Remediation
+
+	if len(errors) > 0 {
+		return GovernanceDriftDeltaMultiError(errors)
+	}
+
+	return nil
+}
+
+// GovernanceDriftDeltaMultiError is an error wrapping multiple validation
+// errors returned by GovernanceDriftDelta.ValidateAll() if the designated
+// constraints aren't met.
+type GovernanceDriftDeltaMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GovernanceDriftDeltaMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GovernanceDriftDeltaMultiError) AllErrors() []error { return m }
+
+// GovernanceDriftDeltaValidationError is the validation error returned by
+// GovernanceDriftDelta.Validate if the designated constraints aren't met.
+type GovernanceDriftDeltaValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GovernanceDriftDeltaValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GovernanceDriftDeltaValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GovernanceDriftDeltaValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GovernanceDriftDeltaValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GovernanceDriftDeltaValidationError) ErrorName() string {
+	return "GovernanceDriftDeltaValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GovernanceDriftDeltaValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGovernanceDriftDelta.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GovernanceDriftDeltaValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GovernanceDriftDeltaValidationError{}
+
+// Validate checks the field values on LayoutDriftDelta with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *LayoutDriftDelta) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on LayoutDriftDelta with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// LayoutDriftDeltaMultiError, or nil if none found.
+func (m *LayoutDriftDelta) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *LayoutDriftDelta) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for DriftType
+
+	// no validation rules for Severity
+
+	// no validation rules for DeclaredValue
+
+	// no validation rules for ObservedValue
+
+	// no validation rules for Detail
+
+	// no validation rules for Remediation
+
+	if len(errors) > 0 {
+		return LayoutDriftDeltaMultiError(errors)
+	}
+
+	return nil
+}
+
+// LayoutDriftDeltaMultiError is an error wrapping multiple validation errors
+// returned by LayoutDriftDelta.ValidateAll() if the designated constraints
+// aren't met.
+type LayoutDriftDeltaMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m LayoutDriftDeltaMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m LayoutDriftDeltaMultiError) AllErrors() []error { return m }
+
+// LayoutDriftDeltaValidationError is the validation error returned by
+// LayoutDriftDelta.Validate if the designated constraints aren't met.
+type LayoutDriftDeltaValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e LayoutDriftDeltaValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e LayoutDriftDeltaValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e LayoutDriftDeltaValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e LayoutDriftDeltaValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e LayoutDriftDeltaValidationError) ErrorName() string { return "LayoutDriftDeltaValidationError" }
+
+// Error satisfies the builtin error interface
+func (e LayoutDriftDeltaValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sLayoutDriftDelta.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = LayoutDriftDeltaValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = LayoutDriftDeltaValidationError{}
+
+// Validate checks the field values on DriftSummaryCounts with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DriftSummaryCounts) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DriftSummaryCounts with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DriftSummaryCountsMultiError, or nil if none found.
+func (m *DriftSummaryCounts) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DriftSummaryCounts) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TotalAssets
+
+	// no validation rules for AlignedAssets
+
+	// no validation rules for DriftedAssets
+
+	// no validation rules for UnavailableAssets
+
+	// no validation rules for MatchedFields
+
+	// no validation rules for MissingInPhysicalCount
+
+	// no validation rules for UngovernedColumnCount
+
+	// no validation rules for TypeMismatchCount
+
+	// no validation rules for GovernanceDriftCount
+
+	// no validation rules for LayoutDriftCount
+
+	if len(errors) > 0 {
+		return DriftSummaryCountsMultiError(errors)
+	}
+
+	return nil
+}
+
+// DriftSummaryCountsMultiError is an error wrapping multiple validation errors
+// returned by DriftSummaryCounts.ValidateAll() if the designated constraints
+// aren't met.
+type DriftSummaryCountsMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DriftSummaryCountsMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DriftSummaryCountsMultiError) AllErrors() []error { return m }
+
+// DriftSummaryCountsValidationError is the validation error returned by
+// DriftSummaryCounts.Validate if the designated constraints aren't met.
+type DriftSummaryCountsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DriftSummaryCountsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DriftSummaryCountsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DriftSummaryCountsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DriftSummaryCountsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DriftSummaryCountsValidationError) ErrorName() string {
+	return "DriftSummaryCountsValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DriftSummaryCountsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDriftSummaryCounts.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DriftSummaryCountsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DriftSummaryCountsValidationError{}
+
+// Validate checks the field values on AssetDriftReport with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AssetDriftReport) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AssetDriftReport with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AssetDriftReportMultiError, or nil if none found.
+func (m *AssetDriftReport) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AssetDriftReport) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for PortName
+
+	// no validation rules for ContractUrn
+
+	// no validation rules for Layer
+
+	// no validation rules for Lens
+
+	// no validation rules for PhysicalFqn
+
+	// no validation rules for ObservedTableType
+
+	// no validation rules for Existence
+
+	// no validation rules for Status
+
+	for idx, item := range m.GetFieldDeltas() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AssetDriftReportValidationError{
+						field:  fmt.Sprintf("FieldDeltas[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AssetDriftReportValidationError{
+						field:  fmt.Sprintf("FieldDeltas[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AssetDriftReportValidationError{
+					field:  fmt.Sprintf("FieldDeltas[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetGovernanceDeltas() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AssetDriftReportValidationError{
+						field:  fmt.Sprintf("GovernanceDeltas[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AssetDriftReportValidationError{
+						field:  fmt.Sprintf("GovernanceDeltas[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AssetDriftReportValidationError{
+					field:  fmt.Sprintf("GovernanceDeltas[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetLayoutDeltas() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AssetDriftReportValidationError{
+						field:  fmt.Sprintf("LayoutDeltas[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AssetDriftReportValidationError{
+						field:  fmt.Sprintf("LayoutDeltas[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AssetDriftReportValidationError{
+					field:  fmt.Sprintf("LayoutDeltas[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for DeclaredPartitionBy
+
+	// no validation rules for ObservedPartitionBy
+
+	// no validation rules for DiagnosticError
+
+	// no validation rules for Remediation
+
+	if m.AuthorizedViewAclVerified != nil {
+		// no validation rules for AuthorizedViewAclVerified
+	}
+
+	if m.DeclaredRequirePartitionFilter != nil {
+		// no validation rules for DeclaredRequirePartitionFilter
+	}
+
+	if m.ObservedRequirePartitionFilter != nil {
+		// no validation rules for ObservedRequirePartitionFilter
+	}
+
+	if len(errors) > 0 {
+		return AssetDriftReportMultiError(errors)
+	}
+
+	return nil
+}
+
+// AssetDriftReportMultiError is an error wrapping multiple validation errors
+// returned by AssetDriftReport.ValidateAll() if the designated constraints
+// aren't met.
+type AssetDriftReportMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AssetDriftReportMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AssetDriftReportMultiError) AllErrors() []error { return m }
+
+// AssetDriftReportValidationError is the validation error returned by
+// AssetDriftReport.Validate if the designated constraints aren't met.
+type AssetDriftReportValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AssetDriftReportValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AssetDriftReportValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AssetDriftReportValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AssetDriftReportValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AssetDriftReportValidationError) ErrorName() string { return "AssetDriftReportValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AssetDriftReportValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAssetDriftReport.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AssetDriftReportValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AssetDriftReportValidationError{}
+
+// Validate checks the field values on GetInfrastructureDriftResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetInfrastructureDriftResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetInfrastructureDriftResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetInfrastructureDriftResponseMultiError, or nil if none found.
+func (m *GetInfrastructureDriftResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetInfrastructureDriftResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProductUrn
+
+	// no validation rules for ProductVersion
+
+	// no validation rules for OverallStatus
+
+	if all {
+		switch v := interface{}(m.GetInspectedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetInfrastructureDriftResponseValidationError{
+					field:  "InspectedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetInfrastructureDriftResponseValidationError{
+					field:  "InspectedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetInspectedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetInfrastructureDriftResponseValidationError{
+				field:  "InspectedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSummary()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetInfrastructureDriftResponseValidationError{
+					field:  "Summary",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetInfrastructureDriftResponseValidationError{
+					field:  "Summary",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSummary()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetInfrastructureDriftResponseValidationError{
+				field:  "Summary",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetAssets() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetInfrastructureDriftResponseValidationError{
+						field:  fmt.Sprintf("Assets[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetInfrastructureDriftResponseValidationError{
+						field:  fmt.Sprintf("Assets[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetInfrastructureDriftResponseValidationError{
+					field:  fmt.Sprintf("Assets[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for LatestAuditRunId
+
+	// no validation rules for UnavailableReason
+
+	// no validation rules for Remediation
+
+	if len(errors) > 0 {
+		return GetInfrastructureDriftResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetInfrastructureDriftResponseMultiError is an error wrapping multiple
+// validation errors returned by GetInfrastructureDriftResponse.ValidateAll()
+// if the designated constraints aren't met.
+type GetInfrastructureDriftResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetInfrastructureDriftResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetInfrastructureDriftResponseMultiError) AllErrors() []error { return m }
+
+// GetInfrastructureDriftResponseValidationError is the validation error
+// returned by GetInfrastructureDriftResponse.Validate if the designated
+// constraints aren't met.
+type GetInfrastructureDriftResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetInfrastructureDriftResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetInfrastructureDriftResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetInfrastructureDriftResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetInfrastructureDriftResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetInfrastructureDriftResponseValidationError) ErrorName() string {
+	return "GetInfrastructureDriftResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetInfrastructureDriftResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetInfrastructureDriftResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetInfrastructureDriftResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetInfrastructureDriftResponseValidationError{}
