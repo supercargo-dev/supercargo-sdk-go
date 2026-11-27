@@ -609,6 +609,289 @@ func (FileFormat) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{9}
 }
 
+// PIIPosture defines the declared PII sensitivity posture for an asset overlay.
+type PIIPosture int32
+
+const (
+	PIIPosture_PII_POSTURE_UNSPECIFIED PIIPosture = 0
+	PIIPosture_PII_POSTURE_NONE        PIIPosture = 1
+	PIIPosture_PII_POSTURE_LOW         PIIPosture = 2
+	PIIPosture_PII_POSTURE_MODERATE    PIIPosture = 3
+	PIIPosture_PII_POSTURE_HIGH        PIIPosture = 4
+	PIIPosture_PII_POSTURE_CRITICAL    PIIPosture = 5
+)
+
+// Enum value maps for PIIPosture.
+var (
+	PIIPosture_name = map[int32]string{
+		0: "PII_POSTURE_UNSPECIFIED",
+		1: "PII_POSTURE_NONE",
+		2: "PII_POSTURE_LOW",
+		3: "PII_POSTURE_MODERATE",
+		4: "PII_POSTURE_HIGH",
+		5: "PII_POSTURE_CRITICAL",
+	}
+	PIIPosture_value = map[string]int32{
+		"PII_POSTURE_UNSPECIFIED": 0,
+		"PII_POSTURE_NONE":        1,
+		"PII_POSTURE_LOW":         2,
+		"PII_POSTURE_MODERATE":    3,
+		"PII_POSTURE_HIGH":        4,
+		"PII_POSTURE_CRITICAL":    5,
+	}
+)
+
+func (x PIIPosture) Enum() *PIIPosture {
+	p := new(PIIPosture)
+	*p = x
+	return p
+}
+
+func (x PIIPosture) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PIIPosture) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_manifest_proto_enumTypes[10].Descriptor()
+}
+
+func (PIIPosture) Type() protoreflect.EnumType {
+	return &file_hub_v1_manifest_proto_enumTypes[10]
+}
+
+func (x PIIPosture) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PIIPosture.Descriptor instead.
+func (PIIPosture) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{10}
+}
+
+// DetectionMode describes how an asset's state overlay was established.
+type DetectionMode int32
+
+const (
+	DetectionMode_DETECTION_MODE_UNSPECIFIED DetectionMode = 0
+	DetectionMode_DETECTION_MODE_MANUAL      DetectionMode = 1
+	DetectionMode_DETECTION_MODE_RULE        DetectionMode = 2
+	DetectionMode_DETECTION_MODE_INFERRED    DetectionMode = 3
+)
+
+// Enum value maps for DetectionMode.
+var (
+	DetectionMode_name = map[int32]string{
+		0: "DETECTION_MODE_UNSPECIFIED",
+		1: "DETECTION_MODE_MANUAL",
+		2: "DETECTION_MODE_RULE",
+		3: "DETECTION_MODE_INFERRED",
+	}
+	DetectionMode_value = map[string]int32{
+		"DETECTION_MODE_UNSPECIFIED": 0,
+		"DETECTION_MODE_MANUAL":      1,
+		"DETECTION_MODE_RULE":        2,
+		"DETECTION_MODE_INFERRED":    3,
+	}
+)
+
+func (x DetectionMode) Enum() *DetectionMode {
+	p := new(DetectionMode)
+	*p = x
+	return p
+}
+
+func (x DetectionMode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DetectionMode) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_manifest_proto_enumTypes[11].Descriptor()
+}
+
+func (DetectionMode) Type() protoreflect.EnumType {
+	return &file_hub_v1_manifest_proto_enumTypes[11]
+}
+
+func (x DetectionMode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DetectionMode.Descriptor instead.
+func (DetectionMode) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{11}
+}
+
+// SourceOrigin classifies the authoritative ingress origin of a data asset.
+type SourceOrigin int32
+
+const (
+	SourceOrigin_SOURCE_ORIGIN_UNSPECIFIED       SourceOrigin = 0
+	SourceOrigin_SOURCE_ORIGIN_SADP              SourceOrigin = 1
+	SourceOrigin_SOURCE_ORIGIN_PUBSUB            SourceOrigin = 2
+	SourceOrigin_SOURCE_ORIGIN_SAAS_EXTRACTOR    SourceOrigin = 3
+	SourceOrigin_SOURCE_ORIGIN_CDC               SourceOrigin = 4
+	SourceOrigin_SOURCE_ORIGIN_DECLARED_EXTERNAL SourceOrigin = 5
+)
+
+// Enum value maps for SourceOrigin.
+var (
+	SourceOrigin_name = map[int32]string{
+		0: "SOURCE_ORIGIN_UNSPECIFIED",
+		1: "SOURCE_ORIGIN_SADP",
+		2: "SOURCE_ORIGIN_PUBSUB",
+		3: "SOURCE_ORIGIN_SAAS_EXTRACTOR",
+		4: "SOURCE_ORIGIN_CDC",
+		5: "SOURCE_ORIGIN_DECLARED_EXTERNAL",
+	}
+	SourceOrigin_value = map[string]int32{
+		"SOURCE_ORIGIN_UNSPECIFIED":       0,
+		"SOURCE_ORIGIN_SADP":              1,
+		"SOURCE_ORIGIN_PUBSUB":            2,
+		"SOURCE_ORIGIN_SAAS_EXTRACTOR":    3,
+		"SOURCE_ORIGIN_CDC":               4,
+		"SOURCE_ORIGIN_DECLARED_EXTERNAL": 5,
+	}
+)
+
+func (x SourceOrigin) Enum() *SourceOrigin {
+	p := new(SourceOrigin)
+	*p = x
+	return p
+}
+
+func (x SourceOrigin) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SourceOrigin) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_manifest_proto_enumTypes[12].Descriptor()
+}
+
+func (SourceOrigin) Type() protoreflect.EnumType {
+	return &file_hub_v1_manifest_proto_enumTypes[12]
+}
+
+func (x SourceOrigin) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SourceOrigin.Descriptor instead.
+func (SourceOrigin) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{12}
+}
+
+// SLAGapCode classifies governance gaps between declared and implied asset state.
+type SLAGapCode int32
+
+const (
+	SLAGapCode_SLA_GAP_CODE_UNSPECIFIED             SLAGapCode = 0
+	SLAGapCode_SLA_GAP_CODE_TIER_UNDERTAGGED        SLAGapCode = 1
+	SLAGapCode_SLA_GAP_CODE_FRESHNESS_EXCEEDED      SLAGapCode = 2
+	SLAGapCode_SLA_GAP_CODE_LATENCY_BUDGET_EXCEEDED SLAGapCode = 3
+	SLAGapCode_SLA_GAP_CODE_EXPIRED_EXEMPTION       SLAGapCode = 4
+)
+
+// Enum value maps for SLAGapCode.
+var (
+	SLAGapCode_name = map[int32]string{
+		0: "SLA_GAP_CODE_UNSPECIFIED",
+		1: "SLA_GAP_CODE_TIER_UNDERTAGGED",
+		2: "SLA_GAP_CODE_FRESHNESS_EXCEEDED",
+		3: "SLA_GAP_CODE_LATENCY_BUDGET_EXCEEDED",
+		4: "SLA_GAP_CODE_EXPIRED_EXEMPTION",
+	}
+	SLAGapCode_value = map[string]int32{
+		"SLA_GAP_CODE_UNSPECIFIED":             0,
+		"SLA_GAP_CODE_TIER_UNDERTAGGED":        1,
+		"SLA_GAP_CODE_FRESHNESS_EXCEEDED":      2,
+		"SLA_GAP_CODE_LATENCY_BUDGET_EXCEEDED": 3,
+		"SLA_GAP_CODE_EXPIRED_EXEMPTION":       4,
+	}
+)
+
+func (x SLAGapCode) Enum() *SLAGapCode {
+	p := new(SLAGapCode)
+	*p = x
+	return p
+}
+
+func (x SLAGapCode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SLAGapCode) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_manifest_proto_enumTypes[13].Descriptor()
+}
+
+func (SLAGapCode) Type() protoreflect.EnumType {
+	return &file_hub_v1_manifest_proto_enumTypes[13]
+}
+
+func (x SLAGapCode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SLAGapCode.Descriptor instead.
+func (SLAGapCode) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{13}
+}
+
+// ReachabilityStatus summarizes end-to-end upstream lineage reachability to known source roots.
+type ReachabilityStatus int32
+
+const (
+	ReachabilityStatus_REACHABILITY_STATUS_UNSPECIFIED ReachabilityStatus = 0
+	ReachabilityStatus_REACHABILITY_STATUS_REACHABLE   ReachabilityStatus = 1
+	ReachabilityStatus_REACHABILITY_STATUS_BROKEN      ReachabilityStatus = 2
+	ReachabilityStatus_REACHABILITY_STATUS_EXEMPTED    ReachabilityStatus = 3
+	ReachabilityStatus_REACHABILITY_STATUS_UNAUDITED   ReachabilityStatus = 4
+)
+
+// Enum value maps for ReachabilityStatus.
+var (
+	ReachabilityStatus_name = map[int32]string{
+		0: "REACHABILITY_STATUS_UNSPECIFIED",
+		1: "REACHABILITY_STATUS_REACHABLE",
+		2: "REACHABILITY_STATUS_BROKEN",
+		3: "REACHABILITY_STATUS_EXEMPTED",
+		4: "REACHABILITY_STATUS_UNAUDITED",
+	}
+	ReachabilityStatus_value = map[string]int32{
+		"REACHABILITY_STATUS_UNSPECIFIED": 0,
+		"REACHABILITY_STATUS_REACHABLE":   1,
+		"REACHABILITY_STATUS_BROKEN":      2,
+		"REACHABILITY_STATUS_EXEMPTED":    3,
+		"REACHABILITY_STATUS_UNAUDITED":   4,
+	}
+)
+
+func (x ReachabilityStatus) Enum() *ReachabilityStatus {
+	p := new(ReachabilityStatus)
+	*p = x
+	return p
+}
+
+func (x ReachabilityStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ReachabilityStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_manifest_proto_enumTypes[14].Descriptor()
+}
+
+func (ReachabilityStatus) Type() protoreflect.EnumType {
+	return &file_hub_v1_manifest_proto_enumTypes[14]
+}
+
+func (x ReachabilityStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ReachabilityStatus.Descriptor instead.
+func (ReachabilityStatus) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{14}
+}
+
 // ProductManifest defines the structure for the dataproduct.yaml file.
 type ProductManifest struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
@@ -2818,6 +3101,875 @@ func (x *BreakingChange) GetDiff() string {
 	return ""
 }
 
+// AssetExemption represents a consumer-scoped, time-bounded SLA exemption on an asset.
+type AssetExemption struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ConsumerFqn   string                 `protobuf:"bytes,1,opt,name=consumer_fqn,json=consumerFqn,proto3" json:"consumer_fqn,omitempty"`
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	ExpiresAt     string                 `protobuf:"bytes,3,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	CreatedBy     string                 `protobuf:"bytes,4,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Expired       bool                   `protobuf:"varint,6,opt,name=expired,proto3" json:"expired,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssetExemption) Reset() {
+	*x = AssetExemption{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssetExemption) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssetExemption) ProtoMessage() {}
+
+func (x *AssetExemption) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssetExemption.ProtoReflect.Descriptor instead.
+func (*AssetExemption) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *AssetExemption) GetConsumerFqn() string {
+	if x != nil {
+		return x.ConsumerFqn
+	}
+	return ""
+}
+
+func (x *AssetExemption) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *AssetExemption) GetExpiresAt() string {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return ""
+}
+
+func (x *AssetExemption) GetCreatedBy() string {
+	if x != nil {
+		return x.CreatedBy
+	}
+	return ""
+}
+
+func (x *AssetExemption) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *AssetExemption) GetExpired() bool {
+	if x != nil {
+		return x.Expired
+	}
+	return false
+}
+
+// NodeState stores mutable governance state overlays attached directly to canonical asset FQNs.
+type NodeState struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn      string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	Tier          SLATier                `protobuf:"varint,2,opt,name=tier,proto3,enum=hub.v1.SLATier" json:"tier,omitempty"`
+	FreshnessSla  string                 `protobuf:"bytes,3,opt,name=freshness_sla,json=freshnessSla,proto3" json:"freshness_sla,omitempty"`
+	OwnerTeam     string                 `protobuf:"bytes,4,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	PiiPosture    PIIPosture             `protobuf:"varint,5,opt,name=pii_posture,json=piiPosture,proto3,enum=hub.v1.PIIPosture" json:"pii_posture,omitempty"`
+	DetectionMode DetectionMode          `protobuf:"varint,6,opt,name=detection_mode,json=detectionMode,proto3,enum=hub.v1.DetectionMode" json:"detection_mode,omitempty"`
+	SourceOrigin  SourceOrigin           `protobuf:"varint,7,opt,name=source_origin,json=sourceOrigin,proto3,enum=hub.v1.SourceOrigin" json:"source_origin,omitempty"`
+	Exemptions    []*AssetExemption      `protobuf:"bytes,8,rep,name=exemptions,proto3" json:"exemptions,omitempty"`
+	Source        string                 `protobuf:"bytes,9,opt,name=source,proto3" json:"source,omitempty"`
+	UpdatedBy     string                 `protobuf:"bytes,10,opt,name=updated_by,json=updatedBy,proto3" json:"updated_by,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NodeState) Reset() {
+	*x = NodeState{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NodeState) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeState) ProtoMessage() {}
+
+func (x *NodeState) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NodeState.ProtoReflect.Descriptor instead.
+func (*NodeState) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *NodeState) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *NodeState) GetTier() SLATier {
+	if x != nil {
+		return x.Tier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *NodeState) GetFreshnessSla() string {
+	if x != nil {
+		return x.FreshnessSla
+	}
+	return ""
+}
+
+func (x *NodeState) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *NodeState) GetPiiPosture() PIIPosture {
+	if x != nil {
+		return x.PiiPosture
+	}
+	return PIIPosture_PII_POSTURE_UNSPECIFIED
+}
+
+func (x *NodeState) GetDetectionMode() DetectionMode {
+	if x != nil {
+		return x.DetectionMode
+	}
+	return DetectionMode_DETECTION_MODE_UNSPECIFIED
+}
+
+func (x *NodeState) GetSourceOrigin() SourceOrigin {
+	if x != nil {
+		return x.SourceOrigin
+	}
+	return SourceOrigin_SOURCE_ORIGIN_UNSPECIFIED
+}
+
+func (x *NodeState) GetExemptions() []*AssetExemption {
+	if x != nil {
+		return x.Exemptions
+	}
+	return nil
+}
+
+func (x *NodeState) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *NodeState) GetUpdatedBy() string {
+	if x != nil {
+		return x.UpdatedBy
+	}
+	return ""
+}
+
+func (x *NodeState) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *NodeState) GetDeletedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.DeletedAt
+	}
+	return nil
+}
+
+// SLAGap captures a concrete governance compliance gap on an asset.
+type SLAGap struct {
+	state                     protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn                  string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	Code                      SLAGapCode             `protobuf:"varint,2,opt,name=code,proto3,enum=hub.v1.SLAGapCode" json:"code,omitempty"`
+	Message                   string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	DeclaredTier              SLATier                `protobuf:"varint,4,opt,name=declared_tier,json=declaredTier,proto3,enum=hub.v1.SLATier" json:"declared_tier,omitempty"`
+	ImpliedTier               SLATier                `protobuf:"varint,5,opt,name=implied_tier,json=impliedTier,proto3,enum=hub.v1.SLATier" json:"implied_tier,omitempty"`
+	DeclaredFreshnessSla      string                 `protobuf:"bytes,6,opt,name=declared_freshness_sla,json=declaredFreshnessSla,proto3" json:"declared_freshness_sla,omitempty"`
+	ImpliedFreshnessSla       string                 `protobuf:"bytes,7,opt,name=implied_freshness_sla,json=impliedFreshnessSla,proto3" json:"implied_freshness_sla,omitempty"`
+	CumulativeUpstreamLatency string                 `protobuf:"bytes,8,opt,name=cumulative_upstream_latency,json=cumulativeUpstreamLatency,proto3" json:"cumulative_upstream_latency,omitempty"`
+	OwnerTeam                 string                 `protobuf:"bytes,9,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	DriverFqns                []string               `protobuf:"bytes,10,rep,name=driver_fqns,json=driverFqns,proto3" json:"driver_fqns,omitempty"`
+	ExpiredExemptions         []*AssetExemption      `protobuf:"bytes,11,rep,name=expired_exemptions,json=expiredExemptions,proto3" json:"expired_exemptions,omitempty"`
+	unknownFields             protoimpl.UnknownFields
+	sizeCache                 protoimpl.SizeCache
+}
+
+func (x *SLAGap) Reset() {
+	*x = SLAGap{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SLAGap) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SLAGap) ProtoMessage() {}
+
+func (x *SLAGap) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SLAGap.ProtoReflect.Descriptor instead.
+func (*SLAGap) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *SLAGap) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *SLAGap) GetCode() SLAGapCode {
+	if x != nil {
+		return x.Code
+	}
+	return SLAGapCode_SLA_GAP_CODE_UNSPECIFIED
+}
+
+func (x *SLAGap) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *SLAGap) GetDeclaredTier() SLATier {
+	if x != nil {
+		return x.DeclaredTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *SLAGap) GetImpliedTier() SLATier {
+	if x != nil {
+		return x.ImpliedTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *SLAGap) GetDeclaredFreshnessSla() string {
+	if x != nil {
+		return x.DeclaredFreshnessSla
+	}
+	return ""
+}
+
+func (x *SLAGap) GetImpliedFreshnessSla() string {
+	if x != nil {
+		return x.ImpliedFreshnessSla
+	}
+	return ""
+}
+
+func (x *SLAGap) GetCumulativeUpstreamLatency() string {
+	if x != nil {
+		return x.CumulativeUpstreamLatency
+	}
+	return ""
+}
+
+func (x *SLAGap) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *SLAGap) GetDriverFqns() []string {
+	if x != nil {
+		return x.DriverFqns
+	}
+	return nil
+}
+
+func (x *SLAGap) GetExpiredExemptions() []*AssetExemption {
+	if x != nil {
+		return x.ExpiredExemptions
+	}
+	return nil
+}
+
+// ConsumerDriver captures how a downstream consumer product or leaf drives upstream requirements.
+type ConsumerDriver struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	ConsumerFqn        string                 `protobuf:"bytes,1,opt,name=consumer_fqn,json=consumerFqn,proto3" json:"consumer_fqn,omitempty"`
+	RequiredTier       SLATier                `protobuf:"varint,2,opt,name=required_tier,json=requiredTier,proto3,enum=hub.v1.SLATier" json:"required_tier,omitempty"`
+	FreshnessBudget    string                 `protobuf:"bytes,3,opt,name=freshness_budget,json=freshnessBudget,proto3" json:"freshness_budget,omitempty"`
+	CumulativeLatency  string                 `protobuf:"bytes,4,opt,name=cumulative_latency,json=cumulativeLatency,proto3" json:"cumulative_latency,omitempty"`
+	BudgetExceeded     bool                   `protobuf:"varint,5,opt,name=budget_exceeded,json=budgetExceeded,proto3" json:"budget_exceeded,omitempty"`
+	Exempted           bool                   `protobuf:"varint,6,opt,name=exempted,proto3" json:"exempted,omitempty"`
+	ExemptionExpired   bool                   `protobuf:"varint,7,opt,name=exemption_expired,json=exemptionExpired,proto3" json:"exemption_expired,omitempty"`
+	ExemptionReason    string                 `protobuf:"bytes,8,opt,name=exemption_reason,json=exemptionReason,proto3" json:"exemption_reason,omitempty"`
+	ExemptionExpiresAt string                 `protobuf:"bytes,9,opt,name=exemption_expires_at,json=exemptionExpiresAt,proto3" json:"exemption_expires_at,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *ConsumerDriver) Reset() {
+	*x = ConsumerDriver{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConsumerDriver) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConsumerDriver) ProtoMessage() {}
+
+func (x *ConsumerDriver) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConsumerDriver.ProtoReflect.Descriptor instead.
+func (*ConsumerDriver) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *ConsumerDriver) GetConsumerFqn() string {
+	if x != nil {
+		return x.ConsumerFqn
+	}
+	return ""
+}
+
+func (x *ConsumerDriver) GetRequiredTier() SLATier {
+	if x != nil {
+		return x.RequiredTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *ConsumerDriver) GetFreshnessBudget() string {
+	if x != nil {
+		return x.FreshnessBudget
+	}
+	return ""
+}
+
+func (x *ConsumerDriver) GetCumulativeLatency() string {
+	if x != nil {
+		return x.CumulativeLatency
+	}
+	return ""
+}
+
+func (x *ConsumerDriver) GetBudgetExceeded() bool {
+	if x != nil {
+		return x.BudgetExceeded
+	}
+	return false
+}
+
+func (x *ConsumerDriver) GetExempted() bool {
+	if x != nil {
+		return x.Exempted
+	}
+	return false
+}
+
+func (x *ConsumerDriver) GetExemptionExpired() bool {
+	if x != nil {
+		return x.ExemptionExpired
+	}
+	return false
+}
+
+func (x *ConsumerDriver) GetExemptionReason() string {
+	if x != nil {
+		return x.ExemptionReason
+	}
+	return ""
+}
+
+func (x *ConsumerDriver) GetExemptionExpiresAt() string {
+	if x != nil {
+		return x.ExemptionExpiresAt
+	}
+	return ""
+}
+
+// ReachabilityReport summarizes upstream lineage reachability for a single audited leaf asset.
+type ReachabilityReport struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	LeafFqn            string                 `protobuf:"bytes,1,opt,name=leaf_fqn,json=leafFqn,proto3" json:"leaf_fqn,omitempty"`
+	Tier               SLATier                `protobuf:"varint,2,opt,name=tier,proto3,enum=hub.v1.SLATier" json:"tier,omitempty"`
+	Status             ReachabilityStatus     `protobuf:"varint,3,opt,name=status,proto3,enum=hub.v1.ReachabilityStatus" json:"status,omitempty"`
+	WeakestConfidence  string                 `protobuf:"bytes,4,opt,name=weakest_confidence,json=weakestConfidence,proto3" json:"weakest_confidence,omitempty"`
+	ReachedSourceRoots []string               `protobuf:"bytes,5,rep,name=reached_source_roots,json=reachedSourceRoots,proto3" json:"reached_source_roots,omitempty"`
+	BrokenEndpoints    []string               `protobuf:"bytes,6,rep,name=broken_endpoints,json=brokenEndpoints,proto3" json:"broken_endpoints,omitempty"`
+	Reason             string                 `protobuf:"bytes,7,opt,name=reason,proto3" json:"reason,omitempty"`
+	OwnerTeam          string                 `protobuf:"bytes,8,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	HopCount           int32                  `protobuf:"varint,9,opt,name=hop_count,json=hopCount,proto3" json:"hop_count,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *ReachabilityReport) Reset() {
+	*x = ReachabilityReport{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReachabilityReport) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReachabilityReport) ProtoMessage() {}
+
+func (x *ReachabilityReport) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReachabilityReport.ProtoReflect.Descriptor instead.
+func (*ReachabilityReport) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *ReachabilityReport) GetLeafFqn() string {
+	if x != nil {
+		return x.LeafFqn
+	}
+	return ""
+}
+
+func (x *ReachabilityReport) GetTier() SLATier {
+	if x != nil {
+		return x.Tier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *ReachabilityReport) GetStatus() ReachabilityStatus {
+	if x != nil {
+		return x.Status
+	}
+	return ReachabilityStatus_REACHABILITY_STATUS_UNSPECIFIED
+}
+
+func (x *ReachabilityReport) GetWeakestConfidence() string {
+	if x != nil {
+		return x.WeakestConfidence
+	}
+	return ""
+}
+
+func (x *ReachabilityReport) GetReachedSourceRoots() []string {
+	if x != nil {
+		return x.ReachedSourceRoots
+	}
+	return nil
+}
+
+func (x *ReachabilityReport) GetBrokenEndpoints() []string {
+	if x != nil {
+		return x.BrokenEndpoints
+	}
+	return nil
+}
+
+func (x *ReachabilityReport) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *ReachabilityReport) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *ReachabilityReport) GetHopCount() int32 {
+	if x != nil {
+		return x.HopCount
+	}
+	return 0
+}
+
+// BrokenChainReport identifies an ungrounded upstream endpoint breaking one or more leaf chains.
+type BrokenChainReport struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	EndpointFqn         string                 `protobuf:"bytes,1,opt,name=endpoint_fqn,json=endpointFqn,proto3" json:"endpoint_fqn,omitempty"`
+	Reason              string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	AffectedConsumers   []string               `protobuf:"bytes,3,rep,name=affected_consumers,json=affectedConsumers,proto3" json:"affected_consumers,omitempty"`
+	HighestAffectedTier SLATier                `protobuf:"varint,4,opt,name=highest_affected_tier,json=highestAffectedTier,proto3,enum=hub.v1.SLATier" json:"highest_affected_tier,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *BrokenChainReport) Reset() {
+	*x = BrokenChainReport{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BrokenChainReport) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BrokenChainReport) ProtoMessage() {}
+
+func (x *BrokenChainReport) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BrokenChainReport.ProtoReflect.Descriptor instead.
+func (*BrokenChainReport) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *BrokenChainReport) GetEndpointFqn() string {
+	if x != nil {
+		return x.EndpointFqn
+	}
+	return ""
+}
+
+func (x *BrokenChainReport) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *BrokenChainReport) GetAffectedConsumers() []string {
+	if x != nil {
+		return x.AffectedConsumers
+	}
+	return nil
+}
+
+func (x *BrokenChainReport) GetHighestAffectedTier() SLATier {
+	if x != nil {
+		return x.HighestAffectedTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+// HighFanInAsset surfaces fragile assets exceeding the downstream consumer fan-in threshold.
+type HighFanInAsset struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn      string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	Ce            int32                  `protobuf:"varint,2,opt,name=ce,proto3" json:"ce,omitempty"`
+	Ca            int32                  `protobuf:"varint,3,opt,name=ca,proto3" json:"ca,omitempty"`
+	OwnerTeam     string                 `protobuf:"bytes,4,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	DeclaredTier  SLATier                `protobuf:"varint,5,opt,name=declared_tier,json=declaredTier,proto3,enum=hub.v1.SLATier" json:"declared_tier,omitempty"`
+	ImpliedTier   SLATier                `protobuf:"varint,6,opt,name=implied_tier,json=impliedTier,proto3,enum=hub.v1.SLATier" json:"implied_tier,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HighFanInAsset) Reset() {
+	*x = HighFanInAsset{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HighFanInAsset) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HighFanInAsset) ProtoMessage() {}
+
+func (x *HighFanInAsset) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HighFanInAsset.ProtoReflect.Descriptor instead.
+func (*HighFanInAsset) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *HighFanInAsset) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *HighFanInAsset) GetCe() int32 {
+	if x != nil {
+		return x.Ce
+	}
+	return 0
+}
+
+func (x *HighFanInAsset) GetCa() int32 {
+	if x != nil {
+		return x.Ca
+	}
+	return 0
+}
+
+func (x *HighFanInAsset) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *HighFanInAsset) GetDeclaredTier() SLATier {
+	if x != nil {
+		return x.DeclaredTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *HighFanInAsset) GetImpliedTier() SLATier {
+	if x != nil {
+		return x.ImpliedTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+// ZeroConsumerCandidate surfaces assets with zero recent observed downstream consumers.
+type ZeroConsumerCandidate struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn       string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	CaRecent       int32                  `protobuf:"varint,2,opt,name=ca_recent,json=caRecent,proto3" json:"ca_recent,omitempty"`
+	LookbackDays   int32                  `protobuf:"varint,3,opt,name=lookback_days,json=lookbackDays,proto3" json:"lookback_days,omitempty"`
+	LastObservedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_observed_at,json=lastObservedAt,proto3" json:"last_observed_at,omitempty"`
+	OwnerTeam      string                 `protobuf:"bytes,5,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	DeclaredTier   SLATier                `protobuf:"varint,6,opt,name=declared_tier,json=declaredTier,proto3,enum=hub.v1.SLATier" json:"declared_tier,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ZeroConsumerCandidate) Reset() {
+	*x = ZeroConsumerCandidate{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ZeroConsumerCandidate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ZeroConsumerCandidate) ProtoMessage() {}
+
+func (x *ZeroConsumerCandidate) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ZeroConsumerCandidate.ProtoReflect.Descriptor instead.
+func (*ZeroConsumerCandidate) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *ZeroConsumerCandidate) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *ZeroConsumerCandidate) GetCaRecent() int32 {
+	if x != nil {
+		return x.CaRecent
+	}
+	return 0
+}
+
+func (x *ZeroConsumerCandidate) GetLookbackDays() int32 {
+	if x != nil {
+		return x.LookbackDays
+	}
+	return 0
+}
+
+func (x *ZeroConsumerCandidate) GetLastObservedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastObservedAt
+	}
+	return nil
+}
+
+func (x *ZeroConsumerCandidate) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *ZeroConsumerCandidate) GetDeclaredTier() SLATier {
+	if x != nil {
+		return x.DeclaredTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+// TopologySignals bundles structural fragility and retirement candidates across the lineage graph.
+type TopologySignals struct {
+	state                    protoimpl.MessageState   `protogen:"open.v1"`
+	HighFanInAssets          []*HighFanInAsset        `protobuf:"bytes,1,rep,name=high_fan_in_assets,json=highFanInAssets,proto3" json:"high_fan_in_assets,omitempty"`
+	ZeroConsumerCandidates   []*ZeroConsumerCandidate `protobuf:"bytes,2,rep,name=zero_consumer_candidates,json=zeroConsumerCandidates,proto3" json:"zero_consumer_candidates,omitempty"`
+	HighFanInThreshold       int32                    `protobuf:"varint,3,opt,name=high_fan_in_threshold,json=highFanInThreshold,proto3" json:"high_fan_in_threshold,omitempty"`
+	ZeroConsumerLookbackDays int32                    `protobuf:"varint,4,opt,name=zero_consumer_lookback_days,json=zeroConsumerLookbackDays,proto3" json:"zero_consumer_lookback_days,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
+}
+
+func (x *TopologySignals) Reset() {
+	*x = TopologySignals{}
+	mi := &file_hub_v1_manifest_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TopologySignals) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TopologySignals) ProtoMessage() {}
+
+func (x *TopologySignals) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_manifest_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TopologySignals.ProtoReflect.Descriptor instead.
+func (*TopologySignals) Descriptor() ([]byte, []int) {
+	return file_hub_v1_manifest_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *TopologySignals) GetHighFanInAssets() []*HighFanInAsset {
+	if x != nil {
+		return x.HighFanInAssets
+	}
+	return nil
+}
+
+func (x *TopologySignals) GetZeroConsumerCandidates() []*ZeroConsumerCandidate {
+	if x != nil {
+		return x.ZeroConsumerCandidates
+	}
+	return nil
+}
+
+func (x *TopologySignals) GetHighFanInThreshold() int32 {
+	if x != nil {
+		return x.HighFanInThreshold
+	}
+	return 0
+}
+
+func (x *TopologySignals) GetZeroConsumerLookbackDays() int32 {
+	if x != nil {
+		return x.ZeroConsumerLookbackDays
+	}
+	return 0
+}
+
 var File_hub_v1_manifest_proto protoreflect.FileDescriptor
 
 const file_hub_v1_manifest_proto_rawDesc = "" +
@@ -3058,7 +4210,100 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"old_schema\x18\x02 \x01(\tR\toldSchema\x12\x1d\n" +
 	"\n" +
 	"new_schema\x18\x03 \x01(\tR\tnewSchema\x12\x12\n" +
-	"\x04diff\x18\x04 \x01(\tR\x04diff*\xd0\x01\n" +
+	"\x04diff\x18\x04 \x01(\tR\x04diff\"\xde\x01\n" +
+	"\x0eAssetExemption\x12!\n" +
+	"\fconsumer_fqn\x18\x01 \x01(\tR\vconsumerFqn\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x1d\n" +
+	"\n" +
+	"expires_at\x18\x03 \x01(\tR\texpiresAt\x12\x1d\n" +
+	"\n" +
+	"created_by\x18\x04 \x01(\tR\tcreatedBy\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x18\n" +
+	"\aexpired\x18\x06 \x01(\bR\aexpired\"\xd5\x04\n" +
+	"\tNodeState\x12$\n" +
+	"\tasset_fqn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bassetFqn\x12-\n" +
+	"\x04tier\x18\x02 \x01(\x0e2\x0f.hub.v1.SLATierB\b\xfaB\x05\x82\x01\x02\x10\x01R\x04tier\x12#\n" +
+	"\rfreshness_sla\x18\x03 \x01(\tR\ffreshnessSla\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\x04 \x01(\tR\townerTeam\x12=\n" +
+	"\vpii_posture\x18\x05 \x01(\x0e2\x12.hub.v1.PIIPostureB\b\xfaB\x05\x82\x01\x02\x10\x01R\n" +
+	"piiPosture\x12F\n" +
+	"\x0edetection_mode\x18\x06 \x01(\x0e2\x15.hub.v1.DetectionModeB\b\xfaB\x05\x82\x01\x02\x10\x01R\rdetectionMode\x12C\n" +
+	"\rsource_origin\x18\a \x01(\x0e2\x14.hub.v1.SourceOriginB\b\xfaB\x05\x82\x01\x02\x10\x01R\fsourceOrigin\x126\n" +
+	"\n" +
+	"exemptions\x18\b \x03(\v2\x16.hub.v1.AssetExemptionR\n" +
+	"exemptions\x12\x16\n" +
+	"\x06source\x18\t \x01(\tR\x06source\x12\x1d\n" +
+	"\n" +
+	"updated_by\x18\n" +
+	" \x01(\tR\tupdatedBy\x129\n" +
+	"\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
+	"\n" +
+	"deleted_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tdeletedAt\"\x82\x04\n" +
+	"\x06SLAGap\x12\x1b\n" +
+	"\tasset_fqn\x18\x01 \x01(\tR\bassetFqn\x12&\n" +
+	"\x04code\x18\x02 \x01(\x0e2\x12.hub.v1.SLAGapCodeR\x04code\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x124\n" +
+	"\rdeclared_tier\x18\x04 \x01(\x0e2\x0f.hub.v1.SLATierR\fdeclaredTier\x122\n" +
+	"\fimplied_tier\x18\x05 \x01(\x0e2\x0f.hub.v1.SLATierR\vimpliedTier\x124\n" +
+	"\x16declared_freshness_sla\x18\x06 \x01(\tR\x14declaredFreshnessSla\x122\n" +
+	"\x15implied_freshness_sla\x18\a \x01(\tR\x13impliedFreshnessSla\x12>\n" +
+	"\x1bcumulative_upstream_latency\x18\b \x01(\tR\x19cumulativeUpstreamLatency\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\t \x01(\tR\townerTeam\x12\x1f\n" +
+	"\vdriver_fqns\x18\n" +
+	" \x03(\tR\n" +
+	"driverFqns\x12E\n" +
+	"\x12expired_exemptions\x18\v \x03(\v2\x16.hub.v1.AssetExemptionR\x11expiredExemptions\"\x92\x03\n" +
+	"\x0eConsumerDriver\x12!\n" +
+	"\fconsumer_fqn\x18\x01 \x01(\tR\vconsumerFqn\x124\n" +
+	"\rrequired_tier\x18\x02 \x01(\x0e2\x0f.hub.v1.SLATierR\frequiredTier\x12)\n" +
+	"\x10freshness_budget\x18\x03 \x01(\tR\x0ffreshnessBudget\x12-\n" +
+	"\x12cumulative_latency\x18\x04 \x01(\tR\x11cumulativeLatency\x12'\n" +
+	"\x0fbudget_exceeded\x18\x05 \x01(\bR\x0ebudgetExceeded\x12\x1a\n" +
+	"\bexempted\x18\x06 \x01(\bR\bexempted\x12+\n" +
+	"\x11exemption_expired\x18\a \x01(\bR\x10exemptionExpired\x12)\n" +
+	"\x10exemption_reason\x18\b \x01(\tR\x0fexemptionReason\x120\n" +
+	"\x14exemption_expires_at\x18\t \x01(\tR\x12exemptionExpiresAt\"\xe8\x02\n" +
+	"\x12ReachabilityReport\x12\x19\n" +
+	"\bleaf_fqn\x18\x01 \x01(\tR\aleafFqn\x12#\n" +
+	"\x04tier\x18\x02 \x01(\x0e2\x0f.hub.v1.SLATierR\x04tier\x122\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x1a.hub.v1.ReachabilityStatusR\x06status\x12-\n" +
+	"\x12weakest_confidence\x18\x04 \x01(\tR\x11weakestConfidence\x120\n" +
+	"\x14reached_source_roots\x18\x05 \x03(\tR\x12reachedSourceRoots\x12)\n" +
+	"\x10broken_endpoints\x18\x06 \x03(\tR\x0fbrokenEndpoints\x12\x16\n" +
+	"\x06reason\x18\a \x01(\tR\x06reason\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\b \x01(\tR\townerTeam\x12\x1b\n" +
+	"\thop_count\x18\t \x01(\x05R\bhopCount\"\xc2\x01\n" +
+	"\x11BrokenChainReport\x12!\n" +
+	"\fendpoint_fqn\x18\x01 \x01(\tR\vendpointFqn\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\x12-\n" +
+	"\x12affected_consumers\x18\x03 \x03(\tR\x11affectedConsumers\x12C\n" +
+	"\x15highest_affected_tier\x18\x04 \x01(\x0e2\x0f.hub.v1.SLATierR\x13highestAffectedTier\"\xd6\x01\n" +
+	"\x0eHighFanInAsset\x12\x1b\n" +
+	"\tasset_fqn\x18\x01 \x01(\tR\bassetFqn\x12\x0e\n" +
+	"\x02ce\x18\x02 \x01(\x05R\x02ce\x12\x0e\n" +
+	"\x02ca\x18\x03 \x01(\x05R\x02ca\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\x04 \x01(\tR\townerTeam\x124\n" +
+	"\rdeclared_tier\x18\x05 \x01(\x0e2\x0f.hub.v1.SLATierR\fdeclaredTier\x122\n" +
+	"\fimplied_tier\x18\x06 \x01(\x0e2\x0f.hub.v1.SLATierR\vimpliedTier\"\x91\x02\n" +
+	"\x15ZeroConsumerCandidate\x12\x1b\n" +
+	"\tasset_fqn\x18\x01 \x01(\tR\bassetFqn\x12\x1b\n" +
+	"\tca_recent\x18\x02 \x01(\x05R\bcaRecent\x12#\n" +
+	"\rlookback_days\x18\x03 \x01(\x05R\flookbackDays\x12D\n" +
+	"\x10last_observed_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastObservedAt\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\x05 \x01(\tR\townerTeam\x124\n" +
+	"\rdeclared_tier\x18\x06 \x01(\x0e2\x0f.hub.v1.SLATierR\fdeclaredTier\"\xa1\x02\n" +
+	"\x0fTopologySignals\x12C\n" +
+	"\x12high_fan_in_assets\x18\x01 \x03(\v2\x16.hub.v1.HighFanInAssetR\x0fhighFanInAssets\x12W\n" +
+	"\x18zero_consumer_candidates\x18\x02 \x03(\v2\x1d.hub.v1.ZeroConsumerCandidateR\x16zeroConsumerCandidates\x121\n" +
+	"\x15high_fan_in_threshold\x18\x03 \x01(\x05R\x12highFanInThreshold\x12=\n" +
+	"\x1bzero_consumer_lookback_days\x18\x04 \x01(\x05R\x18zeroConsumerLookbackDays*\xd0\x01\n" +
 	"\x0fLifecycleStatus\x12 \n" +
 	"\x1cLIFECYCLE_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16LIFECYCLE_STATUS_DRAFT\x10\x01\x12#\n" +
@@ -3125,7 +4370,40 @@ const file_hub_v1_manifest_proto_rawDesc = "" +
 	"FileFormat\x12\x1b\n" +
 	"\x17FILE_FORMAT_UNSPECIFIED\x10\x00\x12\x13\n" +
 	"\x0fFILE_FORMAT_CSV\x10\x01\x12\x15\n" +
-	"\x11FILE_FORMAT_JSONL\x10\x02B\x95\x01\n" +
+	"\x11FILE_FORMAT_JSONL\x10\x02*\x9e\x01\n" +
+	"\n" +
+	"PIIPosture\x12\x1b\n" +
+	"\x17PII_POSTURE_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10PII_POSTURE_NONE\x10\x01\x12\x13\n" +
+	"\x0fPII_POSTURE_LOW\x10\x02\x12\x18\n" +
+	"\x14PII_POSTURE_MODERATE\x10\x03\x12\x14\n" +
+	"\x10PII_POSTURE_HIGH\x10\x04\x12\x18\n" +
+	"\x14PII_POSTURE_CRITICAL\x10\x05*\x80\x01\n" +
+	"\rDetectionMode\x12\x1e\n" +
+	"\x1aDETECTION_MODE_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15DETECTION_MODE_MANUAL\x10\x01\x12\x17\n" +
+	"\x13DETECTION_MODE_RULE\x10\x02\x12\x1b\n" +
+	"\x17DETECTION_MODE_INFERRED\x10\x03*\xbd\x01\n" +
+	"\fSourceOrigin\x12\x1d\n" +
+	"\x19SOURCE_ORIGIN_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12SOURCE_ORIGIN_SADP\x10\x01\x12\x18\n" +
+	"\x14SOURCE_ORIGIN_PUBSUB\x10\x02\x12 \n" +
+	"\x1cSOURCE_ORIGIN_SAAS_EXTRACTOR\x10\x03\x12\x15\n" +
+	"\x11SOURCE_ORIGIN_CDC\x10\x04\x12#\n" +
+	"\x1fSOURCE_ORIGIN_DECLARED_EXTERNAL\x10\x05*\xc0\x01\n" +
+	"\n" +
+	"SLAGapCode\x12\x1c\n" +
+	"\x18SLA_GAP_CODE_UNSPECIFIED\x10\x00\x12!\n" +
+	"\x1dSLA_GAP_CODE_TIER_UNDERTAGGED\x10\x01\x12#\n" +
+	"\x1fSLA_GAP_CODE_FRESHNESS_EXCEEDED\x10\x02\x12(\n" +
+	"$SLA_GAP_CODE_LATENCY_BUDGET_EXCEEDED\x10\x03\x12\"\n" +
+	"\x1eSLA_GAP_CODE_EXPIRED_EXEMPTION\x10\x04*\xc1\x01\n" +
+	"\x12ReachabilityStatus\x12#\n" +
+	"\x1fREACHABILITY_STATUS_UNSPECIFIED\x10\x00\x12!\n" +
+	"\x1dREACHABILITY_STATUS_REACHABLE\x10\x01\x12\x1e\n" +
+	"\x1aREACHABILITY_STATUS_BROKEN\x10\x02\x12 \n" +
+	"\x1cREACHABILITY_STATUS_EXEMPTED\x10\x03\x12!\n" +
+	"\x1dREACHABILITY_STATUS_UNAUDITED\x10\x04B\x95\x01\n" +
 	"\n" +
 	"com.hub.v1B\rManifestProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1P\x03b\x06proto3"
 
@@ -3141,8 +4419,8 @@ func file_hub_v1_manifest_proto_rawDescGZIP() []byte {
 	return file_hub_v1_manifest_proto_rawDescData
 }
 
-var file_hub_v1_manifest_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
-var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_hub_v1_manifest_proto_enumTypes = make([]protoimpl.EnumInfo, 15)
+var file_hub_v1_manifest_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
 var file_hub_v1_manifest_proto_goTypes = []any{
 	(LifecycleStatus)(0),          // 0: hub.v1.LifecycleStatus
 	(LensType)(0),                 // 1: hub.v1.LensType
@@ -3154,98 +4432,134 @@ var file_hub_v1_manifest_proto_goTypes = []any{
 	(NotificationChannel)(0),      // 7: hub.v1.NotificationChannel
 	(TriggerType)(0),              // 8: hub.v1.TriggerType
 	(FileFormat)(0),               // 9: hub.v1.FileFormat
-	(*ProductManifest)(nil),       // 10: hub.v1.ProductManifest
-	(*TermsOfUse)(nil),            // 11: hub.v1.TermsOfUse
-	(*Context)(nil),               // 12: hub.v1.Context
-	(*VerifiedStatement)(nil),     // 13: hub.v1.VerifiedStatement
-	(*TransformPort)(nil),         // 14: hub.v1.TransformPort
-	(*ImportDemand)(nil),          // 15: hub.v1.ImportDemand
-	(*SLA)(nil),                   // 16: hub.v1.SLA
-	(*SLAExemption)(nil),          // 17: hub.v1.SLAExemption
-	(*IngestionConfig)(nil),       // 18: hub.v1.IngestionConfig
-	(*ProductStatus)(nil),         // 19: hub.v1.ProductStatus
-	(*Health)(nil),                // 20: hub.v1.Health
-	(*ProductMeta)(nil),           // 21: hub.v1.ProductMeta
-	(*Owner)(nil),                 // 22: hub.v1.Owner
-	(*InputPort)(nil),             // 23: hub.v1.InputPort
-	(*OutputPort)(nil),            // 24: hub.v1.OutputPort
-	(*PhysicalConfig)(nil),        // 25: hub.v1.PhysicalConfig
-	(*BigQueryConfig)(nil),        // 26: hub.v1.BigQueryConfig
-	(*ContractPointer)(nil),       // 27: hub.v1.ContractPointer
-	(*Definition)(nil),            // 28: hub.v1.Definition
-	(*SubscriptionRule)(nil),      // 29: hub.v1.SubscriptionRule
-	(*Subscriber)(nil),            // 30: hub.v1.Subscriber
-	(*Webhook)(nil),               // 31: hub.v1.Webhook
-	(*FileConfig)(nil),            // 32: hub.v1.FileConfig
-	(*BreakingChange)(nil),        // 33: hub.v1.BreakingChange
-	nil,                           // 34: hub.v1.TransformPort.OptionsEntry
-	nil,                           // 35: hub.v1.ImportDemand.SemanticFingerprintsEntry
-	nil,                           // 36: hub.v1.Health.MetadataEntry
-	nil,                           // 37: hub.v1.ProductMeta.LabelsEntry
-	nil,                           // 38: hub.v1.BigQueryConfig.PolicyTagsEntry
-	nil,                           // 39: hub.v1.BigQueryConfig.MaskingRulesEntry
-	(*timestamppb.Timestamp)(nil), // 40: google.protobuf.Timestamp
-	(HealthState)(0),              // 41: hub.v1.HealthState
-	(*durationpb.Duration)(nil),   // 42: google.protobuf.Duration
+	(PIIPosture)(0),               // 10: hub.v1.PIIPosture
+	(DetectionMode)(0),            // 11: hub.v1.DetectionMode
+	(SourceOrigin)(0),             // 12: hub.v1.SourceOrigin
+	(SLAGapCode)(0),               // 13: hub.v1.SLAGapCode
+	(ReachabilityStatus)(0),       // 14: hub.v1.ReachabilityStatus
+	(*ProductManifest)(nil),       // 15: hub.v1.ProductManifest
+	(*TermsOfUse)(nil),            // 16: hub.v1.TermsOfUse
+	(*Context)(nil),               // 17: hub.v1.Context
+	(*VerifiedStatement)(nil),     // 18: hub.v1.VerifiedStatement
+	(*TransformPort)(nil),         // 19: hub.v1.TransformPort
+	(*ImportDemand)(nil),          // 20: hub.v1.ImportDemand
+	(*SLA)(nil),                   // 21: hub.v1.SLA
+	(*SLAExemption)(nil),          // 22: hub.v1.SLAExemption
+	(*IngestionConfig)(nil),       // 23: hub.v1.IngestionConfig
+	(*ProductStatus)(nil),         // 24: hub.v1.ProductStatus
+	(*Health)(nil),                // 25: hub.v1.Health
+	(*ProductMeta)(nil),           // 26: hub.v1.ProductMeta
+	(*Owner)(nil),                 // 27: hub.v1.Owner
+	(*InputPort)(nil),             // 28: hub.v1.InputPort
+	(*OutputPort)(nil),            // 29: hub.v1.OutputPort
+	(*PhysicalConfig)(nil),        // 30: hub.v1.PhysicalConfig
+	(*BigQueryConfig)(nil),        // 31: hub.v1.BigQueryConfig
+	(*ContractPointer)(nil),       // 32: hub.v1.ContractPointer
+	(*Definition)(nil),            // 33: hub.v1.Definition
+	(*SubscriptionRule)(nil),      // 34: hub.v1.SubscriptionRule
+	(*Subscriber)(nil),            // 35: hub.v1.Subscriber
+	(*Webhook)(nil),               // 36: hub.v1.Webhook
+	(*FileConfig)(nil),            // 37: hub.v1.FileConfig
+	(*BreakingChange)(nil),        // 38: hub.v1.BreakingChange
+	(*AssetExemption)(nil),        // 39: hub.v1.AssetExemption
+	(*NodeState)(nil),             // 40: hub.v1.NodeState
+	(*SLAGap)(nil),                // 41: hub.v1.SLAGap
+	(*ConsumerDriver)(nil),        // 42: hub.v1.ConsumerDriver
+	(*ReachabilityReport)(nil),    // 43: hub.v1.ReachabilityReport
+	(*BrokenChainReport)(nil),     // 44: hub.v1.BrokenChainReport
+	(*HighFanInAsset)(nil),        // 45: hub.v1.HighFanInAsset
+	(*ZeroConsumerCandidate)(nil), // 46: hub.v1.ZeroConsumerCandidate
+	(*TopologySignals)(nil),       // 47: hub.v1.TopologySignals
+	nil,                           // 48: hub.v1.TransformPort.OptionsEntry
+	nil,                           // 49: hub.v1.ImportDemand.SemanticFingerprintsEntry
+	nil,                           // 50: hub.v1.Health.MetadataEntry
+	nil,                           // 51: hub.v1.ProductMeta.LabelsEntry
+	nil,                           // 52: hub.v1.BigQueryConfig.PolicyTagsEntry
+	nil,                           // 53: hub.v1.BigQueryConfig.MaskingRulesEntry
+	(*timestamppb.Timestamp)(nil), // 54: google.protobuf.Timestamp
+	(HealthState)(0),              // 55: hub.v1.HealthState
+	(*durationpb.Duration)(nil),   // 56: google.protobuf.Duration
 }
 var file_hub_v1_manifest_proto_depIdxs = []int32{
-	21, // 0: hub.v1.ProductManifest.meta:type_name -> hub.v1.ProductMeta
-	23, // 1: hub.v1.ProductManifest.input_ports:type_name -> hub.v1.InputPort
-	24, // 2: hub.v1.ProductManifest.output_ports:type_name -> hub.v1.OutputPort
-	30, // 3: hub.v1.ProductManifest.subscribers:type_name -> hub.v1.Subscriber
-	31, // 4: hub.v1.ProductManifest.webhooks:type_name -> hub.v1.Webhook
-	32, // 5: hub.v1.ProductManifest.files:type_name -> hub.v1.FileConfig
-	19, // 6: hub.v1.ProductManifest.status:type_name -> hub.v1.ProductStatus
-	18, // 7: hub.v1.ProductManifest.ingestion:type_name -> hub.v1.IngestionConfig
-	16, // 8: hub.v1.ProductManifest.sla:type_name -> hub.v1.SLA
-	14, // 9: hub.v1.ProductManifest.transforms:type_name -> hub.v1.TransformPort
-	15, // 10: hub.v1.ProductManifest.import_demands:type_name -> hub.v1.ImportDemand
+	26, // 0: hub.v1.ProductManifest.meta:type_name -> hub.v1.ProductMeta
+	28, // 1: hub.v1.ProductManifest.input_ports:type_name -> hub.v1.InputPort
+	29, // 2: hub.v1.ProductManifest.output_ports:type_name -> hub.v1.OutputPort
+	35, // 3: hub.v1.ProductManifest.subscribers:type_name -> hub.v1.Subscriber
+	36, // 4: hub.v1.ProductManifest.webhooks:type_name -> hub.v1.Webhook
+	37, // 5: hub.v1.ProductManifest.files:type_name -> hub.v1.FileConfig
+	24, // 6: hub.v1.ProductManifest.status:type_name -> hub.v1.ProductStatus
+	23, // 7: hub.v1.ProductManifest.ingestion:type_name -> hub.v1.IngestionConfig
+	21, // 8: hub.v1.ProductManifest.sla:type_name -> hub.v1.SLA
+	19, // 9: hub.v1.ProductManifest.transforms:type_name -> hub.v1.TransformPort
+	20, // 10: hub.v1.ProductManifest.import_demands:type_name -> hub.v1.ImportDemand
 	0,  // 11: hub.v1.ProductManifest.lifecycle_status:type_name -> hub.v1.LifecycleStatus
-	11, // 12: hub.v1.ProductManifest.terms_of_use:type_name -> hub.v1.TermsOfUse
-	12, // 13: hub.v1.ProductManifest.ai_context:type_name -> hub.v1.Context
-	13, // 14: hub.v1.Context.verified_statements:type_name -> hub.v1.VerifiedStatement
-	34, // 15: hub.v1.TransformPort.options:type_name -> hub.v1.TransformPort.OptionsEntry
+	16, // 12: hub.v1.ProductManifest.terms_of_use:type_name -> hub.v1.TermsOfUse
+	17, // 13: hub.v1.ProductManifest.ai_context:type_name -> hub.v1.Context
+	18, // 14: hub.v1.Context.verified_statements:type_name -> hub.v1.VerifiedStatement
+	48, // 15: hub.v1.TransformPort.options:type_name -> hub.v1.TransformPort.OptionsEntry
 	2,  // 16: hub.v1.ImportDemand.min_sla_tier:type_name -> hub.v1.SLATier
 	1,  // 17: hub.v1.ImportDemand.expected_lens:type_name -> hub.v1.LensType
-	35, // 18: hub.v1.ImportDemand.semantic_fingerprints:type_name -> hub.v1.ImportDemand.SemanticFingerprintsEntry
+	49, // 18: hub.v1.ImportDemand.semantic_fingerprints:type_name -> hub.v1.ImportDemand.SemanticFingerprintsEntry
 	2,  // 19: hub.v1.SLA.tier:type_name -> hub.v1.SLATier
-	17, // 20: hub.v1.SLA.exemptions:type_name -> hub.v1.SLAExemption
+	22, // 20: hub.v1.SLA.exemptions:type_name -> hub.v1.SLAExemption
 	3,  // 21: hub.v1.ProductStatus.sync_status:type_name -> hub.v1.SyncStatus
-	40, // 22: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
-	20, // 23: hub.v1.ProductStatus.health:type_name -> hub.v1.Health
-	41, // 24: hub.v1.Health.state:type_name -> hub.v1.HealthState
-	40, // 25: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
-	36, // 26: hub.v1.Health.metadata:type_name -> hub.v1.Health.MetadataEntry
-	22, // 27: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
-	37, // 28: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
+	54, // 22: hub.v1.ProductStatus.last_synced_at:type_name -> google.protobuf.Timestamp
+	25, // 23: hub.v1.ProductStatus.health:type_name -> hub.v1.Health
+	55, // 24: hub.v1.Health.state:type_name -> hub.v1.HealthState
+	54, // 25: hub.v1.Health.last_updated_at:type_name -> google.protobuf.Timestamp
+	50, // 26: hub.v1.Health.metadata:type_name -> hub.v1.Health.MetadataEntry
+	27, // 27: hub.v1.ProductMeta.owner:type_name -> hub.v1.Owner
+	51, // 28: hub.v1.ProductMeta.labels:type_name -> hub.v1.ProductMeta.LabelsEntry
 	4,  // 29: hub.v1.ProductMeta.archetype:type_name -> hub.v1.ProductArchetype
-	27, // 30: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
-	15, // 31: hub.v1.InputPort.demand:type_name -> hub.v1.ImportDemand
-	27, // 32: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
+	32, // 30: hub.v1.InputPort.contract:type_name -> hub.v1.ContractPointer
+	20, // 31: hub.v1.InputPort.demand:type_name -> hub.v1.ImportDemand
+	32, // 32: hub.v1.OutputPort.contract:type_name -> hub.v1.ContractPointer
 	5,  // 33: hub.v1.OutputPort.provisioning_policy:type_name -> hub.v1.ProvisioningPolicy
-	25, // 34: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
-	16, // 35: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
+	30, // 34: hub.v1.OutputPort.physical:type_name -> hub.v1.PhysicalConfig
+	21, // 35: hub.v1.OutputPort.effective_sla:type_name -> hub.v1.SLA
 	1,  // 36: hub.v1.OutputPort.lens:type_name -> hub.v1.LensType
 	0,  // 37: hub.v1.OutputPort.lifecycle_status:type_name -> hub.v1.LifecycleStatus
-	11, // 38: hub.v1.OutputPort.terms_of_use:type_name -> hub.v1.TermsOfUse
-	12, // 39: hub.v1.OutputPort.ai_context:type_name -> hub.v1.Context
-	26, // 40: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
-	42, // 41: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
-	38, // 42: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
-	39, // 43: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
-	28, // 44: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
+	16, // 38: hub.v1.OutputPort.terms_of_use:type_name -> hub.v1.TermsOfUse
+	17, // 39: hub.v1.OutputPort.ai_context:type_name -> hub.v1.Context
+	31, // 40: hub.v1.PhysicalConfig.bigquery:type_name -> hub.v1.BigQueryConfig
+	56, // 41: hub.v1.BigQueryConfig.partition_expiration:type_name -> google.protobuf.Duration
+	52, // 42: hub.v1.BigQueryConfig.policy_tags:type_name -> hub.v1.BigQueryConfig.PolicyTagsEntry
+	53, // 43: hub.v1.BigQueryConfig.masking_rules:type_name -> hub.v1.BigQueryConfig.MaskingRulesEntry
+	33, // 44: hub.v1.ContractPointer.definition:type_name -> hub.v1.Definition
 	8,  // 45: hub.v1.SubscriptionRule.trigger:type_name -> hub.v1.TriggerType
 	6,  // 46: hub.v1.Subscriber.notification_level:type_name -> hub.v1.NotificationLevel
-	29, // 47: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
+	34, // 47: hub.v1.Subscriber.rules:type_name -> hub.v1.SubscriptionRule
 	7,  // 48: hub.v1.Subscriber.channel:type_name -> hub.v1.NotificationChannel
-	27, // 49: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
+	32, // 49: hub.v1.Webhook.contract:type_name -> hub.v1.ContractPointer
 	9,  // 50: hub.v1.FileConfig.format:type_name -> hub.v1.FileFormat
-	27, // 51: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
-	52, // [52:52] is the sub-list for method output_type
-	52, // [52:52] is the sub-list for method input_type
-	52, // [52:52] is the sub-list for extension type_name
-	52, // [52:52] is the sub-list for extension extendee
-	0,  // [0:52] is the sub-list for field type_name
+	32, // 51: hub.v1.FileConfig.contract:type_name -> hub.v1.ContractPointer
+	54, // 52: hub.v1.AssetExemption.created_at:type_name -> google.protobuf.Timestamp
+	2,  // 53: hub.v1.NodeState.tier:type_name -> hub.v1.SLATier
+	10, // 54: hub.v1.NodeState.pii_posture:type_name -> hub.v1.PIIPosture
+	11, // 55: hub.v1.NodeState.detection_mode:type_name -> hub.v1.DetectionMode
+	12, // 56: hub.v1.NodeState.source_origin:type_name -> hub.v1.SourceOrigin
+	39, // 57: hub.v1.NodeState.exemptions:type_name -> hub.v1.AssetExemption
+	54, // 58: hub.v1.NodeState.updated_at:type_name -> google.protobuf.Timestamp
+	54, // 59: hub.v1.NodeState.deleted_at:type_name -> google.protobuf.Timestamp
+	13, // 60: hub.v1.SLAGap.code:type_name -> hub.v1.SLAGapCode
+	2,  // 61: hub.v1.SLAGap.declared_tier:type_name -> hub.v1.SLATier
+	2,  // 62: hub.v1.SLAGap.implied_tier:type_name -> hub.v1.SLATier
+	39, // 63: hub.v1.SLAGap.expired_exemptions:type_name -> hub.v1.AssetExemption
+	2,  // 64: hub.v1.ConsumerDriver.required_tier:type_name -> hub.v1.SLATier
+	2,  // 65: hub.v1.ReachabilityReport.tier:type_name -> hub.v1.SLATier
+	14, // 66: hub.v1.ReachabilityReport.status:type_name -> hub.v1.ReachabilityStatus
+	2,  // 67: hub.v1.BrokenChainReport.highest_affected_tier:type_name -> hub.v1.SLATier
+	2,  // 68: hub.v1.HighFanInAsset.declared_tier:type_name -> hub.v1.SLATier
+	2,  // 69: hub.v1.HighFanInAsset.implied_tier:type_name -> hub.v1.SLATier
+	54, // 70: hub.v1.ZeroConsumerCandidate.last_observed_at:type_name -> google.protobuf.Timestamp
+	2,  // 71: hub.v1.ZeroConsumerCandidate.declared_tier:type_name -> hub.v1.SLATier
+	45, // 72: hub.v1.TopologySignals.high_fan_in_assets:type_name -> hub.v1.HighFanInAsset
+	46, // 73: hub.v1.TopologySignals.zero_consumer_candidates:type_name -> hub.v1.ZeroConsumerCandidate
+	74, // [74:74] is the sub-list for method output_type
+	74, // [74:74] is the sub-list for method input_type
+	74, // [74:74] is the sub-list for extension type_name
+	74, // [74:74] is the sub-list for extension extendee
+	0,  // [0:74] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_manifest_proto_init() }
@@ -3259,8 +4573,8 @@ func file_hub_v1_manifest_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_manifest_proto_rawDesc), len(file_hub_v1_manifest_proto_rawDesc)),
-			NumEnums:      10,
-			NumMessages:   30,
+			NumEnums:      15,
+			NumMessages:   39,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

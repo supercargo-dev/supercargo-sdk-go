@@ -238,8 +238,16 @@ type GithubPullRequest struct {
 	TouchedFiles []string `protobuf:"bytes,19,rep,name=touched_files,json=touchedFiles,proto3" json:"touched_files,omitempty"`
 	// Post-merge Core CI & deploy first-pass green outcome
 	TrunkDeployFirstPassGreen bool `protobuf:"varint,20,opt,name=trunk_deploy_first_pass_green,json=trunkDeployFirstPassGreen,proto3" json:"trunk_deploy_first_pass_green,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	// Count of non-bot submitted pull request review rounds (APPROVED, CHANGES_REQUESTED, COMMENTED)
+	ReviewRounds int64 `protobuf:"varint,21,opt,name=review_rounds,json=reviewRounds,proto3" json:"review_rounds,omitempty"`
+	// Count of non-bot submitted pull request reviews with state CHANGES_REQUESTED
+	ChangesRequestedCount int64 `protobuf:"varint,22,opt,name=changes_requested_count,json=changesRequestedCount,proto3" json:"changes_requested_count,omitempty"`
+	// Count of non-bot inline review comments, issue comments, and non-empty submitted review bodies
+	HumanReviewCommentsCount int64 `protobuf:"varint,23,opt,name=human_review_comments_count,json=humanReviewCommentsCount,proto3" json:"human_review_comments_count,omitempty"`
+	// Earliest UTC timestamp of any counted non-bot review or comment (nullable)
+	FirstHumanReviewAt *timestamppb.Timestamp `protobuf:"bytes,24,opt,name=first_human_review_at,json=firstHumanReviewAt,proto3" json:"first_human_review_at,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *GithubPullRequest) Reset() {
@@ -410,6 +418,34 @@ func (x *GithubPullRequest) GetTrunkDeployFirstPassGreen() bool {
 		return x.TrunkDeployFirstPassGreen
 	}
 	return false
+}
+
+func (x *GithubPullRequest) GetReviewRounds() int64 {
+	if x != nil {
+		return x.ReviewRounds
+	}
+	return 0
+}
+
+func (x *GithubPullRequest) GetChangesRequestedCount() int64 {
+	if x != nil {
+		return x.ChangesRequestedCount
+	}
+	return 0
+}
+
+func (x *GithubPullRequest) GetHumanReviewCommentsCount() int64 {
+	if x != nil {
+		return x.HumanReviewCommentsCount
+	}
+	return 0
+}
+
+func (x *GithubPullRequest) GetFirstHumanReviewAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.FirstHumanReviewAt
+	}
+	return nil
 }
 
 // GitHub Repositories data contract capturing repository metadata, topics, visibility, and lifecycle timestamps
@@ -973,7 +1009,8 @@ const file_platform_v1_github_proto_rawDesc = "" +
 	"\x04area\x18\r \x01(\tR\x04area\x12'\n" +
 	"\x0fmilestone_title\x18\x0e \x01(\tR\x0emilestoneTitle\x12R\n" +
 	"\n" +
-	"updated_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampB\x17\xfaB\x05\xb2\x01\x02\b\x01\xc2\xc1\x18\v\x12\tTIMESTAMPR\tupdatedAt\"\xaa\b\n" +
+	"updated_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampB\x17\xfaB\x05\xb2\x01\x02\b\x01\xc2\xc1\x18\v\x12\tTIMESTAMPR\tupdatedAt\"\xa6\n" +
+	"\n" +
 	"\x11GithubPullRequest\x12 \n" +
 	"\apull_id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x06pullId\x12(\n" +
 	"\vpull_number\x18\x02 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\n" +
@@ -1002,7 +1039,11 @@ const file_platform_v1_github_proto_rawDesc = "" +
 	"\x15post_merge_escapes_7d\x18\x11 \x01(\x03B\a\xfaB\x04\"\x02(\x00R\x12postMergeEscapes7d\x12Y\n" +
 	"\x1csubcutaneous_invariant_score\x18\x12 \x01(\x01B\x17\xfaB\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x1asubcutaneousInvariantScore\x12#\n" +
 	"\rtouched_files\x18\x13 \x03(\tR\ftouchedFiles\x12@\n" +
-	"\x1dtrunk_deploy_first_pass_green\x18\x14 \x01(\bR\x19trunkDeployFirstPassGreen\"\xe3\x03\n" +
+	"\x1dtrunk_deploy_first_pass_green\x18\x14 \x01(\bR\x19trunkDeployFirstPassGreen\x12#\n" +
+	"\rreview_rounds\x18\x15 \x01(\x03R\freviewRounds\x126\n" +
+	"\x17changes_requested_count\x18\x16 \x01(\x03R\x15changesRequestedCount\x12=\n" +
+	"\x1bhuman_review_comments_count\x18\x17 \x01(\x03R\x18humanReviewCommentsCount\x12^\n" +
+	"\x15first_human_review_at\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampB\x0f\xc2\xc1\x18\v\x12\tTIMESTAMPR\x12firstHumanReviewAt\"\xe3\x03\n" +
 	"\x10GithubRepository\x122\n" +
 	"\rrepository_id\x18\x01 \x01(\x03B\r\xfaB\x04\"\x02 \x00\xc2\xc1\x18\x02 \x01R\frepositoryId\x12\x1d\n" +
 	"\x05owner\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x05owner\x12\x1b\n" +
@@ -1104,16 +1145,17 @@ var file_platform_v1_github_proto_depIdxs = []int32{
 	5,  // 3: platform.v1.GithubPullRequest.created_at:type_name -> google.protobuf.Timestamp
 	5,  // 4: platform.v1.GithubPullRequest.merged_at:type_name -> google.protobuf.Timestamp
 	5,  // 5: platform.v1.GithubPullRequest.updated_at:type_name -> google.protobuf.Timestamp
-	5,  // 6: platform.v1.GithubRepository.created_at:type_name -> google.protobuf.Timestamp
-	5,  // 7: platform.v1.GithubRepository.updated_at:type_name -> google.protobuf.Timestamp
-	5,  // 8: platform.v1.GithubWorkflowRun.created_at:type_name -> google.protobuf.Timestamp
-	5,  // 9: platform.v1.GithubWorkflowRun.updated_at:type_name -> google.protobuf.Timestamp
-	5,  // 10: platform.v1.GithubWorkflowRun.run_started_at:type_name -> google.protobuf.Timestamp
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	5,  // 6: platform.v1.GithubPullRequest.first_human_review_at:type_name -> google.protobuf.Timestamp
+	5,  // 7: platform.v1.GithubRepository.created_at:type_name -> google.protobuf.Timestamp
+	5,  // 8: platform.v1.GithubRepository.updated_at:type_name -> google.protobuf.Timestamp
+	5,  // 9: platform.v1.GithubWorkflowRun.created_at:type_name -> google.protobuf.Timestamp
+	5,  // 10: platform.v1.GithubWorkflowRun.updated_at:type_name -> google.protobuf.Timestamp
+	5,  // 11: platform.v1.GithubWorkflowRun.run_started_at:type_name -> google.protobuf.Timestamp
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_github_proto_init() }

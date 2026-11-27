@@ -139,53 +139,104 @@ const (
 	// HubServiceGetInfrastructureDriftProcedure is the fully-qualified name of the HubService's
 	// GetInfrastructureDrift RPC.
 	HubServiceGetInfrastructureDriftProcedure = "/hub.v1.HubService/GetInfrastructureDrift"
+	// HubServiceDiffContractsProcedure is the fully-qualified name of the HubService's DiffContracts
+	// RPC.
+	HubServiceDiffContractsProcedure = "/hub.v1.HubService/DiffContracts"
+	// HubServiceDiffProductManifestsProcedure is the fully-qualified name of the HubService's
+	// DiffProductManifests RPC.
+	HubServiceDiffProductManifestsProcedure = "/hub.v1.HubService/DiffProductManifests"
+	// HubServiceGetTrustScorecardProcedure is the fully-qualified name of the HubService's
+	// GetTrustScorecard RPC.
+	HubServiceGetTrustScorecardProcedure = "/hub.v1.HubService/GetTrustScorecard"
+	// HubServiceListTrustScorecardsProcedure is the fully-qualified name of the HubService's
+	// ListTrustScorecards RPC.
+	HubServiceListTrustScorecardsProcedure = "/hub.v1.HubService/ListTrustScorecards"
+	// HubServiceGetLineageGraphProcedure is the fully-qualified name of the HubService's
+	// GetLineageGraph RPC.
+	HubServiceGetLineageGraphProcedure = "/hub.v1.HubService/GetLineageGraph"
+	// HubServiceIngestLineageManifestProcedure is the fully-qualified name of the HubService's
+	// IngestLineageManifest RPC.
+	HubServiceIngestLineageManifestProcedure = "/hub.v1.HubService/IngestLineageManifest"
+	// HubServiceReplayLineageSubmissionsProcedure is the fully-qualified name of the HubService's
+	// ReplayLineageSubmissions RPC.
+	HubServiceReplayLineageSubmissionsProcedure = "/hub.v1.HubService/ReplayLineageSubmissions"
+	// HubServiceSetAssetStateProcedure is the fully-qualified name of the HubService's SetAssetState
+	// RPC.
+	HubServiceSetAssetStateProcedure = "/hub.v1.HubService/SetAssetState"
+	// HubServiceGetEffectiveAssetStateProcedure is the fully-qualified name of the HubService's
+	// GetEffectiveAssetState RPC.
+	HubServiceGetEffectiveAssetStateProcedure = "/hub.v1.HubService/GetEffectiveAssetState"
+	// HubServiceDeleteAssetStateProcedure is the fully-qualified name of the HubService's
+	// DeleteAssetState RPC.
+	HubServiceDeleteAssetStateProcedure = "/hub.v1.HubService/DeleteAssetState"
+	// HubServiceListSLAGapsProcedure is the fully-qualified name of the HubService's ListSLAGaps RPC.
+	HubServiceListSLAGapsProcedure = "/hub.v1.HubService/ListSLAGaps"
+	// HubServiceAuditLineageReachabilityProcedure is the fully-qualified name of the HubService's
+	// AuditLineageReachability RPC.
+	HubServiceAuditLineageReachabilityProcedure = "/hub.v1.HubService/AuditLineageReachability"
+	// HubServiceGetTopologySignalsProcedure is the fully-qualified name of the HubService's
+	// GetTopologySignals RPC.
+	HubServiceGetTopologySignalsProcedure = "/hub.v1.HubService/GetTopologySignals"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	hubServiceServiceDescriptor                      = v1.File_hub_v1_hub_proto.Services().ByName("HubService")
-	hubServiceValidateProductMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ValidateProduct")
-	hubServiceRegisterProductMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("RegisterProduct")
-	hubServiceGetProductMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetProduct")
-	hubServiceGetProductSchemaMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("GetProductSchema")
-	hubServiceGetContractMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("GetContract")
-	hubServiceListContractsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListContracts")
-	hubServicePingMethodDescriptor                   = hubServiceServiceDescriptor.Methods().ByName("Ping")
-	hubServiceValidateSchemaMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("ValidateSchema")
-	hubServiceDeleteProductMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("DeleteProduct")
-	hubServiceCheckDownstreamImpactMethodDescriptor  = hubServiceServiceDescriptor.Methods().ByName("CheckDownstreamImpact")
-	hubServiceRegisterEntityMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("RegisterEntity")
-	hubServiceGetEntityMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("GetEntity")
-	hubServiceListEntitiesMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ListEntities")
-	hubServiceCheckEntityImpactMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("CheckEntityImpact")
-	hubServiceDeleteEntityMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("DeleteEntity")
-	hubServiceRegisterTeamMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("RegisterTeam")
-	hubServiceGetTeamMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("GetTeam")
-	hubServiceListTeamsMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("ListTeams")
-	hubServiceDeleteTeamMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("DeleteTeam")
-	hubServiceRegisterContractMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("RegisterContract")
-	hubServiceListProductsMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ListProducts")
-	hubServiceSyncProductMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("SyncProduct")
-	hubServiceRecordAuditRunMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("RecordAuditRun")
-	hubServiceListAuditRunsMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListAuditRuns")
-	hubServiceSendAlertMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("SendAlert")
-	hubServiceAnalyzeImpactMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("AnalyzeImpact")
-	hubServiceSubscribeMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("Subscribe")
-	hubServiceUnsubscribeMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("Unsubscribe")
-	hubServiceListSubscriptionsMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("ListSubscriptions")
-	hubServiceIngestEventMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("IngestEvent")
-	hubServiceExtractDSARPlanMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ExtractDSARPlan")
-	hubServicePackageDSARMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("PackageDSAR")
-	hubServiceVerifyRTBFMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("VerifyRTBF")
-	hubServiceReportAnomalyMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ReportAnomaly")
-	hubServiceGetHealthMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("GetHealth")
-	hubServiceGetHealthHistoryMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("GetHealthHistory")
-	hubServiceGetBlastRadiusMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("GetBlastRadius")
-	hubServiceGetRootCauseMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("GetRootCause")
-	hubServiceGetTaxonomyMappingsMethodDescriptor    = hubServiceServiceDescriptor.Methods().ByName("GetTaxonomyMappings")
-	hubServiceRegisterDemandLocksMethodDescriptor    = hubServiceServiceDescriptor.Methods().ByName("RegisterDemandLocks")
-	hubServiceListDemandLocksMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ListDemandLocks")
-	hubServiceGetInfrastructureDriftMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("GetInfrastructureDrift")
+	hubServiceServiceDescriptor                        = v1.File_hub_v1_hub_proto.Services().ByName("HubService")
+	hubServiceValidateProductMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ValidateProduct")
+	hubServiceRegisterProductMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("RegisterProduct")
+	hubServiceGetProductMethodDescriptor               = hubServiceServiceDescriptor.Methods().ByName("GetProduct")
+	hubServiceGetProductSchemaMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("GetProductSchema")
+	hubServiceGetContractMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("GetContract")
+	hubServiceListContractsMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("ListContracts")
+	hubServicePingMethodDescriptor                     = hubServiceServiceDescriptor.Methods().ByName("Ping")
+	hubServiceValidateSchemaMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("ValidateSchema")
+	hubServiceDeleteProductMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("DeleteProduct")
+	hubServiceCheckDownstreamImpactMethodDescriptor    = hubServiceServiceDescriptor.Methods().ByName("CheckDownstreamImpact")
+	hubServiceRegisterEntityMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("RegisterEntity")
+	hubServiceGetEntityMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("GetEntity")
+	hubServiceListEntitiesMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("ListEntities")
+	hubServiceCheckEntityImpactMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("CheckEntityImpact")
+	hubServiceDeleteEntityMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("DeleteEntity")
+	hubServiceRegisterTeamMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("RegisterTeam")
+	hubServiceGetTeamMethodDescriptor                  = hubServiceServiceDescriptor.Methods().ByName("GetTeam")
+	hubServiceListTeamsMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("ListTeams")
+	hubServiceDeleteTeamMethodDescriptor               = hubServiceServiceDescriptor.Methods().ByName("DeleteTeam")
+	hubServiceRegisterContractMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("RegisterContract")
+	hubServiceListProductsMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("ListProducts")
+	hubServiceSyncProductMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("SyncProduct")
+	hubServiceRecordAuditRunMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("RecordAuditRun")
+	hubServiceListAuditRunsMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("ListAuditRuns")
+	hubServiceSendAlertMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("SendAlert")
+	hubServiceAnalyzeImpactMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("AnalyzeImpact")
+	hubServiceSubscribeMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("Subscribe")
+	hubServiceUnsubscribeMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("Unsubscribe")
+	hubServiceListSubscriptionsMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("ListSubscriptions")
+	hubServiceIngestEventMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("IngestEvent")
+	hubServiceExtractDSARPlanMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ExtractDSARPlan")
+	hubServicePackageDSARMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("PackageDSAR")
+	hubServiceVerifyRTBFMethodDescriptor               = hubServiceServiceDescriptor.Methods().ByName("VerifyRTBF")
+	hubServiceReportAnomalyMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("ReportAnomaly")
+	hubServiceGetHealthMethodDescriptor                = hubServiceServiceDescriptor.Methods().ByName("GetHealth")
+	hubServiceGetHealthHistoryMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("GetHealthHistory")
+	hubServiceGetBlastRadiusMethodDescriptor           = hubServiceServiceDescriptor.Methods().ByName("GetBlastRadius")
+	hubServiceGetRootCauseMethodDescriptor             = hubServiceServiceDescriptor.Methods().ByName("GetRootCause")
+	hubServiceGetTaxonomyMappingsMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("GetTaxonomyMappings")
+	hubServiceRegisterDemandLocksMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("RegisterDemandLocks")
+	hubServiceListDemandLocksMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("ListDemandLocks")
+	hubServiceGetInfrastructureDriftMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("GetInfrastructureDrift")
+	hubServiceDiffContractsMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("DiffContracts")
+	hubServiceDiffProductManifestsMethodDescriptor     = hubServiceServiceDescriptor.Methods().ByName("DiffProductManifests")
+	hubServiceGetTrustScorecardMethodDescriptor        = hubServiceServiceDescriptor.Methods().ByName("GetTrustScorecard")
+	hubServiceListTrustScorecardsMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("ListTrustScorecards")
+	hubServiceGetLineageGraphMethodDescriptor          = hubServiceServiceDescriptor.Methods().ByName("GetLineageGraph")
+	hubServiceIngestLineageManifestMethodDescriptor    = hubServiceServiceDescriptor.Methods().ByName("IngestLineageManifest")
+	hubServiceReplayLineageSubmissionsMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("ReplayLineageSubmissions")
+	hubServiceSetAssetStateMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("SetAssetState")
+	hubServiceGetEffectiveAssetStateMethodDescriptor   = hubServiceServiceDescriptor.Methods().ByName("GetEffectiveAssetState")
+	hubServiceDeleteAssetStateMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("DeleteAssetState")
+	hubServiceListSLAGapsMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("ListSLAGaps")
+	hubServiceAuditLineageReachabilityMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("AuditLineageReachability")
+	hubServiceGetTopologySignalsMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("GetTopologySignals")
 )
 
 // HubServiceClient is a client for the hub.v1.HubService service.
@@ -279,6 +330,32 @@ type HubServiceClient interface {
 	ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error)
 	// Compares declared contract and manifest intent against live cloud infrastructure reality.
 	GetInfrastructureDrift(context.Context, *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error)
+	// Compares two published versions (or optional ODCS v3.2.0 lockfiles) of a Data Contract semantically.
+	DiffContracts(context.Context, *connect.Request[v1.DiffContractsRequest]) (*connect.Response[v1.DiffContractsResponse], error)
+	// Compares two published versions (or optional ODPS dataproduct.odps.yaml lockfiles) of a Data Product manifest semantically.
+	DiffProductManifests(context.Context, *connect.Request[v1.DiffProductManifestsRequest]) (*connect.Response[v1.DiffProductManifestsResponse], error)
+	// Computes or retrieves the rolling trust scorecard for a Product, Output Port, or Contract URN.
+	GetTrustScorecard(context.Context, *connect.Request[v1.GetTrustScorecardRequest]) (*connect.Response[v1.GetTrustScorecardResponse], error)
+	// Batch-computes rolling trust scorecards for up to 100 URNs in O(1) queries.
+	ListTrustScorecards(context.Context, *connect.Request[v1.ListTrustScorecardsRequest]) (*connect.Response[v1.ListTrustScorecardsResponse], error)
+	// Queries the canonical lineage graph across Asset-to-Asset, Asset-to-Job, or Product-to-Product views.
+	GetLineageGraph(context.Context, *connect.Request[v1.GetLineageGraphRequest]) (*connect.Response[v1.GetLineageGraphResponse], error)
+	// Ingests pre-normalized lineage edges or raw declarative manifests (dbt, Dataform) into the canonical graph.
+	IngestLineageManifest(context.Context, *connect.Request[v1.IngestLineageManifestRequest]) (*connect.Response[v1.IngestLineageManifestResponse], error)
+	// Replays lineage submission chunks from durable history without triggering duplicate outbox events.
+	ReplayLineageSubmissions(context.Context, *connect.Request[v1.ReplayLineageSubmissionsRequest]) (*connect.Response[v1.ReplayLineageSubmissionsResponse], error)
+	// Attaches or partially merges mutable governance state overlays on a canonical asset FQN.
+	SetAssetState(context.Context, *connect.Request[v1.SetAssetStateRequest]) (*connect.Response[v1.SetAssetStateResponse], error)
+	// Computes and returns the effective governance state (declared + implied + gaps) for an asset FQN.
+	GetEffectiveAssetState(context.Context, *connect.Request[v1.GetEffectiveAssetStateRequest]) (*connect.Response[v1.GetEffectiveAssetStateResponse], error)
+	// Tombstone-deletes a mutable asset state overlay while preserving graph topology.
+	DeleteAssetState(context.Context, *connect.Request[v1.DeleteAssetStateRequest]) (*connect.Response[v1.DeleteAssetStateResponse], error)
+	// Lists active SLA governance gaps across registered products and brownfield assets.
+	ListSLAGaps(context.Context, *connect.Request[v1.ListSLAGapsRequest]) (*connect.Response[v1.ListSLAGapsResponse], error)
+	// Audits end-to-end upstream lineage reachability from Tier 1 and Tier 2 leaves to known source roots.
+	AuditLineageReachability(context.Context, *connect.Request[v1.AuditLineageReachabilityRequest]) (*connect.Response[v1.AuditLineageReachabilityResponse], error)
+	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
+	GetTopologySignals(context.Context, *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error)
 }
 
 // NewHubServiceClient constructs a client for the hub.v1.HubService service. By default, it uses
@@ -543,53 +620,144 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceGetInfrastructureDriftMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		diffContracts: connect.NewClient[v1.DiffContractsRequest, v1.DiffContractsResponse](
+			httpClient,
+			baseURL+HubServiceDiffContractsProcedure,
+			connect.WithSchema(hubServiceDiffContractsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		diffProductManifests: connect.NewClient[v1.DiffProductManifestsRequest, v1.DiffProductManifestsResponse](
+			httpClient,
+			baseURL+HubServiceDiffProductManifestsProcedure,
+			connect.WithSchema(hubServiceDiffProductManifestsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getTrustScorecard: connect.NewClient[v1.GetTrustScorecardRequest, v1.GetTrustScorecardResponse](
+			httpClient,
+			baseURL+HubServiceGetTrustScorecardProcedure,
+			connect.WithSchema(hubServiceGetTrustScorecardMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listTrustScorecards: connect.NewClient[v1.ListTrustScorecardsRequest, v1.ListTrustScorecardsResponse](
+			httpClient,
+			baseURL+HubServiceListTrustScorecardsProcedure,
+			connect.WithSchema(hubServiceListTrustScorecardsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getLineageGraph: connect.NewClient[v1.GetLineageGraphRequest, v1.GetLineageGraphResponse](
+			httpClient,
+			baseURL+HubServiceGetLineageGraphProcedure,
+			connect.WithSchema(hubServiceGetLineageGraphMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		ingestLineageManifest: connect.NewClient[v1.IngestLineageManifestRequest, v1.IngestLineageManifestResponse](
+			httpClient,
+			baseURL+HubServiceIngestLineageManifestProcedure,
+			connect.WithSchema(hubServiceIngestLineageManifestMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		replayLineageSubmissions: connect.NewClient[v1.ReplayLineageSubmissionsRequest, v1.ReplayLineageSubmissionsResponse](
+			httpClient,
+			baseURL+HubServiceReplayLineageSubmissionsProcedure,
+			connect.WithSchema(hubServiceReplayLineageSubmissionsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		setAssetState: connect.NewClient[v1.SetAssetStateRequest, v1.SetAssetStateResponse](
+			httpClient,
+			baseURL+HubServiceSetAssetStateProcedure,
+			connect.WithSchema(hubServiceSetAssetStateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getEffectiveAssetState: connect.NewClient[v1.GetEffectiveAssetStateRequest, v1.GetEffectiveAssetStateResponse](
+			httpClient,
+			baseURL+HubServiceGetEffectiveAssetStateProcedure,
+			connect.WithSchema(hubServiceGetEffectiveAssetStateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteAssetState: connect.NewClient[v1.DeleteAssetStateRequest, v1.DeleteAssetStateResponse](
+			httpClient,
+			baseURL+HubServiceDeleteAssetStateProcedure,
+			connect.WithSchema(hubServiceDeleteAssetStateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listSLAGaps: connect.NewClient[v1.ListSLAGapsRequest, v1.ListSLAGapsResponse](
+			httpClient,
+			baseURL+HubServiceListSLAGapsProcedure,
+			connect.WithSchema(hubServiceListSLAGapsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		auditLineageReachability: connect.NewClient[v1.AuditLineageReachabilityRequest, v1.AuditLineageReachabilityResponse](
+			httpClient,
+			baseURL+HubServiceAuditLineageReachabilityProcedure,
+			connect.WithSchema(hubServiceAuditLineageReachabilityMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getTopologySignals: connect.NewClient[v1.GetTopologySignalsRequest, v1.GetTopologySignalsResponse](
+			httpClient,
+			baseURL+HubServiceGetTopologySignalsProcedure,
+			connect.WithSchema(hubServiceGetTopologySignalsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // hubServiceClient implements HubServiceClient.
 type hubServiceClient struct {
-	validateProduct        *connect.Client[v1.ValidateProductRequest, v1.ValidateProductResponse]
-	registerProduct        *connect.Client[v1.RegisterProductRequest, v1.RegisterProductResponse]
-	getProduct             *connect.Client[v1.GetProductRequest, v1.GetProductResponse]
-	getProductSchema       *connect.Client[v1.GetProductSchemaRequest, v1.GetProductSchemaResponse]
-	getContract            *connect.Client[v1.GetContractRequest, v1.GetContractResponse]
-	listContracts          *connect.Client[v1.ListContractsRequest, v1.ListContractsResponse]
-	ping                   *connect.Client[v1.PingRequest, v1.PingResponse]
-	validateSchema         *connect.Client[v1.ValidateSchemaRequest, v1.ValidateSchemaResponse]
-	deleteProduct          *connect.Client[v1.DeleteProductRequest, v1.DeleteProductResponse]
-	checkDownstreamImpact  *connect.Client[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse]
-	registerEntity         *connect.Client[v1.RegisterEntityRequest, v1.RegisterEntityResponse]
-	getEntity              *connect.Client[v1.GetEntityRequest, v1.GetEntityResponse]
-	listEntities           *connect.Client[v1.ListEntitiesRequest, v1.ListEntitiesResponse]
-	checkEntityImpact      *connect.Client[v1.CheckEntityImpactRequest, v1.CheckEntityImpactResponse]
-	deleteEntity           *connect.Client[v1.DeleteEntityRequest, v1.DeleteEntityResponse]
-	registerTeam           *connect.Client[v1.RegisterTeamRequest, v1.RegisterTeamResponse]
-	getTeam                *connect.Client[v1.GetTeamRequest, v1.GetTeamResponse]
-	listTeams              *connect.Client[v1.ListTeamsRequest, v1.ListTeamsResponse]
-	deleteTeam             *connect.Client[v1.DeleteTeamRequest, v1.DeleteTeamResponse]
-	registerContract       *connect.Client[v1.RegisterContractRequest, v1.RegisterContractResponse]
-	listProducts           *connect.Client[v1.ListProductsRequest, v1.ListProductsResponse]
-	syncProduct            *connect.Client[v1.SyncProductRequest, v1.SyncProductResponse]
-	recordAuditRun         *connect.Client[v1.RecordAuditRunRequest, v1.RecordAuditRunResponse]
-	listAuditRuns          *connect.Client[v1.ListAuditRunsRequest, v1.ListAuditRunsResponse]
-	sendAlert              *connect.Client[v1.SendAlertRequest, v1.SendAlertResponse]
-	analyzeImpact          *connect.Client[v1.AnalyzeImpactRequest, v1.AnalyzeImpactResponse]
-	subscribe              *connect.Client[v1.SubscribeRequest, v1.SubscribeResponse]
-	unsubscribe            *connect.Client[v1.UnsubscribeRequest, v1.UnsubscribeResponse]
-	listSubscriptions      *connect.Client[v1.ListSubscriptionsRequest, v1.ListSubscriptionsResponse]
-	ingestEvent            *connect.Client[v1.IngestEventRequest, v1.IngestEventResponse]
-	extractDSARPlan        *connect.Client[v1.ExtractDSARPlanRequest, v1.ExtractDSARPlanResponse]
-	packageDSAR            *connect.Client[v1.PackageDSARRequest, v1.PackageDSARResponse]
-	verifyRTBF             *connect.Client[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse]
-	reportAnomaly          *connect.Client[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse]
-	getHealth              *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
-	getHealthHistory       *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
-	getBlastRadius         *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
-	getRootCause           *connect.Client[v1.GetRootCauseRequest, v1.GetRootCauseResponse]
-	getTaxonomyMappings    *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
-	registerDemandLocks    *connect.Client[v1.RegisterDemandLocksRequest, v1.RegisterDemandLocksResponse]
-	listDemandLocks        *connect.Client[v1.ListDemandLocksRequest, v1.ListDemandLocksResponse]
-	getInfrastructureDrift *connect.Client[v1.GetInfrastructureDriftRequest, v1.GetInfrastructureDriftResponse]
+	validateProduct          *connect.Client[v1.ValidateProductRequest, v1.ValidateProductResponse]
+	registerProduct          *connect.Client[v1.RegisterProductRequest, v1.RegisterProductResponse]
+	getProduct               *connect.Client[v1.GetProductRequest, v1.GetProductResponse]
+	getProductSchema         *connect.Client[v1.GetProductSchemaRequest, v1.GetProductSchemaResponse]
+	getContract              *connect.Client[v1.GetContractRequest, v1.GetContractResponse]
+	listContracts            *connect.Client[v1.ListContractsRequest, v1.ListContractsResponse]
+	ping                     *connect.Client[v1.PingRequest, v1.PingResponse]
+	validateSchema           *connect.Client[v1.ValidateSchemaRequest, v1.ValidateSchemaResponse]
+	deleteProduct            *connect.Client[v1.DeleteProductRequest, v1.DeleteProductResponse]
+	checkDownstreamImpact    *connect.Client[v1.CheckDownstreamImpactRequest, v1.CheckDownstreamImpactResponse]
+	registerEntity           *connect.Client[v1.RegisterEntityRequest, v1.RegisterEntityResponse]
+	getEntity                *connect.Client[v1.GetEntityRequest, v1.GetEntityResponse]
+	listEntities             *connect.Client[v1.ListEntitiesRequest, v1.ListEntitiesResponse]
+	checkEntityImpact        *connect.Client[v1.CheckEntityImpactRequest, v1.CheckEntityImpactResponse]
+	deleteEntity             *connect.Client[v1.DeleteEntityRequest, v1.DeleteEntityResponse]
+	registerTeam             *connect.Client[v1.RegisterTeamRequest, v1.RegisterTeamResponse]
+	getTeam                  *connect.Client[v1.GetTeamRequest, v1.GetTeamResponse]
+	listTeams                *connect.Client[v1.ListTeamsRequest, v1.ListTeamsResponse]
+	deleteTeam               *connect.Client[v1.DeleteTeamRequest, v1.DeleteTeamResponse]
+	registerContract         *connect.Client[v1.RegisterContractRequest, v1.RegisterContractResponse]
+	listProducts             *connect.Client[v1.ListProductsRequest, v1.ListProductsResponse]
+	syncProduct              *connect.Client[v1.SyncProductRequest, v1.SyncProductResponse]
+	recordAuditRun           *connect.Client[v1.RecordAuditRunRequest, v1.RecordAuditRunResponse]
+	listAuditRuns            *connect.Client[v1.ListAuditRunsRequest, v1.ListAuditRunsResponse]
+	sendAlert                *connect.Client[v1.SendAlertRequest, v1.SendAlertResponse]
+	analyzeImpact            *connect.Client[v1.AnalyzeImpactRequest, v1.AnalyzeImpactResponse]
+	subscribe                *connect.Client[v1.SubscribeRequest, v1.SubscribeResponse]
+	unsubscribe              *connect.Client[v1.UnsubscribeRequest, v1.UnsubscribeResponse]
+	listSubscriptions        *connect.Client[v1.ListSubscriptionsRequest, v1.ListSubscriptionsResponse]
+	ingestEvent              *connect.Client[v1.IngestEventRequest, v1.IngestEventResponse]
+	extractDSARPlan          *connect.Client[v1.ExtractDSARPlanRequest, v1.ExtractDSARPlanResponse]
+	packageDSAR              *connect.Client[v1.PackageDSARRequest, v1.PackageDSARResponse]
+	verifyRTBF               *connect.Client[v1.VerifyRTBFRequest, v1.VerifyRTBFResponse]
+	reportAnomaly            *connect.Client[v1.ReportAnomalyRequest, v1.ReportAnomalyResponse]
+	getHealth                *connect.Client[v1.GetHealthRequest, v1.GetHealthResponse]
+	getHealthHistory         *connect.Client[v1.GetHealthHistoryRequest, v1.GetHealthHistoryResponse]
+	getBlastRadius           *connect.Client[v1.GetBlastRadiusRequest, v1.GetBlastRadiusResponse]
+	getRootCause             *connect.Client[v1.GetRootCauseRequest, v1.GetRootCauseResponse]
+	getTaxonomyMappings      *connect.Client[v1.GetTaxonomyMappingsRequest, v1.GetTaxonomyMappingsResponse]
+	registerDemandLocks      *connect.Client[v1.RegisterDemandLocksRequest, v1.RegisterDemandLocksResponse]
+	listDemandLocks          *connect.Client[v1.ListDemandLocksRequest, v1.ListDemandLocksResponse]
+	getInfrastructureDrift   *connect.Client[v1.GetInfrastructureDriftRequest, v1.GetInfrastructureDriftResponse]
+	diffContracts            *connect.Client[v1.DiffContractsRequest, v1.DiffContractsResponse]
+	diffProductManifests     *connect.Client[v1.DiffProductManifestsRequest, v1.DiffProductManifestsResponse]
+	getTrustScorecard        *connect.Client[v1.GetTrustScorecardRequest, v1.GetTrustScorecardResponse]
+	listTrustScorecards      *connect.Client[v1.ListTrustScorecardsRequest, v1.ListTrustScorecardsResponse]
+	getLineageGraph          *connect.Client[v1.GetLineageGraphRequest, v1.GetLineageGraphResponse]
+	ingestLineageManifest    *connect.Client[v1.IngestLineageManifestRequest, v1.IngestLineageManifestResponse]
+	replayLineageSubmissions *connect.Client[v1.ReplayLineageSubmissionsRequest, v1.ReplayLineageSubmissionsResponse]
+	setAssetState            *connect.Client[v1.SetAssetStateRequest, v1.SetAssetStateResponse]
+	getEffectiveAssetState   *connect.Client[v1.GetEffectiveAssetStateRequest, v1.GetEffectiveAssetStateResponse]
+	deleteAssetState         *connect.Client[v1.DeleteAssetStateRequest, v1.DeleteAssetStateResponse]
+	listSLAGaps              *connect.Client[v1.ListSLAGapsRequest, v1.ListSLAGapsResponse]
+	auditLineageReachability *connect.Client[v1.AuditLineageReachabilityRequest, v1.AuditLineageReachabilityResponse]
+	getTopologySignals       *connect.Client[v1.GetTopologySignalsRequest, v1.GetTopologySignalsResponse]
 }
 
 // ValidateProduct calls hub.v1.HubService.ValidateProduct.
@@ -806,6 +974,71 @@ func (c *hubServiceClient) GetInfrastructureDrift(ctx context.Context, req *conn
 	return c.getInfrastructureDrift.CallUnary(ctx, req)
 }
 
+// DiffContracts calls hub.v1.HubService.DiffContracts.
+func (c *hubServiceClient) DiffContracts(ctx context.Context, req *connect.Request[v1.DiffContractsRequest]) (*connect.Response[v1.DiffContractsResponse], error) {
+	return c.diffContracts.CallUnary(ctx, req)
+}
+
+// DiffProductManifests calls hub.v1.HubService.DiffProductManifests.
+func (c *hubServiceClient) DiffProductManifests(ctx context.Context, req *connect.Request[v1.DiffProductManifestsRequest]) (*connect.Response[v1.DiffProductManifestsResponse], error) {
+	return c.diffProductManifests.CallUnary(ctx, req)
+}
+
+// GetTrustScorecard calls hub.v1.HubService.GetTrustScorecard.
+func (c *hubServiceClient) GetTrustScorecard(ctx context.Context, req *connect.Request[v1.GetTrustScorecardRequest]) (*connect.Response[v1.GetTrustScorecardResponse], error) {
+	return c.getTrustScorecard.CallUnary(ctx, req)
+}
+
+// ListTrustScorecards calls hub.v1.HubService.ListTrustScorecards.
+func (c *hubServiceClient) ListTrustScorecards(ctx context.Context, req *connect.Request[v1.ListTrustScorecardsRequest]) (*connect.Response[v1.ListTrustScorecardsResponse], error) {
+	return c.listTrustScorecards.CallUnary(ctx, req)
+}
+
+// GetLineageGraph calls hub.v1.HubService.GetLineageGraph.
+func (c *hubServiceClient) GetLineageGraph(ctx context.Context, req *connect.Request[v1.GetLineageGraphRequest]) (*connect.Response[v1.GetLineageGraphResponse], error) {
+	return c.getLineageGraph.CallUnary(ctx, req)
+}
+
+// IngestLineageManifest calls hub.v1.HubService.IngestLineageManifest.
+func (c *hubServiceClient) IngestLineageManifest(ctx context.Context, req *connect.Request[v1.IngestLineageManifestRequest]) (*connect.Response[v1.IngestLineageManifestResponse], error) {
+	return c.ingestLineageManifest.CallUnary(ctx, req)
+}
+
+// ReplayLineageSubmissions calls hub.v1.HubService.ReplayLineageSubmissions.
+func (c *hubServiceClient) ReplayLineageSubmissions(ctx context.Context, req *connect.Request[v1.ReplayLineageSubmissionsRequest]) (*connect.Response[v1.ReplayLineageSubmissionsResponse], error) {
+	return c.replayLineageSubmissions.CallUnary(ctx, req)
+}
+
+// SetAssetState calls hub.v1.HubService.SetAssetState.
+func (c *hubServiceClient) SetAssetState(ctx context.Context, req *connect.Request[v1.SetAssetStateRequest]) (*connect.Response[v1.SetAssetStateResponse], error) {
+	return c.setAssetState.CallUnary(ctx, req)
+}
+
+// GetEffectiveAssetState calls hub.v1.HubService.GetEffectiveAssetState.
+func (c *hubServiceClient) GetEffectiveAssetState(ctx context.Context, req *connect.Request[v1.GetEffectiveAssetStateRequest]) (*connect.Response[v1.GetEffectiveAssetStateResponse], error) {
+	return c.getEffectiveAssetState.CallUnary(ctx, req)
+}
+
+// DeleteAssetState calls hub.v1.HubService.DeleteAssetState.
+func (c *hubServiceClient) DeleteAssetState(ctx context.Context, req *connect.Request[v1.DeleteAssetStateRequest]) (*connect.Response[v1.DeleteAssetStateResponse], error) {
+	return c.deleteAssetState.CallUnary(ctx, req)
+}
+
+// ListSLAGaps calls hub.v1.HubService.ListSLAGaps.
+func (c *hubServiceClient) ListSLAGaps(ctx context.Context, req *connect.Request[v1.ListSLAGapsRequest]) (*connect.Response[v1.ListSLAGapsResponse], error) {
+	return c.listSLAGaps.CallUnary(ctx, req)
+}
+
+// AuditLineageReachability calls hub.v1.HubService.AuditLineageReachability.
+func (c *hubServiceClient) AuditLineageReachability(ctx context.Context, req *connect.Request[v1.AuditLineageReachabilityRequest]) (*connect.Response[v1.AuditLineageReachabilityResponse], error) {
+	return c.auditLineageReachability.CallUnary(ctx, req)
+}
+
+// GetTopologySignals calls hub.v1.HubService.GetTopologySignals.
+func (c *hubServiceClient) GetTopologySignals(ctx context.Context, req *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error) {
+	return c.getTopologySignals.CallUnary(ctx, req)
+}
+
 // HubServiceHandler is an implementation of the hub.v1.HubService service.
 type HubServiceHandler interface {
 	// Validates a manifest and its contracts without saving.
@@ -897,6 +1130,32 @@ type HubServiceHandler interface {
 	ListDemandLocks(context.Context, *connect.Request[v1.ListDemandLocksRequest]) (*connect.Response[v1.ListDemandLocksResponse], error)
 	// Compares declared contract and manifest intent against live cloud infrastructure reality.
 	GetInfrastructureDrift(context.Context, *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error)
+	// Compares two published versions (or optional ODCS v3.2.0 lockfiles) of a Data Contract semantically.
+	DiffContracts(context.Context, *connect.Request[v1.DiffContractsRequest]) (*connect.Response[v1.DiffContractsResponse], error)
+	// Compares two published versions (or optional ODPS dataproduct.odps.yaml lockfiles) of a Data Product manifest semantically.
+	DiffProductManifests(context.Context, *connect.Request[v1.DiffProductManifestsRequest]) (*connect.Response[v1.DiffProductManifestsResponse], error)
+	// Computes or retrieves the rolling trust scorecard for a Product, Output Port, or Contract URN.
+	GetTrustScorecard(context.Context, *connect.Request[v1.GetTrustScorecardRequest]) (*connect.Response[v1.GetTrustScorecardResponse], error)
+	// Batch-computes rolling trust scorecards for up to 100 URNs in O(1) queries.
+	ListTrustScorecards(context.Context, *connect.Request[v1.ListTrustScorecardsRequest]) (*connect.Response[v1.ListTrustScorecardsResponse], error)
+	// Queries the canonical lineage graph across Asset-to-Asset, Asset-to-Job, or Product-to-Product views.
+	GetLineageGraph(context.Context, *connect.Request[v1.GetLineageGraphRequest]) (*connect.Response[v1.GetLineageGraphResponse], error)
+	// Ingests pre-normalized lineage edges or raw declarative manifests (dbt, Dataform) into the canonical graph.
+	IngestLineageManifest(context.Context, *connect.Request[v1.IngestLineageManifestRequest]) (*connect.Response[v1.IngestLineageManifestResponse], error)
+	// Replays lineage submission chunks from durable history without triggering duplicate outbox events.
+	ReplayLineageSubmissions(context.Context, *connect.Request[v1.ReplayLineageSubmissionsRequest]) (*connect.Response[v1.ReplayLineageSubmissionsResponse], error)
+	// Attaches or partially merges mutable governance state overlays on a canonical asset FQN.
+	SetAssetState(context.Context, *connect.Request[v1.SetAssetStateRequest]) (*connect.Response[v1.SetAssetStateResponse], error)
+	// Computes and returns the effective governance state (declared + implied + gaps) for an asset FQN.
+	GetEffectiveAssetState(context.Context, *connect.Request[v1.GetEffectiveAssetStateRequest]) (*connect.Response[v1.GetEffectiveAssetStateResponse], error)
+	// Tombstone-deletes a mutable asset state overlay while preserving graph topology.
+	DeleteAssetState(context.Context, *connect.Request[v1.DeleteAssetStateRequest]) (*connect.Response[v1.DeleteAssetStateResponse], error)
+	// Lists active SLA governance gaps across registered products and brownfield assets.
+	ListSLAGaps(context.Context, *connect.Request[v1.ListSLAGapsRequest]) (*connect.Response[v1.ListSLAGapsResponse], error)
+	// Audits end-to-end upstream lineage reachability from Tier 1 and Tier 2 leaves to known source roots.
+	AuditLineageReachability(context.Context, *connect.Request[v1.AuditLineageReachabilityRequest]) (*connect.Response[v1.AuditLineageReachabilityResponse], error)
+	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
+	GetTopologySignals(context.Context, *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error)
 }
 
 // NewHubServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -1157,6 +1416,84 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceGetInfrastructureDriftMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	hubServiceDiffContractsHandler := connect.NewUnaryHandler(
+		HubServiceDiffContractsProcedure,
+		svc.DiffContracts,
+		connect.WithSchema(hubServiceDiffContractsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceDiffProductManifestsHandler := connect.NewUnaryHandler(
+		HubServiceDiffProductManifestsProcedure,
+		svc.DiffProductManifests,
+		connect.WithSchema(hubServiceDiffProductManifestsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetTrustScorecardHandler := connect.NewUnaryHandler(
+		HubServiceGetTrustScorecardProcedure,
+		svc.GetTrustScorecard,
+		connect.WithSchema(hubServiceGetTrustScorecardMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceListTrustScorecardsHandler := connect.NewUnaryHandler(
+		HubServiceListTrustScorecardsProcedure,
+		svc.ListTrustScorecards,
+		connect.WithSchema(hubServiceListTrustScorecardsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetLineageGraphHandler := connect.NewUnaryHandler(
+		HubServiceGetLineageGraphProcedure,
+		svc.GetLineageGraph,
+		connect.WithSchema(hubServiceGetLineageGraphMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceIngestLineageManifestHandler := connect.NewUnaryHandler(
+		HubServiceIngestLineageManifestProcedure,
+		svc.IngestLineageManifest,
+		connect.WithSchema(hubServiceIngestLineageManifestMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceReplayLineageSubmissionsHandler := connect.NewUnaryHandler(
+		HubServiceReplayLineageSubmissionsProcedure,
+		svc.ReplayLineageSubmissions,
+		connect.WithSchema(hubServiceReplayLineageSubmissionsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceSetAssetStateHandler := connect.NewUnaryHandler(
+		HubServiceSetAssetStateProcedure,
+		svc.SetAssetState,
+		connect.WithSchema(hubServiceSetAssetStateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetEffectiveAssetStateHandler := connect.NewUnaryHandler(
+		HubServiceGetEffectiveAssetStateProcedure,
+		svc.GetEffectiveAssetState,
+		connect.WithSchema(hubServiceGetEffectiveAssetStateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceDeleteAssetStateHandler := connect.NewUnaryHandler(
+		HubServiceDeleteAssetStateProcedure,
+		svc.DeleteAssetState,
+		connect.WithSchema(hubServiceDeleteAssetStateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceListSLAGapsHandler := connect.NewUnaryHandler(
+		HubServiceListSLAGapsProcedure,
+		svc.ListSLAGaps,
+		connect.WithSchema(hubServiceListSLAGapsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceAuditLineageReachabilityHandler := connect.NewUnaryHandler(
+		HubServiceAuditLineageReachabilityProcedure,
+		svc.AuditLineageReachability,
+		connect.WithSchema(hubServiceAuditLineageReachabilityMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetTopologySignalsHandler := connect.NewUnaryHandler(
+		HubServiceGetTopologySignalsProcedure,
+		svc.GetTopologySignals,
+		connect.WithSchema(hubServiceGetTopologySignalsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/hub.v1.HubService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case HubServiceValidateProductProcedure:
@@ -1243,6 +1580,32 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceListDemandLocksHandler.ServeHTTP(w, r)
 		case HubServiceGetInfrastructureDriftProcedure:
 			hubServiceGetInfrastructureDriftHandler.ServeHTTP(w, r)
+		case HubServiceDiffContractsProcedure:
+			hubServiceDiffContractsHandler.ServeHTTP(w, r)
+		case HubServiceDiffProductManifestsProcedure:
+			hubServiceDiffProductManifestsHandler.ServeHTTP(w, r)
+		case HubServiceGetTrustScorecardProcedure:
+			hubServiceGetTrustScorecardHandler.ServeHTTP(w, r)
+		case HubServiceListTrustScorecardsProcedure:
+			hubServiceListTrustScorecardsHandler.ServeHTTP(w, r)
+		case HubServiceGetLineageGraphProcedure:
+			hubServiceGetLineageGraphHandler.ServeHTTP(w, r)
+		case HubServiceIngestLineageManifestProcedure:
+			hubServiceIngestLineageManifestHandler.ServeHTTP(w, r)
+		case HubServiceReplayLineageSubmissionsProcedure:
+			hubServiceReplayLineageSubmissionsHandler.ServeHTTP(w, r)
+		case HubServiceSetAssetStateProcedure:
+			hubServiceSetAssetStateHandler.ServeHTTP(w, r)
+		case HubServiceGetEffectiveAssetStateProcedure:
+			hubServiceGetEffectiveAssetStateHandler.ServeHTTP(w, r)
+		case HubServiceDeleteAssetStateProcedure:
+			hubServiceDeleteAssetStateHandler.ServeHTTP(w, r)
+		case HubServiceListSLAGapsProcedure:
+			hubServiceListSLAGapsHandler.ServeHTTP(w, r)
+		case HubServiceAuditLineageReachabilityProcedure:
+			hubServiceAuditLineageReachabilityHandler.ServeHTTP(w, r)
+		case HubServiceGetTopologySignalsProcedure:
+			hubServiceGetTopologySignalsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1418,4 +1781,56 @@ func (UnimplementedHubServiceHandler) ListDemandLocks(context.Context, *connect.
 
 func (UnimplementedHubServiceHandler) GetInfrastructureDrift(context.Context, *connect.Request[v1.GetInfrastructureDriftRequest]) (*connect.Response[v1.GetInfrastructureDriftResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetInfrastructureDrift is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) DiffContracts(context.Context, *connect.Request[v1.DiffContractsRequest]) (*connect.Response[v1.DiffContractsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.DiffContracts is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) DiffProductManifests(context.Context, *connect.Request[v1.DiffProductManifestsRequest]) (*connect.Response[v1.DiffProductManifestsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.DiffProductManifests is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetTrustScorecard(context.Context, *connect.Request[v1.GetTrustScorecardRequest]) (*connect.Response[v1.GetTrustScorecardResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetTrustScorecard is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) ListTrustScorecards(context.Context, *connect.Request[v1.ListTrustScorecardsRequest]) (*connect.Response[v1.ListTrustScorecardsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ListTrustScorecards is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetLineageGraph(context.Context, *connect.Request[v1.GetLineageGraphRequest]) (*connect.Response[v1.GetLineageGraphResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetLineageGraph is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) IngestLineageManifest(context.Context, *connect.Request[v1.IngestLineageManifestRequest]) (*connect.Response[v1.IngestLineageManifestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.IngestLineageManifest is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) ReplayLineageSubmissions(context.Context, *connect.Request[v1.ReplayLineageSubmissionsRequest]) (*connect.Response[v1.ReplayLineageSubmissionsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ReplayLineageSubmissions is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) SetAssetState(context.Context, *connect.Request[v1.SetAssetStateRequest]) (*connect.Response[v1.SetAssetStateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.SetAssetState is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetEffectiveAssetState(context.Context, *connect.Request[v1.GetEffectiveAssetStateRequest]) (*connect.Response[v1.GetEffectiveAssetStateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetEffectiveAssetState is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) DeleteAssetState(context.Context, *connect.Request[v1.DeleteAssetStateRequest]) (*connect.Response[v1.DeleteAssetStateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.DeleteAssetState is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) ListSLAGaps(context.Context, *connect.Request[v1.ListSLAGapsRequest]) (*connect.Response[v1.ListSLAGapsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ListSLAGaps is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) AuditLineageReachability(context.Context, *connect.Request[v1.AuditLineageReachabilityRequest]) (*connect.Response[v1.AuditLineageReachabilityResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.AuditLineageReachability is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetTopologySignals(context.Context, *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetTopologySignals is not implemented"))
 }

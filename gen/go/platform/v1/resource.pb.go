@@ -153,9 +153,22 @@ type Entity struct {
 	// Synonyms or alternative names for discovery.
 	Aliases []string `protobuf:"bytes,6,rep,name=aliases,proto3" json:"aliases,omitempty"`
 	// Reference to IDP Group that owns this entity.
-	OwnerTeam     string `protobuf:"bytes,7,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	OwnerTeam string `protobuf:"bytes,7,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	// Whether this entity represents Personally Identifiable Information (PII).
+	// When omitted (nil), legacy entities default to PII=true.
+	Pii *bool `protobuf:"varint,11,opt,name=pii,proto3,oneof" json:"pii,omitempty"`
+	// Canonical Ontology IRI (e.g., https://ontology.acme.com/insurance/PolicyID or urn:...).
+	Iri string `protobuf:"bytes,12,opt,name=iri,proto3" json:"iri,omitempty"`
+	// Canonical example values (normalized to strings for Hub storage and contract parity).
+	Examples []string `protobuf:"bytes,13,rep,name=examples,proto3" json:"examples,omitempty"`
+	// Default sensitivity tier (PUBLIC, INTERNAL, CONFIDENTIAL, RESTRICTED).
+	DefaultSensitivity string `protobuf:"bytes,14,opt,name=default_sensitivity,json=defaultSensitivity,proto3" json:"default_sensitivity,omitempty"`
+	// Canonical unit convention (e.g., USD_CENTS, MS, PERCENT).
+	Unit string `protobuf:"bytes,15,opt,name=unit,proto3" json:"unit,omitempty"`
+	// Explicit Vault identity domain URN for PII entities (e.g., urn:supercargo:hub:identity_domain:customer).
+	IdentityDomainUrn string `protobuf:"bytes,16,opt,name=identity_domain_urn,json=identityDomainUrn,proto3" json:"identity_domain_urn,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Entity) Reset() {
@@ -259,13 +272,67 @@ func (x *Entity) GetOwnerTeam() string {
 	return ""
 }
 
+func (x *Entity) GetPii() bool {
+	if x != nil && x.Pii != nil {
+		return *x.Pii
+	}
+	return false
+}
+
+func (x *Entity) GetIri() string {
+	if x != nil {
+		return x.Iri
+	}
+	return ""
+}
+
+func (x *Entity) GetExamples() []string {
+	if x != nil {
+		return x.Examples
+	}
+	return nil
+}
+
+func (x *Entity) GetDefaultSensitivity() string {
+	if x != nil {
+		return x.DefaultSensitivity
+	}
+	return ""
+}
+
+func (x *Entity) GetUnit() string {
+	if x != nil {
+		return x.Unit
+	}
+	return ""
+}
+
+func (x *Entity) GetIdentityDomainUrn() string {
+	if x != nil {
+		return x.IdentityDomainUrn
+	}
+	return ""
+}
+
 // EntityConstraints defines data quality and format rules for an entity.
 type EntityConstraints struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Regex pattern for value validation.
 	Regex string `protobuf:"bytes,1,opt,name=regex,proto3" json:"regex,omitempty"`
 	// Named format (e.g., "uuid", "email", "cpf").
-	Format        string `protobuf:"bytes,2,opt,name=format,proto3" json:"format,omitempty"`
+	Format string `protobuf:"bytes,2,opt,name=format,proto3" json:"format,omitempty"`
+	// Allowed enumerated values.
+	Enum []string `protobuf:"bytes,3,rep,name=enum,proto3" json:"enum,omitempty"`
+	// Inclusive numeric lower bound.
+	Minimum *float64 `protobuf:"fixed64,4,opt,name=minimum,proto3,oneof" json:"minimum,omitempty"`
+	// Inclusive numeric upper bound.
+	Maximum *float64 `protobuf:"fixed64,5,opt,name=maximum,proto3,oneof" json:"maximum,omitempty"`
+	// Inclusive minimum string length.
+	MinLength *int32 `protobuf:"varint,6,opt,name=min_length,json=minLength,proto3,oneof" json:"min_length,omitempty"`
+	// Inclusive maximum string length.
+	MaxLength *int32 `protobuf:"varint,7,opt,name=max_length,json=maxLength,proto3,oneof" json:"max_length,omitempty"`
+	// CEL validation expression.
+	CelExpression string `protobuf:"bytes,8,opt,name=cel_expression,json=celExpression,proto3" json:"cel_expression,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -310,6 +377,48 @@ func (x *EntityConstraints) GetRegex() string {
 func (x *EntityConstraints) GetFormat() string {
 	if x != nil {
 		return x.Format
+	}
+	return ""
+}
+
+func (x *EntityConstraints) GetEnum() []string {
+	if x != nil {
+		return x.Enum
+	}
+	return nil
+}
+
+func (x *EntityConstraints) GetMinimum() float64 {
+	if x != nil && x.Minimum != nil {
+		return *x.Minimum
+	}
+	return 0
+}
+
+func (x *EntityConstraints) GetMaximum() float64 {
+	if x != nil && x.Maximum != nil {
+		return *x.Maximum
+	}
+	return 0
+}
+
+func (x *EntityConstraints) GetMinLength() int32 {
+	if x != nil && x.MinLength != nil {
+		return *x.MinLength
+	}
+	return 0
+}
+
+func (x *EntityConstraints) GetMaxLength() int32 {
+	if x != nil && x.MaxLength != nil {
+		return *x.MaxLength
+	}
+	return 0
+}
+
+func (x *EntityConstraints) GetCelExpression() string {
+	if x != nil {
+		return x.CelExpression
 	}
 	return ""
 }
@@ -579,7 +688,7 @@ const file_platform_v1_resource_proto_rawDesc = "" +
 	"\x06iam_id\x18\x06 \x01(\tR\x05iamId\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb6\x03\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf8\x04\n" +
 	"\x06Entity\x12%\n" +
 	"\tnamespace\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tnamespace\x12]\n" +
 	"\x03urn\x18\b \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
@@ -593,10 +702,31 @@ const file_platform_v1_resource_proto_rawDesc = "" +
 	"\fmasking_hint\x18\x05 \x01(\tR\vmaskingHint\x12\x18\n" +
 	"\aaliases\x18\x06 \x03(\tR\aaliases\x12&\n" +
 	"\n" +
-	"owner_team\x18\a \x01(\tB\a\xfaB\x04r\x02\x10\x01R\townerTeam\"A\n" +
+	"owner_team\x18\a \x01(\tB\a\xfaB\x04r\x02\x10\x01R\townerTeam\x12\x15\n" +
+	"\x03pii\x18\v \x01(\bH\x00R\x03pii\x88\x01\x01\x12\x10\n" +
+	"\x03iri\x18\f \x01(\tR\x03iri\x12\x1a\n" +
+	"\bexamples\x18\r \x03(\tR\bexamples\x12/\n" +
+	"\x13default_sensitivity\x18\x0e \x01(\tR\x12defaultSensitivity\x12\x12\n" +
+	"\x04unit\x18\x0f \x01(\tR\x04unit\x12.\n" +
+	"\x13identity_domain_urn\x18\x10 \x01(\tR\x11identityDomainUrnB\x06\n" +
+	"\x04_pii\"\xb8\x02\n" +
 	"\x11EntityConstraints\x12\x14\n" +
 	"\x05regex\x18\x01 \x01(\tR\x05regex\x12\x16\n" +
-	"\x06format\x18\x02 \x01(\tR\x06format\"\xd1\x01\n" +
+	"\x06format\x18\x02 \x01(\tR\x06format\x12\x12\n" +
+	"\x04enum\x18\x03 \x03(\tR\x04enum\x12\x1d\n" +
+	"\aminimum\x18\x04 \x01(\x01H\x00R\aminimum\x88\x01\x01\x12\x1d\n" +
+	"\amaximum\x18\x05 \x01(\x01H\x01R\amaximum\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"min_length\x18\x06 \x01(\x05H\x02R\tminLength\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"max_length\x18\a \x01(\x05H\x03R\tmaxLength\x88\x01\x01\x12%\n" +
+	"\x0ecel_expression\x18\b \x01(\tR\rcelExpressionB\n" +
+	"\n" +
+	"\b_minimumB\n" +
+	"\n" +
+	"\b_maximumB\r\n" +
+	"\v_min_lengthB\r\n" +
+	"\v_max_length\"\xd1\x01\n" +
 	"\x03Key\x12]\n" +
 	"\x03urn\x18\x01 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12&\n" +
 	"\n" +
@@ -662,6 +792,8 @@ func file_platform_v1_resource_proto_init() {
 	if File_platform_v1_resource_proto != nil {
 		return
 	}
+	file_platform_v1_resource_proto_msgTypes[1].OneofWrappers = []any{}
+	file_platform_v1_resource_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
