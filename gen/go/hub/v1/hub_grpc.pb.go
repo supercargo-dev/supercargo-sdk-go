@@ -74,6 +74,11 @@ const (
 	HubService_ListSLAGaps_FullMethodName              = "/hub.v1.HubService/ListSLAGaps"
 	HubService_AuditLineageReachability_FullMethodName = "/hub.v1.HubService/AuditLineageReachability"
 	HubService_GetTopologySignals_FullMethodName       = "/hub.v1.HubService/GetTopologySignals"
+	HubService_GetAssetTrafficLight_FullMethodName     = "/hub.v1.HubService/GetAssetTrafficLight"
+	HubService_ListAssetIncidents_FullMethodName       = "/hub.v1.HubService/ListAssetIncidents"
+	HubService_GetAssetIncident_FullMethodName         = "/hub.v1.HubService/GetAssetIncident"
+	HubService_AcknowledgeIncident_FullMethodName      = "/hub.v1.HubService/AcknowledgeIncident"
+	HubService_CloseIncident_FullMethodName            = "/hub.v1.HubService/CloseIncident"
 )
 
 // HubServiceClient is the client API for HubService service.
@@ -193,6 +198,16 @@ type HubServiceClient interface {
 	AuditLineageReachability(ctx context.Context, in *AuditLineageReachabilityRequest, opts ...grpc.CallOption) (*AuditLineageReachabilityResponse, error)
 	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
 	GetTopologySignals(ctx context.Context, in *GetTopologySignalsRequest, opts ...grpc.CallOption) (*GetTopologySignalsResponse, error)
+	// Computes and returns the Traffic Light operational readiness projection for an asset URN.
+	GetAssetTrafficLight(ctx context.Context, in *GetAssetTrafficLightRequest, opts ...grpc.CallOption) (*GetAssetTrafficLightResponse, error)
+	// Lists bounded incident intervals filtered by asset URN, status, reporter, category, or backlink status.
+	ListAssetIncidents(ctx context.Context, in *ListAssetIncidentsRequest, opts ...grpc.CallOption) (*ListAssetIncidentsResponse, error)
+	// Retrieves a single bounded incident interval by incident ID.
+	GetAssetIncident(ctx context.Context, in *GetAssetIncidentRequest, opts ...grpc.CallOption) (*GetAssetIncidentResponse, error)
+	// Marks an open incident interval as acknowledged by the authenticated caller.
+	AcknowledgeIncident(ctx context.Context, in *AcknowledgeIncidentRequest, opts ...grpc.CallOption) (*AcknowledgeIncidentResponse, error)
+	// Manually closes an open or acknowledged incident interval with an audited resolution and reason.
+	CloseIncident(ctx context.Context, in *CloseIncidentRequest, opts ...grpc.CallOption) (*CloseIncidentResponse, error)
 }
 
 type hubServiceClient struct {
@@ -755,6 +770,56 @@ func (c *hubServiceClient) GetTopologySignals(ctx context.Context, in *GetTopolo
 	return out, nil
 }
 
+func (c *hubServiceClient) GetAssetTrafficLight(ctx context.Context, in *GetAssetTrafficLightRequest, opts ...grpc.CallOption) (*GetAssetTrafficLightResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetTrafficLightResponse)
+	err := c.cc.Invoke(ctx, HubService_GetAssetTrafficLight_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) ListAssetIncidents(ctx context.Context, in *ListAssetIncidentsRequest, opts ...grpc.CallOption) (*ListAssetIncidentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAssetIncidentsResponse)
+	err := c.cc.Invoke(ctx, HubService_ListAssetIncidents_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) GetAssetIncident(ctx context.Context, in *GetAssetIncidentRequest, opts ...grpc.CallOption) (*GetAssetIncidentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetIncidentResponse)
+	err := c.cc.Invoke(ctx, HubService_GetAssetIncident_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) AcknowledgeIncident(ctx context.Context, in *AcknowledgeIncidentRequest, opts ...grpc.CallOption) (*AcknowledgeIncidentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AcknowledgeIncidentResponse)
+	err := c.cc.Invoke(ctx, HubService_AcknowledgeIncident_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) CloseIncident(ctx context.Context, in *CloseIncidentRequest, opts ...grpc.CallOption) (*CloseIncidentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CloseIncidentResponse)
+	err := c.cc.Invoke(ctx, HubService_CloseIncident_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HubServiceServer is the server API for HubService service.
 // All implementations must embed UnimplementedHubServiceServer
 // for forward compatibility.
@@ -872,6 +937,16 @@ type HubServiceServer interface {
 	AuditLineageReachability(context.Context, *AuditLineageReachabilityRequest) (*AuditLineageReachabilityResponse, error)
 	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
 	GetTopologySignals(context.Context, *GetTopologySignalsRequest) (*GetTopologySignalsResponse, error)
+	// Computes and returns the Traffic Light operational readiness projection for an asset URN.
+	GetAssetTrafficLight(context.Context, *GetAssetTrafficLightRequest) (*GetAssetTrafficLightResponse, error)
+	// Lists bounded incident intervals filtered by asset URN, status, reporter, category, or backlink status.
+	ListAssetIncidents(context.Context, *ListAssetIncidentsRequest) (*ListAssetIncidentsResponse, error)
+	// Retrieves a single bounded incident interval by incident ID.
+	GetAssetIncident(context.Context, *GetAssetIncidentRequest) (*GetAssetIncidentResponse, error)
+	// Marks an open incident interval as acknowledged by the authenticated caller.
+	AcknowledgeIncident(context.Context, *AcknowledgeIncidentRequest) (*AcknowledgeIncidentResponse, error)
+	// Manually closes an open or acknowledged incident interval with an audited resolution and reason.
+	CloseIncident(context.Context, *CloseIncidentRequest) (*CloseIncidentResponse, error)
 	mustEmbedUnimplementedHubServiceServer()
 }
 
@@ -1046,6 +1121,21 @@ func (UnimplementedHubServiceServer) AuditLineageReachability(context.Context, *
 }
 func (UnimplementedHubServiceServer) GetTopologySignals(context.Context, *GetTopologySignalsRequest) (*GetTopologySignalsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetTopologySignals not implemented")
+}
+func (UnimplementedHubServiceServer) GetAssetTrafficLight(context.Context, *GetAssetTrafficLightRequest) (*GetAssetTrafficLightResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssetTrafficLight not implemented")
+}
+func (UnimplementedHubServiceServer) ListAssetIncidents(context.Context, *ListAssetIncidentsRequest) (*ListAssetIncidentsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListAssetIncidents not implemented")
+}
+func (UnimplementedHubServiceServer) GetAssetIncident(context.Context, *GetAssetIncidentRequest) (*GetAssetIncidentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssetIncident not implemented")
+}
+func (UnimplementedHubServiceServer) AcknowledgeIncident(context.Context, *AcknowledgeIncidentRequest) (*AcknowledgeIncidentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AcknowledgeIncident not implemented")
+}
+func (UnimplementedHubServiceServer) CloseIncident(context.Context, *CloseIncidentRequest) (*CloseIncidentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CloseIncident not implemented")
 }
 func (UnimplementedHubServiceServer) mustEmbedUnimplementedHubServiceServer() {}
 func (UnimplementedHubServiceServer) testEmbeddedByValue()                    {}
@@ -2058,6 +2148,96 @@ func _HubService_GetTopologySignals_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_GetAssetTrafficLight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetTrafficLightRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetAssetTrafficLight(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetAssetTrafficLight_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetAssetTrafficLight(ctx, req.(*GetAssetTrafficLightRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_ListAssetIncidents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAssetIncidentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).ListAssetIncidents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_ListAssetIncidents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).ListAssetIncidents(ctx, req.(*ListAssetIncidentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_GetAssetIncident_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetIncidentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetAssetIncident(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetAssetIncident_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetAssetIncident(ctx, req.(*GetAssetIncidentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_AcknowledgeIncident_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcknowledgeIncidentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).AcknowledgeIncident(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_AcknowledgeIncident_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).AcknowledgeIncident(ctx, req.(*AcknowledgeIncidentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_CloseIncident_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseIncidentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).CloseIncident(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_CloseIncident_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).CloseIncident(ctx, req.(*CloseIncidentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HubService_ServiceDesc is the grpc.ServiceDesc for HubService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2284,6 +2464,26 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTopologySignals",
 			Handler:    _HubService_GetTopologySignals_Handler,
+		},
+		{
+			MethodName: "GetAssetTrafficLight",
+			Handler:    _HubService_GetAssetTrafficLight_Handler,
+		},
+		{
+			MethodName: "ListAssetIncidents",
+			Handler:    _HubService_ListAssetIncidents_Handler,
+		},
+		{
+			MethodName: "GetAssetIncident",
+			Handler:    _HubService_GetAssetIncident_Handler,
+		},
+		{
+			MethodName: "AcknowledgeIncident",
+			Handler:    _HubService_AcknowledgeIncident_Handler,
+		},
+		{
+			MethodName: "CloseIncident",
+			Handler:    _HubService_CloseIncident_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -79,6 +79,224 @@ func (HealthState) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_health_proto_rawDescGZIP(), []int{0}
 }
 
+// IncidentStatus represents the lifecycle state of a bounded asset incident interval.
+type IncidentStatus int32
+
+const (
+	IncidentStatus_INCIDENT_STATUS_UNSPECIFIED  IncidentStatus = 0
+	IncidentStatus_INCIDENT_STATUS_OPEN         IncidentStatus = 1
+	IncidentStatus_INCIDENT_STATUS_ACKNOWLEDGED IncidentStatus = 2
+	IncidentStatus_INCIDENT_STATUS_CLOSED       IncidentStatus = 3
+)
+
+// Enum value maps for IncidentStatus.
+var (
+	IncidentStatus_name = map[int32]string{
+		0: "INCIDENT_STATUS_UNSPECIFIED",
+		1: "INCIDENT_STATUS_OPEN",
+		2: "INCIDENT_STATUS_ACKNOWLEDGED",
+		3: "INCIDENT_STATUS_CLOSED",
+	}
+	IncidentStatus_value = map[string]int32{
+		"INCIDENT_STATUS_UNSPECIFIED":  0,
+		"INCIDENT_STATUS_OPEN":         1,
+		"INCIDENT_STATUS_ACKNOWLEDGED": 2,
+		"INCIDENT_STATUS_CLOSED":       3,
+	}
+)
+
+func (x IncidentStatus) Enum() *IncidentStatus {
+	p := new(IncidentStatus)
+	*p = x
+	return p
+}
+
+func (x IncidentStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (IncidentStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_health_proto_enumTypes[1].Descriptor()
+}
+
+func (IncidentStatus) Type() protoreflect.EnumType {
+	return &file_hub_v1_health_proto_enumTypes[1]
+}
+
+func (x IncidentStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use IncidentStatus.Descriptor instead.
+func (IncidentStatus) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{1}
+}
+
+// ResolutionType captures how an asset incident interval was closed.
+type ResolutionType int32
+
+const (
+	ResolutionType_RESOLUTION_TYPE_UNSPECIFIED     ResolutionType = 0
+	ResolutionType_RESOLUTION_TYPE_AUTO_RECOVERED  ResolutionType = 1
+	ResolutionType_RESOLUTION_TYPE_MANUAL_OVERRIDE ResolutionType = 2
+	ResolutionType_RESOLUTION_TYPE_FALSE_ALARM     ResolutionType = 3
+)
+
+// Enum value maps for ResolutionType.
+var (
+	ResolutionType_name = map[int32]string{
+		0: "RESOLUTION_TYPE_UNSPECIFIED",
+		1: "RESOLUTION_TYPE_AUTO_RECOVERED",
+		2: "RESOLUTION_TYPE_MANUAL_OVERRIDE",
+		3: "RESOLUTION_TYPE_FALSE_ALARM",
+	}
+	ResolutionType_value = map[string]int32{
+		"RESOLUTION_TYPE_UNSPECIFIED":     0,
+		"RESOLUTION_TYPE_AUTO_RECOVERED":  1,
+		"RESOLUTION_TYPE_MANUAL_OVERRIDE": 2,
+		"RESOLUTION_TYPE_FALSE_ALARM":     3,
+	}
+)
+
+func (x ResolutionType) Enum() *ResolutionType {
+	p := new(ResolutionType)
+	*p = x
+	return p
+}
+
+func (x ResolutionType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ResolutionType) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_health_proto_enumTypes[2].Descriptor()
+}
+
+func (ResolutionType) Type() protoreflect.EnumType {
+	return &file_hub_v1_health_proto_enumTypes[2]
+}
+
+func (x ResolutionType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ResolutionType.Descriptor instead.
+func (ResolutionType) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{2}
+}
+
+// TrafficLightColor represents the executive operational readiness signal for an asset.
+type TrafficLightColor int32
+
+const (
+	TrafficLightColor_TRAFFIC_LIGHT_COLOR_UNSPECIFIED TrafficLightColor = 0
+	TrafficLightColor_TRAFFIC_LIGHT_COLOR_GREEN       TrafficLightColor = 1
+	TrafficLightColor_TRAFFIC_LIGHT_COLOR_YELLOW      TrafficLightColor = 2
+	TrafficLightColor_TRAFFIC_LIGHT_COLOR_RED         TrafficLightColor = 3
+)
+
+// Enum value maps for TrafficLightColor.
+var (
+	TrafficLightColor_name = map[int32]string{
+		0: "TRAFFIC_LIGHT_COLOR_UNSPECIFIED",
+		1: "TRAFFIC_LIGHT_COLOR_GREEN",
+		2: "TRAFFIC_LIGHT_COLOR_YELLOW",
+		3: "TRAFFIC_LIGHT_COLOR_RED",
+	}
+	TrafficLightColor_value = map[string]int32{
+		"TRAFFIC_LIGHT_COLOR_UNSPECIFIED": 0,
+		"TRAFFIC_LIGHT_COLOR_GREEN":       1,
+		"TRAFFIC_LIGHT_COLOR_YELLOW":      2,
+		"TRAFFIC_LIGHT_COLOR_RED":         3,
+	}
+)
+
+func (x TrafficLightColor) Enum() *TrafficLightColor {
+	p := new(TrafficLightColor)
+	*p = x
+	return p
+}
+
+func (x TrafficLightColor) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TrafficLightColor) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_health_proto_enumTypes[3].Descriptor()
+}
+
+func (TrafficLightColor) Type() protoreflect.EnumType {
+	return &file_hub_v1_health_proto_enumTypes[3]
+}
+
+func (x TrafficLightColor) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TrafficLightColor.Descriptor instead.
+func (TrafficLightColor) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{3}
+}
+
+// BacklinkStatus captures TimesFM false-negative attribution for manual incident reports.
+type BacklinkStatus int32
+
+const (
+	BacklinkStatus_BACKLINK_STATUS_UNSPECIFIED            BacklinkStatus = 0
+	BacklinkStatus_BACKLINK_STATUS_NOT_APPLICABLE         BacklinkStatus = 1
+	BacklinkStatus_BACKLINK_STATUS_MATCHED_EXISTING_ALERT BacklinkStatus = 2
+	BacklinkStatus_BACKLINK_STATUS_MISSED_BY_TIMESFM      BacklinkStatus = 3
+	BacklinkStatus_BACKLINK_STATUS_NO_WINDOW_FOUND        BacklinkStatus = 4
+	BacklinkStatus_BACKLINK_STATUS_UNAVAILABLE            BacklinkStatus = 5
+)
+
+// Enum value maps for BacklinkStatus.
+var (
+	BacklinkStatus_name = map[int32]string{
+		0: "BACKLINK_STATUS_UNSPECIFIED",
+		1: "BACKLINK_STATUS_NOT_APPLICABLE",
+		2: "BACKLINK_STATUS_MATCHED_EXISTING_ALERT",
+		3: "BACKLINK_STATUS_MISSED_BY_TIMESFM",
+		4: "BACKLINK_STATUS_NO_WINDOW_FOUND",
+		5: "BACKLINK_STATUS_UNAVAILABLE",
+	}
+	BacklinkStatus_value = map[string]int32{
+		"BACKLINK_STATUS_UNSPECIFIED":            0,
+		"BACKLINK_STATUS_NOT_APPLICABLE":         1,
+		"BACKLINK_STATUS_MATCHED_EXISTING_ALERT": 2,
+		"BACKLINK_STATUS_MISSED_BY_TIMESFM":      3,
+		"BACKLINK_STATUS_NO_WINDOW_FOUND":        4,
+		"BACKLINK_STATUS_UNAVAILABLE":            5,
+	}
+)
+
+func (x BacklinkStatus) Enum() *BacklinkStatus {
+	p := new(BacklinkStatus)
+	*p = x
+	return p
+}
+
+func (x BacklinkStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BacklinkStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_health_proto_enumTypes[4].Descriptor()
+}
+
+func (BacklinkStatus) Type() protoreflect.EnumType {
+	return &file_hub_v1_health_proto_enumTypes[4]
+}
+
+func (x BacklinkStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BacklinkStatus.Descriptor instead.
+func (BacklinkStatus) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{4}
+}
+
 // HealthTransitionEvent captures state changes in asset health for mesh propagation and auditing.
 type HealthTransitionEvent struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -405,6 +623,653 @@ func (x *TrustScorecard) GetComputedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+// AssetIncident represents a bounded [started_at, ended_at] outage interval keyed by (asset_urn, reporter, category).
+type AssetIncident struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	IncidentId          string                 `protobuf:"bytes,1,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	AssetUrn            string                 `protobuf:"bytes,2,opt,name=asset_urn,json=assetUrn,proto3" json:"asset_urn,omitempty"`
+	Category            string                 `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
+	Subtype             string                 `protobuf:"bytes,4,opt,name=subtype,proto3" json:"subtype,omitempty"`
+	IncidentType        string                 `protobuf:"bytes,5,opt,name=incident_type,json=incidentType,proto3" json:"incident_type,omitempty"`
+	Reporter            string                 `protobuf:"bytes,6,opt,name=reporter,proto3" json:"reporter,omitempty"`
+	Status              IncidentStatus         `protobuf:"varint,7,opt,name=status,proto3,enum=hub.v1.IncidentStatus" json:"status,omitempty"`
+	HealthState         HealthState            `protobuf:"varint,8,opt,name=health_state,json=healthState,proto3,enum=hub.v1.HealthState" json:"health_state,omitempty"`
+	Reason              string                 `protobuf:"bytes,9,opt,name=reason,proto3" json:"reason,omitempty"`
+	LatestRunId         string                 `protobuf:"bytes,10,opt,name=latest_run_id,json=latestRunId,proto3" json:"latest_run_id,omitempty"`
+	CoalescedCount      int32                  `protobuf:"varint,11,opt,name=coalesced_count,json=coalescedCount,proto3" json:"coalesced_count,omitempty"`
+	StartedAt           *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
+	LastSeenAt          *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_seen_at,json=lastSeenAt,proto3" json:"last_seen_at,omitempty"`
+	EndedAt             *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=ended_at,json=endedAt,proto3" json:"ended_at,omitempty"`
+	DurationSeconds     int64                  `protobuf:"varint,15,opt,name=duration_seconds,json=durationSeconds,proto3" json:"duration_seconds,omitempty"`
+	ResolutionType      ResolutionType         `protobuf:"varint,16,opt,name=resolution_type,json=resolutionType,proto3,enum=hub.v1.ResolutionType" json:"resolution_type,omitempty"`
+	OverrideReason      string                 `protobuf:"bytes,17,opt,name=override_reason,json=overrideReason,proto3" json:"override_reason,omitempty"`
+	RootCauseCategory   string                 `protobuf:"bytes,18,opt,name=root_cause_category,json=rootCauseCategory,proto3" json:"root_cause_category,omitempty"`
+	AuditActor          string                 `protobuf:"bytes,19,opt,name=audit_actor,json=auditActor,proto3" json:"audit_actor,omitempty"`
+	AcknowledgedBy      string                 `protobuf:"bytes,20,opt,name=acknowledged_by,json=acknowledgedBy,proto3" json:"acknowledged_by,omitempty"`
+	AcknowledgedAt      *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=acknowledged_at,json=acknowledgedAt,proto3" json:"acknowledged_at,omitempty"`
+	AcknowledgementNote string                 `protobuf:"bytes,22,opt,name=acknowledgement_note,json=acknowledgementNote,proto3" json:"acknowledgement_note,omitempty"`
+	BacklinkStatus      BacklinkStatus         `protobuf:"varint,23,opt,name=backlink_status,json=backlinkStatus,proto3,enum=hub.v1.BacklinkStatus" json:"backlink_status,omitempty"`
+	LinkedSnapshotId    string                 `protobuf:"bytes,24,opt,name=linked_snapshot_id,json=linkedSnapshotId,proto3" json:"linked_snapshot_id,omitempty"`
+	LinkedWindowStart   *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=linked_window_start,json=linkedWindowStart,proto3" json:"linked_window_start,omitempty"`
+	LinkedWindowEnd     *timestamppb.Timestamp `protobuf:"bytes,26,opt,name=linked_window_end,json=linkedWindowEnd,proto3" json:"linked_window_end,omitempty"`
+	Metadata            map[string]string      `protobuf:"bytes,27,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	KeyHash             string                 `protobuf:"bytes,28,opt,name=key_hash,json=keyHash,proto3" json:"key_hash,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *AssetIncident) Reset() {
+	*x = AssetIncident{}
+	mi := &file_hub_v1_health_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssetIncident) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssetIncident) ProtoMessage() {}
+
+func (x *AssetIncident) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_health_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssetIncident.ProtoReflect.Descriptor instead.
+func (*AssetIncident) Descriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *AssetIncident) GetIncidentId() string {
+	if x != nil {
+		return x.IncidentId
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetAssetUrn() string {
+	if x != nil {
+		return x.AssetUrn
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetSubtype() string {
+	if x != nil {
+		return x.Subtype
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetIncidentType() string {
+	if x != nil {
+		return x.IncidentType
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetReporter() string {
+	if x != nil {
+		return x.Reporter
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetStatus() IncidentStatus {
+	if x != nil {
+		return x.Status
+	}
+	return IncidentStatus_INCIDENT_STATUS_UNSPECIFIED
+}
+
+func (x *AssetIncident) GetHealthState() HealthState {
+	if x != nil {
+		return x.HealthState
+	}
+	return HealthState_HEALTH_STATE_UNSPECIFIED
+}
+
+func (x *AssetIncident) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetLatestRunId() string {
+	if x != nil {
+		return x.LatestRunId
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetCoalescedCount() int32 {
+	if x != nil {
+		return x.CoalescedCount
+	}
+	return 0
+}
+
+func (x *AssetIncident) GetStartedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartedAt
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetLastSeenAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastSeenAt
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetEndedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndedAt
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetDurationSeconds() int64 {
+	if x != nil {
+		return x.DurationSeconds
+	}
+	return 0
+}
+
+func (x *AssetIncident) GetResolutionType() ResolutionType {
+	if x != nil {
+		return x.ResolutionType
+	}
+	return ResolutionType_RESOLUTION_TYPE_UNSPECIFIED
+}
+
+func (x *AssetIncident) GetOverrideReason() string {
+	if x != nil {
+		return x.OverrideReason
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetRootCauseCategory() string {
+	if x != nil {
+		return x.RootCauseCategory
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetAuditActor() string {
+	if x != nil {
+		return x.AuditActor
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetAcknowledgedBy() string {
+	if x != nil {
+		return x.AcknowledgedBy
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetAcknowledgedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AcknowledgedAt
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetAcknowledgementNote() string {
+	if x != nil {
+		return x.AcknowledgementNote
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetBacklinkStatus() BacklinkStatus {
+	if x != nil {
+		return x.BacklinkStatus
+	}
+	return BacklinkStatus_BACKLINK_STATUS_UNSPECIFIED
+}
+
+func (x *AssetIncident) GetLinkedSnapshotId() string {
+	if x != nil {
+		return x.LinkedSnapshotId
+	}
+	return ""
+}
+
+func (x *AssetIncident) GetLinkedWindowStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LinkedWindowStart
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetLinkedWindowEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LinkedWindowEnd
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (x *AssetIncident) GetKeyHash() string {
+	if x != nil {
+		return x.KeyHash
+	}
+	return ""
+}
+
+// IncidentEvent captures an authoritative CDC outbox record for bounded asset incidents.
+type IncidentEvent struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	EventId           string                 `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	IncidentId        string                 `protobuf:"bytes,2,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	AssetUrn          string                 `protobuf:"bytes,3,opt,name=asset_urn,json=assetUrn,proto3" json:"asset_urn,omitempty"`
+	Category          string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
+	Subtype           string                 `protobuf:"bytes,5,opt,name=subtype,proto3" json:"subtype,omitempty"`
+	IncidentType      string                 `protobuf:"bytes,6,opt,name=incident_type,json=incidentType,proto3" json:"incident_type,omitempty"`
+	Reporter          string                 `protobuf:"bytes,7,opt,name=reporter,proto3" json:"reporter,omitempty"`
+	Status            IncidentStatus         `protobuf:"varint,8,opt,name=status,proto3,enum=hub.v1.IncidentStatus" json:"status,omitempty"`
+	HealthState       HealthState            `protobuf:"varint,9,opt,name=health_state,json=healthState,proto3,enum=hub.v1.HealthState" json:"health_state,omitempty"`
+	Reason            string                 `protobuf:"bytes,10,opt,name=reason,proto3" json:"reason,omitempty"`
+	RunId             string                 `protobuf:"bytes,11,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	CoalescedCount    int32                  `protobuf:"varint,12,opt,name=coalesced_count,json=coalescedCount,proto3" json:"coalesced_count,omitempty"`
+	StartedAt         *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
+	LastSeenAt        *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=last_seen_at,json=lastSeenAt,proto3" json:"last_seen_at,omitempty"`
+	EndedAt           *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=ended_at,json=endedAt,proto3" json:"ended_at,omitempty"`
+	DurationSeconds   int64                  `protobuf:"varint,16,opt,name=duration_seconds,json=durationSeconds,proto3" json:"duration_seconds,omitempty"`
+	ResolutionType    ResolutionType         `protobuf:"varint,17,opt,name=resolution_type,json=resolutionType,proto3,enum=hub.v1.ResolutionType" json:"resolution_type,omitempty"`
+	OverrideReason    string                 `protobuf:"bytes,18,opt,name=override_reason,json=overrideReason,proto3" json:"override_reason,omitempty"`
+	RootCauseCategory string                 `protobuf:"bytes,19,opt,name=root_cause_category,json=rootCauseCategory,proto3" json:"root_cause_category,omitempty"`
+	AuditActor        string                 `protobuf:"bytes,20,opt,name=audit_actor,json=auditActor,proto3" json:"audit_actor,omitempty"`
+	AcknowledgedBy    string                 `protobuf:"bytes,21,opt,name=acknowledged_by,json=acknowledgedBy,proto3" json:"acknowledged_by,omitempty"`
+	AcknowledgedAt    *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=acknowledged_at,json=acknowledgedAt,proto3" json:"acknowledged_at,omitempty"`
+	BacklinkStatus    BacklinkStatus         `protobuf:"varint,23,opt,name=backlink_status,json=backlinkStatus,proto3,enum=hub.v1.BacklinkStatus" json:"backlink_status,omitempty"`
+	LinkedSnapshotId  string                 `protobuf:"bytes,24,opt,name=linked_snapshot_id,json=linkedSnapshotId,proto3" json:"linked_snapshot_id,omitempty"`
+	LinkedWindowStart *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=linked_window_start,json=linkedWindowStart,proto3" json:"linked_window_start,omitempty"`
+	LinkedWindowEnd   *timestamppb.Timestamp `protobuf:"bytes,26,opt,name=linked_window_end,json=linkedWindowEnd,proto3" json:"linked_window_end,omitempty"`
+	MetadataJson      string                 `protobuf:"bytes,27,opt,name=metadata_json,json=metadataJson,proto3" json:"metadata_json,omitempty"`
+	EmittedAt         *timestamppb.Timestamp `protobuf:"bytes,28,opt,name=emitted_at,json=emittedAt,proto3" json:"emitted_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *IncidentEvent) Reset() {
+	*x = IncidentEvent{}
+	mi := &file_hub_v1_health_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IncidentEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IncidentEvent) ProtoMessage() {}
+
+func (x *IncidentEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_health_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IncidentEvent.ProtoReflect.Descriptor instead.
+func (*IncidentEvent) Descriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *IncidentEvent) GetEventId() string {
+	if x != nil {
+		return x.EventId
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetIncidentId() string {
+	if x != nil {
+		return x.IncidentId
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetAssetUrn() string {
+	if x != nil {
+		return x.AssetUrn
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetSubtype() string {
+	if x != nil {
+		return x.Subtype
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetIncidentType() string {
+	if x != nil {
+		return x.IncidentType
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetReporter() string {
+	if x != nil {
+		return x.Reporter
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetStatus() IncidentStatus {
+	if x != nil {
+		return x.Status
+	}
+	return IncidentStatus_INCIDENT_STATUS_UNSPECIFIED
+}
+
+func (x *IncidentEvent) GetHealthState() HealthState {
+	if x != nil {
+		return x.HealthState
+	}
+	return HealthState_HEALTH_STATE_UNSPECIFIED
+}
+
+func (x *IncidentEvent) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetCoalescedCount() int32 {
+	if x != nil {
+		return x.CoalescedCount
+	}
+	return 0
+}
+
+func (x *IncidentEvent) GetStartedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartedAt
+	}
+	return nil
+}
+
+func (x *IncidentEvent) GetLastSeenAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastSeenAt
+	}
+	return nil
+}
+
+func (x *IncidentEvent) GetEndedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndedAt
+	}
+	return nil
+}
+
+func (x *IncidentEvent) GetDurationSeconds() int64 {
+	if x != nil {
+		return x.DurationSeconds
+	}
+	return 0
+}
+
+func (x *IncidentEvent) GetResolutionType() ResolutionType {
+	if x != nil {
+		return x.ResolutionType
+	}
+	return ResolutionType_RESOLUTION_TYPE_UNSPECIFIED
+}
+
+func (x *IncidentEvent) GetOverrideReason() string {
+	if x != nil {
+		return x.OverrideReason
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetRootCauseCategory() string {
+	if x != nil {
+		return x.RootCauseCategory
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetAuditActor() string {
+	if x != nil {
+		return x.AuditActor
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetAcknowledgedBy() string {
+	if x != nil {
+		return x.AcknowledgedBy
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetAcknowledgedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AcknowledgedAt
+	}
+	return nil
+}
+
+func (x *IncidentEvent) GetBacklinkStatus() BacklinkStatus {
+	if x != nil {
+		return x.BacklinkStatus
+	}
+	return BacklinkStatus_BACKLINK_STATUS_UNSPECIFIED
+}
+
+func (x *IncidentEvent) GetLinkedSnapshotId() string {
+	if x != nil {
+		return x.LinkedSnapshotId
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetLinkedWindowStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LinkedWindowStart
+	}
+	return nil
+}
+
+func (x *IncidentEvent) GetLinkedWindowEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LinkedWindowEnd
+	}
+	return nil
+}
+
+func (x *IncidentEvent) GetMetadataJson() string {
+	if x != nil {
+		return x.MetadataJson
+	}
+	return ""
+}
+
+func (x *IncidentEvent) GetEmittedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EmittedAt
+	}
+	return nil
+}
+
+// TrafficLight projects an asset's Green / Yellow / Red operational readiness and active incidents.
+type TrafficLight struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Urn               string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	Color             TrafficLightColor      `protobuf:"varint,2,opt,name=color,proto3,enum=hub.v1.TrafficLightColor" json:"color,omitempty"`
+	HealthState       HealthState            `protobuf:"varint,3,opt,name=health_state,json=healthState,proto3,enum=hub.v1.HealthState" json:"health_state,omitempty"`
+	OpenIncidentCount int32                  `protobuf:"varint,4,opt,name=open_incident_count,json=openIncidentCount,proto3" json:"open_incident_count,omitempty"`
+	RootCauseUrn      string                 `protobuf:"bytes,5,opt,name=root_cause_urn,json=rootCauseUrn,proto3" json:"root_cause_urn,omitempty"`
+	RootCauseReason   string                 `protobuf:"bytes,6,opt,name=root_cause_reason,json=rootCauseReason,proto3" json:"root_cause_reason,omitempty"`
+	ActiveReporters   []string               `protobuf:"bytes,7,rep,name=active_reporters,json=activeReporters,proto3" json:"active_reporters,omitempty"`
+	ImpactedTeams     []string               `protobuf:"bytes,8,rep,name=impacted_teams,json=impactedTeams,proto3" json:"impacted_teams,omitempty"`
+	OldestStartedAt   *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=oldest_started_at,json=oldestStartedAt,proto3" json:"oldest_started_at,omitempty"`
+	OpenIncidents     []*AssetIncident       `protobuf:"bytes,10,rep,name=open_incidents,json=openIncidents,proto3" json:"open_incidents,omitempty"`
+	RecentIncidents   []*AssetIncident       `protobuf:"bytes,11,rep,name=recent_incidents,json=recentIncidents,proto3" json:"recent_incidents,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *TrafficLight) Reset() {
+	*x = TrafficLight{}
+	mi := &file_hub_v1_health_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TrafficLight) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TrafficLight) ProtoMessage() {}
+
+func (x *TrafficLight) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_health_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TrafficLight.ProtoReflect.Descriptor instead.
+func (*TrafficLight) Descriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *TrafficLight) GetUrn() string {
+	if x != nil {
+		return x.Urn
+	}
+	return ""
+}
+
+func (x *TrafficLight) GetColor() TrafficLightColor {
+	if x != nil {
+		return x.Color
+	}
+	return TrafficLightColor_TRAFFIC_LIGHT_COLOR_UNSPECIFIED
+}
+
+func (x *TrafficLight) GetHealthState() HealthState {
+	if x != nil {
+		return x.HealthState
+	}
+	return HealthState_HEALTH_STATE_UNSPECIFIED
+}
+
+func (x *TrafficLight) GetOpenIncidentCount() int32 {
+	if x != nil {
+		return x.OpenIncidentCount
+	}
+	return 0
+}
+
+func (x *TrafficLight) GetRootCauseUrn() string {
+	if x != nil {
+		return x.RootCauseUrn
+	}
+	return ""
+}
+
+func (x *TrafficLight) GetRootCauseReason() string {
+	if x != nil {
+		return x.RootCauseReason
+	}
+	return ""
+}
+
+func (x *TrafficLight) GetActiveReporters() []string {
+	if x != nil {
+		return x.ActiveReporters
+	}
+	return nil
+}
+
+func (x *TrafficLight) GetImpactedTeams() []string {
+	if x != nil {
+		return x.ImpactedTeams
+	}
+	return nil
+}
+
+func (x *TrafficLight) GetOldestStartedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.OldestStartedAt
+	}
+	return nil
+}
+
+func (x *TrafficLight) GetOpenIncidents() []*AssetIncident {
+	if x != nil {
+		return x.OpenIncidents
+	}
+	return nil
+}
+
+func (x *TrafficLight) GetRecentIncidents() []*AssetIncident {
+	if x != nil {
+		return x.RecentIncidents
+	}
+	return nil
+}
+
 var File_hub_v1_health_proto protoreflect.FileDescriptor
 
 const file_hub_v1_health_proto_rawDesc = "" +
@@ -451,13 +1316,120 @@ const file_hub_v1_health_proto_rawDesc = "" +
 	"\x19_freshness_attainment_30dB\x13\n" +
 	"\x11_dq_pass_rate_30dB\x13\n" +
 	"\x11_mttr_minutes_30dB\x19\n" +
-	"\x17_dlq_rejection_rate_30d*\x96\x01\n" +
+	"\x17_dlq_rejection_rate_30d\"\xe3\v\n" +
+	"\rAssetIncident\x12(\n" +
+	"\vincident_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\n" +
+	"incidentId\x12i\n" +
+	"\tasset_urn\x18\x02 \x01(\tBL\xfaBIrG\x10\x012C^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$R\bassetUrn\x12\x1a\n" +
+	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x18\n" +
+	"\asubtype\x18\x04 \x01(\tR\asubtype\x12#\n" +
+	"\rincident_type\x18\x05 \x01(\tR\fincidentType\x12\x1a\n" +
+	"\breporter\x18\x06 \x01(\tR\breporter\x128\n" +
+	"\x06status\x18\a \x01(\x0e2\x16.hub.v1.IncidentStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x06status\x12@\n" +
+	"\fhealth_state\x18\b \x01(\x0e2\x13.hub.v1.HealthStateB\b\xfaB\x05\x82\x01\x02\x10\x01R\vhealthState\x12\x16\n" +
+	"\x06reason\x18\t \x01(\tR\x06reason\x12\"\n" +
+	"\rlatest_run_id\x18\n" +
+	" \x01(\tR\vlatestRunId\x12'\n" +
+	"\x0fcoalesced_count\x18\v \x01(\x05R\x0ecoalescedCount\x129\n" +
+	"\n" +
+	"started_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12<\n" +
+	"\flast_seen_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"lastSeenAt\x125\n" +
+	"\bended_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\aendedAt\x12)\n" +
+	"\x10duration_seconds\x18\x0f \x01(\x03R\x0fdurationSeconds\x12I\n" +
+	"\x0fresolution_type\x18\x10 \x01(\x0e2\x16.hub.v1.ResolutionTypeB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0eresolutionType\x12'\n" +
+	"\x0foverride_reason\x18\x11 \x01(\tR\x0eoverrideReason\x12.\n" +
+	"\x13root_cause_category\x18\x12 \x01(\tR\x11rootCauseCategory\x12\x1f\n" +
+	"\vaudit_actor\x18\x13 \x01(\tR\n" +
+	"auditActor\x12'\n" +
+	"\x0facknowledged_by\x18\x14 \x01(\tR\x0eacknowledgedBy\x12C\n" +
+	"\x0facknowledged_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\x0eacknowledgedAt\x121\n" +
+	"\x14acknowledgement_note\x18\x16 \x01(\tR\x13acknowledgementNote\x12I\n" +
+	"\x0fbacklink_status\x18\x17 \x01(\x0e2\x16.hub.v1.BacklinkStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0ebacklinkStatus\x12,\n" +
+	"\x12linked_snapshot_id\x18\x18 \x01(\tR\x10linkedSnapshotId\x12J\n" +
+	"\x13linked_window_start\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x11linkedWindowStart\x12F\n" +
+	"\x11linked_window_end\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampR\x0flinkedWindowEnd\x12?\n" +
+	"\bmetadata\x18\x1b \x03(\v2#.hub.v1.AssetIncident.MetadataEntryR\bmetadata\x12\x19\n" +
+	"\bkey_hash\x18\x1c \x01(\tR\akeyHash\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa3\f\n" +
+	"\rIncidentEvent\x12\"\n" +
+	"\bevent_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\aeventId\x12(\n" +
+	"\vincident_id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\n" +
+	"incidentId\x12i\n" +
+	"\tasset_urn\x18\x03 \x01(\tBL\xfaBIrG\x10\x012C^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$R\bassetUrn\x12$\n" +
+	"\bcategory\x18\x04 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x01R\bcategory\x12\"\n" +
+	"\asubtype\x18\x05 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x01R\asubtype\x12-\n" +
+	"\rincident_type\x18\x06 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\fincidentType\x12$\n" +
+	"\breporter\x18\a \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\breporter\x128\n" +
+	"\x06status\x18\b \x01(\x0e2\x16.hub.v1.IncidentStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x06status\x12@\n" +
+	"\fhealth_state\x18\t \x01(\x0e2\x13.hub.v1.HealthStateB\b\xfaB\x05\x82\x01\x02\x10\x01R\vhealthState\x12 \n" +
+	"\x06reason\x18\n" +
+	" \x01(\tB\b\xfaB\x05r\x03\x18\x80 R\x06reason\x12\x1f\n" +
+	"\x06run_id\x18\v \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\x05runId\x120\n" +
+	"\x0fcoalesced_count\x18\f \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x0ecoalescedCount\x129\n" +
+	"\n" +
+	"started_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12<\n" +
+	"\flast_seen_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"lastSeenAt\x125\n" +
+	"\bended_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\aendedAt\x122\n" +
+	"\x10duration_seconds\x18\x10 \x01(\x03B\a\xfaB\x04\"\x02(\x00R\x0fdurationSeconds\x12I\n" +
+	"\x0fresolution_type\x18\x11 \x01(\x0e2\x16.hub.v1.ResolutionTypeB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0eresolutionType\x121\n" +
+	"\x0foverride_reason\x18\x12 \x01(\tB\b\xfaB\x05r\x03\x18\x80 R\x0eoverrideReason\x128\n" +
+	"\x13root_cause_category\x18\x13 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x01R\x11rootCauseCategory\x12)\n" +
+	"\vaudit_actor\x18\x14 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\n" +
+	"auditActor\x121\n" +
+	"\x0facknowledged_by\x18\x15 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\x0eacknowledgedBy\x12C\n" +
+	"\x0facknowledged_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampR\x0eacknowledgedAt\x12I\n" +
+	"\x0fbacklink_status\x18\x17 \x01(\x0e2\x16.hub.v1.BacklinkStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0ebacklinkStatus\x126\n" +
+	"\x12linked_snapshot_id\x18\x18 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\x10linkedSnapshotId\x12J\n" +
+	"\x13linked_window_start\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\x11linkedWindowStart\x12F\n" +
+	"\x11linked_window_end\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampR\x0flinkedWindowEnd\x12.\n" +
+	"\rmetadata_json\x18\x1b \x01(\tB\t\xfaB\x06r\x04\x18\x80\x80\x01R\fmetadataJson\x12C\n" +
+	"\n" +
+	"emitted_at\x18\x1c \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\temittedAt\"\x87\x05\n" +
+	"\fTrafficLight\x12^\n" +
+	"\x03urn\x18\x01 \x01(\tBL\xfaBIrG\x10\x012C^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$R\x03urn\x129\n" +
+	"\x05color\x18\x02 \x01(\x0e2\x19.hub.v1.TrafficLightColorB\b\xfaB\x05\x82\x01\x02\x10\x01R\x05color\x12@\n" +
+	"\fhealth_state\x18\x03 \x01(\x0e2\x13.hub.v1.HealthStateB\b\xfaB\x05\x82\x01\x02\x10\x01R\vhealthState\x12.\n" +
+	"\x13open_incident_count\x18\x04 \x01(\x05R\x11openIncidentCount\x12$\n" +
+	"\x0eroot_cause_urn\x18\x05 \x01(\tR\frootCauseUrn\x12*\n" +
+	"\x11root_cause_reason\x18\x06 \x01(\tR\x0frootCauseReason\x12)\n" +
+	"\x10active_reporters\x18\a \x03(\tR\x0factiveReporters\x12%\n" +
+	"\x0eimpacted_teams\x18\b \x03(\tR\rimpactedTeams\x12F\n" +
+	"\x11oldest_started_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x0foldestStartedAt\x12<\n" +
+	"\x0eopen_incidents\x18\n" +
+	" \x03(\v2\x15.hub.v1.AssetIncidentR\ropenIncidents\x12@\n" +
+	"\x10recent_incidents\x18\v \x03(\v2\x15.hub.v1.AssetIncidentR\x0frecentIncidents*\x96\x01\n" +
 	"\vHealthState\x12\x1c\n" +
 	"\x18HEALTH_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14HEALTH_STATE_HEALTHY\x10\x01\x12\x19\n" +
 	"\x15HEALTH_STATE_DEGRADED\x10\x02\x12\x18\n" +
 	"\x14HEALTH_STATE_AT_RISK\x10\x03\x12\x1a\n" +
-	"\x16HEALTH_STATE_UNHEALTHY\x10\x04B\x93\x01\n" +
+	"\x16HEALTH_STATE_UNHEALTHY\x10\x04*\x89\x01\n" +
+	"\x0eIncidentStatus\x12\x1f\n" +
+	"\x1bINCIDENT_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
+	"\x14INCIDENT_STATUS_OPEN\x10\x01\x12 \n" +
+	"\x1cINCIDENT_STATUS_ACKNOWLEDGED\x10\x02\x12\x1a\n" +
+	"\x16INCIDENT_STATUS_CLOSED\x10\x03*\x9b\x01\n" +
+	"\x0eResolutionType\x12\x1f\n" +
+	"\x1bRESOLUTION_TYPE_UNSPECIFIED\x10\x00\x12\"\n" +
+	"\x1eRESOLUTION_TYPE_AUTO_RECOVERED\x10\x01\x12#\n" +
+	"\x1fRESOLUTION_TYPE_MANUAL_OVERRIDE\x10\x02\x12\x1f\n" +
+	"\x1bRESOLUTION_TYPE_FALSE_ALARM\x10\x03*\x94\x01\n" +
+	"\x11TrafficLightColor\x12#\n" +
+	"\x1fTRAFFIC_LIGHT_COLOR_UNSPECIFIED\x10\x00\x12\x1d\n" +
+	"\x19TRAFFIC_LIGHT_COLOR_GREEN\x10\x01\x12\x1e\n" +
+	"\x1aTRAFFIC_LIGHT_COLOR_YELLOW\x10\x02\x12\x1b\n" +
+	"\x17TRAFFIC_LIGHT_COLOR_RED\x10\x03*\xee\x01\n" +
+	"\x0eBacklinkStatus\x12\x1f\n" +
+	"\x1bBACKLINK_STATUS_UNSPECIFIED\x10\x00\x12\"\n" +
+	"\x1eBACKLINK_STATUS_NOT_APPLICABLE\x10\x01\x12*\n" +
+	"&BACKLINK_STATUS_MATCHED_EXISTING_ALERT\x10\x02\x12%\n" +
+	"!BACKLINK_STATUS_MISSED_BY_TIMESFM\x10\x03\x12#\n" +
+	"\x1fBACKLINK_STATUS_NO_WINDOW_FOUND\x10\x04\x12\x1f\n" +
+	"\x1bBACKLINK_STATUS_UNAVAILABLE\x10\x05B\x93\x01\n" +
 	"\n" +
 	"com.hub.v1B\vHealthProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
 
@@ -473,26 +1445,61 @@ func file_hub_v1_health_proto_rawDescGZIP() []byte {
 	return file_hub_v1_health_proto_rawDescData
 }
 
-var file_hub_v1_health_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_hub_v1_health_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_hub_v1_health_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_hub_v1_health_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_hub_v1_health_proto_goTypes = []any{
 	(HealthState)(0),              // 0: hub.v1.HealthState
-	(*HealthTransitionEvent)(nil), // 1: hub.v1.HealthTransitionEvent
-	(*TrustScorecard)(nil),        // 2: hub.v1.TrustScorecard
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(IncidentStatus)(0),           // 1: hub.v1.IncidentStatus
+	(ResolutionType)(0),           // 2: hub.v1.ResolutionType
+	(TrafficLightColor)(0),        // 3: hub.v1.TrafficLightColor
+	(BacklinkStatus)(0),           // 4: hub.v1.BacklinkStatus
+	(*HealthTransitionEvent)(nil), // 5: hub.v1.HealthTransitionEvent
+	(*TrustScorecard)(nil),        // 6: hub.v1.TrustScorecard
+	(*AssetIncident)(nil),         // 7: hub.v1.AssetIncident
+	(*IncidentEvent)(nil),         // 8: hub.v1.IncidentEvent
+	(*TrafficLight)(nil),          // 9: hub.v1.TrafficLight
+	nil,                           // 10: hub.v1.AssetIncident.MetadataEntry
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
 }
 var file_hub_v1_health_proto_depIdxs = []int32{
-	0, // 0: hub.v1.HealthTransitionEvent.previous_state:type_name -> hub.v1.HealthState
-	0, // 1: hub.v1.HealthTransitionEvent.current_state:type_name -> hub.v1.HealthState
-	3, // 2: hub.v1.HealthTransitionEvent.timestamp:type_name -> google.protobuf.Timestamp
-	3, // 3: hub.v1.TrustScorecard.window_start:type_name -> google.protobuf.Timestamp
-	3, // 4: hub.v1.TrustScorecard.window_end:type_name -> google.protobuf.Timestamp
-	3, // 5: hub.v1.TrustScorecard.computed_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	0,  // 0: hub.v1.HealthTransitionEvent.previous_state:type_name -> hub.v1.HealthState
+	0,  // 1: hub.v1.HealthTransitionEvent.current_state:type_name -> hub.v1.HealthState
+	11, // 2: hub.v1.HealthTransitionEvent.timestamp:type_name -> google.protobuf.Timestamp
+	11, // 3: hub.v1.TrustScorecard.window_start:type_name -> google.protobuf.Timestamp
+	11, // 4: hub.v1.TrustScorecard.window_end:type_name -> google.protobuf.Timestamp
+	11, // 5: hub.v1.TrustScorecard.computed_at:type_name -> google.protobuf.Timestamp
+	1,  // 6: hub.v1.AssetIncident.status:type_name -> hub.v1.IncidentStatus
+	0,  // 7: hub.v1.AssetIncident.health_state:type_name -> hub.v1.HealthState
+	11, // 8: hub.v1.AssetIncident.started_at:type_name -> google.protobuf.Timestamp
+	11, // 9: hub.v1.AssetIncident.last_seen_at:type_name -> google.protobuf.Timestamp
+	11, // 10: hub.v1.AssetIncident.ended_at:type_name -> google.protobuf.Timestamp
+	2,  // 11: hub.v1.AssetIncident.resolution_type:type_name -> hub.v1.ResolutionType
+	11, // 12: hub.v1.AssetIncident.acknowledged_at:type_name -> google.protobuf.Timestamp
+	4,  // 13: hub.v1.AssetIncident.backlink_status:type_name -> hub.v1.BacklinkStatus
+	11, // 14: hub.v1.AssetIncident.linked_window_start:type_name -> google.protobuf.Timestamp
+	11, // 15: hub.v1.AssetIncident.linked_window_end:type_name -> google.protobuf.Timestamp
+	10, // 16: hub.v1.AssetIncident.metadata:type_name -> hub.v1.AssetIncident.MetadataEntry
+	1,  // 17: hub.v1.IncidentEvent.status:type_name -> hub.v1.IncidentStatus
+	0,  // 18: hub.v1.IncidentEvent.health_state:type_name -> hub.v1.HealthState
+	11, // 19: hub.v1.IncidentEvent.started_at:type_name -> google.protobuf.Timestamp
+	11, // 20: hub.v1.IncidentEvent.last_seen_at:type_name -> google.protobuf.Timestamp
+	11, // 21: hub.v1.IncidentEvent.ended_at:type_name -> google.protobuf.Timestamp
+	2,  // 22: hub.v1.IncidentEvent.resolution_type:type_name -> hub.v1.ResolutionType
+	11, // 23: hub.v1.IncidentEvent.acknowledged_at:type_name -> google.protobuf.Timestamp
+	4,  // 24: hub.v1.IncidentEvent.backlink_status:type_name -> hub.v1.BacklinkStatus
+	11, // 25: hub.v1.IncidentEvent.linked_window_start:type_name -> google.protobuf.Timestamp
+	11, // 26: hub.v1.IncidentEvent.linked_window_end:type_name -> google.protobuf.Timestamp
+	11, // 27: hub.v1.IncidentEvent.emitted_at:type_name -> google.protobuf.Timestamp
+	3,  // 28: hub.v1.TrafficLight.color:type_name -> hub.v1.TrafficLightColor
+	0,  // 29: hub.v1.TrafficLight.health_state:type_name -> hub.v1.HealthState
+	11, // 30: hub.v1.TrafficLight.oldest_started_at:type_name -> google.protobuf.Timestamp
+	7,  // 31: hub.v1.TrafficLight.open_incidents:type_name -> hub.v1.AssetIncident
+	7,  // 32: hub.v1.TrafficLight.recent_incidents:type_name -> hub.v1.AssetIncident
+	33, // [33:33] is the sub-list for method output_type
+	33, // [33:33] is the sub-list for method input_type
+	33, // [33:33] is the sub-list for extension type_name
+	33, // [33:33] is the sub-list for extension extendee
+	0,  // [0:33] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_health_proto_init() }
@@ -506,8 +1513,8 @@ func file_hub_v1_health_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_health_proto_rawDesc), len(file_hub_v1_health_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   2,
+			NumEnums:      5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

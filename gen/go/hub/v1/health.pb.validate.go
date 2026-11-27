@@ -662,3 +662,1165 @@ var _ interface {
 } = TrustScorecardValidationError{}
 
 var _TrustScorecard_TargetUrn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$")
+
+// Validate checks the field values on AssetIncident with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AssetIncident) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AssetIncident with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AssetIncidentMultiError, or
+// nil if none found.
+func (m *AssetIncident) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AssetIncident) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetIncidentId()) < 1 {
+		err := AssetIncidentValidationError{
+			field:  "IncidentId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetAssetUrn()) < 1 {
+		err := AssetIncidentValidationError{
+			field:  "AssetUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_AssetIncident_AssetUrn_Pattern.MatchString(m.GetAssetUrn()) {
+		err := AssetIncidentValidationError{
+			field:  "AssetUrn",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Category
+
+	// no validation rules for Subtype
+
+	// no validation rules for IncidentType
+
+	// no validation rules for Reporter
+
+	if _, ok := IncidentStatus_name[int32(m.GetStatus())]; !ok {
+		err := AssetIncidentValidationError{
+			field:  "Status",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := HealthState_name[int32(m.GetHealthState())]; !ok {
+		err := AssetIncidentValidationError{
+			field:  "HealthState",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Reason
+
+	// no validation rules for LatestRunId
+
+	// no validation rules for CoalescedCount
+
+	if all {
+		switch v := interface{}(m.GetStartedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetStartedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AssetIncidentValidationError{
+				field:  "StartedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLastSeenAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "LastSeenAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "LastSeenAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLastSeenAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AssetIncidentValidationError{
+				field:  "LastSeenAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetEndedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "EndedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "EndedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEndedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AssetIncidentValidationError{
+				field:  "EndedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for DurationSeconds
+
+	if _, ok := ResolutionType_name[int32(m.GetResolutionType())]; !ok {
+		err := AssetIncidentValidationError{
+			field:  "ResolutionType",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for OverrideReason
+
+	// no validation rules for RootCauseCategory
+
+	// no validation rules for AuditActor
+
+	// no validation rules for AcknowledgedBy
+
+	if all {
+		switch v := interface{}(m.GetAcknowledgedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "AcknowledgedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "AcknowledgedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAcknowledgedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AssetIncidentValidationError{
+				field:  "AcknowledgedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for AcknowledgementNote
+
+	if _, ok := BacklinkStatus_name[int32(m.GetBacklinkStatus())]; !ok {
+		err := AssetIncidentValidationError{
+			field:  "BacklinkStatus",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for LinkedSnapshotId
+
+	if all {
+		switch v := interface{}(m.GetLinkedWindowStart()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "LinkedWindowStart",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "LinkedWindowStart",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLinkedWindowStart()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AssetIncidentValidationError{
+				field:  "LinkedWindowStart",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLinkedWindowEnd()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "LinkedWindowEnd",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AssetIncidentValidationError{
+					field:  "LinkedWindowEnd",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLinkedWindowEnd()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AssetIncidentValidationError{
+				field:  "LinkedWindowEnd",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Metadata
+
+	// no validation rules for KeyHash
+
+	if len(errors) > 0 {
+		return AssetIncidentMultiError(errors)
+	}
+
+	return nil
+}
+
+// AssetIncidentMultiError is an error wrapping multiple validation errors
+// returned by AssetIncident.ValidateAll() if the designated constraints
+// aren't met.
+type AssetIncidentMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AssetIncidentMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AssetIncidentMultiError) AllErrors() []error { return m }
+
+// AssetIncidentValidationError is the validation error returned by
+// AssetIncident.Validate if the designated constraints aren't met.
+type AssetIncidentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AssetIncidentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AssetIncidentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AssetIncidentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AssetIncidentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AssetIncidentValidationError) ErrorName() string { return "AssetIncidentValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AssetIncidentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAssetIncident.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AssetIncidentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AssetIncidentValidationError{}
+
+var _AssetIncident_AssetUrn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$")
+
+// Validate checks the field values on IncidentEvent with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *IncidentEvent) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on IncidentEvent with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in IncidentEventMultiError, or
+// nil if none found.
+func (m *IncidentEvent) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *IncidentEvent) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetEventId()) < 1 {
+		err := IncidentEventValidationError{
+			field:  "EventId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetIncidentId()) < 1 {
+		err := IncidentEventValidationError{
+			field:  "IncidentId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetAssetUrn()) < 1 {
+		err := IncidentEventValidationError{
+			field:  "AssetUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_IncidentEvent_AssetUrn_Pattern.MatchString(m.GetAssetUrn()) {
+		err := IncidentEventValidationError{
+			field:  "AssetUrn",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetCategory()) > 128 {
+		err := IncidentEventValidationError{
+			field:  "Category",
+			reason: "value length must be at most 128 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetSubtype()) > 128 {
+		err := IncidentEventValidationError{
+			field:  "Subtype",
+			reason: "value length must be at most 128 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetIncidentType()) > 256 {
+		err := IncidentEventValidationError{
+			field:  "IncidentType",
+			reason: "value length must be at most 256 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetReporter()) > 256 {
+		err := IncidentEventValidationError{
+			field:  "Reporter",
+			reason: "value length must be at most 256 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := IncidentStatus_name[int32(m.GetStatus())]; !ok {
+		err := IncidentEventValidationError{
+			field:  "Status",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := HealthState_name[int32(m.GetHealthState())]; !ok {
+		err := IncidentEventValidationError{
+			field:  "HealthState",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetReason()) > 4096 {
+		err := IncidentEventValidationError{
+			field:  "Reason",
+			reason: "value length must be at most 4096 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetRunId()) > 256 {
+		err := IncidentEventValidationError{
+			field:  "RunId",
+			reason: "value length must be at most 256 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetCoalescedCount() < 0 {
+		err := IncidentEventValidationError{
+			field:  "CoalescedCount",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetStartedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetStartedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IncidentEventValidationError{
+				field:  "StartedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLastSeenAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "LastSeenAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "LastSeenAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLastSeenAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IncidentEventValidationError{
+				field:  "LastSeenAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetEndedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "EndedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "EndedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEndedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IncidentEventValidationError{
+				field:  "EndedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.GetDurationSeconds() < 0 {
+		err := IncidentEventValidationError{
+			field:  "DurationSeconds",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := ResolutionType_name[int32(m.GetResolutionType())]; !ok {
+		err := IncidentEventValidationError{
+			field:  "ResolutionType",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetOverrideReason()) > 4096 {
+		err := IncidentEventValidationError{
+			field:  "OverrideReason",
+			reason: "value length must be at most 4096 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetRootCauseCategory()) > 128 {
+		err := IncidentEventValidationError{
+			field:  "RootCauseCategory",
+			reason: "value length must be at most 128 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetAuditActor()) > 256 {
+		err := IncidentEventValidationError{
+			field:  "AuditActor",
+			reason: "value length must be at most 256 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetAcknowledgedBy()) > 256 {
+		err := IncidentEventValidationError{
+			field:  "AcknowledgedBy",
+			reason: "value length must be at most 256 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetAcknowledgedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "AcknowledgedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "AcknowledgedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAcknowledgedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IncidentEventValidationError{
+				field:  "AcknowledgedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if _, ok := BacklinkStatus_name[int32(m.GetBacklinkStatus())]; !ok {
+		err := IncidentEventValidationError{
+			field:  "BacklinkStatus",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetLinkedSnapshotId()) > 256 {
+		err := IncidentEventValidationError{
+			field:  "LinkedSnapshotId",
+			reason: "value length must be at most 256 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetLinkedWindowStart()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "LinkedWindowStart",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "LinkedWindowStart",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLinkedWindowStart()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IncidentEventValidationError{
+				field:  "LinkedWindowStart",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLinkedWindowEnd()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "LinkedWindowEnd",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IncidentEventValidationError{
+					field:  "LinkedWindowEnd",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLinkedWindowEnd()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IncidentEventValidationError{
+				field:  "LinkedWindowEnd",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetMetadataJson()) > 16384 {
+		err := IncidentEventValidationError{
+			field:  "MetadataJson",
+			reason: "value length must be at most 16384 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetEmittedAt() == nil {
+		err := IncidentEventValidationError{
+			field:  "EmittedAt",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return IncidentEventMultiError(errors)
+	}
+
+	return nil
+}
+
+// IncidentEventMultiError is an error wrapping multiple validation errors
+// returned by IncidentEvent.ValidateAll() if the designated constraints
+// aren't met.
+type IncidentEventMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m IncidentEventMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m IncidentEventMultiError) AllErrors() []error { return m }
+
+// IncidentEventValidationError is the validation error returned by
+// IncidentEvent.Validate if the designated constraints aren't met.
+type IncidentEventValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e IncidentEventValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e IncidentEventValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e IncidentEventValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e IncidentEventValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e IncidentEventValidationError) ErrorName() string { return "IncidentEventValidationError" }
+
+// Error satisfies the builtin error interface
+func (e IncidentEventValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sIncidentEvent.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = IncidentEventValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = IncidentEventValidationError{}
+
+var _IncidentEvent_AssetUrn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$")
+
+// Validate checks the field values on TrafficLight with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TrafficLight) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TrafficLight with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TrafficLightMultiError, or
+// nil if none found.
+func (m *TrafficLight) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TrafficLight) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetUrn()) < 1 {
+		err := TrafficLightValidationError{
+			field:  "Urn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_TrafficLight_Urn_Pattern.MatchString(m.GetUrn()) {
+		err := TrafficLightValidationError{
+			field:  "Urn",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := TrafficLightColor_name[int32(m.GetColor())]; !ok {
+		err := TrafficLightValidationError{
+			field:  "Color",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := HealthState_name[int32(m.GetHealthState())]; !ok {
+		err := TrafficLightValidationError{
+			field:  "HealthState",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for OpenIncidentCount
+
+	// no validation rules for RootCauseUrn
+
+	// no validation rules for RootCauseReason
+
+	if all {
+		switch v := interface{}(m.GetOldestStartedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TrafficLightValidationError{
+					field:  "OldestStartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TrafficLightValidationError{
+					field:  "OldestStartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOldestStartedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TrafficLightValidationError{
+				field:  "OldestStartedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetOpenIncidents() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TrafficLightValidationError{
+						field:  fmt.Sprintf("OpenIncidents[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TrafficLightValidationError{
+						field:  fmt.Sprintf("OpenIncidents[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TrafficLightValidationError{
+					field:  fmt.Sprintf("OpenIncidents[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetRecentIncidents() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TrafficLightValidationError{
+						field:  fmt.Sprintf("RecentIncidents[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TrafficLightValidationError{
+						field:  fmt.Sprintf("RecentIncidents[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TrafficLightValidationError{
+					field:  fmt.Sprintf("RecentIncidents[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return TrafficLightMultiError(errors)
+	}
+
+	return nil
+}
+
+// TrafficLightMultiError is an error wrapping multiple validation errors
+// returned by TrafficLight.ValidateAll() if the designated constraints aren't met.
+type TrafficLightMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TrafficLightMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TrafficLightMultiError) AllErrors() []error { return m }
+
+// TrafficLightValidationError is the validation error returned by
+// TrafficLight.Validate if the designated constraints aren't met.
+type TrafficLightValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TrafficLightValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TrafficLightValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TrafficLightValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TrafficLightValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TrafficLightValidationError) ErrorName() string { return "TrafficLightValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TrafficLightValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTrafficLight.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TrafficLightValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TrafficLightValidationError{}
+
+var _TrafficLight_Urn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$")

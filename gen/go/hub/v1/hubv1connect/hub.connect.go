@@ -177,6 +177,21 @@ const (
 	// HubServiceGetTopologySignalsProcedure is the fully-qualified name of the HubService's
 	// GetTopologySignals RPC.
 	HubServiceGetTopologySignalsProcedure = "/hub.v1.HubService/GetTopologySignals"
+	// HubServiceGetAssetTrafficLightProcedure is the fully-qualified name of the HubService's
+	// GetAssetTrafficLight RPC.
+	HubServiceGetAssetTrafficLightProcedure = "/hub.v1.HubService/GetAssetTrafficLight"
+	// HubServiceListAssetIncidentsProcedure is the fully-qualified name of the HubService's
+	// ListAssetIncidents RPC.
+	HubServiceListAssetIncidentsProcedure = "/hub.v1.HubService/ListAssetIncidents"
+	// HubServiceGetAssetIncidentProcedure is the fully-qualified name of the HubService's
+	// GetAssetIncident RPC.
+	HubServiceGetAssetIncidentProcedure = "/hub.v1.HubService/GetAssetIncident"
+	// HubServiceAcknowledgeIncidentProcedure is the fully-qualified name of the HubService's
+	// AcknowledgeIncident RPC.
+	HubServiceAcknowledgeIncidentProcedure = "/hub.v1.HubService/AcknowledgeIncident"
+	// HubServiceCloseIncidentProcedure is the fully-qualified name of the HubService's CloseIncident
+	// RPC.
+	HubServiceCloseIncidentProcedure = "/hub.v1.HubService/CloseIncident"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -237,6 +252,11 @@ var (
 	hubServiceListSLAGapsMethodDescriptor              = hubServiceServiceDescriptor.Methods().ByName("ListSLAGaps")
 	hubServiceAuditLineageReachabilityMethodDescriptor = hubServiceServiceDescriptor.Methods().ByName("AuditLineageReachability")
 	hubServiceGetTopologySignalsMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("GetTopologySignals")
+	hubServiceGetAssetTrafficLightMethodDescriptor     = hubServiceServiceDescriptor.Methods().ByName("GetAssetTrafficLight")
+	hubServiceListAssetIncidentsMethodDescriptor       = hubServiceServiceDescriptor.Methods().ByName("ListAssetIncidents")
+	hubServiceGetAssetIncidentMethodDescriptor         = hubServiceServiceDescriptor.Methods().ByName("GetAssetIncident")
+	hubServiceAcknowledgeIncidentMethodDescriptor      = hubServiceServiceDescriptor.Methods().ByName("AcknowledgeIncident")
+	hubServiceCloseIncidentMethodDescriptor            = hubServiceServiceDescriptor.Methods().ByName("CloseIncident")
 )
 
 // HubServiceClient is a client for the hub.v1.HubService service.
@@ -356,6 +376,16 @@ type HubServiceClient interface {
 	AuditLineageReachability(context.Context, *connect.Request[v1.AuditLineageReachabilityRequest]) (*connect.Response[v1.AuditLineageReachabilityResponse], error)
 	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
 	GetTopologySignals(context.Context, *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error)
+	// Computes and returns the Traffic Light operational readiness projection for an asset URN.
+	GetAssetTrafficLight(context.Context, *connect.Request[v1.GetAssetTrafficLightRequest]) (*connect.Response[v1.GetAssetTrafficLightResponse], error)
+	// Lists bounded incident intervals filtered by asset URN, status, reporter, category, or backlink status.
+	ListAssetIncidents(context.Context, *connect.Request[v1.ListAssetIncidentsRequest]) (*connect.Response[v1.ListAssetIncidentsResponse], error)
+	// Retrieves a single bounded incident interval by incident ID.
+	GetAssetIncident(context.Context, *connect.Request[v1.GetAssetIncidentRequest]) (*connect.Response[v1.GetAssetIncidentResponse], error)
+	// Marks an open incident interval as acknowledged by the authenticated caller.
+	AcknowledgeIncident(context.Context, *connect.Request[v1.AcknowledgeIncidentRequest]) (*connect.Response[v1.AcknowledgeIncidentResponse], error)
+	// Manually closes an open or acknowledged incident interval with an audited resolution and reason.
+	CloseIncident(context.Context, *connect.Request[v1.CloseIncidentRequest]) (*connect.Response[v1.CloseIncidentResponse], error)
 }
 
 // NewHubServiceClient constructs a client for the hub.v1.HubService service. By default, it uses
@@ -698,6 +728,36 @@ func NewHubServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(hubServiceGetTopologySignalsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getAssetTrafficLight: connect.NewClient[v1.GetAssetTrafficLightRequest, v1.GetAssetTrafficLightResponse](
+			httpClient,
+			baseURL+HubServiceGetAssetTrafficLightProcedure,
+			connect.WithSchema(hubServiceGetAssetTrafficLightMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listAssetIncidents: connect.NewClient[v1.ListAssetIncidentsRequest, v1.ListAssetIncidentsResponse](
+			httpClient,
+			baseURL+HubServiceListAssetIncidentsProcedure,
+			connect.WithSchema(hubServiceListAssetIncidentsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getAssetIncident: connect.NewClient[v1.GetAssetIncidentRequest, v1.GetAssetIncidentResponse](
+			httpClient,
+			baseURL+HubServiceGetAssetIncidentProcedure,
+			connect.WithSchema(hubServiceGetAssetIncidentMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		acknowledgeIncident: connect.NewClient[v1.AcknowledgeIncidentRequest, v1.AcknowledgeIncidentResponse](
+			httpClient,
+			baseURL+HubServiceAcknowledgeIncidentProcedure,
+			connect.WithSchema(hubServiceAcknowledgeIncidentMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		closeIncident: connect.NewClient[v1.CloseIncidentRequest, v1.CloseIncidentResponse](
+			httpClient,
+			baseURL+HubServiceCloseIncidentProcedure,
+			connect.WithSchema(hubServiceCloseIncidentMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -758,6 +818,11 @@ type hubServiceClient struct {
 	listSLAGaps              *connect.Client[v1.ListSLAGapsRequest, v1.ListSLAGapsResponse]
 	auditLineageReachability *connect.Client[v1.AuditLineageReachabilityRequest, v1.AuditLineageReachabilityResponse]
 	getTopologySignals       *connect.Client[v1.GetTopologySignalsRequest, v1.GetTopologySignalsResponse]
+	getAssetTrafficLight     *connect.Client[v1.GetAssetTrafficLightRequest, v1.GetAssetTrafficLightResponse]
+	listAssetIncidents       *connect.Client[v1.ListAssetIncidentsRequest, v1.ListAssetIncidentsResponse]
+	getAssetIncident         *connect.Client[v1.GetAssetIncidentRequest, v1.GetAssetIncidentResponse]
+	acknowledgeIncident      *connect.Client[v1.AcknowledgeIncidentRequest, v1.AcknowledgeIncidentResponse]
+	closeIncident            *connect.Client[v1.CloseIncidentRequest, v1.CloseIncidentResponse]
 }
 
 // ValidateProduct calls hub.v1.HubService.ValidateProduct.
@@ -1039,6 +1104,31 @@ func (c *hubServiceClient) GetTopologySignals(ctx context.Context, req *connect.
 	return c.getTopologySignals.CallUnary(ctx, req)
 }
 
+// GetAssetTrafficLight calls hub.v1.HubService.GetAssetTrafficLight.
+func (c *hubServiceClient) GetAssetTrafficLight(ctx context.Context, req *connect.Request[v1.GetAssetTrafficLightRequest]) (*connect.Response[v1.GetAssetTrafficLightResponse], error) {
+	return c.getAssetTrafficLight.CallUnary(ctx, req)
+}
+
+// ListAssetIncidents calls hub.v1.HubService.ListAssetIncidents.
+func (c *hubServiceClient) ListAssetIncidents(ctx context.Context, req *connect.Request[v1.ListAssetIncidentsRequest]) (*connect.Response[v1.ListAssetIncidentsResponse], error) {
+	return c.listAssetIncidents.CallUnary(ctx, req)
+}
+
+// GetAssetIncident calls hub.v1.HubService.GetAssetIncident.
+func (c *hubServiceClient) GetAssetIncident(ctx context.Context, req *connect.Request[v1.GetAssetIncidentRequest]) (*connect.Response[v1.GetAssetIncidentResponse], error) {
+	return c.getAssetIncident.CallUnary(ctx, req)
+}
+
+// AcknowledgeIncident calls hub.v1.HubService.AcknowledgeIncident.
+func (c *hubServiceClient) AcknowledgeIncident(ctx context.Context, req *connect.Request[v1.AcknowledgeIncidentRequest]) (*connect.Response[v1.AcknowledgeIncidentResponse], error) {
+	return c.acknowledgeIncident.CallUnary(ctx, req)
+}
+
+// CloseIncident calls hub.v1.HubService.CloseIncident.
+func (c *hubServiceClient) CloseIncident(ctx context.Context, req *connect.Request[v1.CloseIncidentRequest]) (*connect.Response[v1.CloseIncidentResponse], error) {
+	return c.closeIncident.CallUnary(ctx, req)
+}
+
 // HubServiceHandler is an implementation of the hub.v1.HubService service.
 type HubServiceHandler interface {
 	// Validates a manifest and its contracts without saving.
@@ -1156,6 +1246,16 @@ type HubServiceHandler interface {
 	AuditLineageReachability(context.Context, *connect.Request[v1.AuditLineageReachabilityRequest]) (*connect.Response[v1.AuditLineageReachabilityResponse], error)
 	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
 	GetTopologySignals(context.Context, *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error)
+	// Computes and returns the Traffic Light operational readiness projection for an asset URN.
+	GetAssetTrafficLight(context.Context, *connect.Request[v1.GetAssetTrafficLightRequest]) (*connect.Response[v1.GetAssetTrafficLightResponse], error)
+	// Lists bounded incident intervals filtered by asset URN, status, reporter, category, or backlink status.
+	ListAssetIncidents(context.Context, *connect.Request[v1.ListAssetIncidentsRequest]) (*connect.Response[v1.ListAssetIncidentsResponse], error)
+	// Retrieves a single bounded incident interval by incident ID.
+	GetAssetIncident(context.Context, *connect.Request[v1.GetAssetIncidentRequest]) (*connect.Response[v1.GetAssetIncidentResponse], error)
+	// Marks an open incident interval as acknowledged by the authenticated caller.
+	AcknowledgeIncident(context.Context, *connect.Request[v1.AcknowledgeIncidentRequest]) (*connect.Response[v1.AcknowledgeIncidentResponse], error)
+	// Manually closes an open or acknowledged incident interval with an audited resolution and reason.
+	CloseIncident(context.Context, *connect.Request[v1.CloseIncidentRequest]) (*connect.Response[v1.CloseIncidentResponse], error)
 }
 
 // NewHubServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -1494,6 +1594,36 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(hubServiceGetTopologySignalsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	hubServiceGetAssetTrafficLightHandler := connect.NewUnaryHandler(
+		HubServiceGetAssetTrafficLightProcedure,
+		svc.GetAssetTrafficLight,
+		connect.WithSchema(hubServiceGetAssetTrafficLightMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceListAssetIncidentsHandler := connect.NewUnaryHandler(
+		HubServiceListAssetIncidentsProcedure,
+		svc.ListAssetIncidents,
+		connect.WithSchema(hubServiceListAssetIncidentsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceGetAssetIncidentHandler := connect.NewUnaryHandler(
+		HubServiceGetAssetIncidentProcedure,
+		svc.GetAssetIncident,
+		connect.WithSchema(hubServiceGetAssetIncidentMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceAcknowledgeIncidentHandler := connect.NewUnaryHandler(
+		HubServiceAcknowledgeIncidentProcedure,
+		svc.AcknowledgeIncident,
+		connect.WithSchema(hubServiceAcknowledgeIncidentMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	hubServiceCloseIncidentHandler := connect.NewUnaryHandler(
+		HubServiceCloseIncidentProcedure,
+		svc.CloseIncident,
+		connect.WithSchema(hubServiceCloseIncidentMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/hub.v1.HubService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case HubServiceValidateProductProcedure:
@@ -1606,6 +1736,16 @@ func NewHubServiceHandler(svc HubServiceHandler, opts ...connect.HandlerOption) 
 			hubServiceAuditLineageReachabilityHandler.ServeHTTP(w, r)
 		case HubServiceGetTopologySignalsProcedure:
 			hubServiceGetTopologySignalsHandler.ServeHTTP(w, r)
+		case HubServiceGetAssetTrafficLightProcedure:
+			hubServiceGetAssetTrafficLightHandler.ServeHTTP(w, r)
+		case HubServiceListAssetIncidentsProcedure:
+			hubServiceListAssetIncidentsHandler.ServeHTTP(w, r)
+		case HubServiceGetAssetIncidentProcedure:
+			hubServiceGetAssetIncidentHandler.ServeHTTP(w, r)
+		case HubServiceAcknowledgeIncidentProcedure:
+			hubServiceAcknowledgeIncidentHandler.ServeHTTP(w, r)
+		case HubServiceCloseIncidentProcedure:
+			hubServiceCloseIncidentHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1833,4 +1973,24 @@ func (UnimplementedHubServiceHandler) AuditLineageReachability(context.Context, 
 
 func (UnimplementedHubServiceHandler) GetTopologySignals(context.Context, *connect.Request[v1.GetTopologySignalsRequest]) (*connect.Response[v1.GetTopologySignalsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetTopologySignals is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetAssetTrafficLight(context.Context, *connect.Request[v1.GetAssetTrafficLightRequest]) (*connect.Response[v1.GetAssetTrafficLightResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetAssetTrafficLight is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) ListAssetIncidents(context.Context, *connect.Request[v1.ListAssetIncidentsRequest]) (*connect.Response[v1.ListAssetIncidentsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.ListAssetIncidents is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) GetAssetIncident(context.Context, *connect.Request[v1.GetAssetIncidentRequest]) (*connect.Response[v1.GetAssetIncidentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.GetAssetIncident is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) AcknowledgeIncident(context.Context, *connect.Request[v1.AcknowledgeIncidentRequest]) (*connect.Response[v1.AcknowledgeIncidentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.AcknowledgeIncident is not implemented"))
+}
+
+func (UnimplementedHubServiceHandler) CloseIncident(context.Context, *connect.Request[v1.CloseIncidentRequest]) (*connect.Response[v1.CloseIncidentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hub.v1.HubService.CloseIncident is not implemented"))
 }
