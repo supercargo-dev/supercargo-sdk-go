@@ -501,6 +501,41 @@ func (m *GithubPullRequest) validate(all bool) error {
 
 	// no validation rules for TrunkDeployFirstPassGreen
 
+	// no validation rules for ReviewRounds
+
+	// no validation rules for ChangesRequestedCount
+
+	// no validation rules for HumanReviewCommentsCount
+
+	if all {
+		switch v := interface{}(m.GetFirstHumanReviewAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GithubPullRequestValidationError{
+					field:  "FirstHumanReviewAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GithubPullRequestValidationError{
+					field:  "FirstHumanReviewAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFirstHumanReviewAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GithubPullRequestValidationError{
+				field:  "FirstHumanReviewAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return GithubPullRequestMultiError(errors)
 	}

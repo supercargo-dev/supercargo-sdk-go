@@ -19,48 +19,61 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HubService_ValidateProduct_FullMethodName        = "/hub.v1.HubService/ValidateProduct"
-	HubService_RegisterProduct_FullMethodName        = "/hub.v1.HubService/RegisterProduct"
-	HubService_GetProduct_FullMethodName             = "/hub.v1.HubService/GetProduct"
-	HubService_GetProductSchema_FullMethodName       = "/hub.v1.HubService/GetProductSchema"
-	HubService_GetContract_FullMethodName            = "/hub.v1.HubService/GetContract"
-	HubService_ListContracts_FullMethodName          = "/hub.v1.HubService/ListContracts"
-	HubService_Ping_FullMethodName                   = "/hub.v1.HubService/Ping"
-	HubService_ValidateSchema_FullMethodName         = "/hub.v1.HubService/ValidateSchema"
-	HubService_DeleteProduct_FullMethodName          = "/hub.v1.HubService/DeleteProduct"
-	HubService_CheckDownstreamImpact_FullMethodName  = "/hub.v1.HubService/CheckDownstreamImpact"
-	HubService_RegisterEntity_FullMethodName         = "/hub.v1.HubService/RegisterEntity"
-	HubService_GetEntity_FullMethodName              = "/hub.v1.HubService/GetEntity"
-	HubService_ListEntities_FullMethodName           = "/hub.v1.HubService/ListEntities"
-	HubService_CheckEntityImpact_FullMethodName      = "/hub.v1.HubService/CheckEntityImpact"
-	HubService_DeleteEntity_FullMethodName           = "/hub.v1.HubService/DeleteEntity"
-	HubService_RegisterTeam_FullMethodName           = "/hub.v1.HubService/RegisterTeam"
-	HubService_GetTeam_FullMethodName                = "/hub.v1.HubService/GetTeam"
-	HubService_ListTeams_FullMethodName              = "/hub.v1.HubService/ListTeams"
-	HubService_DeleteTeam_FullMethodName             = "/hub.v1.HubService/DeleteTeam"
-	HubService_RegisterContract_FullMethodName       = "/hub.v1.HubService/RegisterContract"
-	HubService_ListProducts_FullMethodName           = "/hub.v1.HubService/ListProducts"
-	HubService_SyncProduct_FullMethodName            = "/hub.v1.HubService/SyncProduct"
-	HubService_RecordAuditRun_FullMethodName         = "/hub.v1.HubService/RecordAuditRun"
-	HubService_ListAuditRuns_FullMethodName          = "/hub.v1.HubService/ListAuditRuns"
-	HubService_SendAlert_FullMethodName              = "/hub.v1.HubService/SendAlert"
-	HubService_AnalyzeImpact_FullMethodName          = "/hub.v1.HubService/AnalyzeImpact"
-	HubService_Subscribe_FullMethodName              = "/hub.v1.HubService/Subscribe"
-	HubService_Unsubscribe_FullMethodName            = "/hub.v1.HubService/Unsubscribe"
-	HubService_ListSubscriptions_FullMethodName      = "/hub.v1.HubService/ListSubscriptions"
-	HubService_IngestEvent_FullMethodName            = "/hub.v1.HubService/IngestEvent"
-	HubService_ExtractDSARPlan_FullMethodName        = "/hub.v1.HubService/ExtractDSARPlan"
-	HubService_PackageDSAR_FullMethodName            = "/hub.v1.HubService/PackageDSAR"
-	HubService_VerifyRTBF_FullMethodName             = "/hub.v1.HubService/VerifyRTBF"
-	HubService_ReportAnomaly_FullMethodName          = "/hub.v1.HubService/ReportAnomaly"
-	HubService_GetHealth_FullMethodName              = "/hub.v1.HubService/GetHealth"
-	HubService_GetHealthHistory_FullMethodName       = "/hub.v1.HubService/GetHealthHistory"
-	HubService_GetBlastRadius_FullMethodName         = "/hub.v1.HubService/GetBlastRadius"
-	HubService_GetRootCause_FullMethodName           = "/hub.v1.HubService/GetRootCause"
-	HubService_GetTaxonomyMappings_FullMethodName    = "/hub.v1.HubService/GetTaxonomyMappings"
-	HubService_RegisterDemandLocks_FullMethodName    = "/hub.v1.HubService/RegisterDemandLocks"
-	HubService_ListDemandLocks_FullMethodName        = "/hub.v1.HubService/ListDemandLocks"
-	HubService_GetInfrastructureDrift_FullMethodName = "/hub.v1.HubService/GetInfrastructureDrift"
+	HubService_ValidateProduct_FullMethodName          = "/hub.v1.HubService/ValidateProduct"
+	HubService_RegisterProduct_FullMethodName          = "/hub.v1.HubService/RegisterProduct"
+	HubService_GetProduct_FullMethodName               = "/hub.v1.HubService/GetProduct"
+	HubService_GetProductSchema_FullMethodName         = "/hub.v1.HubService/GetProductSchema"
+	HubService_GetContract_FullMethodName              = "/hub.v1.HubService/GetContract"
+	HubService_ListContracts_FullMethodName            = "/hub.v1.HubService/ListContracts"
+	HubService_Ping_FullMethodName                     = "/hub.v1.HubService/Ping"
+	HubService_ValidateSchema_FullMethodName           = "/hub.v1.HubService/ValidateSchema"
+	HubService_DeleteProduct_FullMethodName            = "/hub.v1.HubService/DeleteProduct"
+	HubService_CheckDownstreamImpact_FullMethodName    = "/hub.v1.HubService/CheckDownstreamImpact"
+	HubService_RegisterEntity_FullMethodName           = "/hub.v1.HubService/RegisterEntity"
+	HubService_GetEntity_FullMethodName                = "/hub.v1.HubService/GetEntity"
+	HubService_ListEntities_FullMethodName             = "/hub.v1.HubService/ListEntities"
+	HubService_CheckEntityImpact_FullMethodName        = "/hub.v1.HubService/CheckEntityImpact"
+	HubService_DeleteEntity_FullMethodName             = "/hub.v1.HubService/DeleteEntity"
+	HubService_RegisterTeam_FullMethodName             = "/hub.v1.HubService/RegisterTeam"
+	HubService_GetTeam_FullMethodName                  = "/hub.v1.HubService/GetTeam"
+	HubService_ListTeams_FullMethodName                = "/hub.v1.HubService/ListTeams"
+	HubService_DeleteTeam_FullMethodName               = "/hub.v1.HubService/DeleteTeam"
+	HubService_RegisterContract_FullMethodName         = "/hub.v1.HubService/RegisterContract"
+	HubService_ListProducts_FullMethodName             = "/hub.v1.HubService/ListProducts"
+	HubService_SyncProduct_FullMethodName              = "/hub.v1.HubService/SyncProduct"
+	HubService_RecordAuditRun_FullMethodName           = "/hub.v1.HubService/RecordAuditRun"
+	HubService_ListAuditRuns_FullMethodName            = "/hub.v1.HubService/ListAuditRuns"
+	HubService_SendAlert_FullMethodName                = "/hub.v1.HubService/SendAlert"
+	HubService_AnalyzeImpact_FullMethodName            = "/hub.v1.HubService/AnalyzeImpact"
+	HubService_Subscribe_FullMethodName                = "/hub.v1.HubService/Subscribe"
+	HubService_Unsubscribe_FullMethodName              = "/hub.v1.HubService/Unsubscribe"
+	HubService_ListSubscriptions_FullMethodName        = "/hub.v1.HubService/ListSubscriptions"
+	HubService_IngestEvent_FullMethodName              = "/hub.v1.HubService/IngestEvent"
+	HubService_ExtractDSARPlan_FullMethodName          = "/hub.v1.HubService/ExtractDSARPlan"
+	HubService_PackageDSAR_FullMethodName              = "/hub.v1.HubService/PackageDSAR"
+	HubService_VerifyRTBF_FullMethodName               = "/hub.v1.HubService/VerifyRTBF"
+	HubService_ReportAnomaly_FullMethodName            = "/hub.v1.HubService/ReportAnomaly"
+	HubService_GetHealth_FullMethodName                = "/hub.v1.HubService/GetHealth"
+	HubService_GetHealthHistory_FullMethodName         = "/hub.v1.HubService/GetHealthHistory"
+	HubService_GetBlastRadius_FullMethodName           = "/hub.v1.HubService/GetBlastRadius"
+	HubService_GetRootCause_FullMethodName             = "/hub.v1.HubService/GetRootCause"
+	HubService_GetTaxonomyMappings_FullMethodName      = "/hub.v1.HubService/GetTaxonomyMappings"
+	HubService_RegisterDemandLocks_FullMethodName      = "/hub.v1.HubService/RegisterDemandLocks"
+	HubService_ListDemandLocks_FullMethodName          = "/hub.v1.HubService/ListDemandLocks"
+	HubService_GetInfrastructureDrift_FullMethodName   = "/hub.v1.HubService/GetInfrastructureDrift"
+	HubService_DiffContracts_FullMethodName            = "/hub.v1.HubService/DiffContracts"
+	HubService_DiffProductManifests_FullMethodName     = "/hub.v1.HubService/DiffProductManifests"
+	HubService_GetTrustScorecard_FullMethodName        = "/hub.v1.HubService/GetTrustScorecard"
+	HubService_ListTrustScorecards_FullMethodName      = "/hub.v1.HubService/ListTrustScorecards"
+	HubService_GetLineageGraph_FullMethodName          = "/hub.v1.HubService/GetLineageGraph"
+	HubService_IngestLineageManifest_FullMethodName    = "/hub.v1.HubService/IngestLineageManifest"
+	HubService_ReplayLineageSubmissions_FullMethodName = "/hub.v1.HubService/ReplayLineageSubmissions"
+	HubService_SetAssetState_FullMethodName            = "/hub.v1.HubService/SetAssetState"
+	HubService_GetEffectiveAssetState_FullMethodName   = "/hub.v1.HubService/GetEffectiveAssetState"
+	HubService_DeleteAssetState_FullMethodName         = "/hub.v1.HubService/DeleteAssetState"
+	HubService_ListSLAGaps_FullMethodName              = "/hub.v1.HubService/ListSLAGaps"
+	HubService_AuditLineageReachability_FullMethodName = "/hub.v1.HubService/AuditLineageReachability"
+	HubService_GetTopologySignals_FullMethodName       = "/hub.v1.HubService/GetTopologySignals"
 )
 
 // HubServiceClient is the client API for HubService service.
@@ -154,6 +167,32 @@ type HubServiceClient interface {
 	ListDemandLocks(ctx context.Context, in *ListDemandLocksRequest, opts ...grpc.CallOption) (*ListDemandLocksResponse, error)
 	// Compares declared contract and manifest intent against live cloud infrastructure reality.
 	GetInfrastructureDrift(ctx context.Context, in *GetInfrastructureDriftRequest, opts ...grpc.CallOption) (*GetInfrastructureDriftResponse, error)
+	// Compares two published versions (or optional ODCS v3.2.0 lockfiles) of a Data Contract semantically.
+	DiffContracts(ctx context.Context, in *DiffContractsRequest, opts ...grpc.CallOption) (*DiffContractsResponse, error)
+	// Compares two published versions (or optional ODPS dataproduct.odps.yaml lockfiles) of a Data Product manifest semantically.
+	DiffProductManifests(ctx context.Context, in *DiffProductManifestsRequest, opts ...grpc.CallOption) (*DiffProductManifestsResponse, error)
+	// Computes or retrieves the rolling trust scorecard for a Product, Output Port, or Contract URN.
+	GetTrustScorecard(ctx context.Context, in *GetTrustScorecardRequest, opts ...grpc.CallOption) (*GetTrustScorecardResponse, error)
+	// Batch-computes rolling trust scorecards for up to 100 URNs in O(1) queries.
+	ListTrustScorecards(ctx context.Context, in *ListTrustScorecardsRequest, opts ...grpc.CallOption) (*ListTrustScorecardsResponse, error)
+	// Queries the canonical lineage graph across Asset-to-Asset, Asset-to-Job, or Product-to-Product views.
+	GetLineageGraph(ctx context.Context, in *GetLineageGraphRequest, opts ...grpc.CallOption) (*GetLineageGraphResponse, error)
+	// Ingests pre-normalized lineage edges or raw declarative manifests (dbt, Dataform) into the canonical graph.
+	IngestLineageManifest(ctx context.Context, in *IngestLineageManifestRequest, opts ...grpc.CallOption) (*IngestLineageManifestResponse, error)
+	// Replays lineage submission chunks from durable history without triggering duplicate outbox events.
+	ReplayLineageSubmissions(ctx context.Context, in *ReplayLineageSubmissionsRequest, opts ...grpc.CallOption) (*ReplayLineageSubmissionsResponse, error)
+	// Attaches or partially merges mutable governance state overlays on a canonical asset FQN.
+	SetAssetState(ctx context.Context, in *SetAssetStateRequest, opts ...grpc.CallOption) (*SetAssetStateResponse, error)
+	// Computes and returns the effective governance state (declared + implied + gaps) for an asset FQN.
+	GetEffectiveAssetState(ctx context.Context, in *GetEffectiveAssetStateRequest, opts ...grpc.CallOption) (*GetEffectiveAssetStateResponse, error)
+	// Tombstone-deletes a mutable asset state overlay while preserving graph topology.
+	DeleteAssetState(ctx context.Context, in *DeleteAssetStateRequest, opts ...grpc.CallOption) (*DeleteAssetStateResponse, error)
+	// Lists active SLA governance gaps across registered products and brownfield assets.
+	ListSLAGaps(ctx context.Context, in *ListSLAGapsRequest, opts ...grpc.CallOption) (*ListSLAGapsResponse, error)
+	// Audits end-to-end upstream lineage reachability from Tier 1 and Tier 2 leaves to known source roots.
+	AuditLineageReachability(ctx context.Context, in *AuditLineageReachabilityRequest, opts ...grpc.CallOption) (*AuditLineageReachabilityResponse, error)
+	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
+	GetTopologySignals(ctx context.Context, in *GetTopologySignalsRequest, opts ...grpc.CallOption) (*GetTopologySignalsResponse, error)
 }
 
 type hubServiceClient struct {
@@ -586,6 +625,136 @@ func (c *hubServiceClient) GetInfrastructureDrift(ctx context.Context, in *GetIn
 	return out, nil
 }
 
+func (c *hubServiceClient) DiffContracts(ctx context.Context, in *DiffContractsRequest, opts ...grpc.CallOption) (*DiffContractsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DiffContractsResponse)
+	err := c.cc.Invoke(ctx, HubService_DiffContracts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) DiffProductManifests(ctx context.Context, in *DiffProductManifestsRequest, opts ...grpc.CallOption) (*DiffProductManifestsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DiffProductManifestsResponse)
+	err := c.cc.Invoke(ctx, HubService_DiffProductManifests_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) GetTrustScorecard(ctx context.Context, in *GetTrustScorecardRequest, opts ...grpc.CallOption) (*GetTrustScorecardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTrustScorecardResponse)
+	err := c.cc.Invoke(ctx, HubService_GetTrustScorecard_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) ListTrustScorecards(ctx context.Context, in *ListTrustScorecardsRequest, opts ...grpc.CallOption) (*ListTrustScorecardsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListTrustScorecardsResponse)
+	err := c.cc.Invoke(ctx, HubService_ListTrustScorecards_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) GetLineageGraph(ctx context.Context, in *GetLineageGraphRequest, opts ...grpc.CallOption) (*GetLineageGraphResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetLineageGraphResponse)
+	err := c.cc.Invoke(ctx, HubService_GetLineageGraph_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) IngestLineageManifest(ctx context.Context, in *IngestLineageManifestRequest, opts ...grpc.CallOption) (*IngestLineageManifestResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IngestLineageManifestResponse)
+	err := c.cc.Invoke(ctx, HubService_IngestLineageManifest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) ReplayLineageSubmissions(ctx context.Context, in *ReplayLineageSubmissionsRequest, opts ...grpc.CallOption) (*ReplayLineageSubmissionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReplayLineageSubmissionsResponse)
+	err := c.cc.Invoke(ctx, HubService_ReplayLineageSubmissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) SetAssetState(ctx context.Context, in *SetAssetStateRequest, opts ...grpc.CallOption) (*SetAssetStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetAssetStateResponse)
+	err := c.cc.Invoke(ctx, HubService_SetAssetState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) GetEffectiveAssetState(ctx context.Context, in *GetEffectiveAssetStateRequest, opts ...grpc.CallOption) (*GetEffectiveAssetStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetEffectiveAssetStateResponse)
+	err := c.cc.Invoke(ctx, HubService_GetEffectiveAssetState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) DeleteAssetState(ctx context.Context, in *DeleteAssetStateRequest, opts ...grpc.CallOption) (*DeleteAssetStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteAssetStateResponse)
+	err := c.cc.Invoke(ctx, HubService_DeleteAssetState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) ListSLAGaps(ctx context.Context, in *ListSLAGapsRequest, opts ...grpc.CallOption) (*ListSLAGapsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSLAGapsResponse)
+	err := c.cc.Invoke(ctx, HubService_ListSLAGaps_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) AuditLineageReachability(ctx context.Context, in *AuditLineageReachabilityRequest, opts ...grpc.CallOption) (*AuditLineageReachabilityResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AuditLineageReachabilityResponse)
+	err := c.cc.Invoke(ctx, HubService_AuditLineageReachability_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hubServiceClient) GetTopologySignals(ctx context.Context, in *GetTopologySignalsRequest, opts ...grpc.CallOption) (*GetTopologySignalsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTopologySignalsResponse)
+	err := c.cc.Invoke(ctx, HubService_GetTopologySignals_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HubServiceServer is the server API for HubService service.
 // All implementations must embed UnimplementedHubServiceServer
 // for forward compatibility.
@@ -677,6 +846,32 @@ type HubServiceServer interface {
 	ListDemandLocks(context.Context, *ListDemandLocksRequest) (*ListDemandLocksResponse, error)
 	// Compares declared contract and manifest intent against live cloud infrastructure reality.
 	GetInfrastructureDrift(context.Context, *GetInfrastructureDriftRequest) (*GetInfrastructureDriftResponse, error)
+	// Compares two published versions (or optional ODCS v3.2.0 lockfiles) of a Data Contract semantically.
+	DiffContracts(context.Context, *DiffContractsRequest) (*DiffContractsResponse, error)
+	// Compares two published versions (or optional ODPS dataproduct.odps.yaml lockfiles) of a Data Product manifest semantically.
+	DiffProductManifests(context.Context, *DiffProductManifestsRequest) (*DiffProductManifestsResponse, error)
+	// Computes or retrieves the rolling trust scorecard for a Product, Output Port, or Contract URN.
+	GetTrustScorecard(context.Context, *GetTrustScorecardRequest) (*GetTrustScorecardResponse, error)
+	// Batch-computes rolling trust scorecards for up to 100 URNs in O(1) queries.
+	ListTrustScorecards(context.Context, *ListTrustScorecardsRequest) (*ListTrustScorecardsResponse, error)
+	// Queries the canonical lineage graph across Asset-to-Asset, Asset-to-Job, or Product-to-Product views.
+	GetLineageGraph(context.Context, *GetLineageGraphRequest) (*GetLineageGraphResponse, error)
+	// Ingests pre-normalized lineage edges or raw declarative manifests (dbt, Dataform) into the canonical graph.
+	IngestLineageManifest(context.Context, *IngestLineageManifestRequest) (*IngestLineageManifestResponse, error)
+	// Replays lineage submission chunks from durable history without triggering duplicate outbox events.
+	ReplayLineageSubmissions(context.Context, *ReplayLineageSubmissionsRequest) (*ReplayLineageSubmissionsResponse, error)
+	// Attaches or partially merges mutable governance state overlays on a canonical asset FQN.
+	SetAssetState(context.Context, *SetAssetStateRequest) (*SetAssetStateResponse, error)
+	// Computes and returns the effective governance state (declared + implied + gaps) for an asset FQN.
+	GetEffectiveAssetState(context.Context, *GetEffectiveAssetStateRequest) (*GetEffectiveAssetStateResponse, error)
+	// Tombstone-deletes a mutable asset state overlay while preserving graph topology.
+	DeleteAssetState(context.Context, *DeleteAssetStateRequest) (*DeleteAssetStateResponse, error)
+	// Lists active SLA governance gaps across registered products and brownfield assets.
+	ListSLAGaps(context.Context, *ListSLAGapsRequest) (*ListSLAGapsResponse, error)
+	// Audits end-to-end upstream lineage reachability from Tier 1 and Tier 2 leaves to known source roots.
+	AuditLineageReachability(context.Context, *AuditLineageReachabilityRequest) (*AuditLineageReachabilityResponse, error)
+	// Returns structural topology signals including high-fan-in fragile assets and zero-consumer candidates.
+	GetTopologySignals(context.Context, *GetTopologySignalsRequest) (*GetTopologySignalsResponse, error)
 	mustEmbedUnimplementedHubServiceServer()
 }
 
@@ -812,6 +1007,45 @@ func (UnimplementedHubServiceServer) ListDemandLocks(context.Context, *ListDeman
 }
 func (UnimplementedHubServiceServer) GetInfrastructureDrift(context.Context, *GetInfrastructureDriftRequest) (*GetInfrastructureDriftResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetInfrastructureDrift not implemented")
+}
+func (UnimplementedHubServiceServer) DiffContracts(context.Context, *DiffContractsRequest) (*DiffContractsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DiffContracts not implemented")
+}
+func (UnimplementedHubServiceServer) DiffProductManifests(context.Context, *DiffProductManifestsRequest) (*DiffProductManifestsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DiffProductManifests not implemented")
+}
+func (UnimplementedHubServiceServer) GetTrustScorecard(context.Context, *GetTrustScorecardRequest) (*GetTrustScorecardResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTrustScorecard not implemented")
+}
+func (UnimplementedHubServiceServer) ListTrustScorecards(context.Context, *ListTrustScorecardsRequest) (*ListTrustScorecardsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListTrustScorecards not implemented")
+}
+func (UnimplementedHubServiceServer) GetLineageGraph(context.Context, *GetLineageGraphRequest) (*GetLineageGraphResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetLineageGraph not implemented")
+}
+func (UnimplementedHubServiceServer) IngestLineageManifest(context.Context, *IngestLineageManifestRequest) (*IngestLineageManifestResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method IngestLineageManifest not implemented")
+}
+func (UnimplementedHubServiceServer) ReplayLineageSubmissions(context.Context, *ReplayLineageSubmissionsRequest) (*ReplayLineageSubmissionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReplayLineageSubmissions not implemented")
+}
+func (UnimplementedHubServiceServer) SetAssetState(context.Context, *SetAssetStateRequest) (*SetAssetStateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SetAssetState not implemented")
+}
+func (UnimplementedHubServiceServer) GetEffectiveAssetState(context.Context, *GetEffectiveAssetStateRequest) (*GetEffectiveAssetStateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetEffectiveAssetState not implemented")
+}
+func (UnimplementedHubServiceServer) DeleteAssetState(context.Context, *DeleteAssetStateRequest) (*DeleteAssetStateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteAssetState not implemented")
+}
+func (UnimplementedHubServiceServer) ListSLAGaps(context.Context, *ListSLAGapsRequest) (*ListSLAGapsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListSLAGaps not implemented")
+}
+func (UnimplementedHubServiceServer) AuditLineageReachability(context.Context, *AuditLineageReachabilityRequest) (*AuditLineageReachabilityResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AuditLineageReachability not implemented")
+}
+func (UnimplementedHubServiceServer) GetTopologySignals(context.Context, *GetTopologySignalsRequest) (*GetTopologySignalsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTopologySignals not implemented")
 }
 func (UnimplementedHubServiceServer) mustEmbedUnimplementedHubServiceServer() {}
 func (UnimplementedHubServiceServer) testEmbeddedByValue()                    {}
@@ -1590,6 +1824,240 @@ func _HubService_GetInfrastructureDrift_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HubService_DiffContracts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiffContractsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).DiffContracts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_DiffContracts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).DiffContracts(ctx, req.(*DiffContractsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_DiffProductManifests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiffProductManifestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).DiffProductManifests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_DiffProductManifests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).DiffProductManifests(ctx, req.(*DiffProductManifestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_GetTrustScorecard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTrustScorecardRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetTrustScorecard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetTrustScorecard_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetTrustScorecard(ctx, req.(*GetTrustScorecardRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_ListTrustScorecards_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTrustScorecardsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).ListTrustScorecards(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_ListTrustScorecards_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).ListTrustScorecards(ctx, req.(*ListTrustScorecardsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_GetLineageGraph_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLineageGraphRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetLineageGraph(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetLineageGraph_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetLineageGraph(ctx, req.(*GetLineageGraphRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_IngestLineageManifest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IngestLineageManifestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).IngestLineageManifest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_IngestLineageManifest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).IngestLineageManifest(ctx, req.(*IngestLineageManifestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_ReplayLineageSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReplayLineageSubmissionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).ReplayLineageSubmissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_ReplayLineageSubmissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).ReplayLineageSubmissions(ctx, req.(*ReplayLineageSubmissionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_SetAssetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetAssetStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).SetAssetState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_SetAssetState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).SetAssetState(ctx, req.(*SetAssetStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_GetEffectiveAssetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEffectiveAssetStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetEffectiveAssetState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetEffectiveAssetState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetEffectiveAssetState(ctx, req.(*GetEffectiveAssetStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_DeleteAssetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAssetStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).DeleteAssetState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_DeleteAssetState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).DeleteAssetState(ctx, req.(*DeleteAssetStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_ListSLAGaps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSLAGapsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).ListSLAGaps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_ListSLAGaps_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).ListSLAGaps(ctx, req.(*ListSLAGapsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_AuditLineageReachability_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuditLineageReachabilityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).AuditLineageReachability(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_AuditLineageReachability_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).AuditLineageReachability(ctx, req.(*AuditLineageReachabilityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HubService_GetTopologySignals_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopologySignalsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServiceServer).GetTopologySignals(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HubService_GetTopologySignals_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServiceServer).GetTopologySignals(ctx, req.(*GetTopologySignalsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HubService_ServiceDesc is the grpc.ServiceDesc for HubService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1764,6 +2232,58 @@ var HubService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetInfrastructureDrift",
 			Handler:    _HubService_GetInfrastructureDrift_Handler,
+		},
+		{
+			MethodName: "DiffContracts",
+			Handler:    _HubService_DiffContracts_Handler,
+		},
+		{
+			MethodName: "DiffProductManifests",
+			Handler:    _HubService_DiffProductManifests_Handler,
+		},
+		{
+			MethodName: "GetTrustScorecard",
+			Handler:    _HubService_GetTrustScorecard_Handler,
+		},
+		{
+			MethodName: "ListTrustScorecards",
+			Handler:    _HubService_ListTrustScorecards_Handler,
+		},
+		{
+			MethodName: "GetLineageGraph",
+			Handler:    _HubService_GetLineageGraph_Handler,
+		},
+		{
+			MethodName: "IngestLineageManifest",
+			Handler:    _HubService_IngestLineageManifest_Handler,
+		},
+		{
+			MethodName: "ReplayLineageSubmissions",
+			Handler:    _HubService_ReplayLineageSubmissions_Handler,
+		},
+		{
+			MethodName: "SetAssetState",
+			Handler:    _HubService_SetAssetState_Handler,
+		},
+		{
+			MethodName: "GetEffectiveAssetState",
+			Handler:    _HubService_GetEffectiveAssetState_Handler,
+		},
+		{
+			MethodName: "DeleteAssetState",
+			Handler:    _HubService_DeleteAssetState_Handler,
+		},
+		{
+			MethodName: "ListSLAGaps",
+			Handler:    _HubService_ListSLAGaps_Handler,
+		},
+		{
+			MethodName: "AuditLineageReachability",
+			Handler:    _HubService_AuditLineageReachability_Handler,
+		},
+		{
+			MethodName: "GetTopologySignals",
+			Handler:    _HubService_GetTopologySignals_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

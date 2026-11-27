@@ -224,6 +224,187 @@ func (x *HealthTransitionEvent) GetImpactedTeams() []string {
 	return nil
 }
 
+// TrustScorecard captures rolling reliability and quality telemetry for a Product, Output Port, or Contract.
+type TrustScorecard struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Target URN (supports 5..N segment URNs including 7-segment Output Port URNs).
+	TargetUrn string `protobuf:"bytes,1,opt,name=target_urn,json=targetUrn,proto3" json:"target_urn,omitempty"`
+	// Rolling evaluation window length in days [1..90].
+	WindowDays int32 `protobuf:"varint,2,opt,name=window_days,json=windowDays,proto3" json:"window_days,omitempty"`
+	// Rolling SLO uptime attainment fraction in [0.0, 1.0]; unset if unobserved.
+	SloAttainment_30D *float64 `protobuf:"fixed64,3,opt,name=slo_attainment_30d,json=sloAttainment30d,proto3,oneof" json:"slo_attainment_30d,omitempty"`
+	// Rolling SLA freshness attainment fraction in [0.0, 1.0]; unset if unobserved.
+	FreshnessAttainment_30D *float64 `protobuf:"fixed64,4,opt,name=freshness_attainment_30d,json=freshnessAttainment30d,proto3,oneof" json:"freshness_attainment_30d,omitempty"`
+	// Rolling data quality pass rate in [0.0, 1.0]; unset if unobserved.
+	DqPassRate_30D *float64 `protobuf:"fixed64,5,opt,name=dq_pass_rate_30d,json=dqPassRate30d,proto3,oneof" json:"dq_pass_rate_30d,omitempty"`
+	// Mean time to recovery in minutes (>= 0.0); unset when 0 completed recoveries exist.
+	MttrMinutes_30D *float64 `protobuf:"fixed64,6,opt,name=mttr_minutes_30d,json=mttrMinutes30d,proto3,oneof" json:"mttr_minutes_30d,omitempty"`
+	// Gateway DLQ / rejection rate in [0.0, 1.0]; unset when 0 gateway executions occurred.
+	DlqRejectionRate_30D *float64 `protobuf:"fixed64,7,opt,name=dlq_rejection_rate_30d,json=dlqRejectionRate30d,proto3,oneof" json:"dlq_rejection_rate_30d,omitempty"`
+	// Count of observed days without a DEGRADED/UNHEALTHY breach.
+	HealthyDays_30D int32 `protobuf:"varint,8,opt,name=healthy_days_30d,json=healthyDays30d,proto3" json:"healthy_days_30d,omitempty"`
+	// Count of observed days in the rolling window (0 indicates cold-start insufficient history).
+	ObservedDays_30D int32 `protobuf:"varint,9,opt,name=observed_days_30d,json=observedDays30d,proto3" json:"observed_days_30d,omitempty"`
+	// Total degradation incidents observed in the rolling window.
+	IncidentCount_30D int32 `protobuf:"varint,10,opt,name=incident_count_30d,json=incidentCount30d,proto3" json:"incident_count_30d,omitempty"`
+	// Total completed recoveries observed in the rolling window.
+	RecoveryCount_30D int32 `protobuf:"varint,11,opt,name=recovery_count_30d,json=recoveryCount30d,proto3" json:"recovery_count_30d,omitempty"`
+	// Whether the target asset is currently in an unrecovered DEGRADED or UNHEALTHY state.
+	ActiveDegradation bool `protobuf:"varint,12,opt,name=active_degradation,json=activeDegradation,proto3" json:"active_degradation,omitempty"`
+	// Telemetry backing source descriptor (e.g., "hub_repository", "bigquery+hub_repository").
+	DataSource string `protobuf:"bytes,13,opt,name=data_source,json=dataSource,proto3" json:"data_source,omitempty"`
+	// Inclusive start of the evaluation window.
+	WindowStart *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=window_start,json=windowStart,proto3" json:"window_start,omitempty"`
+	// Inclusive end of the evaluation window.
+	WindowEnd *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=window_end,json=windowEnd,proto3" json:"window_end,omitempty"`
+	// Timestamp when the scorecard was computed.
+	ComputedAt    *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=computed_at,json=computedAt,proto3" json:"computed_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TrustScorecard) Reset() {
+	*x = TrustScorecard{}
+	mi := &file_hub_v1_health_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TrustScorecard) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TrustScorecard) ProtoMessage() {}
+
+func (x *TrustScorecard) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_health_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TrustScorecard.ProtoReflect.Descriptor instead.
+func (*TrustScorecard) Descriptor() ([]byte, []int) {
+	return file_hub_v1_health_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *TrustScorecard) GetTargetUrn() string {
+	if x != nil {
+		return x.TargetUrn
+	}
+	return ""
+}
+
+func (x *TrustScorecard) GetWindowDays() int32 {
+	if x != nil {
+		return x.WindowDays
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetSloAttainment_30D() float64 {
+	if x != nil && x.SloAttainment_30D != nil {
+		return *x.SloAttainment_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetFreshnessAttainment_30D() float64 {
+	if x != nil && x.FreshnessAttainment_30D != nil {
+		return *x.FreshnessAttainment_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetDqPassRate_30D() float64 {
+	if x != nil && x.DqPassRate_30D != nil {
+		return *x.DqPassRate_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetMttrMinutes_30D() float64 {
+	if x != nil && x.MttrMinutes_30D != nil {
+		return *x.MttrMinutes_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetDlqRejectionRate_30D() float64 {
+	if x != nil && x.DlqRejectionRate_30D != nil {
+		return *x.DlqRejectionRate_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetHealthyDays_30D() int32 {
+	if x != nil {
+		return x.HealthyDays_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetObservedDays_30D() int32 {
+	if x != nil {
+		return x.ObservedDays_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetIncidentCount_30D() int32 {
+	if x != nil {
+		return x.IncidentCount_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetRecoveryCount_30D() int32 {
+	if x != nil {
+		return x.RecoveryCount_30D
+	}
+	return 0
+}
+
+func (x *TrustScorecard) GetActiveDegradation() bool {
+	if x != nil {
+		return x.ActiveDegradation
+	}
+	return false
+}
+
+func (x *TrustScorecard) GetDataSource() string {
+	if x != nil {
+		return x.DataSource
+	}
+	return ""
+}
+
+func (x *TrustScorecard) GetWindowStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.WindowStart
+	}
+	return nil
+}
+
+func (x *TrustScorecard) GetWindowEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.WindowEnd
+	}
+	return nil
+}
+
+func (x *TrustScorecard) GetComputedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ComputedAt
+	}
+	return nil
+}
+
 var File_hub_v1_health_proto protoreflect.FileDescriptor
 
 const file_hub_v1_health_proto_rawDesc = "" +
@@ -242,7 +423,35 @@ const file_hub_v1_health_proto_rawDesc = "" +
 	"\ttimestamp\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\ttimestamp\x12z\n" +
 	"\x0fdownstream_urns\x18\v \x03(\tBQ\xfaBN\x92\x01K\x10\xe8\a\"FrD2B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x0edownstreamUrns\x128\n" +
-	"\x0eimpacted_teams\x18\f \x03(\tB\x11\xfaB\x0e\x92\x01\v\x10d\"\ar\x05\x10\x01\x18\x80\x01R\rimpactedTeams*\x96\x01\n" +
+	"\x0eimpacted_teams\x18\f \x03(\tB\x11\xfaB\x0e\x92\x01\v\x10d\"\ar\x05\x10\x01\x18\x80\x01R\rimpactedTeams\"\xfc\b\n" +
+	"\x0eTrustScorecard\x12k\n" +
+	"\n" +
+	"target_urn\x18\x01 \x01(\tBL\xfaBIrG\x10\x012C^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$R\ttargetUrn\x12*\n" +
+	"\vwindow_days\x18\x02 \x01(\x05B\t\xfaB\x06\x1a\x04\x18Z(\x01R\n" +
+	"windowDays\x12J\n" +
+	"\x12slo_attainment_30d\x18\x03 \x01(\x01B\x17\xfaB\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x00R\x10sloAttainment30d\x88\x01\x01\x12V\n" +
+	"\x18freshness_attainment_30d\x18\x04 \x01(\x01B\x17\xfaB\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x01R\x16freshnessAttainment30d\x88\x01\x01\x12E\n" +
+	"\x10dq_pass_rate_30d\x18\x05 \x01(\x01B\x17\xfaB\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x02R\rdqPassRate30d\x88\x01\x01\x12=\n" +
+	"\x10mttr_minutes_30d\x18\x06 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x03R\x0emttrMinutes30d\x88\x01\x01\x12Q\n" +
+	"\x16dlq_rejection_rate_30d\x18\a \x01(\x01B\x17\xfaB\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x04R\x13dlqRejectionRate30d\x88\x01\x01\x121\n" +
+	"\x10healthy_days_30d\x18\b \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x0ehealthyDays30d\x123\n" +
+	"\x11observed_days_30d\x18\t \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x0fobservedDays30d\x125\n" +
+	"\x12incident_count_30d\x18\n" +
+	" \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x10incidentCount30d\x125\n" +
+	"\x12recovery_count_30d\x18\v \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x10recoveryCount30d\x12-\n" +
+	"\x12active_degradation\x18\f \x01(\bR\x11activeDegradation\x12\x1f\n" +
+	"\vdata_source\x18\r \x01(\tR\n" +
+	"dataSource\x12=\n" +
+	"\fwindow_start\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vwindowStart\x129\n" +
+	"\n" +
+	"window_end\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\twindowEnd\x12;\n" +
+	"\vcomputed_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"computedAtB\x15\n" +
+	"\x13_slo_attainment_30dB\x1b\n" +
+	"\x19_freshness_attainment_30dB\x13\n" +
+	"\x11_dq_pass_rate_30dB\x13\n" +
+	"\x11_mttr_minutes_30dB\x19\n" +
+	"\x17_dlq_rejection_rate_30d*\x96\x01\n" +
 	"\vHealthState\x12\x1c\n" +
 	"\x18HEALTH_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14HEALTH_STATE_HEALTHY\x10\x01\x12\x19\n" +
@@ -265,21 +474,25 @@ func file_hub_v1_health_proto_rawDescGZIP() []byte {
 }
 
 var file_hub_v1_health_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_hub_v1_health_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_hub_v1_health_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_hub_v1_health_proto_goTypes = []any{
 	(HealthState)(0),              // 0: hub.v1.HealthState
 	(*HealthTransitionEvent)(nil), // 1: hub.v1.HealthTransitionEvent
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*TrustScorecard)(nil),        // 2: hub.v1.TrustScorecard
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_hub_v1_health_proto_depIdxs = []int32{
 	0, // 0: hub.v1.HealthTransitionEvent.previous_state:type_name -> hub.v1.HealthState
 	0, // 1: hub.v1.HealthTransitionEvent.current_state:type_name -> hub.v1.HealthState
-	2, // 2: hub.v1.HealthTransitionEvent.timestamp:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 2: hub.v1.HealthTransitionEvent.timestamp:type_name -> google.protobuf.Timestamp
+	3, // 3: hub.v1.TrustScorecard.window_start:type_name -> google.protobuf.Timestamp
+	3, // 4: hub.v1.TrustScorecard.window_end:type_name -> google.protobuf.Timestamp
+	3, // 5: hub.v1.TrustScorecard.computed_at:type_name -> google.protobuf.Timestamp
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_health_proto_init() }
@@ -287,13 +500,14 @@ func file_hub_v1_health_proto_init() {
 	if File_hub_v1_health_proto != nil {
 		return
 	}
+	file_hub_v1_health_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_health_proto_rawDesc), len(file_hub_v1_health_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

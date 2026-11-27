@@ -521,7 +521,9 @@ type Meta struct {
 	// Granular logical compatibility mode for schema evolution.
 	CompatibilityMode CompatibilityMode `protobuf:"varint,10,opt,name=compatibility_mode,json=compatibilityMode,proto3,enum=hub.v1.CompatibilityMode" json:"compatibility_mode,omitempty"`
 	// A description of the data contract purpose.
-	Description   string `protobuf:"bytes,11,opt,name=description,proto3" json:"description,omitempty"`
+	Description string `protobuf:"bytes,11,opt,name=description,proto3" json:"description,omitempty"`
+	// Link to the contract manifest in GitHub or authoritative source.
+	SourceUrl     string `protobuf:"bytes,12,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -629,6 +631,13 @@ func (x *Meta) GetCompatibilityMode() CompatibilityMode {
 func (x *Meta) GetDescription() string {
 	if x != nil {
 		return x.Description
+	}
+	return ""
+}
+
+func (x *Meta) GetSourceUrl() string {
+	if x != nil {
+		return x.SourceUrl
 	}
 	return ""
 }
@@ -1083,7 +1092,7 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x06status\x18\a \x01(\x0e2\x17.hub.v1.LifecycleStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x06status\x124\n" +
 	"\fterms_of_use\x18\b \x01(\v2\x12.hub.v1.TermsOfUseR\n" +
 	"termsOfUse\x12)\n" +
-	"\acontext\x18\t \x01(\v2\x0f.hub.v1.ContextR\acontext\"\xcb\x06\n" +
+	"\acontext\x18\t \x01(\v2\x0f.hub.v1.ContextR\acontext\"\xea\x06\n" +
 	"\x04Meta\x12]\n" +
 	"\x03urn\x18\x01 \x01(\tBK\xfaBHrF\x10\x012B^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$R\x03urn\x12\xde\x01\n" +
 	"\aversion\x18\x02 \x01(\tB\xc3\x01\xfaB\xbf\x01r\xbc\x01\x10\x012\xb7\x01^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.(?:[0-9a-zA-Z-]+))*))?$R\aversion\x12&\n" +
@@ -1099,7 +1108,9 @@ const file_hub_v1_contract_proto_rawDesc = "" +
 	"\x04repo\x18\t \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04repo\x12H\n" +
 	"\x12compatibility_mode\x18\n" +
 	" \x01(\x0e2\x19.hub.v1.CompatibilityModeR\x11compatibilityMode\x12 \n" +
-	"\vdescription\x18\v \x01(\tR\vdescription\x1a9\n" +
+	"\vdescription\x18\v \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"source_url\x18\f \x01(\tR\tsourceUrl\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf8\t\n" +

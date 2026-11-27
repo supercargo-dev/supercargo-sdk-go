@@ -517,6 +517,394 @@ func (DriftSeverity) EnumDescriptor() ([]byte, []int) {
 	return file_hub_v1_hub_proto_rawDescGZIP(), []int{8}
 }
 
+type DiffCategory int32
+
+const (
+	DiffCategory_DIFF_CATEGORY_UNSPECIFIED   DiffCategory = 0
+	DiffCategory_DIFF_CATEGORY_BREAKING      DiffCategory = 1
+	DiffCategory_DIFF_CATEGORY_COMPATIBLE    DiffCategory = 2
+	DiffCategory_DIFF_CATEGORY_INFORMATIONAL DiffCategory = 3
+)
+
+// Enum value maps for DiffCategory.
+var (
+	DiffCategory_name = map[int32]string{
+		0: "DIFF_CATEGORY_UNSPECIFIED",
+		1: "DIFF_CATEGORY_BREAKING",
+		2: "DIFF_CATEGORY_COMPATIBLE",
+		3: "DIFF_CATEGORY_INFORMATIONAL",
+	}
+	DiffCategory_value = map[string]int32{
+		"DIFF_CATEGORY_UNSPECIFIED":   0,
+		"DIFF_CATEGORY_BREAKING":      1,
+		"DIFF_CATEGORY_COMPATIBLE":    2,
+		"DIFF_CATEGORY_INFORMATIONAL": 3,
+	}
+)
+
+func (x DiffCategory) Enum() *DiffCategory {
+	p := new(DiffCategory)
+	*p = x
+	return p
+}
+
+func (x DiffCategory) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DiffCategory) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[9].Descriptor()
+}
+
+func (DiffCategory) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[9]
+}
+
+func (x DiffCategory) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DiffCategory.Descriptor instead.
+func (DiffCategory) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{9}
+}
+
+type DiffChangeKind int32
+
+const (
+	DiffChangeKind_DIFF_CHANGE_KIND_UNSPECIFIED DiffChangeKind = 0
+	DiffChangeKind_DIFF_CHANGE_KIND_ADDED       DiffChangeKind = 1
+	DiffChangeKind_DIFF_CHANGE_KIND_REMOVED     DiffChangeKind = 2
+	DiffChangeKind_DIFF_CHANGE_KIND_MODIFIED    DiffChangeKind = 3
+)
+
+// Enum value maps for DiffChangeKind.
+var (
+	DiffChangeKind_name = map[int32]string{
+		0: "DIFF_CHANGE_KIND_UNSPECIFIED",
+		1: "DIFF_CHANGE_KIND_ADDED",
+		2: "DIFF_CHANGE_KIND_REMOVED",
+		3: "DIFF_CHANGE_KIND_MODIFIED",
+	}
+	DiffChangeKind_value = map[string]int32{
+		"DIFF_CHANGE_KIND_UNSPECIFIED": 0,
+		"DIFF_CHANGE_KIND_ADDED":       1,
+		"DIFF_CHANGE_KIND_REMOVED":     2,
+		"DIFF_CHANGE_KIND_MODIFIED":    3,
+	}
+)
+
+func (x DiffChangeKind) Enum() *DiffChangeKind {
+	p := new(DiffChangeKind)
+	*p = x
+	return p
+}
+
+func (x DiffChangeKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DiffChangeKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[10].Descriptor()
+}
+
+func (DiffChangeKind) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[10]
+}
+
+func (x DiffChangeKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DiffChangeKind.Descriptor instead.
+func (DiffChangeKind) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{10}
+}
+
+type DiffSubjectKind int32
+
+const (
+	DiffSubjectKind_DIFF_SUBJECT_KIND_UNSPECIFIED    DiffSubjectKind = 0
+	DiffSubjectKind_DIFF_SUBJECT_KIND_FIELD          DiffSubjectKind = 1
+	DiffSubjectKind_DIFF_SUBJECT_KIND_CONTRACT_META  DiffSubjectKind = 2
+	DiffSubjectKind_DIFF_SUBJECT_KIND_SLA            DiffSubjectKind = 3
+	DiffSubjectKind_DIFF_SUBJECT_KIND_OUTPUT_PORT    DiffSubjectKind = 4
+	DiffSubjectKind_DIFF_SUBJECT_KIND_INPUT_PORT     DiffSubjectKind = 5
+	DiffSubjectKind_DIFF_SUBJECT_KIND_LENS           DiffSubjectKind = 6
+	DiffSubjectKind_DIFF_SUBJECT_KIND_DEMAND_LOCK    DiffSubjectKind = 7
+	DiffSubjectKind_DIFF_SUBJECT_KIND_TRANSFORM_PORT DiffSubjectKind = 8
+	DiffSubjectKind_DIFF_SUBJECT_KIND_GOVERNANCE     DiffSubjectKind = 9
+	DiffSubjectKind_DIFF_SUBJECT_KIND_ODCS_ARTIFACT  DiffSubjectKind = 10
+)
+
+// Enum value maps for DiffSubjectKind.
+var (
+	DiffSubjectKind_name = map[int32]string{
+		0:  "DIFF_SUBJECT_KIND_UNSPECIFIED",
+		1:  "DIFF_SUBJECT_KIND_FIELD",
+		2:  "DIFF_SUBJECT_KIND_CONTRACT_META",
+		3:  "DIFF_SUBJECT_KIND_SLA",
+		4:  "DIFF_SUBJECT_KIND_OUTPUT_PORT",
+		5:  "DIFF_SUBJECT_KIND_INPUT_PORT",
+		6:  "DIFF_SUBJECT_KIND_LENS",
+		7:  "DIFF_SUBJECT_KIND_DEMAND_LOCK",
+		8:  "DIFF_SUBJECT_KIND_TRANSFORM_PORT",
+		9:  "DIFF_SUBJECT_KIND_GOVERNANCE",
+		10: "DIFF_SUBJECT_KIND_ODCS_ARTIFACT",
+	}
+	DiffSubjectKind_value = map[string]int32{
+		"DIFF_SUBJECT_KIND_UNSPECIFIED":    0,
+		"DIFF_SUBJECT_KIND_FIELD":          1,
+		"DIFF_SUBJECT_KIND_CONTRACT_META":  2,
+		"DIFF_SUBJECT_KIND_SLA":            3,
+		"DIFF_SUBJECT_KIND_OUTPUT_PORT":    4,
+		"DIFF_SUBJECT_KIND_INPUT_PORT":     5,
+		"DIFF_SUBJECT_KIND_LENS":           6,
+		"DIFF_SUBJECT_KIND_DEMAND_LOCK":    7,
+		"DIFF_SUBJECT_KIND_TRANSFORM_PORT": 8,
+		"DIFF_SUBJECT_KIND_GOVERNANCE":     9,
+		"DIFF_SUBJECT_KIND_ODCS_ARTIFACT":  10,
+	}
+)
+
+func (x DiffSubjectKind) Enum() *DiffSubjectKind {
+	p := new(DiffSubjectKind)
+	*p = x
+	return p
+}
+
+func (x DiffSubjectKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DiffSubjectKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[11].Descriptor()
+}
+
+func (DiffSubjectKind) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[11]
+}
+
+func (x DiffSubjectKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DiffSubjectKind.Descriptor instead.
+func (DiffSubjectKind) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{11}
+}
+
+type OverallCompatibility int32
+
+const (
+	OverallCompatibility_OVERALL_COMPATIBILITY_UNSPECIFIED OverallCompatibility = 0
+	OverallCompatibility_OVERALL_COMPATIBILITY_UNCHANGED   OverallCompatibility = 1
+	OverallCompatibility_OVERALL_COMPATIBILITY_COMPATIBLE  OverallCompatibility = 2
+	OverallCompatibility_OVERALL_COMPATIBILITY_BREAKING    OverallCompatibility = 3
+)
+
+// Enum value maps for OverallCompatibility.
+var (
+	OverallCompatibility_name = map[int32]string{
+		0: "OVERALL_COMPATIBILITY_UNSPECIFIED",
+		1: "OVERALL_COMPATIBILITY_UNCHANGED",
+		2: "OVERALL_COMPATIBILITY_COMPATIBLE",
+		3: "OVERALL_COMPATIBILITY_BREAKING",
+	}
+	OverallCompatibility_value = map[string]int32{
+		"OVERALL_COMPATIBILITY_UNSPECIFIED": 0,
+		"OVERALL_COMPATIBILITY_UNCHANGED":   1,
+		"OVERALL_COMPATIBILITY_COMPATIBLE":  2,
+		"OVERALL_COMPATIBILITY_BREAKING":    3,
+	}
+)
+
+func (x OverallCompatibility) Enum() *OverallCompatibility {
+	p := new(OverallCompatibility)
+	*p = x
+	return p
+}
+
+func (x OverallCompatibility) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (OverallCompatibility) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[12].Descriptor()
+}
+
+func (OverallCompatibility) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[12]
+}
+
+func (x OverallCompatibility) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use OverallCompatibility.Descriptor instead.
+func (OverallCompatibility) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{12}
+}
+
+// LineageView selects the logical projection applied over the canonical lineage graph.
+type LineageView int32
+
+const (
+	LineageView_LINEAGE_VIEW_UNSPECIFIED        LineageView = 0
+	LineageView_LINEAGE_VIEW_ASSET_TO_ASSET     LineageView = 1
+	LineageView_LINEAGE_VIEW_ASSET_TO_JOB       LineageView = 2
+	LineageView_LINEAGE_VIEW_PRODUCT_TO_PRODUCT LineageView = 3
+)
+
+// Enum value maps for LineageView.
+var (
+	LineageView_name = map[int32]string{
+		0: "LINEAGE_VIEW_UNSPECIFIED",
+		1: "LINEAGE_VIEW_ASSET_TO_ASSET",
+		2: "LINEAGE_VIEW_ASSET_TO_JOB",
+		3: "LINEAGE_VIEW_PRODUCT_TO_PRODUCT",
+	}
+	LineageView_value = map[string]int32{
+		"LINEAGE_VIEW_UNSPECIFIED":        0,
+		"LINEAGE_VIEW_ASSET_TO_ASSET":     1,
+		"LINEAGE_VIEW_ASSET_TO_JOB":       2,
+		"LINEAGE_VIEW_PRODUCT_TO_PRODUCT": 3,
+	}
+)
+
+func (x LineageView) Enum() *LineageView {
+	p := new(LineageView)
+	*p = x
+	return p
+}
+
+func (x LineageView) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LineageView) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[13].Descriptor()
+}
+
+func (LineageView) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[13]
+}
+
+func (x LineageView) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LineageView.Descriptor instead.
+func (LineageView) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{13}
+}
+
+// LineageDirection selects traversal direction from the root asset or URN.
+type LineageDirection int32
+
+const (
+	LineageDirection_LINEAGE_DIRECTION_UNSPECIFIED LineageDirection = 0
+	LineageDirection_LINEAGE_DIRECTION_DOWNSTREAM  LineageDirection = 1
+	LineageDirection_LINEAGE_DIRECTION_UPSTREAM    LineageDirection = 2
+	LineageDirection_LINEAGE_DIRECTION_BOTH        LineageDirection = 3
+)
+
+// Enum value maps for LineageDirection.
+var (
+	LineageDirection_name = map[int32]string{
+		0: "LINEAGE_DIRECTION_UNSPECIFIED",
+		1: "LINEAGE_DIRECTION_DOWNSTREAM",
+		2: "LINEAGE_DIRECTION_UPSTREAM",
+		3: "LINEAGE_DIRECTION_BOTH",
+	}
+	LineageDirection_value = map[string]int32{
+		"LINEAGE_DIRECTION_UNSPECIFIED": 0,
+		"LINEAGE_DIRECTION_DOWNSTREAM":  1,
+		"LINEAGE_DIRECTION_UPSTREAM":    2,
+		"LINEAGE_DIRECTION_BOTH":        3,
+	}
+)
+
+func (x LineageDirection) Enum() *LineageDirection {
+	p := new(LineageDirection)
+	*p = x
+	return p
+}
+
+func (x LineageDirection) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LineageDirection) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[14].Descriptor()
+}
+
+func (LineageDirection) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[14]
+}
+
+func (x LineageDirection) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LineageDirection.Descriptor instead.
+func (LineageDirection) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{14}
+}
+
+// EdgeConfidenceFilter selects the minimum edge confidence accepted during reachability auditing.
+type EdgeConfidenceFilter int32
+
+const (
+	EdgeConfidenceFilter_EDGE_CONFIDENCE_FILTER_UNSPECIFIED EdgeConfidenceFilter = 0
+	EdgeConfidenceFilter_EDGE_CONFIDENCE_FILTER_INFERRED    EdgeConfidenceFilter = 1
+	EdgeConfidenceFilter_EDGE_CONFIDENCE_FILTER_DECLARED    EdgeConfidenceFilter = 2
+	EdgeConfidenceFilter_EDGE_CONFIDENCE_FILTER_OBSERVED    EdgeConfidenceFilter = 3
+)
+
+// Enum value maps for EdgeConfidenceFilter.
+var (
+	EdgeConfidenceFilter_name = map[int32]string{
+		0: "EDGE_CONFIDENCE_FILTER_UNSPECIFIED",
+		1: "EDGE_CONFIDENCE_FILTER_INFERRED",
+		2: "EDGE_CONFIDENCE_FILTER_DECLARED",
+		3: "EDGE_CONFIDENCE_FILTER_OBSERVED",
+	}
+	EdgeConfidenceFilter_value = map[string]int32{
+		"EDGE_CONFIDENCE_FILTER_UNSPECIFIED": 0,
+		"EDGE_CONFIDENCE_FILTER_INFERRED":    1,
+		"EDGE_CONFIDENCE_FILTER_DECLARED":    2,
+		"EDGE_CONFIDENCE_FILTER_OBSERVED":    3,
+	}
+)
+
+func (x EdgeConfidenceFilter) Enum() *EdgeConfidenceFilter {
+	p := new(EdgeConfidenceFilter)
+	*p = x
+	return p
+}
+
+func (x EdgeConfidenceFilter) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (EdgeConfidenceFilter) Descriptor() protoreflect.EnumDescriptor {
+	return file_hub_v1_hub_proto_enumTypes[15].Descriptor()
+}
+
+func (EdgeConfidenceFilter) Type() protoreflect.EnumType {
+	return &file_hub_v1_hub_proto_enumTypes[15]
+}
+
+func (x EdgeConfidenceFilter) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use EdgeConfidenceFilter.Descriptor instead.
+func (EdgeConfidenceFilter) EnumDescriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{15}
+}
+
 // ReportAnomalyRequest represents a request to report a health degradation or recovery.
 type ReportAnomalyRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -864,11 +1252,13 @@ func (x *GetHealthHistoryResponse) GetNextPageToken() string {
 
 // GetBlastRadiusRequest represents a request to analyze downstream blast radius.
 type GetBlastRadiusRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Urn           string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
-	MaxDepth      int32                  `protobuf:"varint,2,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Urn                string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	MaxDepth           int32                  `protobuf:"varint,2,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
+	View               LineageView            `protobuf:"varint,3,opt,name=view,proto3,enum=hub.v1.LineageView" json:"view,omitempty"`
+	CollapseTransports bool                   `protobuf:"varint,4,opt,name=collapse_transports,json=collapseTransports,proto3" json:"collapse_transports,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *GetBlastRadiusRequest) Reset() {
@@ -913,6 +1303,20 @@ func (x *GetBlastRadiusRequest) GetMaxDepth() int32 {
 		return x.MaxDepth
 	}
 	return 0
+}
+
+func (x *GetBlastRadiusRequest) GetView() LineageView {
+	if x != nil {
+		return x.View
+	}
+	return LineageView_LINEAGE_VIEW_UNSPECIFIED
+}
+
+func (x *GetBlastRadiusRequest) GetCollapseTransports() bool {
+	if x != nil {
+		return x.CollapseTransports
+	}
+	return false
 }
 
 // BlastRadiusNode represents an affected node in the blast radius.
@@ -1064,11 +1468,13 @@ func (x *GetBlastRadiusResponse) GetAffectedTeams() []string {
 
 // GetRootCauseRequest represents a request to analyze upstream causal root cause.
 type GetRootCauseRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Urn           string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
-	MaxDepth      int32                  `protobuf:"varint,2,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Urn                string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	MaxDepth           int32                  `protobuf:"varint,2,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
+	View               LineageView            `protobuf:"varint,3,opt,name=view,proto3,enum=hub.v1.LineageView" json:"view,omitempty"`
+	CollapseTransports bool                   `protobuf:"varint,4,opt,name=collapse_transports,json=collapseTransports,proto3" json:"collapse_transports,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *GetRootCauseRequest) Reset() {
@@ -1113,6 +1519,20 @@ func (x *GetRootCauseRequest) GetMaxDepth() int32 {
 		return x.MaxDepth
 	}
 	return 0
+}
+
+func (x *GetRootCauseRequest) GetView() LineageView {
+	if x != nil {
+		return x.View
+	}
+	return LineageView_LINEAGE_VIEW_UNSPECIFIED
+}
+
+func (x *GetRootCauseRequest) GetCollapseTransports() bool {
+	if x != nil {
+		return x.CollapseTransports
+	}
+	return false
 }
 
 // RootCauseChainNode represents a node in the causal dependency chain leading to the target.
@@ -6592,6 +7012,3296 @@ func (x *GetInfrastructureDriftResponse) GetRemediation() string {
 	return ""
 }
 
+type SemanticDiffEntry struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Path              string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Category          DiffCategory           `protobuf:"varint,2,opt,name=category,proto3,enum=hub.v1.DiffCategory" json:"category,omitempty"`
+	ChangeKind        DiffChangeKind         `protobuf:"varint,3,opt,name=change_kind,json=changeKind,proto3,enum=hub.v1.DiffChangeKind" json:"change_kind,omitempty"`
+	SubjectKind       DiffSubjectKind        `protobuf:"varint,4,opt,name=subject_kind,json=subjectKind,proto3,enum=hub.v1.DiffSubjectKind" json:"subject_kind,omitempty"`
+	RuleCode          string                 `protobuf:"bytes,5,opt,name=rule_code,json=ruleCode,proto3" json:"rule_code,omitempty"`
+	Summary           string                 `protobuf:"bytes,6,opt,name=summary,proto3" json:"summary,omitempty"`
+	BaseValue         string                 `protobuf:"bytes,7,opt,name=base_value,json=baseValue,proto3" json:"base_value,omitempty"`
+	TargetValue       string                 `protobuf:"bytes,8,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
+	Remediation       string                 `protobuf:"bytes,9,opt,name=remediation,proto3" json:"remediation,omitempty"`
+	BaseType          string                 `protobuf:"bytes,10,opt,name=base_type,json=baseType,proto3" json:"base_type,omitempty"`
+	TargetType        string                 `protobuf:"bytes,11,opt,name=target_type,json=targetType,proto3" json:"target_type,omitempty"`
+	BaseMode          string                 `protobuf:"bytes,12,opt,name=base_mode,json=baseMode,proto3" json:"base_mode,omitempty"`
+	TargetMode        string                 `protobuf:"bytes,13,opt,name=target_mode,json=targetMode,proto3" json:"target_mode,omitempty"`
+	BasePii           *bool                  `protobuf:"varint,14,opt,name=base_pii,json=basePii,proto3,oneof" json:"base_pii,omitempty"`
+	TargetPii         *bool                  `protobuf:"varint,15,opt,name=target_pii,json=targetPii,proto3,oneof" json:"target_pii,omitempty"`
+	AffectedConsumers []string               `protobuf:"bytes,16,rep,name=affected_consumers,json=affectedConsumers,proto3" json:"affected_consumers,omitempty"`
+	Metadata          map[string]string      `protobuf:"bytes,17,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *SemanticDiffEntry) Reset() {
+	*x = SemanticDiffEntry{}
+	mi := &file_hub_v1_hub_proto_msgTypes[99]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SemanticDiffEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SemanticDiffEntry) ProtoMessage() {}
+
+func (x *SemanticDiffEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[99]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SemanticDiffEntry.ProtoReflect.Descriptor instead.
+func (*SemanticDiffEntry) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{99}
+}
+
+func (x *SemanticDiffEntry) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetCategory() DiffCategory {
+	if x != nil {
+		return x.Category
+	}
+	return DiffCategory_DIFF_CATEGORY_UNSPECIFIED
+}
+
+func (x *SemanticDiffEntry) GetChangeKind() DiffChangeKind {
+	if x != nil {
+		return x.ChangeKind
+	}
+	return DiffChangeKind_DIFF_CHANGE_KIND_UNSPECIFIED
+}
+
+func (x *SemanticDiffEntry) GetSubjectKind() DiffSubjectKind {
+	if x != nil {
+		return x.SubjectKind
+	}
+	return DiffSubjectKind_DIFF_SUBJECT_KIND_UNSPECIFIED
+}
+
+func (x *SemanticDiffEntry) GetRuleCode() string {
+	if x != nil {
+		return x.RuleCode
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetBaseValue() string {
+	if x != nil {
+		return x.BaseValue
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetTargetValue() string {
+	if x != nil {
+		return x.TargetValue
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetRemediation() string {
+	if x != nil {
+		return x.Remediation
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetBaseType() string {
+	if x != nil {
+		return x.BaseType
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetTargetType() string {
+	if x != nil {
+		return x.TargetType
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetBaseMode() string {
+	if x != nil {
+		return x.BaseMode
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetTargetMode() string {
+	if x != nil {
+		return x.TargetMode
+	}
+	return ""
+}
+
+func (x *SemanticDiffEntry) GetBasePii() bool {
+	if x != nil && x.BasePii != nil {
+		return *x.BasePii
+	}
+	return false
+}
+
+func (x *SemanticDiffEntry) GetTargetPii() bool {
+	if x != nil && x.TargetPii != nil {
+		return *x.TargetPii
+	}
+	return false
+}
+
+func (x *SemanticDiffEntry) GetAffectedConsumers() []string {
+	if x != nil {
+		return x.AffectedConsumers
+	}
+	return nil
+}
+
+func (x *SemanticDiffEntry) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+type SemanticDiffSummary struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	TotalChanges          int32                  `protobuf:"varint,1,opt,name=total_changes,json=totalChanges,proto3" json:"total_changes,omitempty"`
+	BreakingCount         int32                  `protobuf:"varint,2,opt,name=breaking_count,json=breakingCount,proto3" json:"breaking_count,omitempty"`
+	CompatibleCount       int32                  `protobuf:"varint,3,opt,name=compatible_count,json=compatibleCount,proto3" json:"compatible_count,omitempty"`
+	InformationalCount    int32                  `protobuf:"varint,4,opt,name=informational_count,json=informationalCount,proto3" json:"informational_count,omitempty"`
+	FieldsAdded           int32                  `protobuf:"varint,5,opt,name=fields_added,json=fieldsAdded,proto3" json:"fields_added,omitempty"`
+	FieldsRemoved         int32                  `protobuf:"varint,6,opt,name=fields_removed,json=fieldsRemoved,proto3" json:"fields_removed,omitempty"`
+	FieldsModified        int32                  `protobuf:"varint,7,opt,name=fields_modified,json=fieldsModified,proto3" json:"fields_modified,omitempty"`
+	TypesModified         int32                  `protobuf:"varint,8,opt,name=types_modified,json=typesModified,proto3" json:"types_modified,omitempty"`
+	ModesModified         int32                  `protobuf:"varint,9,opt,name=modes_modified,json=modesModified,proto3" json:"modes_modified,omitempty"`
+	PortsAdded            int32                  `protobuf:"varint,10,opt,name=ports_added,json=portsAdded,proto3" json:"ports_added,omitempty"`
+	PortsRemoved          int32                  `protobuf:"varint,11,opt,name=ports_removed,json=portsRemoved,proto3" json:"ports_removed,omitempty"`
+	LensBreaks            int32                  `protobuf:"varint,12,opt,name=lens_breaks,json=lensBreaks,proto3" json:"lens_breaks,omitempty"`
+	DemandLockBreaks      int32                  `protobuf:"varint,13,opt,name=demand_lock_breaks,json=demandLockBreaks,proto3" json:"demand_lock_breaks,omitempty"`
+	SlaChanges            int32                  `protobuf:"varint,14,opt,name=sla_changes,json=slaChanges,proto3" json:"sla_changes,omitempty"`
+	GovernanceUpdates     int32                  `protobuf:"varint,15,opt,name=governance_updates,json=governanceUpdates,proto3" json:"governance_updates,omitempty"`
+	RecommendedSemverBump string                 `protobuf:"bytes,16,opt,name=recommended_semver_bump,json=recommendedSemverBump,proto3" json:"recommended_semver_bump,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *SemanticDiffSummary) Reset() {
+	*x = SemanticDiffSummary{}
+	mi := &file_hub_v1_hub_proto_msgTypes[100]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SemanticDiffSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SemanticDiffSummary) ProtoMessage() {}
+
+func (x *SemanticDiffSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[100]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SemanticDiffSummary.ProtoReflect.Descriptor instead.
+func (*SemanticDiffSummary) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{100}
+}
+
+func (x *SemanticDiffSummary) GetTotalChanges() int32 {
+	if x != nil {
+		return x.TotalChanges
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetBreakingCount() int32 {
+	if x != nil {
+		return x.BreakingCount
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetCompatibleCount() int32 {
+	if x != nil {
+		return x.CompatibleCount
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetInformationalCount() int32 {
+	if x != nil {
+		return x.InformationalCount
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetFieldsAdded() int32 {
+	if x != nil {
+		return x.FieldsAdded
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetFieldsRemoved() int32 {
+	if x != nil {
+		return x.FieldsRemoved
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetFieldsModified() int32 {
+	if x != nil {
+		return x.FieldsModified
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetTypesModified() int32 {
+	if x != nil {
+		return x.TypesModified
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetModesModified() int32 {
+	if x != nil {
+		return x.ModesModified
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetPortsAdded() int32 {
+	if x != nil {
+		return x.PortsAdded
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetPortsRemoved() int32 {
+	if x != nil {
+		return x.PortsRemoved
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetLensBreaks() int32 {
+	if x != nil {
+		return x.LensBreaks
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetDemandLockBreaks() int32 {
+	if x != nil {
+		return x.DemandLockBreaks
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetSlaChanges() int32 {
+	if x != nil {
+		return x.SlaChanges
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetGovernanceUpdates() int32 {
+	if x != nil {
+		return x.GovernanceUpdates
+	}
+	return 0
+}
+
+func (x *SemanticDiffSummary) GetRecommendedSemverBump() string {
+	if x != nil {
+		return x.RecommendedSemverBump
+	}
+	return ""
+}
+
+type DiffContractsRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ContractUrn    string                 `protobuf:"bytes,1,opt,name=contract_urn,json=contractUrn,proto3" json:"contract_urn,omitempty"`
+	BaseVersion    string                 `protobuf:"bytes,2,opt,name=base_version,json=baseVersion,proto3" json:"base_version,omitempty"`
+	TargetVersion  string                 `protobuf:"bytes,3,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
+	BaseOdcsYaml   string                 `protobuf:"bytes,4,opt,name=base_odcs_yaml,json=baseOdcsYaml,proto3" json:"base_odcs_yaml,omitempty"`
+	TargetOdcsYaml string                 `protobuf:"bytes,5,opt,name=target_odcs_yaml,json=targetOdcsYaml,proto3" json:"target_odcs_yaml,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *DiffContractsRequest) Reset() {
+	*x = DiffContractsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[101]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DiffContractsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DiffContractsRequest) ProtoMessage() {}
+
+func (x *DiffContractsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[101]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DiffContractsRequest.ProtoReflect.Descriptor instead.
+func (*DiffContractsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{101}
+}
+
+func (x *DiffContractsRequest) GetContractUrn() string {
+	if x != nil {
+		return x.ContractUrn
+	}
+	return ""
+}
+
+func (x *DiffContractsRequest) GetBaseVersion() string {
+	if x != nil {
+		return x.BaseVersion
+	}
+	return ""
+}
+
+func (x *DiffContractsRequest) GetTargetVersion() string {
+	if x != nil {
+		return x.TargetVersion
+	}
+	return ""
+}
+
+func (x *DiffContractsRequest) GetBaseOdcsYaml() string {
+	if x != nil {
+		return x.BaseOdcsYaml
+	}
+	return ""
+}
+
+func (x *DiffContractsRequest) GetTargetOdcsYaml() string {
+	if x != nil {
+		return x.TargetOdcsYaml
+	}
+	return ""
+}
+
+type DiffContractsResponse struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	ContractUrn          string                 `protobuf:"bytes,1,opt,name=contract_urn,json=contractUrn,proto3" json:"contract_urn,omitempty"`
+	ContractName         string                 `protobuf:"bytes,2,opt,name=contract_name,json=contractName,proto3" json:"contract_name,omitempty"`
+	BaseVersion          string                 `protobuf:"bytes,3,opt,name=base_version,json=baseVersion,proto3" json:"base_version,omitempty"`
+	TargetVersion        string                 `protobuf:"bytes,4,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
+	AvailableVersions    []string               `protobuf:"bytes,5,rep,name=available_versions,json=availableVersions,proto3" json:"available_versions,omitempty"`
+	OverallCompatibility OverallCompatibility   `protobuf:"varint,6,opt,name=overall_compatibility,json=overallCompatibility,proto3,enum=hub.v1.OverallCompatibility" json:"overall_compatibility,omitempty"`
+	Summary              *SemanticDiffSummary   `protobuf:"bytes,7,opt,name=summary,proto3" json:"summary,omitempty"`
+	Entries              []*SemanticDiffEntry   `protobuf:"bytes,8,rep,name=entries,proto3" json:"entries,omitempty"`
+	BaseContract         *DataContract          `protobuf:"bytes,9,opt,name=base_contract,json=baseContract,proto3" json:"base_contract,omitempty"`
+	TargetContract       *DataContract          `protobuf:"bytes,10,opt,name=target_contract,json=targetContract,proto3" json:"target_contract,omitempty"`
+	ComputedAt           *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=computed_at,json=computedAt,proto3" json:"computed_at,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *DiffContractsResponse) Reset() {
+	*x = DiffContractsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[102]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DiffContractsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DiffContractsResponse) ProtoMessage() {}
+
+func (x *DiffContractsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[102]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DiffContractsResponse.ProtoReflect.Descriptor instead.
+func (*DiffContractsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{102}
+}
+
+func (x *DiffContractsResponse) GetContractUrn() string {
+	if x != nil {
+		return x.ContractUrn
+	}
+	return ""
+}
+
+func (x *DiffContractsResponse) GetContractName() string {
+	if x != nil {
+		return x.ContractName
+	}
+	return ""
+}
+
+func (x *DiffContractsResponse) GetBaseVersion() string {
+	if x != nil {
+		return x.BaseVersion
+	}
+	return ""
+}
+
+func (x *DiffContractsResponse) GetTargetVersion() string {
+	if x != nil {
+		return x.TargetVersion
+	}
+	return ""
+}
+
+func (x *DiffContractsResponse) GetAvailableVersions() []string {
+	if x != nil {
+		return x.AvailableVersions
+	}
+	return nil
+}
+
+func (x *DiffContractsResponse) GetOverallCompatibility() OverallCompatibility {
+	if x != nil {
+		return x.OverallCompatibility
+	}
+	return OverallCompatibility_OVERALL_COMPATIBILITY_UNSPECIFIED
+}
+
+func (x *DiffContractsResponse) GetSummary() *SemanticDiffSummary {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
+func (x *DiffContractsResponse) GetEntries() []*SemanticDiffEntry {
+	if x != nil {
+		return x.Entries
+	}
+	return nil
+}
+
+func (x *DiffContractsResponse) GetBaseContract() *DataContract {
+	if x != nil {
+		return x.BaseContract
+	}
+	return nil
+}
+
+func (x *DiffContractsResponse) GetTargetContract() *DataContract {
+	if x != nil {
+		return x.TargetContract
+	}
+	return nil
+}
+
+func (x *DiffContractsResponse) GetComputedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ComputedAt
+	}
+	return nil
+}
+
+type LinkedContractDiff struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	PortName             string                 `protobuf:"bytes,1,opt,name=port_name,json=portName,proto3" json:"port_name,omitempty"`
+	ContractUrn          string                 `protobuf:"bytes,2,opt,name=contract_urn,json=contractUrn,proto3" json:"contract_urn,omitempty"`
+	BaseVersion          string                 `protobuf:"bytes,3,opt,name=base_version,json=baseVersion,proto3" json:"base_version,omitempty"`
+	TargetVersion        string                 `protobuf:"bytes,4,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
+	OverallCompatibility OverallCompatibility   `protobuf:"varint,5,opt,name=overall_compatibility,json=overallCompatibility,proto3,enum=hub.v1.OverallCompatibility" json:"overall_compatibility,omitempty"`
+	Summary              *SemanticDiffSummary   `protobuf:"bytes,6,opt,name=summary,proto3" json:"summary,omitempty"`
+	Entries              []*SemanticDiffEntry   `protobuf:"bytes,7,rep,name=entries,proto3" json:"entries,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *LinkedContractDiff) Reset() {
+	*x = LinkedContractDiff{}
+	mi := &file_hub_v1_hub_proto_msgTypes[103]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LinkedContractDiff) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LinkedContractDiff) ProtoMessage() {}
+
+func (x *LinkedContractDiff) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[103]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LinkedContractDiff.ProtoReflect.Descriptor instead.
+func (*LinkedContractDiff) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{103}
+}
+
+func (x *LinkedContractDiff) GetPortName() string {
+	if x != nil {
+		return x.PortName
+	}
+	return ""
+}
+
+func (x *LinkedContractDiff) GetContractUrn() string {
+	if x != nil {
+		return x.ContractUrn
+	}
+	return ""
+}
+
+func (x *LinkedContractDiff) GetBaseVersion() string {
+	if x != nil {
+		return x.BaseVersion
+	}
+	return ""
+}
+
+func (x *LinkedContractDiff) GetTargetVersion() string {
+	if x != nil {
+		return x.TargetVersion
+	}
+	return ""
+}
+
+func (x *LinkedContractDiff) GetOverallCompatibility() OverallCompatibility {
+	if x != nil {
+		return x.OverallCompatibility
+	}
+	return OverallCompatibility_OVERALL_COMPATIBILITY_UNSPECIFIED
+}
+
+func (x *LinkedContractDiff) GetSummary() *SemanticDiffSummary {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
+func (x *LinkedContractDiff) GetEntries() []*SemanticDiffEntry {
+	if x != nil {
+		return x.Entries
+	}
+	return nil
+}
+
+type DiffProductManifestsRequest struct {
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	ProductUrn             string                 `protobuf:"bytes,1,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	BaseVersion            string                 `protobuf:"bytes,2,opt,name=base_version,json=baseVersion,proto3" json:"base_version,omitempty"`
+	TargetVersion          string                 `protobuf:"bytes,3,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
+	BaseOdpsYaml           string                 `protobuf:"bytes,4,opt,name=base_odps_yaml,json=baseOdpsYaml,proto3" json:"base_odps_yaml,omitempty"`
+	TargetOdpsYaml         string                 `protobuf:"bytes,5,opt,name=target_odps_yaml,json=targetOdpsYaml,proto3" json:"target_odps_yaml,omitempty"`
+	IncludeLinkedContracts *bool                  `protobuf:"varint,6,opt,name=include_linked_contracts,json=includeLinkedContracts,proto3,oneof" json:"include_linked_contracts,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *DiffProductManifestsRequest) Reset() {
+	*x = DiffProductManifestsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[104]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DiffProductManifestsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DiffProductManifestsRequest) ProtoMessage() {}
+
+func (x *DiffProductManifestsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[104]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DiffProductManifestsRequest.ProtoReflect.Descriptor instead.
+func (*DiffProductManifestsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{104}
+}
+
+func (x *DiffProductManifestsRequest) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsRequest) GetBaseVersion() string {
+	if x != nil {
+		return x.BaseVersion
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsRequest) GetTargetVersion() string {
+	if x != nil {
+		return x.TargetVersion
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsRequest) GetBaseOdpsYaml() string {
+	if x != nil {
+		return x.BaseOdpsYaml
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsRequest) GetTargetOdpsYaml() string {
+	if x != nil {
+		return x.TargetOdpsYaml
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsRequest) GetIncludeLinkedContracts() bool {
+	if x != nil && x.IncludeLinkedContracts != nil {
+		return *x.IncludeLinkedContracts
+	}
+	return false
+}
+
+type DiffProductManifestsResponse struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	ProductUrn           string                 `protobuf:"bytes,1,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	ProductName          string                 `protobuf:"bytes,2,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	BaseVersion          string                 `protobuf:"bytes,3,opt,name=base_version,json=baseVersion,proto3" json:"base_version,omitempty"`
+	TargetVersion        string                 `protobuf:"bytes,4,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
+	AvailableVersions    []string               `protobuf:"bytes,5,rep,name=available_versions,json=availableVersions,proto3" json:"available_versions,omitempty"`
+	OverallCompatibility OverallCompatibility   `protobuf:"varint,6,opt,name=overall_compatibility,json=overallCompatibility,proto3,enum=hub.v1.OverallCompatibility" json:"overall_compatibility,omitempty"`
+	Summary              *SemanticDiffSummary   `protobuf:"bytes,7,opt,name=summary,proto3" json:"summary,omitempty"`
+	Entries              []*SemanticDiffEntry   `protobuf:"bytes,8,rep,name=entries,proto3" json:"entries,omitempty"`
+	LinkedContractDiffs  []*LinkedContractDiff  `protobuf:"bytes,9,rep,name=linked_contract_diffs,json=linkedContractDiffs,proto3" json:"linked_contract_diffs,omitempty"`
+	BaseManifest         *ProductManifest       `protobuf:"bytes,10,opt,name=base_manifest,json=baseManifest,proto3" json:"base_manifest,omitempty"`
+	TargetManifest       *ProductManifest       `protobuf:"bytes,11,opt,name=target_manifest,json=targetManifest,proto3" json:"target_manifest,omitempty"`
+	ComputedAt           *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=computed_at,json=computedAt,proto3" json:"computed_at,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *DiffProductManifestsResponse) Reset() {
+	*x = DiffProductManifestsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[105]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DiffProductManifestsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DiffProductManifestsResponse) ProtoMessage() {}
+
+func (x *DiffProductManifestsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[105]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DiffProductManifestsResponse.ProtoReflect.Descriptor instead.
+func (*DiffProductManifestsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{105}
+}
+
+func (x *DiffProductManifestsResponse) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsResponse) GetProductName() string {
+	if x != nil {
+		return x.ProductName
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsResponse) GetBaseVersion() string {
+	if x != nil {
+		return x.BaseVersion
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsResponse) GetTargetVersion() string {
+	if x != nil {
+		return x.TargetVersion
+	}
+	return ""
+}
+
+func (x *DiffProductManifestsResponse) GetAvailableVersions() []string {
+	if x != nil {
+		return x.AvailableVersions
+	}
+	return nil
+}
+
+func (x *DiffProductManifestsResponse) GetOverallCompatibility() OverallCompatibility {
+	if x != nil {
+		return x.OverallCompatibility
+	}
+	return OverallCompatibility_OVERALL_COMPATIBILITY_UNSPECIFIED
+}
+
+func (x *DiffProductManifestsResponse) GetSummary() *SemanticDiffSummary {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
+func (x *DiffProductManifestsResponse) GetEntries() []*SemanticDiffEntry {
+	if x != nil {
+		return x.Entries
+	}
+	return nil
+}
+
+func (x *DiffProductManifestsResponse) GetLinkedContractDiffs() []*LinkedContractDiff {
+	if x != nil {
+		return x.LinkedContractDiffs
+	}
+	return nil
+}
+
+func (x *DiffProductManifestsResponse) GetBaseManifest() *ProductManifest {
+	if x != nil {
+		return x.BaseManifest
+	}
+	return nil
+}
+
+func (x *DiffProductManifestsResponse) GetTargetManifest() *ProductManifest {
+	if x != nil {
+		return x.TargetManifest
+	}
+	return nil
+}
+
+func (x *DiffProductManifestsResponse) GetComputedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ComputedAt
+	}
+	return nil
+}
+
+type GetTrustScorecardRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Urn   string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	// Rolling window length in days [0..90]; 0 defaults to 30.
+	WindowDays    int32 `protobuf:"varint,2,opt,name=window_days,json=windowDays,proto3" json:"window_days,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTrustScorecardRequest) Reset() {
+	*x = GetTrustScorecardRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[106]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTrustScorecardRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTrustScorecardRequest) ProtoMessage() {}
+
+func (x *GetTrustScorecardRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[106]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTrustScorecardRequest.ProtoReflect.Descriptor instead.
+func (*GetTrustScorecardRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{106}
+}
+
+func (x *GetTrustScorecardRequest) GetUrn() string {
+	if x != nil {
+		return x.Urn
+	}
+	return ""
+}
+
+func (x *GetTrustScorecardRequest) GetWindowDays() int32 {
+	if x != nil {
+		return x.WindowDays
+	}
+	return 0
+}
+
+type GetTrustScorecardResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Scorecard     *TrustScorecard        `protobuf:"bytes,1,opt,name=scorecard,proto3" json:"scorecard,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTrustScorecardResponse) Reset() {
+	*x = GetTrustScorecardResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[107]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTrustScorecardResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTrustScorecardResponse) ProtoMessage() {}
+
+func (x *GetTrustScorecardResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[107]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTrustScorecardResponse.ProtoReflect.Descriptor instead.
+func (*GetTrustScorecardResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{107}
+}
+
+func (x *GetTrustScorecardResponse) GetScorecard() *TrustScorecard {
+	if x != nil {
+		return x.Scorecard
+	}
+	return nil
+}
+
+type ListTrustScorecardsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Urns  []string               `protobuf:"bytes,1,rep,name=urns,proto3" json:"urns,omitempty"`
+	// Rolling window length in days [0..90]; 0 defaults to 30.
+	WindowDays    int32 `protobuf:"varint,2,opt,name=window_days,json=windowDays,proto3" json:"window_days,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListTrustScorecardsRequest) Reset() {
+	*x = ListTrustScorecardsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[108]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListTrustScorecardsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTrustScorecardsRequest) ProtoMessage() {}
+
+func (x *ListTrustScorecardsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[108]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTrustScorecardsRequest.ProtoReflect.Descriptor instead.
+func (*ListTrustScorecardsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{108}
+}
+
+func (x *ListTrustScorecardsRequest) GetUrns() []string {
+	if x != nil {
+		return x.Urns
+	}
+	return nil
+}
+
+func (x *ListTrustScorecardsRequest) GetWindowDays() int32 {
+	if x != nil {
+		return x.WindowDays
+	}
+	return 0
+}
+
+type ListTrustScorecardsResponse struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	Scorecards []*TrustScorecard      `protobuf:"bytes,1,rep,name=scorecards,proto3" json:"scorecards,omitempty"`
+	// Map keyed by canonical stabilized URN for O(1) client lookup.
+	ScorecardsByUrn map[string]*TrustScorecard `protobuf:"bytes,2,rep,name=scorecards_by_urn,json=scorecardsByUrn,proto3" json:"scorecards_by_urn,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ListTrustScorecardsResponse) Reset() {
+	*x = ListTrustScorecardsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[109]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListTrustScorecardsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTrustScorecardsResponse) ProtoMessage() {}
+
+func (x *ListTrustScorecardsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[109]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTrustScorecardsResponse.ProtoReflect.Descriptor instead.
+func (*ListTrustScorecardsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{109}
+}
+
+func (x *ListTrustScorecardsResponse) GetScorecards() []*TrustScorecard {
+	if x != nil {
+		return x.Scorecards
+	}
+	return nil
+}
+
+func (x *ListTrustScorecardsResponse) GetScorecardsByUrn() map[string]*TrustScorecard {
+	if x != nil {
+		return x.ScorecardsByUrn
+	}
+	return nil
+}
+
+// LineageNodeDTO represents a node in a projected canonical lineage view.
+type LineageNodeDTO struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Fqn           string                 `protobuf:"bytes,1,opt,name=fqn,proto3" json:"fqn,omitempty"`
+	ResourceType  string                 `protobuf:"bytes,2,opt,name=resource_type,json=resourceType,proto3" json:"resource_type,omitempty"`
+	Managed       bool                   `protobuf:"varint,3,opt,name=managed,proto3" json:"managed,omitempty"`
+	Unmanaged     bool                   `protobuf:"varint,4,opt,name=unmanaged,proto3" json:"unmanaged,omitempty"`
+	OwnerTeam     string                 `protobuf:"bytes,5,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	ProductUrns   []string               `protobuf:"bytes,6,rep,name=product_urns,json=productUrns,proto3" json:"product_urns,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LineageNodeDTO) Reset() {
+	*x = LineageNodeDTO{}
+	mi := &file_hub_v1_hub_proto_msgTypes[110]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LineageNodeDTO) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineageNodeDTO) ProtoMessage() {}
+
+func (x *LineageNodeDTO) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[110]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineageNodeDTO.ProtoReflect.Descriptor instead.
+func (*LineageNodeDTO) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{110}
+}
+
+func (x *LineageNodeDTO) GetFqn() string {
+	if x != nil {
+		return x.Fqn
+	}
+	return ""
+}
+
+func (x *LineageNodeDTO) GetResourceType() string {
+	if x != nil {
+		return x.ResourceType
+	}
+	return ""
+}
+
+func (x *LineageNodeDTO) GetManaged() bool {
+	if x != nil {
+		return x.Managed
+	}
+	return false
+}
+
+func (x *LineageNodeDTO) GetUnmanaged() bool {
+	if x != nil {
+		return x.Unmanaged
+	}
+	return false
+}
+
+func (x *LineageNodeDTO) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *LineageNodeDTO) GetProductUrns() []string {
+	if x != nil {
+		return x.ProductUrns
+	}
+	return nil
+}
+
+// LineageEdgeDTO represents a directed edge in a projected or ingested canonical lineage graph.
+type LineageEdgeDTO struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	From           string                 `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	To             string                 `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
+	Kind           string                 `protobuf:"bytes,3,opt,name=kind,proto3" json:"kind,omitempty"`
+	Confidence     string                 `protobuf:"bytes,4,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	SourceSystem   string                 `protobuf:"bytes,5,opt,name=source_system,json=sourceSystem,proto3" json:"source_system,omitempty"`
+	Granularity    string                 `protobuf:"bytes,6,opt,name=granularity,proto3" json:"granularity,omitempty"`
+	JobFqn         string                 `protobuf:"bytes,7,opt,name=job_fqn,json=jobFqn,proto3" json:"job_fqn,omitempty"`
+	RunState       string                 `protobuf:"bytes,8,opt,name=run_state,json=runState,proto3" json:"run_state,omitempty"`
+	FirstSeenAt    *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=first_seen_at,json=firstSeenAt,proto3" json:"first_seen_at,omitempty"`
+	LastObservedAt *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=last_observed_at,json=lastObservedAt,proto3" json:"last_observed_at,omitempty"`
+	Metadata       map[string]string      `protobuf:"bytes,11,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *LineageEdgeDTO) Reset() {
+	*x = LineageEdgeDTO{}
+	mi := &file_hub_v1_hub_proto_msgTypes[111]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LineageEdgeDTO) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineageEdgeDTO) ProtoMessage() {}
+
+func (x *LineageEdgeDTO) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[111]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineageEdgeDTO.ProtoReflect.Descriptor instead.
+func (*LineageEdgeDTO) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{111}
+}
+
+func (x *LineageEdgeDTO) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetKind() string {
+	if x != nil {
+		return x.Kind
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetConfidence() string {
+	if x != nil {
+		return x.Confidence
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetSourceSystem() string {
+	if x != nil {
+		return x.SourceSystem
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetJobFqn() string {
+	if x != nil {
+		return x.JobFqn
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetRunState() string {
+	if x != nil {
+		return x.RunState
+	}
+	return ""
+}
+
+func (x *LineageEdgeDTO) GetFirstSeenAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.FirstSeenAt
+	}
+	return nil
+}
+
+func (x *LineageEdgeDTO) GetLastObservedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastObservedAt
+	}
+	return nil
+}
+
+func (x *LineageEdgeDTO) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+// LineageFieldEdgeDTO represents a column-level lineage edge input.
+type LineageFieldEdgeDTO struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	FromFieldUrn       string                 `protobuf:"bytes,1,opt,name=from_field_urn,json=fromFieldUrn,proto3" json:"from_field_urn,omitempty"`
+	ToFieldUrn         string                 `protobuf:"bytes,2,opt,name=to_field_urn,json=toFieldUrn,proto3" json:"to_field_urn,omitempty"`
+	TransformationKind string                 `protobuf:"bytes,3,opt,name=transformation_kind,json=transformationKind,proto3" json:"transformation_kind,omitempty"`
+	ApprovedMask       bool                   `protobuf:"varint,4,opt,name=approved_mask,json=approvedMask,proto3" json:"approved_mask,omitempty"`
+	Kind               string                 `protobuf:"bytes,5,opt,name=kind,proto3" json:"kind,omitempty"`
+	Confidence         string                 `protobuf:"bytes,6,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	Granularity        string                 `protobuf:"bytes,7,opt,name=granularity,proto3" json:"granularity,omitempty"`
+	SourceSystem       string                 `protobuf:"bytes,8,opt,name=source_system,json=sourceSystem,proto3" json:"source_system,omitempty"`
+	JobFqn             string                 `protobuf:"bytes,9,opt,name=job_fqn,json=jobFqn,proto3" json:"job_fqn,omitempty"`
+	Metadata           map[string]string      `protobuf:"bytes,10,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *LineageFieldEdgeDTO) Reset() {
+	*x = LineageFieldEdgeDTO{}
+	mi := &file_hub_v1_hub_proto_msgTypes[112]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LineageFieldEdgeDTO) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineageFieldEdgeDTO) ProtoMessage() {}
+
+func (x *LineageFieldEdgeDTO) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[112]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineageFieldEdgeDTO.ProtoReflect.Descriptor instead.
+func (*LineageFieldEdgeDTO) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{112}
+}
+
+func (x *LineageFieldEdgeDTO) GetFromFieldUrn() string {
+	if x != nil {
+		return x.FromFieldUrn
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetToFieldUrn() string {
+	if x != nil {
+		return x.ToFieldUrn
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetTransformationKind() string {
+	if x != nil {
+		return x.TransformationKind
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetApprovedMask() bool {
+	if x != nil {
+		return x.ApprovedMask
+	}
+	return false
+}
+
+func (x *LineageFieldEdgeDTO) GetKind() string {
+	if x != nil {
+		return x.Kind
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetConfidence() string {
+	if x != nil {
+		return x.Confidence
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetSourceSystem() string {
+	if x != nil {
+		return x.SourceSystem
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetJobFqn() string {
+	if x != nil {
+		return x.JobFqn
+	}
+	return ""
+}
+
+func (x *LineageFieldEdgeDTO) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+// ProductTopologyMetrics captures coupling metrics for a Data Product in Product-to-Product view.
+type ProductTopologyMetrics struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductUrn    string                 `protobuf:"bytes,1,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	OwnerTeam     string                 `protobuf:"bytes,2,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	Ca            int32                  `protobuf:"varint,3,opt,name=ca,proto3" json:"ca,omitempty"`
+	Ce            int32                  `protobuf:"varint,4,opt,name=ce,proto3" json:"ce,omitempty"`
+	Instability   float64                `protobuf:"fixed64,5,opt,name=instability,proto3" json:"instability,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProductTopologyMetrics) Reset() {
+	*x = ProductTopologyMetrics{}
+	mi := &file_hub_v1_hub_proto_msgTypes[113]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProductTopologyMetrics) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProductTopologyMetrics) ProtoMessage() {}
+
+func (x *ProductTopologyMetrics) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[113]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProductTopologyMetrics.ProtoReflect.Descriptor instead.
+func (*ProductTopologyMetrics) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{113}
+}
+
+func (x *ProductTopologyMetrics) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *ProductTopologyMetrics) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *ProductTopologyMetrics) GetCa() int32 {
+	if x != nil {
+		return x.Ca
+	}
+	return 0
+}
+
+func (x *ProductTopologyMetrics) GetCe() int32 {
+	if x != nil {
+		return x.Ce
+	}
+	return 0
+}
+
+func (x *ProductTopologyMetrics) GetInstability() float64 {
+	if x != nil {
+		return x.Instability
+	}
+	return 0
+}
+
+// LineageSubmissionChunk matches the BigQuery lineage_events_history schema using snake_case field names.
+type LineageSubmissionChunk struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	SubmissionId   string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	ChunkIndex     int32                  `protobuf:"varint,2,opt,name=chunk_index,json=chunkIndex,proto3" json:"chunk_index,omitempty"`
+	ChunkTotal     int32                  `protobuf:"varint,3,opt,name=chunk_total,json=chunkTotal,proto3" json:"chunk_total,omitempty"`
+	SourceSystem   string                 `protobuf:"bytes,4,opt,name=source_system,json=sourceSystem,proto3" json:"source_system,omitempty"`
+	Granularity    string                 `protobuf:"bytes,5,opt,name=granularity,proto3" json:"granularity,omitempty"`
+	EventTime      *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
+	Actor          string                 `protobuf:"bytes,7,opt,name=actor,proto3" json:"actor,omitempty"`
+	ProductUrn     string                 `protobuf:"bytes,8,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	RunId          string                 `protobuf:"bytes,9,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	RunState       string                 `protobuf:"bytes,10,opt,name=run_state,json=runState,proto3" json:"run_state,omitempty"`
+	ScopeId        string                 `protobuf:"bytes,11,opt,name=scope_id,json=scopeId,proto3" json:"scope_id,omitempty"`
+	EdgesJson      string                 `protobuf:"bytes,12,opt,name=edges_json,json=edgesJson,proto3" json:"edges_json,omitempty"`
+	FieldEdgesJson string                 `protobuf:"bytes,13,opt,name=field_edges_json,json=fieldEdgesJson,proto3" json:"field_edges_json,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *LineageSubmissionChunk) Reset() {
+	*x = LineageSubmissionChunk{}
+	mi := &file_hub_v1_hub_proto_msgTypes[114]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LineageSubmissionChunk) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineageSubmissionChunk) ProtoMessage() {}
+
+func (x *LineageSubmissionChunk) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[114]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineageSubmissionChunk.ProtoReflect.Descriptor instead.
+func (*LineageSubmissionChunk) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{114}
+}
+
+func (x *LineageSubmissionChunk) GetSubmissionId() string {
+	if x != nil {
+		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetChunkIndex() int32 {
+	if x != nil {
+		return x.ChunkIndex
+	}
+	return 0
+}
+
+func (x *LineageSubmissionChunk) GetChunkTotal() int32 {
+	if x != nil {
+		return x.ChunkTotal
+	}
+	return 0
+}
+
+func (x *LineageSubmissionChunk) GetSourceSystem() string {
+	if x != nil {
+		return x.SourceSystem
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetEventTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EventTime
+	}
+	return nil
+}
+
+func (x *LineageSubmissionChunk) GetActor() string {
+	if x != nil {
+		return x.Actor
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetRunState() string {
+	if x != nil {
+		return x.RunState
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetScopeId() string {
+	if x != nil {
+		return x.ScopeId
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetEdgesJson() string {
+	if x != nil {
+		return x.EdgesJson
+	}
+	return ""
+}
+
+func (x *LineageSubmissionChunk) GetFieldEdgesJson() string {
+	if x != nil {
+		return x.FieldEdgesJson
+	}
+	return ""
+}
+
+// LineageSubmissionEvent represents an audit outbox event for a canonical lineage submission.
+type LineageSubmissionEvent struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	SubmissionId   string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	ChunkIndex     int32                  `protobuf:"varint,2,opt,name=chunk_index,json=chunkIndex,proto3" json:"chunk_index,omitempty"`
+	ChunkTotal     int32                  `protobuf:"varint,3,opt,name=chunk_total,json=chunkTotal,proto3" json:"chunk_total,omitempty"`
+	SourceSystem   string                 `protobuf:"bytes,4,opt,name=source_system,json=sourceSystem,proto3" json:"source_system,omitempty"`
+	Granularity    string                 `protobuf:"bytes,5,opt,name=granularity,proto3" json:"granularity,omitempty"`
+	EventTime      *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
+	Actor          string                 `protobuf:"bytes,7,opt,name=actor,proto3" json:"actor,omitempty"`
+	ProductUrn     string                 `protobuf:"bytes,8,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	RunId          string                 `protobuf:"bytes,9,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	RunState       string                 `protobuf:"bytes,10,opt,name=run_state,json=runState,proto3" json:"run_state,omitempty"`
+	ScopeId        string                 `protobuf:"bytes,11,opt,name=scope_id,json=scopeId,proto3" json:"scope_id,omitempty"`
+	EdgesJson      string                 `protobuf:"bytes,12,opt,name=edges_json,json=edgesJson,proto3" json:"edges_json,omitempty"`
+	FieldEdgesJson string                 `protobuf:"bytes,13,opt,name=field_edges_json,json=fieldEdgesJson,proto3" json:"field_edges_json,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *LineageSubmissionEvent) Reset() {
+	*x = LineageSubmissionEvent{}
+	mi := &file_hub_v1_hub_proto_msgTypes[115]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LineageSubmissionEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineageSubmissionEvent) ProtoMessage() {}
+
+func (x *LineageSubmissionEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[115]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineageSubmissionEvent.ProtoReflect.Descriptor instead.
+func (*LineageSubmissionEvent) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{115}
+}
+
+func (x *LineageSubmissionEvent) GetSubmissionId() string {
+	if x != nil {
+		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetChunkIndex() int32 {
+	if x != nil {
+		return x.ChunkIndex
+	}
+	return 0
+}
+
+func (x *LineageSubmissionEvent) GetChunkTotal() int32 {
+	if x != nil {
+		return x.ChunkTotal
+	}
+	return 0
+}
+
+func (x *LineageSubmissionEvent) GetSourceSystem() string {
+	if x != nil {
+		return x.SourceSystem
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetEventTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EventTime
+	}
+	return nil
+}
+
+func (x *LineageSubmissionEvent) GetActor() string {
+	if x != nil {
+		return x.Actor
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetRunState() string {
+	if x != nil {
+		return x.RunState
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetScopeId() string {
+	if x != nil {
+		return x.ScopeId
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetEdgesJson() string {
+	if x != nil {
+		return x.EdgesJson
+	}
+	return ""
+}
+
+func (x *LineageSubmissionEvent) GetFieldEdgesJson() string {
+	if x != nil {
+		return x.FieldEdgesJson
+	}
+	return ""
+}
+
+type GetLineageGraphRequest struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	RootFqn            string                 `protobuf:"bytes,1,opt,name=root_fqn,json=rootFqn,proto3" json:"root_fqn,omitempty"`
+	View               LineageView            `protobuf:"varint,2,opt,name=view,proto3,enum=hub.v1.LineageView" json:"view,omitempty"`
+	Direction          LineageDirection       `protobuf:"varint,3,opt,name=direction,proto3,enum=hub.v1.LineageDirection" json:"direction,omitempty"`
+	MaxDepth           int32                  `protobuf:"varint,4,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
+	CollapseTransports bool                   `protobuf:"varint,5,opt,name=collapse_transports,json=collapseTransports,proto3" json:"collapse_transports,omitempty"`
+	Location           string                 `protobuf:"bytes,6,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *GetLineageGraphRequest) Reset() {
+	*x = GetLineageGraphRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[116]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLineageGraphRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLineageGraphRequest) ProtoMessage() {}
+
+func (x *GetLineageGraphRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[116]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLineageGraphRequest.ProtoReflect.Descriptor instead.
+func (*GetLineageGraphRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{116}
+}
+
+func (x *GetLineageGraphRequest) GetRootFqn() string {
+	if x != nil {
+		return x.RootFqn
+	}
+	return ""
+}
+
+func (x *GetLineageGraphRequest) GetView() LineageView {
+	if x != nil {
+		return x.View
+	}
+	return LineageView_LINEAGE_VIEW_UNSPECIFIED
+}
+
+func (x *GetLineageGraphRequest) GetDirection() LineageDirection {
+	if x != nil {
+		return x.Direction
+	}
+	return LineageDirection_LINEAGE_DIRECTION_UNSPECIFIED
+}
+
+func (x *GetLineageGraphRequest) GetMaxDepth() int32 {
+	if x != nil {
+		return x.MaxDepth
+	}
+	return 0
+}
+
+func (x *GetLineageGraphRequest) GetCollapseTransports() bool {
+	if x != nil {
+		return x.CollapseTransports
+	}
+	return false
+}
+
+func (x *GetLineageGraphRequest) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+type GetLineageGraphResponse struct {
+	state            protoimpl.MessageState    `protogen:"open.v1"`
+	RootFqn          string                    `protobuf:"bytes,1,opt,name=root_fqn,json=rootFqn,proto3" json:"root_fqn,omitempty"`
+	View             LineageView               `protobuf:"varint,2,opt,name=view,proto3,enum=hub.v1.LineageView" json:"view,omitempty"`
+	Nodes            []*LineageNodeDTO         `protobuf:"bytes,3,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	Edges            []*LineageEdgeDTO         `protobuf:"bytes,4,rep,name=edges,proto3" json:"edges,omitempty"`
+	ProductMetrics   []*ProductTopologyMetrics `protobuf:"bytes,5,rep,name=product_metrics,json=productMetrics,proto3" json:"product_metrics,omitempty"`
+	Truncated        bool                      `protobuf:"varint,6,opt,name=truncated,proto3" json:"truncated,omitempty"`
+	TotalHiddenCount int32                     `protobuf:"varint,7,opt,name=total_hidden_count,json=totalHiddenCount,proto3" json:"total_hidden_count,omitempty"`
+	GraphEpoch       int64                     `protobuf:"varint,8,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *GetLineageGraphResponse) Reset() {
+	*x = GetLineageGraphResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[117]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLineageGraphResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLineageGraphResponse) ProtoMessage() {}
+
+func (x *GetLineageGraphResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[117]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLineageGraphResponse.ProtoReflect.Descriptor instead.
+func (*GetLineageGraphResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{117}
+}
+
+func (x *GetLineageGraphResponse) GetRootFqn() string {
+	if x != nil {
+		return x.RootFqn
+	}
+	return ""
+}
+
+func (x *GetLineageGraphResponse) GetView() LineageView {
+	if x != nil {
+		return x.View
+	}
+	return LineageView_LINEAGE_VIEW_UNSPECIFIED
+}
+
+func (x *GetLineageGraphResponse) GetNodes() []*LineageNodeDTO {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+func (x *GetLineageGraphResponse) GetEdges() []*LineageEdgeDTO {
+	if x != nil {
+		return x.Edges
+	}
+	return nil
+}
+
+func (x *GetLineageGraphResponse) GetProductMetrics() []*ProductTopologyMetrics {
+	if x != nil {
+		return x.ProductMetrics
+	}
+	return nil
+}
+
+func (x *GetLineageGraphResponse) GetTruncated() bool {
+	if x != nil {
+		return x.Truncated
+	}
+	return false
+}
+
+func (x *GetLineageGraphResponse) GetTotalHiddenCount() int32 {
+	if x != nil {
+		return x.TotalHiddenCount
+	}
+	return 0
+}
+
+func (x *GetLineageGraphResponse) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
+type IngestLineageManifestRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductUrn    string                 `protobuf:"bytes,1,opt,name=product_urn,json=productUrn,proto3" json:"product_urn,omitempty"`
+	Adapter       string                 `protobuf:"bytes,2,opt,name=adapter,proto3" json:"adapter,omitempty"`
+	ScopeId       string                 `protobuf:"bytes,3,opt,name=scope_id,json=scopeId,proto3" json:"scope_id,omitempty"`
+	SourceSystem  string                 `protobuf:"bytes,4,opt,name=source_system,json=sourceSystem,proto3" json:"source_system,omitempty"`
+	ManifestJson  string                 `protobuf:"bytes,5,opt,name=manifest_json,json=manifestJson,proto3" json:"manifest_json,omitempty"`
+	Granularity   string                 `protobuf:"bytes,6,opt,name=granularity,proto3" json:"granularity,omitempty"`
+	RunId         string                 `protobuf:"bytes,7,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	RunState      string                 `protobuf:"bytes,8,opt,name=run_state,json=runState,proto3" json:"run_state,omitempty"`
+	Edges         []*LineageEdgeDTO      `protobuf:"bytes,9,rep,name=edges,proto3" json:"edges,omitempty"`
+	FieldEdges    []*LineageFieldEdgeDTO `protobuf:"bytes,10,rep,name=field_edges,json=fieldEdges,proto3" json:"field_edges,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IngestLineageManifestRequest) Reset() {
+	*x = IngestLineageManifestRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[118]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IngestLineageManifestRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IngestLineageManifestRequest) ProtoMessage() {}
+
+func (x *IngestLineageManifestRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[118]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IngestLineageManifestRequest.ProtoReflect.Descriptor instead.
+func (*IngestLineageManifestRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{118}
+}
+
+func (x *IngestLineageManifestRequest) GetProductUrn() string {
+	if x != nil {
+		return x.ProductUrn
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetAdapter() string {
+	if x != nil {
+		return x.Adapter
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetScopeId() string {
+	if x != nil {
+		return x.ScopeId
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetSourceSystem() string {
+	if x != nil {
+		return x.SourceSystem
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetManifestJson() string {
+	if x != nil {
+		return x.ManifestJson
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetGranularity() string {
+	if x != nil {
+		return x.Granularity
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetRunState() string {
+	if x != nil {
+		return x.RunState
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestRequest) GetEdges() []*LineageEdgeDTO {
+	if x != nil {
+		return x.Edges
+	}
+	return nil
+}
+
+func (x *IngestLineageManifestRequest) GetFieldEdges() []*LineageFieldEdgeDTO {
+	if x != nil {
+		return x.FieldEdges
+	}
+	return nil
+}
+
+type IngestLineageManifestResponse struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	SubmissionId       string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	TableEdgesIngested int32                  `protobuf:"varint,2,opt,name=table_edges_ingested,json=tableEdgesIngested,proto3" json:"table_edges_ingested,omitempty"`
+	FieldEdgesIngested int32                  `protobuf:"varint,3,opt,name=field_edges_ingested,json=fieldEdgesIngested,proto3" json:"field_edges_ingested,omitempty"`
+	StaleEdgesDeleted  int32                  `protobuf:"varint,4,opt,name=stale_edges_deleted,json=staleEdgesDeleted,proto3" json:"stale_edges_deleted,omitempty"`
+	ChunksWritten      int32                  `protobuf:"varint,5,opt,name=chunks_written,json=chunksWritten,proto3" json:"chunks_written,omitempty"`
+	GraphEpoch         int64                  `protobuf:"varint,6,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *IngestLineageManifestResponse) Reset() {
+	*x = IngestLineageManifestResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[119]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IngestLineageManifestResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IngestLineageManifestResponse) ProtoMessage() {}
+
+func (x *IngestLineageManifestResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[119]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IngestLineageManifestResponse.ProtoReflect.Descriptor instead.
+func (*IngestLineageManifestResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{119}
+}
+
+func (x *IngestLineageManifestResponse) GetSubmissionId() string {
+	if x != nil {
+		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *IngestLineageManifestResponse) GetTableEdgesIngested() int32 {
+	if x != nil {
+		return x.TableEdgesIngested
+	}
+	return 0
+}
+
+func (x *IngestLineageManifestResponse) GetFieldEdgesIngested() int32 {
+	if x != nil {
+		return x.FieldEdgesIngested
+	}
+	return 0
+}
+
+func (x *IngestLineageManifestResponse) GetStaleEdgesDeleted() int32 {
+	if x != nil {
+		return x.StaleEdgesDeleted
+	}
+	return 0
+}
+
+func (x *IngestLineageManifestResponse) GetChunksWritten() int32 {
+	if x != nil {
+		return x.ChunksWritten
+	}
+	return 0
+}
+
+func (x *IngestLineageManifestResponse) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
+type ReplayLineageSubmissionsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Since         *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=since,proto3" json:"since,omitempty"`
+	Until         *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=until,proto3" json:"until,omitempty"`
+	SourceSystem  string                 `protobuf:"bytes,3,opt,name=source_system,json=sourceSystem,proto3" json:"source_system,omitempty"`
+	DryRun        bool                   `protobuf:"varint,4,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReplayLineageSubmissionsRequest) Reset() {
+	*x = ReplayLineageSubmissionsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[120]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReplayLineageSubmissionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReplayLineageSubmissionsRequest) ProtoMessage() {}
+
+func (x *ReplayLineageSubmissionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[120]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReplayLineageSubmissionsRequest.ProtoReflect.Descriptor instead.
+func (*ReplayLineageSubmissionsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{120}
+}
+
+func (x *ReplayLineageSubmissionsRequest) GetSince() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Since
+	}
+	return nil
+}
+
+func (x *ReplayLineageSubmissionsRequest) GetUntil() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Until
+	}
+	return nil
+}
+
+func (x *ReplayLineageSubmissionsRequest) GetSourceSystem() string {
+	if x != nil {
+		return x.SourceSystem
+	}
+	return ""
+}
+
+func (x *ReplayLineageSubmissionsRequest) GetDryRun() bool {
+	if x != nil {
+		return x.DryRun
+	}
+	return false
+}
+
+type ReplayLineageSubmissionsResponse struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	SubmissionsReplayed int32                  `protobuf:"varint,1,opt,name=submissions_replayed,json=submissionsReplayed,proto3" json:"submissions_replayed,omitempty"`
+	EdgesRestored       int32                  `protobuf:"varint,2,opt,name=edges_restored,json=edgesRestored,proto3" json:"edges_restored,omitempty"`
+	FieldEdgesRestored  int32                  `protobuf:"varint,3,opt,name=field_edges_restored,json=fieldEdgesRestored,proto3" json:"field_edges_restored,omitempty"`
+	GraphEpoch          int64                  `protobuf:"varint,4,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	DryRun              bool                   `protobuf:"varint,5,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
+	SubmissionIds       []string               `protobuf:"bytes,6,rep,name=submission_ids,json=submissionIds,proto3" json:"submission_ids,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *ReplayLineageSubmissionsResponse) Reset() {
+	*x = ReplayLineageSubmissionsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[121]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReplayLineageSubmissionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReplayLineageSubmissionsResponse) ProtoMessage() {}
+
+func (x *ReplayLineageSubmissionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[121]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReplayLineageSubmissionsResponse.ProtoReflect.Descriptor instead.
+func (*ReplayLineageSubmissionsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{121}
+}
+
+func (x *ReplayLineageSubmissionsResponse) GetSubmissionsReplayed() int32 {
+	if x != nil {
+		return x.SubmissionsReplayed
+	}
+	return 0
+}
+
+func (x *ReplayLineageSubmissionsResponse) GetEdgesRestored() int32 {
+	if x != nil {
+		return x.EdgesRestored
+	}
+	return 0
+}
+
+func (x *ReplayLineageSubmissionsResponse) GetFieldEdgesRestored() int32 {
+	if x != nil {
+		return x.FieldEdgesRestored
+	}
+	return 0
+}
+
+func (x *ReplayLineageSubmissionsResponse) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
+func (x *ReplayLineageSubmissionsResponse) GetDryRun() bool {
+	if x != nil {
+		return x.DryRun
+	}
+	return false
+}
+
+func (x *ReplayLineageSubmissionsResponse) GetSubmissionIds() []string {
+	if x != nil {
+		return x.SubmissionIds
+	}
+	return nil
+}
+
+// EffectiveAssetState combines declared overlay state with backward-propagated implied state and gaps.
+type EffectiveAssetState struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn             string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	Declared             *NodeState             `protobuf:"bytes,2,opt,name=declared,proto3" json:"declared,omitempty"`
+	DeclaredTier         SLATier                `protobuf:"varint,3,opt,name=declared_tier,json=declaredTier,proto3,enum=hub.v1.SLATier" json:"declared_tier,omitempty"`
+	ImpliedTier          SLATier                `protobuf:"varint,4,opt,name=implied_tier,json=impliedTier,proto3,enum=hub.v1.SLATier" json:"implied_tier,omitempty"`
+	DeclaredFreshnessSla string                 `protobuf:"bytes,5,opt,name=declared_freshness_sla,json=declaredFreshnessSla,proto3" json:"declared_freshness_sla,omitempty"`
+	ImpliedFreshnessSla  string                 `protobuf:"bytes,6,opt,name=implied_freshness_sla,json=impliedFreshnessSla,proto3" json:"implied_freshness_sla,omitempty"`
+	OwnerTeam            string                 `protobuf:"bytes,7,opt,name=owner_team,json=ownerTeam,proto3" json:"owner_team,omitempty"`
+	PiiPosture           PIIPosture             `protobuf:"varint,8,opt,name=pii_posture,json=piiPosture,proto3,enum=hub.v1.PIIPosture" json:"pii_posture,omitempty"`
+	EffectiveSensitivity SensitivityLevel       `protobuf:"varint,9,opt,name=effective_sensitivity,json=effectiveSensitivity,proto3,enum=hub.v1.SensitivityLevel" json:"effective_sensitivity,omitempty"`
+	DetectionMode        DetectionMode          `protobuf:"varint,10,opt,name=detection_mode,json=detectionMode,proto3,enum=hub.v1.DetectionMode" json:"detection_mode,omitempty"`
+	SourceOrigin         SourceOrigin           `protobuf:"varint,11,opt,name=source_origin,json=sourceOrigin,proto3,enum=hub.v1.SourceOrigin" json:"source_origin,omitempty"`
+	ReachabilityStatus   ReachabilityStatus     `protobuf:"varint,12,opt,name=reachability_status,json=reachabilityStatus,proto3,enum=hub.v1.ReachabilityStatus" json:"reachability_status,omitempty"`
+	SlaGaps              []*SLAGap              `protobuf:"bytes,13,rep,name=sla_gaps,json=slaGaps,proto3" json:"sla_gaps,omitempty"`
+	DownstreamDrivers    []*ConsumerDriver      `protobuf:"bytes,14,rep,name=downstream_drivers,json=downstreamDrivers,proto3" json:"downstream_drivers,omitempty"`
+	Exemptions           []*AssetExemption      `protobuf:"bytes,15,rep,name=exemptions,proto3" json:"exemptions,omitempty"`
+	ExpiredExemptions    []*AssetExemption      `protobuf:"bytes,16,rep,name=expired_exemptions,json=expiredExemptions,proto3" json:"expired_exemptions,omitempty"`
+	Brownfield           bool                   `protobuf:"varint,17,opt,name=brownfield,proto3" json:"brownfield,omitempty"`
+	StateEpoch           int64                  `protobuf:"varint,18,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	GraphEpoch           int64                  `protobuf:"varint,19,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *EffectiveAssetState) Reset() {
+	*x = EffectiveAssetState{}
+	mi := &file_hub_v1_hub_proto_msgTypes[122]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EffectiveAssetState) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EffectiveAssetState) ProtoMessage() {}
+
+func (x *EffectiveAssetState) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[122]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EffectiveAssetState.ProtoReflect.Descriptor instead.
+func (*EffectiveAssetState) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{122}
+}
+
+func (x *EffectiveAssetState) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *EffectiveAssetState) GetDeclared() *NodeState {
+	if x != nil {
+		return x.Declared
+	}
+	return nil
+}
+
+func (x *EffectiveAssetState) GetDeclaredTier() SLATier {
+	if x != nil {
+		return x.DeclaredTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetImpliedTier() SLATier {
+	if x != nil {
+		return x.ImpliedTier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetDeclaredFreshnessSla() string {
+	if x != nil {
+		return x.DeclaredFreshnessSla
+	}
+	return ""
+}
+
+func (x *EffectiveAssetState) GetImpliedFreshnessSla() string {
+	if x != nil {
+		return x.ImpliedFreshnessSla
+	}
+	return ""
+}
+
+func (x *EffectiveAssetState) GetOwnerTeam() string {
+	if x != nil {
+		return x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *EffectiveAssetState) GetPiiPosture() PIIPosture {
+	if x != nil {
+		return x.PiiPosture
+	}
+	return PIIPosture_PII_POSTURE_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetEffectiveSensitivity() SensitivityLevel {
+	if x != nil {
+		return x.EffectiveSensitivity
+	}
+	return SensitivityLevel_SENSITIVITY_LEVEL_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetDetectionMode() DetectionMode {
+	if x != nil {
+		return x.DetectionMode
+	}
+	return DetectionMode_DETECTION_MODE_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetSourceOrigin() SourceOrigin {
+	if x != nil {
+		return x.SourceOrigin
+	}
+	return SourceOrigin_SOURCE_ORIGIN_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetReachabilityStatus() ReachabilityStatus {
+	if x != nil {
+		return x.ReachabilityStatus
+	}
+	return ReachabilityStatus_REACHABILITY_STATUS_UNSPECIFIED
+}
+
+func (x *EffectiveAssetState) GetSlaGaps() []*SLAGap {
+	if x != nil {
+		return x.SlaGaps
+	}
+	return nil
+}
+
+func (x *EffectiveAssetState) GetDownstreamDrivers() []*ConsumerDriver {
+	if x != nil {
+		return x.DownstreamDrivers
+	}
+	return nil
+}
+
+func (x *EffectiveAssetState) GetExemptions() []*AssetExemption {
+	if x != nil {
+		return x.Exemptions
+	}
+	return nil
+}
+
+func (x *EffectiveAssetState) GetExpiredExemptions() []*AssetExemption {
+	if x != nil {
+		return x.ExpiredExemptions
+	}
+	return nil
+}
+
+func (x *EffectiveAssetState) GetBrownfield() bool {
+	if x != nil {
+		return x.Brownfield
+	}
+	return false
+}
+
+func (x *EffectiveAssetState) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+func (x *EffectiveAssetState) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
+type SetAssetStateRequest struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn            string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	Tier                *SLATier               `protobuf:"varint,2,opt,name=tier,proto3,enum=hub.v1.SLATier,oneof" json:"tier,omitempty"`
+	ClearTier           bool                   `protobuf:"varint,3,opt,name=clear_tier,json=clearTier,proto3" json:"clear_tier,omitempty"`
+	FreshnessSla        *string                `protobuf:"bytes,4,opt,name=freshness_sla,json=freshnessSla,proto3,oneof" json:"freshness_sla,omitempty"`
+	ClearFreshnessSla   bool                   `protobuf:"varint,5,opt,name=clear_freshness_sla,json=clearFreshnessSla,proto3" json:"clear_freshness_sla,omitempty"`
+	OwnerTeam           *string                `protobuf:"bytes,6,opt,name=owner_team,json=ownerTeam,proto3,oneof" json:"owner_team,omitempty"`
+	ClearOwnerTeam      bool                   `protobuf:"varint,7,opt,name=clear_owner_team,json=clearOwnerTeam,proto3" json:"clear_owner_team,omitempty"`
+	PiiPosture          *PIIPosture            `protobuf:"varint,8,opt,name=pii_posture,json=piiPosture,proto3,enum=hub.v1.PIIPosture,oneof" json:"pii_posture,omitempty"`
+	DetectionMode       *DetectionMode         `protobuf:"varint,9,opt,name=detection_mode,json=detectionMode,proto3,enum=hub.v1.DetectionMode,oneof" json:"detection_mode,omitempty"`
+	SourceOrigin        *SourceOrigin          `protobuf:"varint,10,opt,name=source_origin,json=sourceOrigin,proto3,enum=hub.v1.SourceOrigin,oneof" json:"source_origin,omitempty"`
+	AddExemptions       []*AssetExemption      `protobuf:"bytes,11,rep,name=add_exemptions,json=addExemptions,proto3" json:"add_exemptions,omitempty"`
+	RemoveExemptionFqns []string               `protobuf:"bytes,12,rep,name=remove_exemption_fqns,json=removeExemptionFqns,proto3" json:"remove_exemption_fqns,omitempty"`
+	ClearExemptions     bool                   `protobuf:"varint,13,opt,name=clear_exemptions,json=clearExemptions,proto3" json:"clear_exemptions,omitempty"`
+	Source              string                 `protobuf:"bytes,14,opt,name=source,proto3" json:"source,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *SetAssetStateRequest) Reset() {
+	*x = SetAssetStateRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[123]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetAssetStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetAssetStateRequest) ProtoMessage() {}
+
+func (x *SetAssetStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[123]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetAssetStateRequest.ProtoReflect.Descriptor instead.
+func (*SetAssetStateRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{123}
+}
+
+func (x *SetAssetStateRequest) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *SetAssetStateRequest) GetTier() SLATier {
+	if x != nil && x.Tier != nil {
+		return *x.Tier
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *SetAssetStateRequest) GetClearTier() bool {
+	if x != nil {
+		return x.ClearTier
+	}
+	return false
+}
+
+func (x *SetAssetStateRequest) GetFreshnessSla() string {
+	if x != nil && x.FreshnessSla != nil {
+		return *x.FreshnessSla
+	}
+	return ""
+}
+
+func (x *SetAssetStateRequest) GetClearFreshnessSla() bool {
+	if x != nil {
+		return x.ClearFreshnessSla
+	}
+	return false
+}
+
+func (x *SetAssetStateRequest) GetOwnerTeam() string {
+	if x != nil && x.OwnerTeam != nil {
+		return *x.OwnerTeam
+	}
+	return ""
+}
+
+func (x *SetAssetStateRequest) GetClearOwnerTeam() bool {
+	if x != nil {
+		return x.ClearOwnerTeam
+	}
+	return false
+}
+
+func (x *SetAssetStateRequest) GetPiiPosture() PIIPosture {
+	if x != nil && x.PiiPosture != nil {
+		return *x.PiiPosture
+	}
+	return PIIPosture_PII_POSTURE_UNSPECIFIED
+}
+
+func (x *SetAssetStateRequest) GetDetectionMode() DetectionMode {
+	if x != nil && x.DetectionMode != nil {
+		return *x.DetectionMode
+	}
+	return DetectionMode_DETECTION_MODE_UNSPECIFIED
+}
+
+func (x *SetAssetStateRequest) GetSourceOrigin() SourceOrigin {
+	if x != nil && x.SourceOrigin != nil {
+		return *x.SourceOrigin
+	}
+	return SourceOrigin_SOURCE_ORIGIN_UNSPECIFIED
+}
+
+func (x *SetAssetStateRequest) GetAddExemptions() []*AssetExemption {
+	if x != nil {
+		return x.AddExemptions
+	}
+	return nil
+}
+
+func (x *SetAssetStateRequest) GetRemoveExemptionFqns() []string {
+	if x != nil {
+		return x.RemoveExemptionFqns
+	}
+	return nil
+}
+
+func (x *SetAssetStateRequest) GetClearExemptions() bool {
+	if x != nil {
+		return x.ClearExemptions
+	}
+	return false
+}
+
+func (x *SetAssetStateRequest) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+type SetAssetStateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	State         *EffectiveAssetState   `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`
+	StateEpoch    int64                  `protobuf:"varint,2,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetAssetStateResponse) Reset() {
+	*x = SetAssetStateResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[124]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetAssetStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetAssetStateResponse) ProtoMessage() {}
+
+func (x *SetAssetStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[124]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetAssetStateResponse.ProtoReflect.Descriptor instead.
+func (*SetAssetStateResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{124}
+}
+
+func (x *SetAssetStateResponse) GetState() *EffectiveAssetState {
+	if x != nil {
+		return x.State
+	}
+	return nil
+}
+
+func (x *SetAssetStateResponse) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+type GetEffectiveAssetStateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn      string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	MinStateEpoch int64                  `protobuf:"varint,2,opt,name=min_state_epoch,json=minStateEpoch,proto3" json:"min_state_epoch,omitempty"`
+	Strict        bool                   `protobuf:"varint,3,opt,name=strict,proto3" json:"strict,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetEffectiveAssetStateRequest) Reset() {
+	*x = GetEffectiveAssetStateRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[125]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetEffectiveAssetStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEffectiveAssetStateRequest) ProtoMessage() {}
+
+func (x *GetEffectiveAssetStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[125]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEffectiveAssetStateRequest.ProtoReflect.Descriptor instead.
+func (*GetEffectiveAssetStateRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{125}
+}
+
+func (x *GetEffectiveAssetStateRequest) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+func (x *GetEffectiveAssetStateRequest) GetMinStateEpoch() int64 {
+	if x != nil {
+		return x.MinStateEpoch
+	}
+	return 0
+}
+
+func (x *GetEffectiveAssetStateRequest) GetStrict() bool {
+	if x != nil {
+		return x.Strict
+	}
+	return false
+}
+
+type GetEffectiveAssetStateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	State         *EffectiveAssetState   `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`
+	StateEpoch    int64                  `protobuf:"varint,2,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetEffectiveAssetStateResponse) Reset() {
+	*x = GetEffectiveAssetStateResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[126]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetEffectiveAssetStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEffectiveAssetStateResponse) ProtoMessage() {}
+
+func (x *GetEffectiveAssetStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[126]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEffectiveAssetStateResponse.ProtoReflect.Descriptor instead.
+func (*GetEffectiveAssetStateResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{126}
+}
+
+func (x *GetEffectiveAssetStateResponse) GetState() *EffectiveAssetState {
+	if x != nil {
+		return x.State
+	}
+	return nil
+}
+
+func (x *GetEffectiveAssetStateResponse) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+type DeleteAssetStateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AssetFqn      string                 `protobuf:"bytes,1,opt,name=asset_fqn,json=assetFqn,proto3" json:"asset_fqn,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAssetStateRequest) Reset() {
+	*x = DeleteAssetStateRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[127]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAssetStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAssetStateRequest) ProtoMessage() {}
+
+func (x *DeleteAssetStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[127]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAssetStateRequest.ProtoReflect.Descriptor instead.
+func (*DeleteAssetStateRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{127}
+}
+
+func (x *DeleteAssetStateRequest) GetAssetFqn() string {
+	if x != nil {
+		return x.AssetFqn
+	}
+	return ""
+}
+
+type DeleteAssetStateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StateEpoch    int64                  `protobuf:"varint,1,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	Deleted       bool                   `protobuf:"varint,2,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAssetStateResponse) Reset() {
+	*x = DeleteAssetStateResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[128]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAssetStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAssetStateResponse) ProtoMessage() {}
+
+func (x *DeleteAssetStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[128]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAssetStateResponse.ProtoReflect.Descriptor instead.
+func (*DeleteAssetStateResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{128}
+}
+
+func (x *DeleteAssetStateResponse) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+func (x *DeleteAssetStateResponse) GetDeleted() bool {
+	if x != nil {
+		return x.Deleted
+	}
+	return false
+}
+
+type ListSLAGapsRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	RootFqn         string                 `protobuf:"bytes,1,opt,name=root_fqn,json=rootFqn,proto3" json:"root_fqn,omitempty"`
+	TierFilter      SLATier                `protobuf:"varint,2,opt,name=tier_filter,json=tierFilter,proto3,enum=hub.v1.SLATier" json:"tier_filter,omitempty"`
+	IncludeExempted bool                   `protobuf:"varint,3,opt,name=include_exempted,json=includeExempted,proto3" json:"include_exempted,omitempty"`
+	PageSize        int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken       string                 `protobuf:"bytes,5,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ListSLAGapsRequest) Reset() {
+	*x = ListSLAGapsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[129]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSLAGapsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSLAGapsRequest) ProtoMessage() {}
+
+func (x *ListSLAGapsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[129]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSLAGapsRequest.ProtoReflect.Descriptor instead.
+func (*ListSLAGapsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{129}
+}
+
+func (x *ListSLAGapsRequest) GetRootFqn() string {
+	if x != nil {
+		return x.RootFqn
+	}
+	return ""
+}
+
+func (x *ListSLAGapsRequest) GetTierFilter() SLATier {
+	if x != nil {
+		return x.TierFilter
+	}
+	return SLATier_SLA_TIER_UNSPECIFIED
+}
+
+func (x *ListSLAGapsRequest) GetIncludeExempted() bool {
+	if x != nil {
+		return x.IncludeExempted
+	}
+	return false
+}
+
+func (x *ListSLAGapsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListSLAGapsRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+type ListSLAGapsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Gaps          []*SLAGap              `protobuf:"bytes,1,rep,name=gaps,proto3" json:"gaps,omitempty"`
+	Assets        []*EffectiveAssetState `protobuf:"bytes,2,rep,name=assets,proto3" json:"assets,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	StateEpoch    int64                  `protobuf:"varint,4,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	GraphEpoch    int64                  `protobuf:"varint,5,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSLAGapsResponse) Reset() {
+	*x = ListSLAGapsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[130]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSLAGapsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSLAGapsResponse) ProtoMessage() {}
+
+func (x *ListSLAGapsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[130]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSLAGapsResponse.ProtoReflect.Descriptor instead.
+func (*ListSLAGapsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{130}
+}
+
+func (x *ListSLAGapsResponse) GetGaps() []*SLAGap {
+	if x != nil {
+		return x.Gaps
+	}
+	return nil
+}
+
+func (x *ListSLAGapsResponse) GetAssets() []*EffectiveAssetState {
+	if x != nil {
+		return x.Assets
+	}
+	return nil
+}
+
+func (x *ListSLAGapsResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+func (x *ListSLAGapsResponse) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+func (x *ListSLAGapsResponse) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
+type AuditLineageReachabilityRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RootFqn       string                 `protobuf:"bytes,1,opt,name=root_fqn,json=rootFqn,proto3" json:"root_fqn,omitempty"`
+	MinConfidence EdgeConfidenceFilter   `protobuf:"varint,2,opt,name=min_confidence,json=minConfidence,proto3,enum=hub.v1.EdgeConfidenceFilter" json:"min_confidence,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AuditLineageReachabilityRequest) Reset() {
+	*x = AuditLineageReachabilityRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[131]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AuditLineageReachabilityRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuditLineageReachabilityRequest) ProtoMessage() {}
+
+func (x *AuditLineageReachabilityRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[131]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuditLineageReachabilityRequest.ProtoReflect.Descriptor instead.
+func (*AuditLineageReachabilityRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{131}
+}
+
+func (x *AuditLineageReachabilityRequest) GetRootFqn() string {
+	if x != nil {
+		return x.RootFqn
+	}
+	return ""
+}
+
+func (x *AuditLineageReachabilityRequest) GetMinConfidence() EdgeConfidenceFilter {
+	if x != nil {
+		return x.MinConfidence
+	}
+	return EdgeConfidenceFilter_EDGE_CONFIDENCE_FILTER_UNSPECIFIED
+}
+
+type AuditLineageReachabilityResponse struct {
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	TotalAuditedLeaves      int32                  `protobuf:"varint,1,opt,name=total_audited_leaves,json=totalAuditedLeaves,proto3" json:"total_audited_leaves,omitempty"`
+	ReachableLeaves         int32                  `protobuf:"varint,2,opt,name=reachable_leaves,json=reachableLeaves,proto3" json:"reachable_leaves,omitempty"`
+	ReachabilityCoveragePct float64                `protobuf:"fixed64,3,opt,name=reachability_coverage_pct,json=reachabilityCoveragePct,proto3" json:"reachability_coverage_pct,omitempty"`
+	LeafReports             []*ReachabilityReport  `protobuf:"bytes,4,rep,name=leaf_reports,json=leafReports,proto3" json:"leaf_reports,omitempty"`
+	BrokenChains            []*BrokenChainReport   `protobuf:"bytes,5,rep,name=broken_chains,json=brokenChains,proto3" json:"broken_chains,omitempty"`
+	StateEpoch              int64                  `protobuf:"varint,6,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	GraphEpoch              int64                  `protobuf:"varint,7,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *AuditLineageReachabilityResponse) Reset() {
+	*x = AuditLineageReachabilityResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[132]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AuditLineageReachabilityResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuditLineageReachabilityResponse) ProtoMessage() {}
+
+func (x *AuditLineageReachabilityResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[132]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuditLineageReachabilityResponse.ProtoReflect.Descriptor instead.
+func (*AuditLineageReachabilityResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{132}
+}
+
+func (x *AuditLineageReachabilityResponse) GetTotalAuditedLeaves() int32 {
+	if x != nil {
+		return x.TotalAuditedLeaves
+	}
+	return 0
+}
+
+func (x *AuditLineageReachabilityResponse) GetReachableLeaves() int32 {
+	if x != nil {
+		return x.ReachableLeaves
+	}
+	return 0
+}
+
+func (x *AuditLineageReachabilityResponse) GetReachabilityCoveragePct() float64 {
+	if x != nil {
+		return x.ReachabilityCoveragePct
+	}
+	return 0
+}
+
+func (x *AuditLineageReachabilityResponse) GetLeafReports() []*ReachabilityReport {
+	if x != nil {
+		return x.LeafReports
+	}
+	return nil
+}
+
+func (x *AuditLineageReachabilityResponse) GetBrokenChains() []*BrokenChainReport {
+	if x != nil {
+		return x.BrokenChains
+	}
+	return nil
+}
+
+func (x *AuditLineageReachabilityResponse) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+func (x *AuditLineageReachabilityResponse) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
+type GetTopologySignalsRequest struct {
+	state                    protoimpl.MessageState `protogen:"open.v1"`
+	RootFqn                  string                 `protobuf:"bytes,1,opt,name=root_fqn,json=rootFqn,proto3" json:"root_fqn,omitempty"`
+	HighFanInThreshold       int32                  `protobuf:"varint,2,opt,name=high_fan_in_threshold,json=highFanInThreshold,proto3" json:"high_fan_in_threshold,omitempty"`
+	ZeroConsumerLookbackDays int32                  `protobuf:"varint,3,opt,name=zero_consumer_lookback_days,json=zeroConsumerLookbackDays,proto3" json:"zero_consumer_lookback_days,omitempty"`
+	IncludeTaggedLeaves      bool                   `protobuf:"varint,4,opt,name=include_tagged_leaves,json=includeTaggedLeaves,proto3" json:"include_tagged_leaves,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
+}
+
+func (x *GetTopologySignalsRequest) Reset() {
+	*x = GetTopologySignalsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[133]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTopologySignalsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTopologySignalsRequest) ProtoMessage() {}
+
+func (x *GetTopologySignalsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[133]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTopologySignalsRequest.ProtoReflect.Descriptor instead.
+func (*GetTopologySignalsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{133}
+}
+
+func (x *GetTopologySignalsRequest) GetRootFqn() string {
+	if x != nil {
+		return x.RootFqn
+	}
+	return ""
+}
+
+func (x *GetTopologySignalsRequest) GetHighFanInThreshold() int32 {
+	if x != nil {
+		return x.HighFanInThreshold
+	}
+	return 0
+}
+
+func (x *GetTopologySignalsRequest) GetZeroConsumerLookbackDays() int32 {
+	if x != nil {
+		return x.ZeroConsumerLookbackDays
+	}
+	return 0
+}
+
+func (x *GetTopologySignalsRequest) GetIncludeTaggedLeaves() bool {
+	if x != nil {
+		return x.IncludeTaggedLeaves
+	}
+	return false
+}
+
+type GetTopologySignalsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Signals       *TopologySignals       `protobuf:"bytes,1,opt,name=signals,proto3" json:"signals,omitempty"`
+	StateEpoch    int64                  `protobuf:"varint,2,opt,name=state_epoch,json=stateEpoch,proto3" json:"state_epoch,omitempty"`
+	GraphEpoch    int64                  `protobuf:"varint,3,opt,name=graph_epoch,json=graphEpoch,proto3" json:"graph_epoch,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTopologySignalsResponse) Reset() {
+	*x = GetTopologySignalsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[134]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTopologySignalsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTopologySignalsResponse) ProtoMessage() {}
+
+func (x *GetTopologySignalsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[134]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTopologySignalsResponse.ProtoReflect.Descriptor instead.
+func (*GetTopologySignalsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{134}
+}
+
+func (x *GetTopologySignalsResponse) GetSignals() *TopologySignals {
+	if x != nil {
+		return x.Signals
+	}
+	return nil
+}
+
+func (x *GetTopologySignalsResponse) GetStateEpoch() int64 {
+	if x != nil {
+		return x.StateEpoch
+	}
+	return 0
+}
+
+func (x *GetTopologySignalsResponse) GetGraphEpoch() int64 {
+	if x != nil {
+		return x.GraphEpoch
+	}
+	return 0
+}
+
 var File_hub_v1_hub_proto protoreflect.FileDescriptor
 
 const file_hub_v1_hub_proto_rawDesc = "" +
@@ -6621,10 +10331,12 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"page_token\x18\x03 \x01(\tR\tpageToken\"l\n" +
 	"\x18GetHealthHistoryResponse\x12(\n" +
 	"\ahistory\x18\x01 \x03(\v2\x0e.hub.v1.HealthR\ahistory\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"O\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xb3\x01\n" +
 	"\x15GetBlastRadiusRequest\x12\x19\n" +
 	"\x03urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x03urn\x12\x1b\n" +
-	"\tmax_depth\x18\x02 \x01(\x05R\bmaxDepth\"\x82\x01\n" +
+	"\tmax_depth\x18\x02 \x01(\x05R\bmaxDepth\x121\n" +
+	"\x04view\x18\x03 \x01(\x0e2\x13.hub.v1.LineageViewB\b\xfaB\x05\x82\x01\x02\x10\x01R\x04view\x12/\n" +
+	"\x13collapse_transports\x18\x04 \x01(\bR\x12collapseTransports\"\x82\x01\n" +
 	"\x0fBlastRadiusNode\x12\x10\n" +
 	"\x03urn\x18\x01 \x01(\tR\x03urn\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x14\n" +
@@ -6636,10 +10348,12 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\broot_urn\x18\x01 \x01(\tR\arootUrn\x12B\n" +
 	"\x10downstream_nodes\x18\x02 \x03(\v2\x17.hub.v1.BlastRadiusNodeR\x0fdownstreamNodes\x12)\n" +
 	"\x10total_downstream\x18\x03 \x01(\x05R\x0ftotalDownstream\x12%\n" +
-	"\x0eaffected_teams\x18\x04 \x03(\tR\raffectedTeams\"M\n" +
+	"\x0eaffected_teams\x18\x04 \x03(\tR\raffectedTeams\"\xb1\x01\n" +
 	"\x13GetRootCauseRequest\x12\x19\n" +
 	"\x03urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x03urn\x12\x1b\n" +
-	"\tmax_depth\x18\x02 \x01(\x05R\bmaxDepth\"\xc5\x02\n" +
+	"\tmax_depth\x18\x02 \x01(\x05R\bmaxDepth\x121\n" +
+	"\x04view\x18\x03 \x01(\x0e2\x13.hub.v1.LineageViewB\b\xfaB\x05\x82\x01\x02\x10\x01R\x04view\x12/\n" +
+	"\x13collapse_transports\x18\x04 \x01(\bR\x12collapseTransports\"\xc5\x02\n" +
 	"\x12RootCauseChainNode\x12\x10\n" +
 	"\x03urn\x18\x01 \x01(\tR\x03urn\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x14\n" +
@@ -7075,7 +10789,387 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x06assets\x18\x06 \x03(\v2\x18.hub.v1.AssetDriftReportR\x06assets\x12-\n" +
 	"\x13latest_audit_run_id\x18\a \x01(\tR\x10latestAuditRunId\x12-\n" +
 	"\x12unavailable_reason\x18\b \x01(\tR\x11unavailableReason\x12 \n" +
-	"\vremediation\x18\t \x01(\tR\vremediation*\xa9\x01\n" +
+	"\vremediation\x18\t \x01(\tR\vremediation\"\xf6\x05\n" +
+	"\x11SemanticDiffEntry\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\x120\n" +
+	"\bcategory\x18\x02 \x01(\x0e2\x14.hub.v1.DiffCategoryR\bcategory\x127\n" +
+	"\vchange_kind\x18\x03 \x01(\x0e2\x16.hub.v1.DiffChangeKindR\n" +
+	"changeKind\x12:\n" +
+	"\fsubject_kind\x18\x04 \x01(\x0e2\x17.hub.v1.DiffSubjectKindR\vsubjectKind\x12\x1b\n" +
+	"\trule_code\x18\x05 \x01(\tR\bruleCode\x12\x18\n" +
+	"\asummary\x18\x06 \x01(\tR\asummary\x12\x1d\n" +
+	"\n" +
+	"base_value\x18\a \x01(\tR\tbaseValue\x12!\n" +
+	"\ftarget_value\x18\b \x01(\tR\vtargetValue\x12 \n" +
+	"\vremediation\x18\t \x01(\tR\vremediation\x12\x1b\n" +
+	"\tbase_type\x18\n" +
+	" \x01(\tR\bbaseType\x12\x1f\n" +
+	"\vtarget_type\x18\v \x01(\tR\n" +
+	"targetType\x12\x1b\n" +
+	"\tbase_mode\x18\f \x01(\tR\bbaseMode\x12\x1f\n" +
+	"\vtarget_mode\x18\r \x01(\tR\n" +
+	"targetMode\x12\x1e\n" +
+	"\bbase_pii\x18\x0e \x01(\bH\x00R\abasePii\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"target_pii\x18\x0f \x01(\bH\x01R\ttargetPii\x88\x01\x01\x12-\n" +
+	"\x12affected_consumers\x18\x10 \x03(\tR\x11affectedConsumers\x12C\n" +
+	"\bmetadata\x18\x11 \x03(\v2'.hub.v1.SemanticDiffEntry.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\v\n" +
+	"\t_base_piiB\r\n" +
+	"\v_target_pii\"\x9b\x05\n" +
+	"\x13SemanticDiffSummary\x12#\n" +
+	"\rtotal_changes\x18\x01 \x01(\x05R\ftotalChanges\x12%\n" +
+	"\x0ebreaking_count\x18\x02 \x01(\x05R\rbreakingCount\x12)\n" +
+	"\x10compatible_count\x18\x03 \x01(\x05R\x0fcompatibleCount\x12/\n" +
+	"\x13informational_count\x18\x04 \x01(\x05R\x12informationalCount\x12!\n" +
+	"\ffields_added\x18\x05 \x01(\x05R\vfieldsAdded\x12%\n" +
+	"\x0efields_removed\x18\x06 \x01(\x05R\rfieldsRemoved\x12'\n" +
+	"\x0ffields_modified\x18\a \x01(\x05R\x0efieldsModified\x12%\n" +
+	"\x0etypes_modified\x18\b \x01(\x05R\rtypesModified\x12%\n" +
+	"\x0emodes_modified\x18\t \x01(\x05R\rmodesModified\x12\x1f\n" +
+	"\vports_added\x18\n" +
+	" \x01(\x05R\n" +
+	"portsAdded\x12#\n" +
+	"\rports_removed\x18\v \x01(\x05R\fportsRemoved\x12\x1f\n" +
+	"\vlens_breaks\x18\f \x01(\x05R\n" +
+	"lensBreaks\x12,\n" +
+	"\x12demand_lock_breaks\x18\r \x01(\x05R\x10demandLockBreaks\x12\x1f\n" +
+	"\vsla_changes\x18\x0e \x01(\x05R\n" +
+	"slaChanges\x12-\n" +
+	"\x12governance_updates\x18\x0f \x01(\x05R\x11governanceUpdates\x126\n" +
+	"\x17recommended_semver_bump\x18\x10 \x01(\tR\x15recommendedSemverBump\"\xdc\x01\n" +
+	"\x14DiffContractsRequest\x12*\n" +
+	"\fcontract_urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vcontractUrn\x12!\n" +
+	"\fbase_version\x18\x02 \x01(\tR\vbaseVersion\x12%\n" +
+	"\x0etarget_version\x18\x03 \x01(\tR\rtargetVersion\x12$\n" +
+	"\x0ebase_odcs_yaml\x18\x04 \x01(\tR\fbaseOdcsYaml\x12(\n" +
+	"\x10target_odcs_yaml\x18\x05 \x01(\tR\x0etargetOdcsYaml\"\xce\x04\n" +
+	"\x15DiffContractsResponse\x12!\n" +
+	"\fcontract_urn\x18\x01 \x01(\tR\vcontractUrn\x12#\n" +
+	"\rcontract_name\x18\x02 \x01(\tR\fcontractName\x12!\n" +
+	"\fbase_version\x18\x03 \x01(\tR\vbaseVersion\x12%\n" +
+	"\x0etarget_version\x18\x04 \x01(\tR\rtargetVersion\x12-\n" +
+	"\x12available_versions\x18\x05 \x03(\tR\x11availableVersions\x12Q\n" +
+	"\x15overall_compatibility\x18\x06 \x01(\x0e2\x1c.hub.v1.OverallCompatibilityR\x14overallCompatibility\x125\n" +
+	"\asummary\x18\a \x01(\v2\x1b.hub.v1.SemanticDiffSummaryR\asummary\x123\n" +
+	"\aentries\x18\b \x03(\v2\x19.hub.v1.SemanticDiffEntryR\aentries\x129\n" +
+	"\rbase_contract\x18\t \x01(\v2\x14.hub.v1.DataContractR\fbaseContract\x12=\n" +
+	"\x0ftarget_contract\x18\n" +
+	" \x01(\v2\x14.hub.v1.DataContractR\x0etargetContract\x12;\n" +
+	"\vcomputed_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"computedAt\"\xdd\x02\n" +
+	"\x12LinkedContractDiff\x12\x1b\n" +
+	"\tport_name\x18\x01 \x01(\tR\bportName\x12!\n" +
+	"\fcontract_urn\x18\x02 \x01(\tR\vcontractUrn\x12!\n" +
+	"\fbase_version\x18\x03 \x01(\tR\vbaseVersion\x12%\n" +
+	"\x0etarget_version\x18\x04 \x01(\tR\rtargetVersion\x12Q\n" +
+	"\x15overall_compatibility\x18\x05 \x01(\x0e2\x1c.hub.v1.OverallCompatibilityR\x14overallCompatibility\x125\n" +
+	"\asummary\x18\x06 \x01(\v2\x1b.hub.v1.SemanticDiffSummaryR\asummary\x123\n" +
+	"\aentries\x18\a \x03(\v2\x19.hub.v1.SemanticDiffEntryR\aentries\"\xbd\x02\n" +
+	"\x1bDiffProductManifestsRequest\x12(\n" +
+	"\vproduct_urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\n" +
+	"productUrn\x12!\n" +
+	"\fbase_version\x18\x02 \x01(\tR\vbaseVersion\x12%\n" +
+	"\x0etarget_version\x18\x03 \x01(\tR\rtargetVersion\x12$\n" +
+	"\x0ebase_odps_yaml\x18\x04 \x01(\tR\fbaseOdpsYaml\x12(\n" +
+	"\x10target_odps_yaml\x18\x05 \x01(\tR\x0etargetOdpsYaml\x12=\n" +
+	"\x18include_linked_contracts\x18\x06 \x01(\bH\x00R\x16includeLinkedContracts\x88\x01\x01B\x1b\n" +
+	"\x19_include_linked_contracts\"\xa7\x05\n" +
+	"\x1cDiffProductManifestsResponse\x12\x1f\n" +
+	"\vproduct_urn\x18\x01 \x01(\tR\n" +
+	"productUrn\x12!\n" +
+	"\fproduct_name\x18\x02 \x01(\tR\vproductName\x12!\n" +
+	"\fbase_version\x18\x03 \x01(\tR\vbaseVersion\x12%\n" +
+	"\x0etarget_version\x18\x04 \x01(\tR\rtargetVersion\x12-\n" +
+	"\x12available_versions\x18\x05 \x03(\tR\x11availableVersions\x12Q\n" +
+	"\x15overall_compatibility\x18\x06 \x01(\x0e2\x1c.hub.v1.OverallCompatibilityR\x14overallCompatibility\x125\n" +
+	"\asummary\x18\a \x01(\v2\x1b.hub.v1.SemanticDiffSummaryR\asummary\x123\n" +
+	"\aentries\x18\b \x03(\v2\x19.hub.v1.SemanticDiffEntryR\aentries\x12N\n" +
+	"\x15linked_contract_diffs\x18\t \x03(\v2\x1a.hub.v1.LinkedContractDiffR\x13linkedContractDiffs\x12<\n" +
+	"\rbase_manifest\x18\n" +
+	" \x01(\v2\x17.hub.v1.ProductManifestR\fbaseManifest\x12@\n" +
+	"\x0ftarget_manifest\x18\v \x01(\v2\x17.hub.v1.ProductManifestR\x0etargetManifest\x12;\n" +
+	"\vcomputed_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"computedAt\"a\n" +
+	"\x18GetTrustScorecardRequest\x12\x19\n" +
+	"\x03urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x03urn\x12*\n" +
+	"\vwindow_days\x18\x02 \x01(\x05B\t\xfaB\x06\x1a\x04\x18Z(\x00R\n" +
+	"windowDays\"Q\n" +
+	"\x19GetTrustScorecardResponse\x124\n" +
+	"\tscorecard\x18\x01 \x01(\v2\x16.hub.v1.TrustScorecardR\tscorecard\"n\n" +
+	"\x1aListTrustScorecardsRequest\x12$\n" +
+	"\x04urns\x18\x01 \x03(\tB\x10\xfaB\r\x92\x01\n" +
+	"\b\x01\x10d\"\x04r\x02\x10\x01R\x04urns\x12*\n" +
+	"\vwindow_days\x18\x02 \x01(\x05B\t\xfaB\x06\x1a\x04\x18Z(\x00R\n" +
+	"windowDays\"\x97\x02\n" +
+	"\x1bListTrustScorecardsResponse\x126\n" +
+	"\n" +
+	"scorecards\x18\x01 \x03(\v2\x16.hub.v1.TrustScorecardR\n" +
+	"scorecards\x12d\n" +
+	"\x11scorecards_by_urn\x18\x02 \x03(\v28.hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntryR\x0fscorecardsByUrn\x1aZ\n" +
+	"\x14ScorecardsByUrnEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12,\n" +
+	"\x05value\x18\x02 \x01(\v2\x16.hub.v1.TrustScorecardR\x05value:\x028\x01\"\xc1\x01\n" +
+	"\x0eLineageNodeDTO\x12\x10\n" +
+	"\x03fqn\x18\x01 \x01(\tR\x03fqn\x12#\n" +
+	"\rresource_type\x18\x02 \x01(\tR\fresourceType\x12\x18\n" +
+	"\amanaged\x18\x03 \x01(\bR\amanaged\x12\x1c\n" +
+	"\tunmanaged\x18\x04 \x01(\bR\tunmanaged\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\x05 \x01(\tR\townerTeam\x12!\n" +
+	"\fproduct_urns\x18\x06 \x03(\tR\vproductUrns\"\xea\x03\n" +
+	"\x0eLineageEdgeDTO\x12\x12\n" +
+	"\x04from\x18\x01 \x01(\tR\x04from\x12\x0e\n" +
+	"\x02to\x18\x02 \x01(\tR\x02to\x12\x12\n" +
+	"\x04kind\x18\x03 \x01(\tR\x04kind\x12\x1e\n" +
+	"\n" +
+	"confidence\x18\x04 \x01(\tR\n" +
+	"confidence\x12#\n" +
+	"\rsource_system\x18\x05 \x01(\tR\fsourceSystem\x12 \n" +
+	"\vgranularity\x18\x06 \x01(\tR\vgranularity\x12\x17\n" +
+	"\ajob_fqn\x18\a \x01(\tR\x06jobFqn\x12\x1b\n" +
+	"\trun_state\x18\b \x01(\tR\brunState\x12>\n" +
+	"\rfirst_seen_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\vfirstSeenAt\x12D\n" +
+	"\x10last_observed_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\x0elastObservedAt\x12@\n" +
+	"\bmetadata\x18\v \x03(\v2$.hub.v1.LineageEdgeDTO.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xdd\x03\n" +
+	"\x13LineageFieldEdgeDTO\x12-\n" +
+	"\x0efrom_field_urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\ffromFieldUrn\x12)\n" +
+	"\fto_field_urn\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\n" +
+	"toFieldUrn\x12/\n" +
+	"\x13transformation_kind\x18\x03 \x01(\tR\x12transformationKind\x12#\n" +
+	"\rapproved_mask\x18\x04 \x01(\bR\fapprovedMask\x12\x12\n" +
+	"\x04kind\x18\x05 \x01(\tR\x04kind\x12\x1e\n" +
+	"\n" +
+	"confidence\x18\x06 \x01(\tR\n" +
+	"confidence\x12 \n" +
+	"\vgranularity\x18\a \x01(\tR\vgranularity\x12#\n" +
+	"\rsource_system\x18\b \x01(\tR\fsourceSystem\x12\x17\n" +
+	"\ajob_fqn\x18\t \x01(\tR\x06jobFqn\x12E\n" +
+	"\bmetadata\x18\n" +
+	" \x03(\v2).hub.v1.LineageFieldEdgeDTO.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9a\x01\n" +
+	"\x16ProductTopologyMetrics\x12\x1f\n" +
+	"\vproduct_urn\x18\x01 \x01(\tR\n" +
+	"productUrn\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\x02 \x01(\tR\townerTeam\x12\x0e\n" +
+	"\x02ca\x18\x03 \x01(\x05R\x02ca\x12\x0e\n" +
+	"\x02ce\x18\x04 \x01(\x05R\x02ce\x12 \n" +
+	"\vinstability\x18\x05 \x01(\x01R\vinstability\"\xd0\x03\n" +
+	"\x16LineageSubmissionChunk\x12#\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x1f\n" +
+	"\vchunk_index\x18\x02 \x01(\x05R\n" +
+	"chunkIndex\x12\x1f\n" +
+	"\vchunk_total\x18\x03 \x01(\x05R\n" +
+	"chunkTotal\x12#\n" +
+	"\rsource_system\x18\x04 \x01(\tR\fsourceSystem\x12 \n" +
+	"\vgranularity\x18\x05 \x01(\tR\vgranularity\x129\n" +
+	"\n" +
+	"event_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\teventTime\x12\x14\n" +
+	"\x05actor\x18\a \x01(\tR\x05actor\x12\x1f\n" +
+	"\vproduct_urn\x18\b \x01(\tR\n" +
+	"productUrn\x12\x15\n" +
+	"\x06run_id\x18\t \x01(\tR\x05runId\x12\x1b\n" +
+	"\trun_state\x18\n" +
+	" \x01(\tR\brunState\x12\x19\n" +
+	"\bscope_id\x18\v \x01(\tR\ascopeId\x12\x1d\n" +
+	"\n" +
+	"edges_json\x18\f \x01(\tR\tedgesJson\x12(\n" +
+	"\x10field_edges_json\x18\r \x01(\tR\x0efieldEdgesJson\"\xd0\x03\n" +
+	"\x16LineageSubmissionEvent\x12#\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x1f\n" +
+	"\vchunk_index\x18\x02 \x01(\x05R\n" +
+	"chunkIndex\x12\x1f\n" +
+	"\vchunk_total\x18\x03 \x01(\x05R\n" +
+	"chunkTotal\x12#\n" +
+	"\rsource_system\x18\x04 \x01(\tR\fsourceSystem\x12 \n" +
+	"\vgranularity\x18\x05 \x01(\tR\vgranularity\x129\n" +
+	"\n" +
+	"event_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\teventTime\x12\x14\n" +
+	"\x05actor\x18\a \x01(\tR\x05actor\x12\x1f\n" +
+	"\vproduct_urn\x18\b \x01(\tR\n" +
+	"productUrn\x12\x15\n" +
+	"\x06run_id\x18\t \x01(\tR\x05runId\x12\x1b\n" +
+	"\trun_state\x18\n" +
+	" \x01(\tR\brunState\x12\x19\n" +
+	"\bscope_id\x18\v \x01(\tR\ascopeId\x12\x1d\n" +
+	"\n" +
+	"edges_json\x18\f \x01(\tR\tedgesJson\x12(\n" +
+	"\x10field_edges_json\x18\r \x01(\tR\x0efieldEdgesJson\"\xa6\x02\n" +
+	"\x16GetLineageGraphRequest\x12\"\n" +
+	"\broot_fqn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\arootFqn\x121\n" +
+	"\x04view\x18\x02 \x01(\x0e2\x13.hub.v1.LineageViewB\b\xfaB\x05\x82\x01\x02\x10\x01R\x04view\x12@\n" +
+	"\tdirection\x18\x03 \x01(\x0e2\x18.hub.v1.LineageDirectionB\b\xfaB\x05\x82\x01\x02\x10\x01R\tdirection\x12&\n" +
+	"\tmax_depth\x18\x04 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x00R\bmaxDepth\x12/\n" +
+	"\x13collapse_transports\x18\x05 \x01(\bR\x12collapseTransports\x12\x1a\n" +
+	"\blocation\x18\x06 \x01(\tR\blocation\"\xef\x02\n" +
+	"\x17GetLineageGraphResponse\x12\x19\n" +
+	"\broot_fqn\x18\x01 \x01(\tR\arootFqn\x12'\n" +
+	"\x04view\x18\x02 \x01(\x0e2\x13.hub.v1.LineageViewR\x04view\x12,\n" +
+	"\x05nodes\x18\x03 \x03(\v2\x16.hub.v1.LineageNodeDTOR\x05nodes\x12,\n" +
+	"\x05edges\x18\x04 \x03(\v2\x16.hub.v1.LineageEdgeDTOR\x05edges\x12G\n" +
+	"\x0fproduct_metrics\x18\x05 \x03(\v2\x1e.hub.v1.ProductTopologyMetricsR\x0eproductMetrics\x12\x1c\n" +
+	"\ttruncated\x18\x06 \x01(\bR\ttruncated\x12,\n" +
+	"\x12total_hidden_count\x18\a \x01(\x05R\x10totalHiddenCount\x12\x1f\n" +
+	"\vgraph_epoch\x18\b \x01(\x03R\n" +
+	"graphEpoch\"\x80\x03\n" +
+	"\x1cIngestLineageManifestRequest\x12\x1f\n" +
+	"\vproduct_urn\x18\x01 \x01(\tR\n" +
+	"productUrn\x12\x18\n" +
+	"\aadapter\x18\x02 \x01(\tR\aadapter\x12\x19\n" +
+	"\bscope_id\x18\x03 \x01(\tR\ascopeId\x12#\n" +
+	"\rsource_system\x18\x04 \x01(\tR\fsourceSystem\x12#\n" +
+	"\rmanifest_json\x18\x05 \x01(\tR\fmanifestJson\x12 \n" +
+	"\vgranularity\x18\x06 \x01(\tR\vgranularity\x12\x15\n" +
+	"\x06run_id\x18\a \x01(\tR\x05runId\x12\x1b\n" +
+	"\trun_state\x18\b \x01(\tR\brunState\x12,\n" +
+	"\x05edges\x18\t \x03(\v2\x16.hub.v1.LineageEdgeDTOR\x05edges\x12<\n" +
+	"\vfield_edges\x18\n" +
+	" \x03(\v2\x1b.hub.v1.LineageFieldEdgeDTOR\n" +
+	"fieldEdges\"\xa0\x02\n" +
+	"\x1dIngestLineageManifestResponse\x12#\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x120\n" +
+	"\x14table_edges_ingested\x18\x02 \x01(\x05R\x12tableEdgesIngested\x120\n" +
+	"\x14field_edges_ingested\x18\x03 \x01(\x05R\x12fieldEdgesIngested\x12.\n" +
+	"\x13stale_edges_deleted\x18\x04 \x01(\x05R\x11staleEdgesDeleted\x12%\n" +
+	"\x0echunks_written\x18\x05 \x01(\x05R\rchunksWritten\x12\x1f\n" +
+	"\vgraph_epoch\x18\x06 \x01(\x03R\n" +
+	"graphEpoch\"\xc3\x01\n" +
+	"\x1fReplayLineageSubmissionsRequest\x120\n" +
+	"\x05since\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x05since\x120\n" +
+	"\x05until\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x05until\x12#\n" +
+	"\rsource_system\x18\x03 \x01(\tR\fsourceSystem\x12\x17\n" +
+	"\adry_run\x18\x04 \x01(\bR\x06dryRun\"\x8f\x02\n" +
+	" ReplayLineageSubmissionsResponse\x121\n" +
+	"\x14submissions_replayed\x18\x01 \x01(\x05R\x13submissionsReplayed\x12%\n" +
+	"\x0eedges_restored\x18\x02 \x01(\x05R\redgesRestored\x120\n" +
+	"\x14field_edges_restored\x18\x03 \x01(\x05R\x12fieldEdgesRestored\x12\x1f\n" +
+	"\vgraph_epoch\x18\x04 \x01(\x03R\n" +
+	"graphEpoch\x12\x17\n" +
+	"\adry_run\x18\x05 \x01(\bR\x06dryRun\x12%\n" +
+	"\x0esubmission_ids\x18\x06 \x03(\tR\rsubmissionIds\"\xf1\a\n" +
+	"\x13EffectiveAssetState\x12\x1b\n" +
+	"\tasset_fqn\x18\x01 \x01(\tR\bassetFqn\x12-\n" +
+	"\bdeclared\x18\x02 \x01(\v2\x11.hub.v1.NodeStateR\bdeclared\x124\n" +
+	"\rdeclared_tier\x18\x03 \x01(\x0e2\x0f.hub.v1.SLATierR\fdeclaredTier\x122\n" +
+	"\fimplied_tier\x18\x04 \x01(\x0e2\x0f.hub.v1.SLATierR\vimpliedTier\x124\n" +
+	"\x16declared_freshness_sla\x18\x05 \x01(\tR\x14declaredFreshnessSla\x122\n" +
+	"\x15implied_freshness_sla\x18\x06 \x01(\tR\x13impliedFreshnessSla\x12\x1d\n" +
+	"\n" +
+	"owner_team\x18\a \x01(\tR\townerTeam\x123\n" +
+	"\vpii_posture\x18\b \x01(\x0e2\x12.hub.v1.PIIPostureR\n" +
+	"piiPosture\x12M\n" +
+	"\x15effective_sensitivity\x18\t \x01(\x0e2\x18.hub.v1.SensitivityLevelR\x14effectiveSensitivity\x12<\n" +
+	"\x0edetection_mode\x18\n" +
+	" \x01(\x0e2\x15.hub.v1.DetectionModeR\rdetectionMode\x129\n" +
+	"\rsource_origin\x18\v \x01(\x0e2\x14.hub.v1.SourceOriginR\fsourceOrigin\x12K\n" +
+	"\x13reachability_status\x18\f \x01(\x0e2\x1a.hub.v1.ReachabilityStatusR\x12reachabilityStatus\x12)\n" +
+	"\bsla_gaps\x18\r \x03(\v2\x0e.hub.v1.SLAGapR\aslaGaps\x12E\n" +
+	"\x12downstream_drivers\x18\x0e \x03(\v2\x16.hub.v1.ConsumerDriverR\x11downstreamDrivers\x126\n" +
+	"\n" +
+	"exemptions\x18\x0f \x03(\v2\x16.hub.v1.AssetExemptionR\n" +
+	"exemptions\x12E\n" +
+	"\x12expired_exemptions\x18\x10 \x03(\v2\x16.hub.v1.AssetExemptionR\x11expiredExemptions\x12\x1e\n" +
+	"\n" +
+	"brownfield\x18\x11 \x01(\bR\n" +
+	"brownfield\x12\x1f\n" +
+	"\vstate_epoch\x18\x12 \x01(\x03R\n" +
+	"stateEpoch\x12\x1f\n" +
+	"\vgraph_epoch\x18\x13 \x01(\x03R\n" +
+	"graphEpoch\"\xa7\x06\n" +
+	"\x14SetAssetStateRequest\x12$\n" +
+	"\tasset_fqn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bassetFqn\x122\n" +
+	"\x04tier\x18\x02 \x01(\x0e2\x0f.hub.v1.SLATierB\b\xfaB\x05\x82\x01\x02\x10\x01H\x00R\x04tier\x88\x01\x01\x12\x1d\n" +
+	"\n" +
+	"clear_tier\x18\x03 \x01(\bR\tclearTier\x12(\n" +
+	"\rfreshness_sla\x18\x04 \x01(\tH\x01R\ffreshnessSla\x88\x01\x01\x12.\n" +
+	"\x13clear_freshness_sla\x18\x05 \x01(\bR\x11clearFreshnessSla\x12\"\n" +
+	"\n" +
+	"owner_team\x18\x06 \x01(\tH\x02R\townerTeam\x88\x01\x01\x12(\n" +
+	"\x10clear_owner_team\x18\a \x01(\bR\x0eclearOwnerTeam\x12B\n" +
+	"\vpii_posture\x18\b \x01(\x0e2\x12.hub.v1.PIIPostureB\b\xfaB\x05\x82\x01\x02\x10\x01H\x03R\n" +
+	"piiPosture\x88\x01\x01\x12K\n" +
+	"\x0edetection_mode\x18\t \x01(\x0e2\x15.hub.v1.DetectionModeB\b\xfaB\x05\x82\x01\x02\x10\x01H\x04R\rdetectionMode\x88\x01\x01\x12H\n" +
+	"\rsource_origin\x18\n" +
+	" \x01(\x0e2\x14.hub.v1.SourceOriginB\b\xfaB\x05\x82\x01\x02\x10\x01H\x05R\fsourceOrigin\x88\x01\x01\x12=\n" +
+	"\x0eadd_exemptions\x18\v \x03(\v2\x16.hub.v1.AssetExemptionR\raddExemptions\x122\n" +
+	"\x15remove_exemption_fqns\x18\f \x03(\tR\x13removeExemptionFqns\x12)\n" +
+	"\x10clear_exemptions\x18\r \x01(\bR\x0fclearExemptions\x12\x16\n" +
+	"\x06source\x18\x0e \x01(\tR\x06sourceB\a\n" +
+	"\x05_tierB\x10\n" +
+	"\x0e_freshness_slaB\r\n" +
+	"\v_owner_teamB\x0e\n" +
+	"\f_pii_postureB\x11\n" +
+	"\x0f_detection_modeB\x10\n" +
+	"\x0e_source_origin\"k\n" +
+	"\x15SetAssetStateResponse\x121\n" +
+	"\x05state\x18\x01 \x01(\v2\x1b.hub.v1.EffectiveAssetStateR\x05state\x12\x1f\n" +
+	"\vstate_epoch\x18\x02 \x01(\x03R\n" +
+	"stateEpoch\"\x8e\x01\n" +
+	"\x1dGetEffectiveAssetStateRequest\x12$\n" +
+	"\tasset_fqn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bassetFqn\x12/\n" +
+	"\x0fmin_state_epoch\x18\x02 \x01(\x03B\a\xfaB\x04\"\x02(\x00R\rminStateEpoch\x12\x16\n" +
+	"\x06strict\x18\x03 \x01(\bR\x06strict\"t\n" +
+	"\x1eGetEffectiveAssetStateResponse\x121\n" +
+	"\x05state\x18\x01 \x01(\v2\x1b.hub.v1.EffectiveAssetStateR\x05state\x12\x1f\n" +
+	"\vstate_epoch\x18\x02 \x01(\x03R\n" +
+	"stateEpoch\"?\n" +
+	"\x17DeleteAssetStateRequest\x12$\n" +
+	"\tasset_fqn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bassetFqn\"U\n" +
+	"\x18DeleteAssetStateResponse\x12\x1f\n" +
+	"\vstate_epoch\x18\x01 \x01(\x03R\n" +
+	"stateEpoch\x12\x18\n" +
+	"\adeleted\x18\x02 \x01(\bR\adeleted\"\xde\x01\n" +
+	"\x12ListSLAGapsRequest\x12\x19\n" +
+	"\broot_fqn\x18\x01 \x01(\tR\arootFqn\x12:\n" +
+	"\vtier_filter\x18\x02 \x01(\x0e2\x0f.hub.v1.SLATierB\b\xfaB\x05\x82\x01\x02\x10\x01R\n" +
+	"tierFilter\x12)\n" +
+	"\x10include_exempted\x18\x03 \x01(\bR\x0fincludeExempted\x12'\n" +
+	"\tpage_size\x18\x04 \x01(\x05B\n" +
+	"\xfaB\a\x1a\x05\x18\xf4\x03(\x00R\bpageSize\x12\x1d\n" +
+	"\n" +
+	"page_token\x18\x05 \x01(\tR\tpageToken\"\xd8\x01\n" +
+	"\x13ListSLAGapsResponse\x12\"\n" +
+	"\x04gaps\x18\x01 \x03(\v2\x0e.hub.v1.SLAGapR\x04gaps\x123\n" +
+	"\x06assets\x18\x02 \x03(\v2\x1b.hub.v1.EffectiveAssetStateR\x06assets\x12&\n" +
+	"\x0fnext_page_token\x18\x03 \x01(\tR\rnextPageToken\x12\x1f\n" +
+	"\vstate_epoch\x18\x04 \x01(\x03R\n" +
+	"stateEpoch\x12\x1f\n" +
+	"\vgraph_epoch\x18\x05 \x01(\x03R\n" +
+	"graphEpoch\"\x8b\x01\n" +
+	"\x1fAuditLineageReachabilityRequest\x12\x19\n" +
+	"\broot_fqn\x18\x01 \x01(\tR\arootFqn\x12M\n" +
+	"\x0emin_confidence\x18\x02 \x01(\x0e2\x1c.hub.v1.EdgeConfidenceFilterB\b\xfaB\x05\x82\x01\x02\x10\x01R\rminConfidence\"\xfc\x02\n" +
+	" AuditLineageReachabilityResponse\x120\n" +
+	"\x14total_audited_leaves\x18\x01 \x01(\x05R\x12totalAuditedLeaves\x12)\n" +
+	"\x10reachable_leaves\x18\x02 \x01(\x05R\x0freachableLeaves\x12:\n" +
+	"\x19reachability_coverage_pct\x18\x03 \x01(\x01R\x17reachabilityCoveragePct\x12=\n" +
+	"\fleaf_reports\x18\x04 \x03(\v2\x1a.hub.v1.ReachabilityReportR\vleafReports\x12>\n" +
+	"\rbroken_chains\x18\x05 \x03(\v2\x19.hub.v1.BrokenChainReportR\fbrokenChains\x12\x1f\n" +
+	"\vstate_epoch\x18\x06 \x01(\x03R\n" +
+	"stateEpoch\x12\x1f\n" +
+	"\vgraph_epoch\x18\a \x01(\x03R\n" +
+	"graphEpoch\"\xf1\x01\n" +
+	"\x19GetTopologySignalsRequest\x12\x19\n" +
+	"\broot_fqn\x18\x01 \x01(\tR\arootFqn\x12:\n" +
+	"\x15high_fan_in_threshold\x18\x02 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x12highFanInThreshold\x12I\n" +
+	"\x1bzero_consumer_lookback_days\x18\x03 \x01(\x05B\n" +
+	"\xfaB\a\x1a\x05\x18\xed\x02(\x00R\x18zeroConsumerLookbackDays\x122\n" +
+	"\x15include_tagged_leaves\x18\x04 \x01(\bR\x13includeTaggedLeaves\"\x91\x01\n" +
+	"\x1aGetTopologySignalsResponse\x121\n" +
+	"\asignals\x18\x01 \x01(\v2\x17.hub.v1.TopologySignalsR\asignals\x12\x1f\n" +
+	"\vstate_epoch\x18\x02 \x01(\x03R\n" +
+	"stateEpoch\x12\x1f\n" +
+	"\vgraph_epoch\x18\x03 \x01(\x03R\n" +
+	"graphEpoch*\xa9\x01\n" +
 	"\n" +
 	"RTBFStatus\x12\x1b\n" +
 	"\x17RTBF_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
@@ -7128,7 +11222,50 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x1aDRIFT_SEVERITY_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13DRIFT_SEVERITY_INFO\x10\x01\x12\x1a\n" +
 	"\x16DRIFT_SEVERITY_WARNING\x10\x02\x12\x1b\n" +
-	"\x17DRIFT_SEVERITY_CRITICAL\x10\x032\xdf\x19\n" +
+	"\x17DRIFT_SEVERITY_CRITICAL\x10\x03*\x88\x01\n" +
+	"\fDiffCategory\x12\x1d\n" +
+	"\x19DIFF_CATEGORY_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16DIFF_CATEGORY_BREAKING\x10\x01\x12\x1c\n" +
+	"\x18DIFF_CATEGORY_COMPATIBLE\x10\x02\x12\x1f\n" +
+	"\x1bDIFF_CATEGORY_INFORMATIONAL\x10\x03*\x8b\x01\n" +
+	"\x0eDiffChangeKind\x12 \n" +
+	"\x1cDIFF_CHANGE_KIND_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16DIFF_CHANGE_KIND_ADDED\x10\x01\x12\x1c\n" +
+	"\x18DIFF_CHANGE_KIND_REMOVED\x10\x02\x12\x1d\n" +
+	"\x19DIFF_CHANGE_KIND_MODIFIED\x10\x03*\x82\x03\n" +
+	"\x0fDiffSubjectKind\x12!\n" +
+	"\x1dDIFF_SUBJECT_KIND_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17DIFF_SUBJECT_KIND_FIELD\x10\x01\x12#\n" +
+	"\x1fDIFF_SUBJECT_KIND_CONTRACT_META\x10\x02\x12\x19\n" +
+	"\x15DIFF_SUBJECT_KIND_SLA\x10\x03\x12!\n" +
+	"\x1dDIFF_SUBJECT_KIND_OUTPUT_PORT\x10\x04\x12 \n" +
+	"\x1cDIFF_SUBJECT_KIND_INPUT_PORT\x10\x05\x12\x1a\n" +
+	"\x16DIFF_SUBJECT_KIND_LENS\x10\x06\x12!\n" +
+	"\x1dDIFF_SUBJECT_KIND_DEMAND_LOCK\x10\a\x12$\n" +
+	" DIFF_SUBJECT_KIND_TRANSFORM_PORT\x10\b\x12 \n" +
+	"\x1cDIFF_SUBJECT_KIND_GOVERNANCE\x10\t\x12#\n" +
+	"\x1fDIFF_SUBJECT_KIND_ODCS_ARTIFACT\x10\n" +
+	"*\xac\x01\n" +
+	"\x14OverallCompatibility\x12%\n" +
+	"!OVERALL_COMPATIBILITY_UNSPECIFIED\x10\x00\x12#\n" +
+	"\x1fOVERALL_COMPATIBILITY_UNCHANGED\x10\x01\x12$\n" +
+	" OVERALL_COMPATIBILITY_COMPATIBLE\x10\x02\x12\"\n" +
+	"\x1eOVERALL_COMPATIBILITY_BREAKING\x10\x03*\x90\x01\n" +
+	"\vLineageView\x12\x1c\n" +
+	"\x18LINEAGE_VIEW_UNSPECIFIED\x10\x00\x12\x1f\n" +
+	"\x1bLINEAGE_VIEW_ASSET_TO_ASSET\x10\x01\x12\x1d\n" +
+	"\x19LINEAGE_VIEW_ASSET_TO_JOB\x10\x02\x12#\n" +
+	"\x1fLINEAGE_VIEW_PRODUCT_TO_PRODUCT\x10\x03*\x93\x01\n" +
+	"\x10LineageDirection\x12!\n" +
+	"\x1dLINEAGE_DIRECTION_UNSPECIFIED\x10\x00\x12 \n" +
+	"\x1cLINEAGE_DIRECTION_DOWNSTREAM\x10\x01\x12\x1e\n" +
+	"\x1aLINEAGE_DIRECTION_UPSTREAM\x10\x02\x12\x1a\n" +
+	"\x16LINEAGE_DIRECTION_BOTH\x10\x03*\xad\x01\n" +
+	"\x14EdgeConfidenceFilter\x12&\n" +
+	"\"EDGE_CONFIDENCE_FILTER_UNSPECIFIED\x10\x00\x12#\n" +
+	"\x1fEDGE_CONFIDENCE_FILTER_INFERRED\x10\x01\x12#\n" +
+	"\x1fEDGE_CONFIDENCE_FILTER_DECLARED\x10\x02\x12#\n" +
+	"\x1fEDGE_CONFIDENCE_FILTER_OBSERVED\x10\x032\x95#\n" +
 	"\n" +
 	"HubService\x12R\n" +
 	"\x0fValidateProduct\x12\x1e.hub.v1.ValidateProductRequest\x1a\x1f.hub.v1.ValidateProductResponse\x12R\n" +
@@ -7175,7 +11312,20 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x13GetTaxonomyMappings\x12\".hub.v1.GetTaxonomyMappingsRequest\x1a#.hub.v1.GetTaxonomyMappingsResponse\x12^\n" +
 	"\x13RegisterDemandLocks\x12\".hub.v1.RegisterDemandLocksRequest\x1a#.hub.v1.RegisterDemandLocksResponse\x12R\n" +
 	"\x0fListDemandLocks\x12\x1e.hub.v1.ListDemandLocksRequest\x1a\x1f.hub.v1.ListDemandLocksResponse\x12g\n" +
-	"\x16GetInfrastructureDrift\x12%.hub.v1.GetInfrastructureDriftRequest\x1a&.hub.v1.GetInfrastructureDriftResponseB\x90\x01\n" +
+	"\x16GetInfrastructureDrift\x12%.hub.v1.GetInfrastructureDriftRequest\x1a&.hub.v1.GetInfrastructureDriftResponse\x12L\n" +
+	"\rDiffContracts\x12\x1c.hub.v1.DiffContractsRequest\x1a\x1d.hub.v1.DiffContractsResponse\x12a\n" +
+	"\x14DiffProductManifests\x12#.hub.v1.DiffProductManifestsRequest\x1a$.hub.v1.DiffProductManifestsResponse\x12X\n" +
+	"\x11GetTrustScorecard\x12 .hub.v1.GetTrustScorecardRequest\x1a!.hub.v1.GetTrustScorecardResponse\x12^\n" +
+	"\x13ListTrustScorecards\x12\".hub.v1.ListTrustScorecardsRequest\x1a#.hub.v1.ListTrustScorecardsResponse\x12R\n" +
+	"\x0fGetLineageGraph\x12\x1e.hub.v1.GetLineageGraphRequest\x1a\x1f.hub.v1.GetLineageGraphResponse\x12d\n" +
+	"\x15IngestLineageManifest\x12$.hub.v1.IngestLineageManifestRequest\x1a%.hub.v1.IngestLineageManifestResponse\x12m\n" +
+	"\x18ReplayLineageSubmissions\x12'.hub.v1.ReplayLineageSubmissionsRequest\x1a(.hub.v1.ReplayLineageSubmissionsResponse\x12L\n" +
+	"\rSetAssetState\x12\x1c.hub.v1.SetAssetStateRequest\x1a\x1d.hub.v1.SetAssetStateResponse\x12g\n" +
+	"\x16GetEffectiveAssetState\x12%.hub.v1.GetEffectiveAssetStateRequest\x1a&.hub.v1.GetEffectiveAssetStateResponse\x12U\n" +
+	"\x10DeleteAssetState\x12\x1f.hub.v1.DeleteAssetStateRequest\x1a .hub.v1.DeleteAssetStateResponse\x12F\n" +
+	"\vListSLAGaps\x12\x1a.hub.v1.ListSLAGapsRequest\x1a\x1b.hub.v1.ListSLAGapsResponse\x12m\n" +
+	"\x18AuditLineageReachability\x12'.hub.v1.AuditLineageReachabilityRequest\x1a(.hub.v1.AuditLineageReachabilityResponse\x12[\n" +
+	"\x12GetTopologySignals\x12!.hub.v1.GetTopologySignalsRequest\x1a\".hub.v1.GetTopologySignalsResponseB\x90\x01\n" +
 	"\n" +
 	"com.hub.v1B\bHubProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
 
@@ -7191,303 +11341,457 @@ func file_hub_v1_hub_proto_rawDescGZIP() []byte {
 	return file_hub_v1_hub_proto_rawDescData
 }
 
-var file_hub_v1_hub_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
-var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 104)
+var file_hub_v1_hub_proto_enumTypes = make([]protoimpl.EnumInfo, 16)
+var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 144)
 var file_hub_v1_hub_proto_goTypes = []any{
-	(RTBFStatus)(0),                        // 0: hub.v1.RTBFStatus
-	(ImpactSeverity)(0),                    // 1: hub.v1.ImpactSeverity
-	(DriftOverallStatus)(0),                // 2: hub.v1.DriftOverallStatus
-	(AssetLayer)(0),                        // 3: hub.v1.AssetLayer
-	(AssetExistence)(0),                    // 4: hub.v1.AssetExistence
-	(FieldDriftStatus)(0),                  // 5: hub.v1.FieldDriftStatus
-	(GovernanceDriftType)(0),               // 6: hub.v1.GovernanceDriftType
-	(LayoutDriftType)(0),                   // 7: hub.v1.LayoutDriftType
-	(DriftSeverity)(0),                     // 8: hub.v1.DriftSeverity
-	(*ReportAnomalyRequest)(nil),           // 9: hub.v1.ReportAnomalyRequest
-	(*ReportAnomalyResponse)(nil),          // 10: hub.v1.ReportAnomalyResponse
-	(*GetHealthRequest)(nil),               // 11: hub.v1.GetHealthRequest
-	(*GetHealthResponse)(nil),              // 12: hub.v1.GetHealthResponse
-	(*GetHealthHistoryRequest)(nil),        // 13: hub.v1.GetHealthHistoryRequest
-	(*GetHealthHistoryResponse)(nil),       // 14: hub.v1.GetHealthHistoryResponse
-	(*GetBlastRadiusRequest)(nil),          // 15: hub.v1.GetBlastRadiusRequest
-	(*BlastRadiusNode)(nil),                // 16: hub.v1.BlastRadiusNode
-	(*GetBlastRadiusResponse)(nil),         // 17: hub.v1.GetBlastRadiusResponse
-	(*GetRootCauseRequest)(nil),            // 18: hub.v1.GetRootCauseRequest
-	(*RootCauseChainNode)(nil),             // 19: hub.v1.RootCauseChainNode
-	(*GetRootCauseResponse)(nil),           // 20: hub.v1.GetRootCauseResponse
-	(*ExtractDSARPlanRequest)(nil),         // 21: hub.v1.ExtractDSARPlanRequest
-	(*ExtractDSARPlanResponse)(nil),        // 22: hub.v1.ExtractDSARPlanResponse
-	(*DSARLocation)(nil),                   // 23: hub.v1.DSARLocation
-	(*PackageDSARRequest)(nil),             // 24: hub.v1.PackageDSARRequest
-	(*PackageDSARResponse)(nil),            // 25: hub.v1.PackageDSARResponse
-	(*VerifyRTBFRequest)(nil),              // 26: hub.v1.VerifyRTBFRequest
-	(*VerifyRTBFResponse)(nil),             // 27: hub.v1.VerifyRTBFResponse
-	(*AnalyzeImpactRequest)(nil),           // 28: hub.v1.AnalyzeImpactRequest
-	(*AnalyzeImpactResponse)(nil),          // 29: hub.v1.AnalyzeImpactResponse
-	(*LineageImpact)(nil),                  // 30: hub.v1.LineageImpact
-	(*IngestEventRequest)(nil),             // 31: hub.v1.IngestEventRequest
-	(*IngestEventResponse)(nil),            // 32: hub.v1.IngestEventResponse
-	(*SubscribeRequest)(nil),               // 33: hub.v1.SubscribeRequest
-	(*SubscribeResponse)(nil),              // 34: hub.v1.SubscribeResponse
-	(*UnsubscribeRequest)(nil),             // 35: hub.v1.UnsubscribeRequest
-	(*UnsubscribeResponse)(nil),            // 36: hub.v1.UnsubscribeResponse
-	(*ListSubscriptionsRequest)(nil),       // 37: hub.v1.ListSubscriptionsRequest
-	(*ListSubscriptionsResponse)(nil),      // 38: hub.v1.ListSubscriptionsResponse
-	(*SendAlertRequest)(nil),               // 39: hub.v1.SendAlertRequest
-	(*SendAlertResponse)(nil),              // 40: hub.v1.SendAlertResponse
-	(*Alert)(nil),                          // 41: hub.v1.Alert
-	(*RecordAuditRunRequest)(nil),          // 42: hub.v1.RecordAuditRunRequest
-	(*RecordAuditRunResponse)(nil),         // 43: hub.v1.RecordAuditRunResponse
-	(*ListAuditRunsRequest)(nil),           // 44: hub.v1.ListAuditRunsRequest
-	(*ListAuditRunsResponse)(nil),          // 45: hub.v1.ListAuditRunsResponse
-	(*AuditRun)(nil),                       // 46: hub.v1.AuditRun
-	(*AuditViolation)(nil),                 // 47: hub.v1.AuditViolation
-	(*ListProductsRequest)(nil),            // 48: hub.v1.ListProductsRequest
-	(*ListProductsResponse)(nil),           // 49: hub.v1.ListProductsResponse
-	(*SyncProductRequest)(nil),             // 50: hub.v1.SyncProductRequest
-	(*SyncProductResponse)(nil),            // 51: hub.v1.SyncProductResponse
-	(*RegisterContractRequest)(nil),        // 52: hub.v1.RegisterContractRequest
-	(*RegisterContractResponse)(nil),       // 53: hub.v1.RegisterContractResponse
-	(*CheckDownstreamImpactRequest)(nil),   // 54: hub.v1.CheckDownstreamImpactRequest
-	(*CheckDownstreamImpactResponse)(nil),  // 55: hub.v1.CheckDownstreamImpactResponse
-	(*ImpactSummary)(nil),                  // 56: hub.v1.ImpactSummary
-	(*DownstreamConsumer)(nil),             // 57: hub.v1.DownstreamConsumer
-	(*ValidateProductRequest)(nil),         // 58: hub.v1.ValidateProductRequest
-	(*ValidateProductResponse)(nil),        // 59: hub.v1.ValidateProductResponse
-	(*RegisterProductRequest)(nil),         // 60: hub.v1.RegisterProductRequest
-	(*RegisterProductResponse)(nil),        // 61: hub.v1.RegisterProductResponse
-	(*GetProductRequest)(nil),              // 62: hub.v1.GetProductRequest
-	(*GetProductResponse)(nil),             // 63: hub.v1.GetProductResponse
-	(*GetProductSchemaRequest)(nil),        // 64: hub.v1.GetProductSchemaRequest
-	(*GetProductSchemaResponse)(nil),       // 65: hub.v1.GetProductSchemaResponse
-	(*GetContractRequest)(nil),             // 66: hub.v1.GetContractRequest
-	(*GetContractResponse)(nil),            // 67: hub.v1.GetContractResponse
-	(*ListContractsRequest)(nil),           // 68: hub.v1.ListContractsRequest
-	(*ListContractsResponse)(nil),          // 69: hub.v1.ListContractsResponse
-	(*PingRequest)(nil),                    // 70: hub.v1.PingRequest
-	(*PingResponse)(nil),                   // 71: hub.v1.PingResponse
-	(*ValidateSchemaRequest)(nil),          // 72: hub.v1.ValidateSchemaRequest
-	(*ValidateSchemaResponse)(nil),         // 73: hub.v1.ValidateSchemaResponse
-	(*DeleteProductRequest)(nil),           // 74: hub.v1.DeleteProductRequest
-	(*DeleteProductResponse)(nil),          // 75: hub.v1.DeleteProductResponse
-	(*RegisterEntityRequest)(nil),          // 76: hub.v1.RegisterEntityRequest
-	(*RegisterEntityResponse)(nil),         // 77: hub.v1.RegisterEntityResponse
-	(*GetEntityRequest)(nil),               // 78: hub.v1.GetEntityRequest
-	(*GetEntityResponse)(nil),              // 79: hub.v1.GetEntityResponse
-	(*ListEntitiesRequest)(nil),            // 80: hub.v1.ListEntitiesRequest
-	(*ListEntitiesResponse)(nil),           // 81: hub.v1.ListEntitiesResponse
-	(*CheckEntityImpactRequest)(nil),       // 82: hub.v1.CheckEntityImpactRequest
-	(*CheckEntityImpactResponse)(nil),      // 83: hub.v1.CheckEntityImpactResponse
-	(*DeleteEntityRequest)(nil),            // 84: hub.v1.DeleteEntityRequest
-	(*DeleteEntityResponse)(nil),           // 85: hub.v1.DeleteEntityResponse
-	(*RegisterTeamRequest)(nil),            // 86: hub.v1.RegisterTeamRequest
-	(*RegisterTeamResponse)(nil),           // 87: hub.v1.RegisterTeamResponse
-	(*GetTeamRequest)(nil),                 // 88: hub.v1.GetTeamRequest
-	(*GetTeamResponse)(nil),                // 89: hub.v1.GetTeamResponse
-	(*ListTeamsRequest)(nil),               // 90: hub.v1.ListTeamsRequest
-	(*ListTeamsResponse)(nil),              // 91: hub.v1.ListTeamsResponse
-	(*DeleteTeamRequest)(nil),              // 92: hub.v1.DeleteTeamRequest
-	(*DeleteTeamResponse)(nil),             // 93: hub.v1.DeleteTeamResponse
-	(*GetTaxonomyMappingsRequest)(nil),     // 94: hub.v1.GetTaxonomyMappingsRequest
-	(*GetTaxonomyMappingsResponse)(nil),    // 95: hub.v1.GetTaxonomyMappingsResponse
-	(*DemandLock)(nil),                     // 96: hub.v1.DemandLock
-	(*RegisterDemandLocksRequest)(nil),     // 97: hub.v1.RegisterDemandLocksRequest
-	(*RegisterDemandLocksResponse)(nil),    // 98: hub.v1.RegisterDemandLocksResponse
-	(*ListDemandLocksRequest)(nil),         // 99: hub.v1.ListDemandLocksRequest
-	(*ListDemandLocksResponse)(nil),        // 100: hub.v1.ListDemandLocksResponse
-	(*GetInfrastructureDriftRequest)(nil),  // 101: hub.v1.GetInfrastructureDriftRequest
-	(*FieldDriftDelta)(nil),                // 102: hub.v1.FieldDriftDelta
-	(*GovernanceDriftDelta)(nil),           // 103: hub.v1.GovernanceDriftDelta
-	(*LayoutDriftDelta)(nil),               // 104: hub.v1.LayoutDriftDelta
-	(*DriftSummaryCounts)(nil),             // 105: hub.v1.DriftSummaryCounts
-	(*AssetDriftReport)(nil),               // 106: hub.v1.AssetDriftReport
-	(*GetInfrastructureDriftResponse)(nil), // 107: hub.v1.GetInfrastructureDriftResponse
-	nil,                                    // 108: hub.v1.ReportAnomalyRequest.MetadataEntry
-	nil,                                    // 109: hub.v1.IngestEventRequest.MetadataEntry
-	nil,                                    // 110: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	nil,                                    // 111: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	nil,                                    // 112: hub.v1.DemandLock.SemanticFingerprintsEntry
-	(HealthState)(0),                       // 113: hub.v1.HealthState
-	(*Health)(nil),                         // 114: hub.v1.Health
-	(*timestamppb.Timestamp)(nil),          // 115: google.protobuf.Timestamp
-	(*DataContract)(nil),                   // 116: hub.v1.DataContract
-	(TriggerType)(0),                       // 117: hub.v1.TriggerType
-	(*Subscriber)(nil),                     // 118: hub.v1.Subscriber
-	(*ProductManifest)(nil),                // 119: hub.v1.ProductManifest
-	(SyncStatus)(0),                        // 120: hub.v1.SyncStatus
-	(*BreakingChange)(nil),                 // 121: hub.v1.BreakingChange
-	(*BigQueryConfig)(nil),                 // 122: hub.v1.BigQueryConfig
-	(*v1.Entity)(nil),                      // 123: platform.v1.Entity
-	(*v1.Team)(nil),                        // 124: platform.v1.Team
-	(SLATier)(0),                           // 125: hub.v1.SLATier
-	(LensType)(0),                          // 126: hub.v1.LensType
-	(*ImportDemand)(nil),                   // 127: hub.v1.ImportDemand
+	(RTBFStatus)(0),                          // 0: hub.v1.RTBFStatus
+	(ImpactSeverity)(0),                      // 1: hub.v1.ImpactSeverity
+	(DriftOverallStatus)(0),                  // 2: hub.v1.DriftOverallStatus
+	(AssetLayer)(0),                          // 3: hub.v1.AssetLayer
+	(AssetExistence)(0),                      // 4: hub.v1.AssetExistence
+	(FieldDriftStatus)(0),                    // 5: hub.v1.FieldDriftStatus
+	(GovernanceDriftType)(0),                 // 6: hub.v1.GovernanceDriftType
+	(LayoutDriftType)(0),                     // 7: hub.v1.LayoutDriftType
+	(DriftSeverity)(0),                       // 8: hub.v1.DriftSeverity
+	(DiffCategory)(0),                        // 9: hub.v1.DiffCategory
+	(DiffChangeKind)(0),                      // 10: hub.v1.DiffChangeKind
+	(DiffSubjectKind)(0),                     // 11: hub.v1.DiffSubjectKind
+	(OverallCompatibility)(0),                // 12: hub.v1.OverallCompatibility
+	(LineageView)(0),                         // 13: hub.v1.LineageView
+	(LineageDirection)(0),                    // 14: hub.v1.LineageDirection
+	(EdgeConfidenceFilter)(0),                // 15: hub.v1.EdgeConfidenceFilter
+	(*ReportAnomalyRequest)(nil),             // 16: hub.v1.ReportAnomalyRequest
+	(*ReportAnomalyResponse)(nil),            // 17: hub.v1.ReportAnomalyResponse
+	(*GetHealthRequest)(nil),                 // 18: hub.v1.GetHealthRequest
+	(*GetHealthResponse)(nil),                // 19: hub.v1.GetHealthResponse
+	(*GetHealthHistoryRequest)(nil),          // 20: hub.v1.GetHealthHistoryRequest
+	(*GetHealthHistoryResponse)(nil),         // 21: hub.v1.GetHealthHistoryResponse
+	(*GetBlastRadiusRequest)(nil),            // 22: hub.v1.GetBlastRadiusRequest
+	(*BlastRadiusNode)(nil),                  // 23: hub.v1.BlastRadiusNode
+	(*GetBlastRadiusResponse)(nil),           // 24: hub.v1.GetBlastRadiusResponse
+	(*GetRootCauseRequest)(nil),              // 25: hub.v1.GetRootCauseRequest
+	(*RootCauseChainNode)(nil),               // 26: hub.v1.RootCauseChainNode
+	(*GetRootCauseResponse)(nil),             // 27: hub.v1.GetRootCauseResponse
+	(*ExtractDSARPlanRequest)(nil),           // 28: hub.v1.ExtractDSARPlanRequest
+	(*ExtractDSARPlanResponse)(nil),          // 29: hub.v1.ExtractDSARPlanResponse
+	(*DSARLocation)(nil),                     // 30: hub.v1.DSARLocation
+	(*PackageDSARRequest)(nil),               // 31: hub.v1.PackageDSARRequest
+	(*PackageDSARResponse)(nil),              // 32: hub.v1.PackageDSARResponse
+	(*VerifyRTBFRequest)(nil),                // 33: hub.v1.VerifyRTBFRequest
+	(*VerifyRTBFResponse)(nil),               // 34: hub.v1.VerifyRTBFResponse
+	(*AnalyzeImpactRequest)(nil),             // 35: hub.v1.AnalyzeImpactRequest
+	(*AnalyzeImpactResponse)(nil),            // 36: hub.v1.AnalyzeImpactResponse
+	(*LineageImpact)(nil),                    // 37: hub.v1.LineageImpact
+	(*IngestEventRequest)(nil),               // 38: hub.v1.IngestEventRequest
+	(*IngestEventResponse)(nil),              // 39: hub.v1.IngestEventResponse
+	(*SubscribeRequest)(nil),                 // 40: hub.v1.SubscribeRequest
+	(*SubscribeResponse)(nil),                // 41: hub.v1.SubscribeResponse
+	(*UnsubscribeRequest)(nil),               // 42: hub.v1.UnsubscribeRequest
+	(*UnsubscribeResponse)(nil),              // 43: hub.v1.UnsubscribeResponse
+	(*ListSubscriptionsRequest)(nil),         // 44: hub.v1.ListSubscriptionsRequest
+	(*ListSubscriptionsResponse)(nil),        // 45: hub.v1.ListSubscriptionsResponse
+	(*SendAlertRequest)(nil),                 // 46: hub.v1.SendAlertRequest
+	(*SendAlertResponse)(nil),                // 47: hub.v1.SendAlertResponse
+	(*Alert)(nil),                            // 48: hub.v1.Alert
+	(*RecordAuditRunRequest)(nil),            // 49: hub.v1.RecordAuditRunRequest
+	(*RecordAuditRunResponse)(nil),           // 50: hub.v1.RecordAuditRunResponse
+	(*ListAuditRunsRequest)(nil),             // 51: hub.v1.ListAuditRunsRequest
+	(*ListAuditRunsResponse)(nil),            // 52: hub.v1.ListAuditRunsResponse
+	(*AuditRun)(nil),                         // 53: hub.v1.AuditRun
+	(*AuditViolation)(nil),                   // 54: hub.v1.AuditViolation
+	(*ListProductsRequest)(nil),              // 55: hub.v1.ListProductsRequest
+	(*ListProductsResponse)(nil),             // 56: hub.v1.ListProductsResponse
+	(*SyncProductRequest)(nil),               // 57: hub.v1.SyncProductRequest
+	(*SyncProductResponse)(nil),              // 58: hub.v1.SyncProductResponse
+	(*RegisterContractRequest)(nil),          // 59: hub.v1.RegisterContractRequest
+	(*RegisterContractResponse)(nil),         // 60: hub.v1.RegisterContractResponse
+	(*CheckDownstreamImpactRequest)(nil),     // 61: hub.v1.CheckDownstreamImpactRequest
+	(*CheckDownstreamImpactResponse)(nil),    // 62: hub.v1.CheckDownstreamImpactResponse
+	(*ImpactSummary)(nil),                    // 63: hub.v1.ImpactSummary
+	(*DownstreamConsumer)(nil),               // 64: hub.v1.DownstreamConsumer
+	(*ValidateProductRequest)(nil),           // 65: hub.v1.ValidateProductRequest
+	(*ValidateProductResponse)(nil),          // 66: hub.v1.ValidateProductResponse
+	(*RegisterProductRequest)(nil),           // 67: hub.v1.RegisterProductRequest
+	(*RegisterProductResponse)(nil),          // 68: hub.v1.RegisterProductResponse
+	(*GetProductRequest)(nil),                // 69: hub.v1.GetProductRequest
+	(*GetProductResponse)(nil),               // 70: hub.v1.GetProductResponse
+	(*GetProductSchemaRequest)(nil),          // 71: hub.v1.GetProductSchemaRequest
+	(*GetProductSchemaResponse)(nil),         // 72: hub.v1.GetProductSchemaResponse
+	(*GetContractRequest)(nil),               // 73: hub.v1.GetContractRequest
+	(*GetContractResponse)(nil),              // 74: hub.v1.GetContractResponse
+	(*ListContractsRequest)(nil),             // 75: hub.v1.ListContractsRequest
+	(*ListContractsResponse)(nil),            // 76: hub.v1.ListContractsResponse
+	(*PingRequest)(nil),                      // 77: hub.v1.PingRequest
+	(*PingResponse)(nil),                     // 78: hub.v1.PingResponse
+	(*ValidateSchemaRequest)(nil),            // 79: hub.v1.ValidateSchemaRequest
+	(*ValidateSchemaResponse)(nil),           // 80: hub.v1.ValidateSchemaResponse
+	(*DeleteProductRequest)(nil),             // 81: hub.v1.DeleteProductRequest
+	(*DeleteProductResponse)(nil),            // 82: hub.v1.DeleteProductResponse
+	(*RegisterEntityRequest)(nil),            // 83: hub.v1.RegisterEntityRequest
+	(*RegisterEntityResponse)(nil),           // 84: hub.v1.RegisterEntityResponse
+	(*GetEntityRequest)(nil),                 // 85: hub.v1.GetEntityRequest
+	(*GetEntityResponse)(nil),                // 86: hub.v1.GetEntityResponse
+	(*ListEntitiesRequest)(nil),              // 87: hub.v1.ListEntitiesRequest
+	(*ListEntitiesResponse)(nil),             // 88: hub.v1.ListEntitiesResponse
+	(*CheckEntityImpactRequest)(nil),         // 89: hub.v1.CheckEntityImpactRequest
+	(*CheckEntityImpactResponse)(nil),        // 90: hub.v1.CheckEntityImpactResponse
+	(*DeleteEntityRequest)(nil),              // 91: hub.v1.DeleteEntityRequest
+	(*DeleteEntityResponse)(nil),             // 92: hub.v1.DeleteEntityResponse
+	(*RegisterTeamRequest)(nil),              // 93: hub.v1.RegisterTeamRequest
+	(*RegisterTeamResponse)(nil),             // 94: hub.v1.RegisterTeamResponse
+	(*GetTeamRequest)(nil),                   // 95: hub.v1.GetTeamRequest
+	(*GetTeamResponse)(nil),                  // 96: hub.v1.GetTeamResponse
+	(*ListTeamsRequest)(nil),                 // 97: hub.v1.ListTeamsRequest
+	(*ListTeamsResponse)(nil),                // 98: hub.v1.ListTeamsResponse
+	(*DeleteTeamRequest)(nil),                // 99: hub.v1.DeleteTeamRequest
+	(*DeleteTeamResponse)(nil),               // 100: hub.v1.DeleteTeamResponse
+	(*GetTaxonomyMappingsRequest)(nil),       // 101: hub.v1.GetTaxonomyMappingsRequest
+	(*GetTaxonomyMappingsResponse)(nil),      // 102: hub.v1.GetTaxonomyMappingsResponse
+	(*DemandLock)(nil),                       // 103: hub.v1.DemandLock
+	(*RegisterDemandLocksRequest)(nil),       // 104: hub.v1.RegisterDemandLocksRequest
+	(*RegisterDemandLocksResponse)(nil),      // 105: hub.v1.RegisterDemandLocksResponse
+	(*ListDemandLocksRequest)(nil),           // 106: hub.v1.ListDemandLocksRequest
+	(*ListDemandLocksResponse)(nil),          // 107: hub.v1.ListDemandLocksResponse
+	(*GetInfrastructureDriftRequest)(nil),    // 108: hub.v1.GetInfrastructureDriftRequest
+	(*FieldDriftDelta)(nil),                  // 109: hub.v1.FieldDriftDelta
+	(*GovernanceDriftDelta)(nil),             // 110: hub.v1.GovernanceDriftDelta
+	(*LayoutDriftDelta)(nil),                 // 111: hub.v1.LayoutDriftDelta
+	(*DriftSummaryCounts)(nil),               // 112: hub.v1.DriftSummaryCounts
+	(*AssetDriftReport)(nil),                 // 113: hub.v1.AssetDriftReport
+	(*GetInfrastructureDriftResponse)(nil),   // 114: hub.v1.GetInfrastructureDriftResponse
+	(*SemanticDiffEntry)(nil),                // 115: hub.v1.SemanticDiffEntry
+	(*SemanticDiffSummary)(nil),              // 116: hub.v1.SemanticDiffSummary
+	(*DiffContractsRequest)(nil),             // 117: hub.v1.DiffContractsRequest
+	(*DiffContractsResponse)(nil),            // 118: hub.v1.DiffContractsResponse
+	(*LinkedContractDiff)(nil),               // 119: hub.v1.LinkedContractDiff
+	(*DiffProductManifestsRequest)(nil),      // 120: hub.v1.DiffProductManifestsRequest
+	(*DiffProductManifestsResponse)(nil),     // 121: hub.v1.DiffProductManifestsResponse
+	(*GetTrustScorecardRequest)(nil),         // 122: hub.v1.GetTrustScorecardRequest
+	(*GetTrustScorecardResponse)(nil),        // 123: hub.v1.GetTrustScorecardResponse
+	(*ListTrustScorecardsRequest)(nil),       // 124: hub.v1.ListTrustScorecardsRequest
+	(*ListTrustScorecardsResponse)(nil),      // 125: hub.v1.ListTrustScorecardsResponse
+	(*LineageNodeDTO)(nil),                   // 126: hub.v1.LineageNodeDTO
+	(*LineageEdgeDTO)(nil),                   // 127: hub.v1.LineageEdgeDTO
+	(*LineageFieldEdgeDTO)(nil),              // 128: hub.v1.LineageFieldEdgeDTO
+	(*ProductTopologyMetrics)(nil),           // 129: hub.v1.ProductTopologyMetrics
+	(*LineageSubmissionChunk)(nil),           // 130: hub.v1.LineageSubmissionChunk
+	(*LineageSubmissionEvent)(nil),           // 131: hub.v1.LineageSubmissionEvent
+	(*GetLineageGraphRequest)(nil),           // 132: hub.v1.GetLineageGraphRequest
+	(*GetLineageGraphResponse)(nil),          // 133: hub.v1.GetLineageGraphResponse
+	(*IngestLineageManifestRequest)(nil),     // 134: hub.v1.IngestLineageManifestRequest
+	(*IngestLineageManifestResponse)(nil),    // 135: hub.v1.IngestLineageManifestResponse
+	(*ReplayLineageSubmissionsRequest)(nil),  // 136: hub.v1.ReplayLineageSubmissionsRequest
+	(*ReplayLineageSubmissionsResponse)(nil), // 137: hub.v1.ReplayLineageSubmissionsResponse
+	(*EffectiveAssetState)(nil),              // 138: hub.v1.EffectiveAssetState
+	(*SetAssetStateRequest)(nil),             // 139: hub.v1.SetAssetStateRequest
+	(*SetAssetStateResponse)(nil),            // 140: hub.v1.SetAssetStateResponse
+	(*GetEffectiveAssetStateRequest)(nil),    // 141: hub.v1.GetEffectiveAssetStateRequest
+	(*GetEffectiveAssetStateResponse)(nil),   // 142: hub.v1.GetEffectiveAssetStateResponse
+	(*DeleteAssetStateRequest)(nil),          // 143: hub.v1.DeleteAssetStateRequest
+	(*DeleteAssetStateResponse)(nil),         // 144: hub.v1.DeleteAssetStateResponse
+	(*ListSLAGapsRequest)(nil),               // 145: hub.v1.ListSLAGapsRequest
+	(*ListSLAGapsResponse)(nil),              // 146: hub.v1.ListSLAGapsResponse
+	(*AuditLineageReachabilityRequest)(nil),  // 147: hub.v1.AuditLineageReachabilityRequest
+	(*AuditLineageReachabilityResponse)(nil), // 148: hub.v1.AuditLineageReachabilityResponse
+	(*GetTopologySignalsRequest)(nil),        // 149: hub.v1.GetTopologySignalsRequest
+	(*GetTopologySignalsResponse)(nil),       // 150: hub.v1.GetTopologySignalsResponse
+	nil,                                      // 151: hub.v1.ReportAnomalyRequest.MetadataEntry
+	nil,                                      // 152: hub.v1.IngestEventRequest.MetadataEntry
+	nil,                                      // 153: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	nil,                                      // 154: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	nil,                                      // 155: hub.v1.DemandLock.SemanticFingerprintsEntry
+	nil,                                      // 156: hub.v1.SemanticDiffEntry.MetadataEntry
+	nil,                                      // 157: hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry
+	nil,                                      // 158: hub.v1.LineageEdgeDTO.MetadataEntry
+	nil,                                      // 159: hub.v1.LineageFieldEdgeDTO.MetadataEntry
+	(HealthState)(0),                         // 160: hub.v1.HealthState
+	(*Health)(nil),                           // 161: hub.v1.Health
+	(*timestamppb.Timestamp)(nil),            // 162: google.protobuf.Timestamp
+	(*DataContract)(nil),                     // 163: hub.v1.DataContract
+	(TriggerType)(0),                         // 164: hub.v1.TriggerType
+	(*Subscriber)(nil),                       // 165: hub.v1.Subscriber
+	(*ProductManifest)(nil),                  // 166: hub.v1.ProductManifest
+	(SyncStatus)(0),                          // 167: hub.v1.SyncStatus
+	(*BreakingChange)(nil),                   // 168: hub.v1.BreakingChange
+	(*BigQueryConfig)(nil),                   // 169: hub.v1.BigQueryConfig
+	(*v1.Entity)(nil),                        // 170: platform.v1.Entity
+	(*v1.Team)(nil),                          // 171: platform.v1.Team
+	(SLATier)(0),                             // 172: hub.v1.SLATier
+	(LensType)(0),                            // 173: hub.v1.LensType
+	(*ImportDemand)(nil),                     // 174: hub.v1.ImportDemand
+	(*TrustScorecard)(nil),                   // 175: hub.v1.TrustScorecard
+	(*NodeState)(nil),                        // 176: hub.v1.NodeState
+	(PIIPosture)(0),                          // 177: hub.v1.PIIPosture
+	(SensitivityLevel)(0),                    // 178: hub.v1.SensitivityLevel
+	(DetectionMode)(0),                       // 179: hub.v1.DetectionMode
+	(SourceOrigin)(0),                        // 180: hub.v1.SourceOrigin
+	(ReachabilityStatus)(0),                  // 181: hub.v1.ReachabilityStatus
+	(*SLAGap)(nil),                           // 182: hub.v1.SLAGap
+	(*ConsumerDriver)(nil),                   // 183: hub.v1.ConsumerDriver
+	(*AssetExemption)(nil),                   // 184: hub.v1.AssetExemption
+	(*ReachabilityReport)(nil),               // 185: hub.v1.ReachabilityReport
+	(*BrokenChainReport)(nil),                // 186: hub.v1.BrokenChainReport
+	(*TopologySignals)(nil),                  // 187: hub.v1.TopologySignals
 }
 var file_hub_v1_hub_proto_depIdxs = []int32{
-	113, // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
-	108, // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
-	114, // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
-	114, // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
-	16,  // 4: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
-	113, // 5: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
-	115, // 6: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
-	19,  // 7: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
-	19,  // 8: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
-	23,  // 9: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
-	0,   // 10: hub.v1.VerifyRTBFResponse.status:type_name -> hub.v1.RTBFStatus
-	116, // 11: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
-	30,  // 12: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
-	1,   // 13: hub.v1.AnalyzeImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	57,  // 14: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	117, // 15: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
-	109, // 16: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
-	118, // 17: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
-	118, // 18: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
-	41,  // 19: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
-	46,  // 20: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
-	46,  // 21: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
-	47,  // 22: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
-	119, // 23: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
-	120, // 24: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
-	116, // 25: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
-	116, // 26: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
-	116, // 27: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
-	1,   // 28: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	57,  // 29: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	56,  // 30: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
-	119, // 31: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	116, // 32: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
-	119, // 33: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	116, // 34: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
-	121, // 35: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
-	119, // 36: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
-	116, // 37: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
-	122, // 38: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
-	116, // 39: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
-	116, // 40: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
-	123, // 41: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
-	123, // 42: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
-	123, // 43: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
-	123, // 44: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
-	1,   // 45: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	124, // 46: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
-	124, // 47: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
-	124, // 48: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
-	124, // 49: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
-	110, // 50: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	111, // 51: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	125, // 52: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
-	126, // 53: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
-	112, // 54: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
-	115, // 55: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
-	127, // 56: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
-	96,  // 57: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
-	96,  // 58: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
-	5,   // 59: hub.v1.FieldDriftDelta.status:type_name -> hub.v1.FieldDriftStatus
-	6,   // 60: hub.v1.GovernanceDriftDelta.drift_type:type_name -> hub.v1.GovernanceDriftType
-	8,   // 61: hub.v1.GovernanceDriftDelta.severity:type_name -> hub.v1.DriftSeverity
-	7,   // 62: hub.v1.LayoutDriftDelta.drift_type:type_name -> hub.v1.LayoutDriftType
-	8,   // 63: hub.v1.LayoutDriftDelta.severity:type_name -> hub.v1.DriftSeverity
-	3,   // 64: hub.v1.AssetDriftReport.layer:type_name -> hub.v1.AssetLayer
-	126, // 65: hub.v1.AssetDriftReport.lens:type_name -> hub.v1.LensType
-	4,   // 66: hub.v1.AssetDriftReport.existence:type_name -> hub.v1.AssetExistence
-	2,   // 67: hub.v1.AssetDriftReport.status:type_name -> hub.v1.DriftOverallStatus
-	102, // 68: hub.v1.AssetDriftReport.field_deltas:type_name -> hub.v1.FieldDriftDelta
-	103, // 69: hub.v1.AssetDriftReport.governance_deltas:type_name -> hub.v1.GovernanceDriftDelta
-	104, // 70: hub.v1.AssetDriftReport.layout_deltas:type_name -> hub.v1.LayoutDriftDelta
-	2,   // 71: hub.v1.GetInfrastructureDriftResponse.overall_status:type_name -> hub.v1.DriftOverallStatus
-	115, // 72: hub.v1.GetInfrastructureDriftResponse.inspected_at:type_name -> google.protobuf.Timestamp
-	105, // 73: hub.v1.GetInfrastructureDriftResponse.summary:type_name -> hub.v1.DriftSummaryCounts
-	106, // 74: hub.v1.GetInfrastructureDriftResponse.assets:type_name -> hub.v1.AssetDriftReport
-	58,  // 75: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
-	60,  // 76: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
-	62,  // 77: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
-	64,  // 78: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
-	66,  // 79: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
-	68,  // 80: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
-	70,  // 81: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
-	72,  // 82: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
-	74,  // 83: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
-	54,  // 84: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
-	76,  // 85: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
-	78,  // 86: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
-	80,  // 87: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
-	82,  // 88: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
-	84,  // 89: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
-	86,  // 90: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
-	88,  // 91: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
-	90,  // 92: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
-	92,  // 93: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
-	52,  // 94: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
-	48,  // 95: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
-	50,  // 96: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
-	42,  // 97: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
-	44,  // 98: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
-	39,  // 99: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
-	28,  // 100: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
-	33,  // 101: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
-	35,  // 102: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
-	37,  // 103: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
-	31,  // 104: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
-	21,  // 105: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
-	24,  // 106: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
-	26,  // 107: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
-	9,   // 108: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
-	11,  // 109: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
-	13,  // 110: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
-	15,  // 111: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
-	18,  // 112: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
-	94,  // 113: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
-	97,  // 114: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
-	99,  // 115: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
-	101, // 116: hub.v1.HubService.GetInfrastructureDrift:input_type -> hub.v1.GetInfrastructureDriftRequest
-	59,  // 117: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
-	61,  // 118: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
-	63,  // 119: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
-	65,  // 120: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
-	67,  // 121: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
-	69,  // 122: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
-	71,  // 123: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
-	73,  // 124: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
-	75,  // 125: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
-	55,  // 126: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
-	77,  // 127: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
-	79,  // 128: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
-	81,  // 129: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
-	83,  // 130: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
-	85,  // 131: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
-	87,  // 132: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
-	89,  // 133: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
-	91,  // 134: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
-	93,  // 135: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
-	53,  // 136: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
-	49,  // 137: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
-	51,  // 138: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
-	43,  // 139: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
-	45,  // 140: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
-	40,  // 141: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
-	29,  // 142: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
-	34,  // 143: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
-	36,  // 144: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
-	38,  // 145: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
-	32,  // 146: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
-	22,  // 147: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
-	25,  // 148: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
-	27,  // 149: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
-	10,  // 150: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
-	12,  // 151: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
-	14,  // 152: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
-	17,  // 153: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
-	20,  // 154: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
-	95,  // 155: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
-	98,  // 156: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
-	100, // 157: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
-	107, // 158: hub.v1.HubService.GetInfrastructureDrift:output_type -> hub.v1.GetInfrastructureDriftResponse
-	117, // [117:159] is the sub-list for method output_type
-	75,  // [75:117] is the sub-list for method input_type
-	75,  // [75:75] is the sub-list for extension type_name
-	75,  // [75:75] is the sub-list for extension extendee
-	0,   // [0:75] is the sub-list for field type_name
+	160, // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
+	151, // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
+	161, // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
+	161, // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
+	13,  // 4: hub.v1.GetBlastRadiusRequest.view:type_name -> hub.v1.LineageView
+	23,  // 5: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
+	13,  // 6: hub.v1.GetRootCauseRequest.view:type_name -> hub.v1.LineageView
+	160, // 7: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
+	162, // 8: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
+	26,  // 9: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
+	26,  // 10: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
+	30,  // 11: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
+	0,   // 12: hub.v1.VerifyRTBFResponse.status:type_name -> hub.v1.RTBFStatus
+	163, // 13: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
+	37,  // 14: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
+	1,   // 15: hub.v1.AnalyzeImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	64,  // 16: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	164, // 17: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
+	152, // 18: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
+	165, // 19: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
+	165, // 20: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
+	48,  // 21: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
+	53,  // 22: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
+	53,  // 23: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
+	54,  // 24: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
+	166, // 25: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
+	167, // 26: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
+	163, // 27: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
+	163, // 28: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
+	163, // 29: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
+	1,   // 30: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	64,  // 31: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	63,  // 32: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
+	166, // 33: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	163, // 34: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
+	166, // 35: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	163, // 36: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
+	168, // 37: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
+	166, // 38: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
+	163, // 39: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
+	169, // 40: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
+	163, // 41: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
+	163, // 42: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
+	170, // 43: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
+	170, // 44: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
+	170, // 45: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
+	170, // 46: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
+	1,   // 47: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	171, // 48: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
+	171, // 49: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
+	171, // 50: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
+	171, // 51: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
+	153, // 52: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	154, // 53: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	172, // 54: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
+	173, // 55: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
+	155, // 56: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
+	162, // 57: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
+	174, // 58: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
+	103, // 59: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
+	103, // 60: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
+	5,   // 61: hub.v1.FieldDriftDelta.status:type_name -> hub.v1.FieldDriftStatus
+	6,   // 62: hub.v1.GovernanceDriftDelta.drift_type:type_name -> hub.v1.GovernanceDriftType
+	8,   // 63: hub.v1.GovernanceDriftDelta.severity:type_name -> hub.v1.DriftSeverity
+	7,   // 64: hub.v1.LayoutDriftDelta.drift_type:type_name -> hub.v1.LayoutDriftType
+	8,   // 65: hub.v1.LayoutDriftDelta.severity:type_name -> hub.v1.DriftSeverity
+	3,   // 66: hub.v1.AssetDriftReport.layer:type_name -> hub.v1.AssetLayer
+	173, // 67: hub.v1.AssetDriftReport.lens:type_name -> hub.v1.LensType
+	4,   // 68: hub.v1.AssetDriftReport.existence:type_name -> hub.v1.AssetExistence
+	2,   // 69: hub.v1.AssetDriftReport.status:type_name -> hub.v1.DriftOverallStatus
+	109, // 70: hub.v1.AssetDriftReport.field_deltas:type_name -> hub.v1.FieldDriftDelta
+	110, // 71: hub.v1.AssetDriftReport.governance_deltas:type_name -> hub.v1.GovernanceDriftDelta
+	111, // 72: hub.v1.AssetDriftReport.layout_deltas:type_name -> hub.v1.LayoutDriftDelta
+	2,   // 73: hub.v1.GetInfrastructureDriftResponse.overall_status:type_name -> hub.v1.DriftOverallStatus
+	162, // 74: hub.v1.GetInfrastructureDriftResponse.inspected_at:type_name -> google.protobuf.Timestamp
+	112, // 75: hub.v1.GetInfrastructureDriftResponse.summary:type_name -> hub.v1.DriftSummaryCounts
+	113, // 76: hub.v1.GetInfrastructureDriftResponse.assets:type_name -> hub.v1.AssetDriftReport
+	9,   // 77: hub.v1.SemanticDiffEntry.category:type_name -> hub.v1.DiffCategory
+	10,  // 78: hub.v1.SemanticDiffEntry.change_kind:type_name -> hub.v1.DiffChangeKind
+	11,  // 79: hub.v1.SemanticDiffEntry.subject_kind:type_name -> hub.v1.DiffSubjectKind
+	156, // 80: hub.v1.SemanticDiffEntry.metadata:type_name -> hub.v1.SemanticDiffEntry.MetadataEntry
+	12,  // 81: hub.v1.DiffContractsResponse.overall_compatibility:type_name -> hub.v1.OverallCompatibility
+	116, // 82: hub.v1.DiffContractsResponse.summary:type_name -> hub.v1.SemanticDiffSummary
+	115, // 83: hub.v1.DiffContractsResponse.entries:type_name -> hub.v1.SemanticDiffEntry
+	163, // 84: hub.v1.DiffContractsResponse.base_contract:type_name -> hub.v1.DataContract
+	163, // 85: hub.v1.DiffContractsResponse.target_contract:type_name -> hub.v1.DataContract
+	162, // 86: hub.v1.DiffContractsResponse.computed_at:type_name -> google.protobuf.Timestamp
+	12,  // 87: hub.v1.LinkedContractDiff.overall_compatibility:type_name -> hub.v1.OverallCompatibility
+	116, // 88: hub.v1.LinkedContractDiff.summary:type_name -> hub.v1.SemanticDiffSummary
+	115, // 89: hub.v1.LinkedContractDiff.entries:type_name -> hub.v1.SemanticDiffEntry
+	12,  // 90: hub.v1.DiffProductManifestsResponse.overall_compatibility:type_name -> hub.v1.OverallCompatibility
+	116, // 91: hub.v1.DiffProductManifestsResponse.summary:type_name -> hub.v1.SemanticDiffSummary
+	115, // 92: hub.v1.DiffProductManifestsResponse.entries:type_name -> hub.v1.SemanticDiffEntry
+	119, // 93: hub.v1.DiffProductManifestsResponse.linked_contract_diffs:type_name -> hub.v1.LinkedContractDiff
+	166, // 94: hub.v1.DiffProductManifestsResponse.base_manifest:type_name -> hub.v1.ProductManifest
+	166, // 95: hub.v1.DiffProductManifestsResponse.target_manifest:type_name -> hub.v1.ProductManifest
+	162, // 96: hub.v1.DiffProductManifestsResponse.computed_at:type_name -> google.protobuf.Timestamp
+	175, // 97: hub.v1.GetTrustScorecardResponse.scorecard:type_name -> hub.v1.TrustScorecard
+	175, // 98: hub.v1.ListTrustScorecardsResponse.scorecards:type_name -> hub.v1.TrustScorecard
+	157, // 99: hub.v1.ListTrustScorecardsResponse.scorecards_by_urn:type_name -> hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry
+	162, // 100: hub.v1.LineageEdgeDTO.first_seen_at:type_name -> google.protobuf.Timestamp
+	162, // 101: hub.v1.LineageEdgeDTO.last_observed_at:type_name -> google.protobuf.Timestamp
+	158, // 102: hub.v1.LineageEdgeDTO.metadata:type_name -> hub.v1.LineageEdgeDTO.MetadataEntry
+	159, // 103: hub.v1.LineageFieldEdgeDTO.metadata:type_name -> hub.v1.LineageFieldEdgeDTO.MetadataEntry
+	162, // 104: hub.v1.LineageSubmissionChunk.event_time:type_name -> google.protobuf.Timestamp
+	162, // 105: hub.v1.LineageSubmissionEvent.event_time:type_name -> google.protobuf.Timestamp
+	13,  // 106: hub.v1.GetLineageGraphRequest.view:type_name -> hub.v1.LineageView
+	14,  // 107: hub.v1.GetLineageGraphRequest.direction:type_name -> hub.v1.LineageDirection
+	13,  // 108: hub.v1.GetLineageGraphResponse.view:type_name -> hub.v1.LineageView
+	126, // 109: hub.v1.GetLineageGraphResponse.nodes:type_name -> hub.v1.LineageNodeDTO
+	127, // 110: hub.v1.GetLineageGraphResponse.edges:type_name -> hub.v1.LineageEdgeDTO
+	129, // 111: hub.v1.GetLineageGraphResponse.product_metrics:type_name -> hub.v1.ProductTopologyMetrics
+	127, // 112: hub.v1.IngestLineageManifestRequest.edges:type_name -> hub.v1.LineageEdgeDTO
+	128, // 113: hub.v1.IngestLineageManifestRequest.field_edges:type_name -> hub.v1.LineageFieldEdgeDTO
+	162, // 114: hub.v1.ReplayLineageSubmissionsRequest.since:type_name -> google.protobuf.Timestamp
+	162, // 115: hub.v1.ReplayLineageSubmissionsRequest.until:type_name -> google.protobuf.Timestamp
+	176, // 116: hub.v1.EffectiveAssetState.declared:type_name -> hub.v1.NodeState
+	172, // 117: hub.v1.EffectiveAssetState.declared_tier:type_name -> hub.v1.SLATier
+	172, // 118: hub.v1.EffectiveAssetState.implied_tier:type_name -> hub.v1.SLATier
+	177, // 119: hub.v1.EffectiveAssetState.pii_posture:type_name -> hub.v1.PIIPosture
+	178, // 120: hub.v1.EffectiveAssetState.effective_sensitivity:type_name -> hub.v1.SensitivityLevel
+	179, // 121: hub.v1.EffectiveAssetState.detection_mode:type_name -> hub.v1.DetectionMode
+	180, // 122: hub.v1.EffectiveAssetState.source_origin:type_name -> hub.v1.SourceOrigin
+	181, // 123: hub.v1.EffectiveAssetState.reachability_status:type_name -> hub.v1.ReachabilityStatus
+	182, // 124: hub.v1.EffectiveAssetState.sla_gaps:type_name -> hub.v1.SLAGap
+	183, // 125: hub.v1.EffectiveAssetState.downstream_drivers:type_name -> hub.v1.ConsumerDriver
+	184, // 126: hub.v1.EffectiveAssetState.exemptions:type_name -> hub.v1.AssetExemption
+	184, // 127: hub.v1.EffectiveAssetState.expired_exemptions:type_name -> hub.v1.AssetExemption
+	172, // 128: hub.v1.SetAssetStateRequest.tier:type_name -> hub.v1.SLATier
+	177, // 129: hub.v1.SetAssetStateRequest.pii_posture:type_name -> hub.v1.PIIPosture
+	179, // 130: hub.v1.SetAssetStateRequest.detection_mode:type_name -> hub.v1.DetectionMode
+	180, // 131: hub.v1.SetAssetStateRequest.source_origin:type_name -> hub.v1.SourceOrigin
+	184, // 132: hub.v1.SetAssetStateRequest.add_exemptions:type_name -> hub.v1.AssetExemption
+	138, // 133: hub.v1.SetAssetStateResponse.state:type_name -> hub.v1.EffectiveAssetState
+	138, // 134: hub.v1.GetEffectiveAssetStateResponse.state:type_name -> hub.v1.EffectiveAssetState
+	172, // 135: hub.v1.ListSLAGapsRequest.tier_filter:type_name -> hub.v1.SLATier
+	182, // 136: hub.v1.ListSLAGapsResponse.gaps:type_name -> hub.v1.SLAGap
+	138, // 137: hub.v1.ListSLAGapsResponse.assets:type_name -> hub.v1.EffectiveAssetState
+	15,  // 138: hub.v1.AuditLineageReachabilityRequest.min_confidence:type_name -> hub.v1.EdgeConfidenceFilter
+	185, // 139: hub.v1.AuditLineageReachabilityResponse.leaf_reports:type_name -> hub.v1.ReachabilityReport
+	186, // 140: hub.v1.AuditLineageReachabilityResponse.broken_chains:type_name -> hub.v1.BrokenChainReport
+	187, // 141: hub.v1.GetTopologySignalsResponse.signals:type_name -> hub.v1.TopologySignals
+	175, // 142: hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry.value:type_name -> hub.v1.TrustScorecard
+	65,  // 143: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
+	67,  // 144: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
+	69,  // 145: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
+	71,  // 146: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
+	73,  // 147: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
+	75,  // 148: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
+	77,  // 149: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
+	79,  // 150: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
+	81,  // 151: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
+	61,  // 152: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
+	83,  // 153: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
+	85,  // 154: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
+	87,  // 155: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
+	89,  // 156: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
+	91,  // 157: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
+	93,  // 158: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
+	95,  // 159: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
+	97,  // 160: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
+	99,  // 161: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
+	59,  // 162: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
+	55,  // 163: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
+	57,  // 164: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
+	49,  // 165: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
+	51,  // 166: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
+	46,  // 167: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
+	35,  // 168: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
+	40,  // 169: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
+	42,  // 170: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
+	44,  // 171: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
+	38,  // 172: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
+	28,  // 173: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
+	31,  // 174: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
+	33,  // 175: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
+	16,  // 176: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
+	18,  // 177: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
+	20,  // 178: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
+	22,  // 179: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
+	25,  // 180: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
+	101, // 181: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
+	104, // 182: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
+	106, // 183: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
+	108, // 184: hub.v1.HubService.GetInfrastructureDrift:input_type -> hub.v1.GetInfrastructureDriftRequest
+	117, // 185: hub.v1.HubService.DiffContracts:input_type -> hub.v1.DiffContractsRequest
+	120, // 186: hub.v1.HubService.DiffProductManifests:input_type -> hub.v1.DiffProductManifestsRequest
+	122, // 187: hub.v1.HubService.GetTrustScorecard:input_type -> hub.v1.GetTrustScorecardRequest
+	124, // 188: hub.v1.HubService.ListTrustScorecards:input_type -> hub.v1.ListTrustScorecardsRequest
+	132, // 189: hub.v1.HubService.GetLineageGraph:input_type -> hub.v1.GetLineageGraphRequest
+	134, // 190: hub.v1.HubService.IngestLineageManifest:input_type -> hub.v1.IngestLineageManifestRequest
+	136, // 191: hub.v1.HubService.ReplayLineageSubmissions:input_type -> hub.v1.ReplayLineageSubmissionsRequest
+	139, // 192: hub.v1.HubService.SetAssetState:input_type -> hub.v1.SetAssetStateRequest
+	141, // 193: hub.v1.HubService.GetEffectiveAssetState:input_type -> hub.v1.GetEffectiveAssetStateRequest
+	143, // 194: hub.v1.HubService.DeleteAssetState:input_type -> hub.v1.DeleteAssetStateRequest
+	145, // 195: hub.v1.HubService.ListSLAGaps:input_type -> hub.v1.ListSLAGapsRequest
+	147, // 196: hub.v1.HubService.AuditLineageReachability:input_type -> hub.v1.AuditLineageReachabilityRequest
+	149, // 197: hub.v1.HubService.GetTopologySignals:input_type -> hub.v1.GetTopologySignalsRequest
+	66,  // 198: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
+	68,  // 199: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
+	70,  // 200: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
+	72,  // 201: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
+	74,  // 202: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
+	76,  // 203: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
+	78,  // 204: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
+	80,  // 205: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
+	82,  // 206: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
+	62,  // 207: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
+	84,  // 208: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
+	86,  // 209: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
+	88,  // 210: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
+	90,  // 211: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
+	92,  // 212: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
+	94,  // 213: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
+	96,  // 214: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
+	98,  // 215: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
+	100, // 216: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
+	60,  // 217: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
+	56,  // 218: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
+	58,  // 219: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
+	50,  // 220: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
+	52,  // 221: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
+	47,  // 222: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
+	36,  // 223: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
+	41,  // 224: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
+	43,  // 225: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
+	45,  // 226: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
+	39,  // 227: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
+	29,  // 228: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
+	32,  // 229: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
+	34,  // 230: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
+	17,  // 231: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
+	19,  // 232: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
+	21,  // 233: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
+	24,  // 234: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
+	27,  // 235: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
+	102, // 236: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
+	105, // 237: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
+	107, // 238: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
+	114, // 239: hub.v1.HubService.GetInfrastructureDrift:output_type -> hub.v1.GetInfrastructureDriftResponse
+	118, // 240: hub.v1.HubService.DiffContracts:output_type -> hub.v1.DiffContractsResponse
+	121, // 241: hub.v1.HubService.DiffProductManifests:output_type -> hub.v1.DiffProductManifestsResponse
+	123, // 242: hub.v1.HubService.GetTrustScorecard:output_type -> hub.v1.GetTrustScorecardResponse
+	125, // 243: hub.v1.HubService.ListTrustScorecards:output_type -> hub.v1.ListTrustScorecardsResponse
+	133, // 244: hub.v1.HubService.GetLineageGraph:output_type -> hub.v1.GetLineageGraphResponse
+	135, // 245: hub.v1.HubService.IngestLineageManifest:output_type -> hub.v1.IngestLineageManifestResponse
+	137, // 246: hub.v1.HubService.ReplayLineageSubmissions:output_type -> hub.v1.ReplayLineageSubmissionsResponse
+	140, // 247: hub.v1.HubService.SetAssetState:output_type -> hub.v1.SetAssetStateResponse
+	142, // 248: hub.v1.HubService.GetEffectiveAssetState:output_type -> hub.v1.GetEffectiveAssetStateResponse
+	144, // 249: hub.v1.HubService.DeleteAssetState:output_type -> hub.v1.DeleteAssetStateResponse
+	146, // 250: hub.v1.HubService.ListSLAGaps:output_type -> hub.v1.ListSLAGapsResponse
+	148, // 251: hub.v1.HubService.AuditLineageReachability:output_type -> hub.v1.AuditLineageReachabilityResponse
+	150, // 252: hub.v1.HubService.GetTopologySignals:output_type -> hub.v1.GetTopologySignalsResponse
+	198, // [198:253] is the sub-list for method output_type
+	143, // [143:198] is the sub-list for method input_type
+	143, // [143:143] is the sub-list for extension type_name
+	143, // [143:143] is the sub-list for extension extendee
+	0,   // [0:143] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_hub_proto_init() }
@@ -7499,13 +11803,16 @@ func file_hub_v1_hub_proto_init() {
 	file_hub_v1_health_proto_init()
 	file_hub_v1_manifest_proto_init()
 	file_hub_v1_hub_proto_msgTypes[97].OneofWrappers = []any{}
+	file_hub_v1_hub_proto_msgTypes[99].OneofWrappers = []any{}
+	file_hub_v1_hub_proto_msgTypes[104].OneofWrappers = []any{}
+	file_hub_v1_hub_proto_msgTypes[123].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_hub_proto_rawDesc), len(file_hub_v1_hub_proto_rawDesc)),
-			NumEnums:      9,
-			NumMessages:   104,
+			NumEnums:      16,
+			NumMessages:   144,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

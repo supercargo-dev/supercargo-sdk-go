@@ -489,6 +489,8 @@ func (m *Meta) validate(all bool) error {
 
 	// no validation rules for Description
 
+	// no validation rules for SourceUrl
+
 	if len(errors) > 0 {
 		return MetaMultiError(errors)
 	}

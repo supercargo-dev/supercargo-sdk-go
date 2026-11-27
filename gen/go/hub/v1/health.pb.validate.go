@@ -317,3 +317,348 @@ var _HealthTransitionEvent_AssetUrn_Pattern = regexp.MustCompile("^urn:supercarg
 var _HealthTransitionEvent_StatusSourceUrn_Pattern = regexp.MustCompile("^(urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?)?$")
 
 var _HealthTransitionEvent_DownstreamUrns_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9.-]+)?$")
+
+// Validate checks the field values on TrustScorecard with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TrustScorecard) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TrustScorecard with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TrustScorecardMultiError,
+// or nil if none found.
+func (m *TrustScorecard) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TrustScorecard) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetTargetUrn()) < 1 {
+		err := TrustScorecardValidationError{
+			field:  "TargetUrn",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_TrustScorecard_TargetUrn_Pattern.MatchString(m.GetTargetUrn()) {
+		err := TrustScorecardValidationError{
+			field:  "TargetUrn",
+			reason: "value does not match regex pattern \"^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if val := m.GetWindowDays(); val < 1 || val > 90 {
+		err := TrustScorecardValidationError{
+			field:  "WindowDays",
+			reason: "value must be inside range [1, 90]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetHealthyDays_30D() < 0 {
+		err := TrustScorecardValidationError{
+			field:  "HealthyDays_30D",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetObservedDays_30D() < 0 {
+		err := TrustScorecardValidationError{
+			field:  "ObservedDays_30D",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetIncidentCount_30D() < 0 {
+		err := TrustScorecardValidationError{
+			field:  "IncidentCount_30D",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetRecoveryCount_30D() < 0 {
+		err := TrustScorecardValidationError{
+			field:  "RecoveryCount_30D",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for ActiveDegradation
+
+	// no validation rules for DataSource
+
+	if all {
+		switch v := interface{}(m.GetWindowStart()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TrustScorecardValidationError{
+					field:  "WindowStart",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TrustScorecardValidationError{
+					field:  "WindowStart",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetWindowStart()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TrustScorecardValidationError{
+				field:  "WindowStart",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetWindowEnd()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TrustScorecardValidationError{
+					field:  "WindowEnd",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TrustScorecardValidationError{
+					field:  "WindowEnd",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetWindowEnd()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TrustScorecardValidationError{
+				field:  "WindowEnd",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetComputedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TrustScorecardValidationError{
+					field:  "ComputedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TrustScorecardValidationError{
+					field:  "ComputedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetComputedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TrustScorecardValidationError{
+				field:  "ComputedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.SloAttainment_30D != nil {
+
+		if val := m.GetSloAttainment_30D(); val < 0 || val > 1 {
+			err := TrustScorecardValidationError{
+				field:  "SloAttainment_30D",
+				reason: "value must be inside range [0, 1]",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.FreshnessAttainment_30D != nil {
+
+		if val := m.GetFreshnessAttainment_30D(); val < 0 || val > 1 {
+			err := TrustScorecardValidationError{
+				field:  "FreshnessAttainment_30D",
+				reason: "value must be inside range [0, 1]",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.DqPassRate_30D != nil {
+
+		if val := m.GetDqPassRate_30D(); val < 0 || val > 1 {
+			err := TrustScorecardValidationError{
+				field:  "DqPassRate_30D",
+				reason: "value must be inside range [0, 1]",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.MttrMinutes_30D != nil {
+
+		if m.GetMttrMinutes_30D() < 0 {
+			err := TrustScorecardValidationError{
+				field:  "MttrMinutes_30D",
+				reason: "value must be greater than or equal to 0",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.DlqRejectionRate_30D != nil {
+
+		if val := m.GetDlqRejectionRate_30D(); val < 0 || val > 1 {
+			err := TrustScorecardValidationError{
+				field:  "DlqRejectionRate_30D",
+				reason: "value must be inside range [0, 1]",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return TrustScorecardMultiError(errors)
+	}
+
+	return nil
+}
+
+// TrustScorecardMultiError is an error wrapping multiple validation errors
+// returned by TrustScorecard.ValidateAll() if the designated constraints
+// aren't met.
+type TrustScorecardMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TrustScorecardMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TrustScorecardMultiError) AllErrors() []error { return m }
+
+// TrustScorecardValidationError is the validation error returned by
+// TrustScorecard.Validate if the designated constraints aren't met.
+type TrustScorecardValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TrustScorecardValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TrustScorecardValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TrustScorecardValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TrustScorecardValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TrustScorecardValidationError) ErrorName() string { return "TrustScorecardValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TrustScorecardValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTrustScorecard.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TrustScorecardValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TrustScorecardValidationError{}
+
+var _TrustScorecard_TargetUrn_Pattern = regexp.MustCompile("^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$")

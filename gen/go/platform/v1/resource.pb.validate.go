@@ -316,6 +316,18 @@ func (m *Entity) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for Iri
+
+	// no validation rules for DefaultSensitivity
+
+	// no validation rules for Unit
+
+	// no validation rules for IdentityDomainUrn
+
+	if m.Pii != nil {
+		// no validation rules for Pii
+	}
+
 	if len(errors) > 0 {
 		return EntityMultiError(errors)
 	}
@@ -420,6 +432,24 @@ func (m *EntityConstraints) validate(all bool) error {
 	// no validation rules for Regex
 
 	// no validation rules for Format
+
+	// no validation rules for CelExpression
+
+	if m.Minimum != nil {
+		// no validation rules for Minimum
+	}
+
+	if m.Maximum != nil {
+		// no validation rules for Maximum
+	}
+
+	if m.MinLength != nil {
+		// no validation rules for MinLength
+	}
+
+	if m.MaxLength != nil {
+		// no validation rules for MaxLength
+	}
 
 	if len(errors) > 0 {
 		return EntityConstraintsMultiError(errors)
