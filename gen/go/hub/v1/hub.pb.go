@@ -909,15 +909,18 @@ func (EdgeConfidenceFilter) EnumDescriptor() ([]byte, []int) {
 type ReportAnomalyRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The URN of the product or contract.
-	Urn           string            `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
-	State         HealthState       `protobuf:"varint,2,opt,name=state,proto3,enum=hub.v1.HealthState" json:"state,omitempty"`
-	Reason        string            `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
-	IncidentType  string            `protobuf:"bytes,4,opt,name=incident_type,json=incidentType,proto3" json:"incident_type,omitempty"`
-	RunId         string            `protobuf:"bytes,5,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	Reporter      string            `protobuf:"bytes,6,opt,name=reporter,proto3" json:"reporter,omitempty"`
-	Metadata      map[string]string `protobuf:"bytes,7,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Urn               string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	State             HealthState            `protobuf:"varint,2,opt,name=state,proto3,enum=hub.v1.HealthState" json:"state,omitempty"`
+	Reason            string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	IncidentType      string                 `protobuf:"bytes,4,opt,name=incident_type,json=incidentType,proto3" json:"incident_type,omitempty"`
+	RunId             string                 `protobuf:"bytes,5,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Reporter          string                 `protobuf:"bytes,6,opt,name=reporter,proto3" json:"reporter,omitempty"`
+	Metadata          map[string]string      `protobuf:"bytes,7,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	RootCauseCategory string                 `protobuf:"bytes,8,opt,name=root_cause_category,json=rootCauseCategory,proto3" json:"root_cause_category,omitempty"`
+	AuditActor        string                 `protobuf:"bytes,9,opt,name=audit_actor,json=auditActor,proto3" json:"audit_actor,omitempty"`
+	Timestamp         *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ReportAnomalyRequest) Reset() {
@@ -999,13 +1002,38 @@ func (x *ReportAnomalyRequest) GetMetadata() map[string]string {
 	return nil
 }
 
+func (x *ReportAnomalyRequest) GetRootCauseCategory() string {
+	if x != nil {
+		return x.RootCauseCategory
+	}
+	return ""
+}
+
+func (x *ReportAnomalyRequest) GetAuditActor() string {
+	if x != nil {
+		return x.AuditActor
+	}
+	return ""
+}
+
+func (x *ReportAnomalyRequest) GetTimestamp() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Timestamp
+	}
+	return nil
+}
+
 // ReportAnomalyResponse represents the response after reporting an anomaly.
 type ReportAnomalyResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique ID for this health transition.
-	TransitionId  string `protobuf:"bytes,1,opt,name=transition_id,json=transitionId,proto3" json:"transition_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TransitionId   string         `protobuf:"bytes,1,opt,name=transition_id,json=transitionId,proto3" json:"transition_id,omitempty"`
+	IncidentId     string         `protobuf:"bytes,2,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	Status         IncidentStatus `protobuf:"varint,3,opt,name=status,proto3,enum=hub.v1.IncidentStatus" json:"status,omitempty"`
+	AggregateState HealthState    `protobuf:"varint,4,opt,name=aggregate_state,json=aggregateState,proto3,enum=hub.v1.HealthState" json:"aggregate_state,omitempty"`
+	BacklinkStatus BacklinkStatus `protobuf:"varint,5,opt,name=backlink_status,json=backlinkStatus,proto3,enum=hub.v1.BacklinkStatus" json:"backlink_status,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ReportAnomalyResponse) Reset() {
@@ -1043,6 +1071,34 @@ func (x *ReportAnomalyResponse) GetTransitionId() string {
 		return x.TransitionId
 	}
 	return ""
+}
+
+func (x *ReportAnomalyResponse) GetIncidentId() string {
+	if x != nil {
+		return x.IncidentId
+	}
+	return ""
+}
+
+func (x *ReportAnomalyResponse) GetStatus() IncidentStatus {
+	if x != nil {
+		return x.Status
+	}
+	return IncidentStatus_INCIDENT_STATUS_UNSPECIFIED
+}
+
+func (x *ReportAnomalyResponse) GetAggregateState() HealthState {
+	if x != nil {
+		return x.AggregateState
+	}
+	return HealthState_HEALTH_STATE_UNSPECIFIED
+}
+
+func (x *ReportAnomalyResponse) GetBacklinkStatus() BacklinkStatus {
+	if x != nil {
+		return x.BacklinkStatus
+	}
+	return BacklinkStatus_BACKLINK_STATUS_UNSPECIFIED
 }
 
 // GetHealthRequest represents a request to retrieve the health status.
@@ -10302,11 +10358,581 @@ func (x *GetTopologySignalsResponse) GetGraphEpoch() int64 {
 	return 0
 }
 
+type GetAssetTrafficLightRequest struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	Urn                  string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	IncludeOpenIncidents bool                   `protobuf:"varint,2,opt,name=include_open_incidents,json=includeOpenIncidents,proto3" json:"include_open_incidents,omitempty"`
+	IncludeHistory       bool                   `protobuf:"varint,3,opt,name=include_history,json=includeHistory,proto3" json:"include_history,omitempty"`
+	HistoryLimit         int32                  `protobuf:"varint,4,opt,name=history_limit,json=historyLimit,proto3" json:"history_limit,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *GetAssetTrafficLightRequest) Reset() {
+	*x = GetAssetTrafficLightRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[135]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetTrafficLightRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetTrafficLightRequest) ProtoMessage() {}
+
+func (x *GetAssetTrafficLightRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[135]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetTrafficLightRequest.ProtoReflect.Descriptor instead.
+func (*GetAssetTrafficLightRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{135}
+}
+
+func (x *GetAssetTrafficLightRequest) GetUrn() string {
+	if x != nil {
+		return x.Urn
+	}
+	return ""
+}
+
+func (x *GetAssetTrafficLightRequest) GetIncludeOpenIncidents() bool {
+	if x != nil {
+		return x.IncludeOpenIncidents
+	}
+	return false
+}
+
+func (x *GetAssetTrafficLightRequest) GetIncludeHistory() bool {
+	if x != nil {
+		return x.IncludeHistory
+	}
+	return false
+}
+
+func (x *GetAssetTrafficLightRequest) GetHistoryLimit() int32 {
+	if x != nil {
+		return x.HistoryLimit
+	}
+	return 0
+}
+
+type GetAssetTrafficLightResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TrafficLight  *TrafficLight          `protobuf:"bytes,1,opt,name=traffic_light,json=trafficLight,proto3" json:"traffic_light,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAssetTrafficLightResponse) Reset() {
+	*x = GetAssetTrafficLightResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[136]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetTrafficLightResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetTrafficLightResponse) ProtoMessage() {}
+
+func (x *GetAssetTrafficLightResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[136]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetTrafficLightResponse.ProtoReflect.Descriptor instead.
+func (*GetAssetTrafficLightResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{136}
+}
+
+func (x *GetAssetTrafficLightResponse) GetTrafficLight() *TrafficLight {
+	if x != nil {
+		return x.TrafficLight
+	}
+	return nil
+}
+
+type ListAssetIncidentsRequest struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Urn                string                 `protobuf:"bytes,1,opt,name=urn,proto3" json:"urn,omitempty"`
+	Status             IncidentStatus         `protobuf:"varint,2,opt,name=status,proto3,enum=hub.v1.IncidentStatus" json:"status,omitempty"`
+	Reporter           string                 `protobuf:"bytes,3,opt,name=reporter,proto3" json:"reporter,omitempty"`
+	Category           string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
+	BacklinkStatus     BacklinkStatus         `protobuf:"varint,5,opt,name=backlink_status,json=backlinkStatus,proto3,enum=hub.v1.BacklinkStatus" json:"backlink_status,omitempty"`
+	PageSize           int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken          string                 `protobuf:"bytes,7,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	IncludeAllStatuses bool                   `protobuf:"varint,8,opt,name=include_all_statuses,json=includeAllStatuses,proto3" json:"include_all_statuses,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *ListAssetIncidentsRequest) Reset() {
+	*x = ListAssetIncidentsRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[137]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAssetIncidentsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAssetIncidentsRequest) ProtoMessage() {}
+
+func (x *ListAssetIncidentsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[137]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAssetIncidentsRequest.ProtoReflect.Descriptor instead.
+func (*ListAssetIncidentsRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{137}
+}
+
+func (x *ListAssetIncidentsRequest) GetUrn() string {
+	if x != nil {
+		return x.Urn
+	}
+	return ""
+}
+
+func (x *ListAssetIncidentsRequest) GetStatus() IncidentStatus {
+	if x != nil {
+		return x.Status
+	}
+	return IncidentStatus_INCIDENT_STATUS_UNSPECIFIED
+}
+
+func (x *ListAssetIncidentsRequest) GetReporter() string {
+	if x != nil {
+		return x.Reporter
+	}
+	return ""
+}
+
+func (x *ListAssetIncidentsRequest) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *ListAssetIncidentsRequest) GetBacklinkStatus() BacklinkStatus {
+	if x != nil {
+		return x.BacklinkStatus
+	}
+	return BacklinkStatus_BACKLINK_STATUS_UNSPECIFIED
+}
+
+func (x *ListAssetIncidentsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListAssetIncidentsRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+func (x *ListAssetIncidentsRequest) GetIncludeAllStatuses() bool {
+	if x != nil {
+		return x.IncludeAllStatuses
+	}
+	return false
+}
+
+type ListAssetIncidentsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Incidents     []*AssetIncident       `protobuf:"bytes,1,rep,name=incidents,proto3" json:"incidents,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAssetIncidentsResponse) Reset() {
+	*x = ListAssetIncidentsResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[138]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAssetIncidentsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAssetIncidentsResponse) ProtoMessage() {}
+
+func (x *ListAssetIncidentsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[138]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAssetIncidentsResponse.ProtoReflect.Descriptor instead.
+func (*ListAssetIncidentsResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{138}
+}
+
+func (x *ListAssetIncidentsResponse) GetIncidents() []*AssetIncident {
+	if x != nil {
+		return x.Incidents
+	}
+	return nil
+}
+
+func (x *ListAssetIncidentsResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type GetAssetIncidentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IncidentId    string                 `protobuf:"bytes,1,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAssetIncidentRequest) Reset() {
+	*x = GetAssetIncidentRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[139]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetIncidentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetIncidentRequest) ProtoMessage() {}
+
+func (x *GetAssetIncidentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[139]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetIncidentRequest.ProtoReflect.Descriptor instead.
+func (*GetAssetIncidentRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{139}
+}
+
+func (x *GetAssetIncidentRequest) GetIncidentId() string {
+	if x != nil {
+		return x.IncidentId
+	}
+	return ""
+}
+
+type GetAssetIncidentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Incident      *AssetIncident         `protobuf:"bytes,1,opt,name=incident,proto3" json:"incident,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAssetIncidentResponse) Reset() {
+	*x = GetAssetIncidentResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[140]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetIncidentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetIncidentResponse) ProtoMessage() {}
+
+func (x *GetAssetIncidentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[140]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetIncidentResponse.ProtoReflect.Descriptor instead.
+func (*GetAssetIncidentResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{140}
+}
+
+func (x *GetAssetIncidentResponse) GetIncident() *AssetIncident {
+	if x != nil {
+		return x.Incident
+	}
+	return nil
+}
+
+// AcknowledgeIncidentRequest is keyed solely by incident_id to prevent asset_urn AuthZ spoofing.
+type AcknowledgeIncidentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IncidentId    string                 `protobuf:"bytes,1,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	Note          string                 `protobuf:"bytes,2,opt,name=note,proto3" json:"note,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AcknowledgeIncidentRequest) Reset() {
+	*x = AcknowledgeIncidentRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[141]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcknowledgeIncidentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcknowledgeIncidentRequest) ProtoMessage() {}
+
+func (x *AcknowledgeIncidentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[141]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcknowledgeIncidentRequest.ProtoReflect.Descriptor instead.
+func (*AcknowledgeIncidentRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{141}
+}
+
+func (x *AcknowledgeIncidentRequest) GetIncidentId() string {
+	if x != nil {
+		return x.IncidentId
+	}
+	return ""
+}
+
+func (x *AcknowledgeIncidentRequest) GetNote() string {
+	if x != nil {
+		return x.Note
+	}
+	return ""
+}
+
+type AcknowledgeIncidentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Incident      *AssetIncident         `protobuf:"bytes,1,opt,name=incident,proto3" json:"incident,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AcknowledgeIncidentResponse) Reset() {
+	*x = AcknowledgeIncidentResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[142]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcknowledgeIncidentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcknowledgeIncidentResponse) ProtoMessage() {}
+
+func (x *AcknowledgeIncidentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[142]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcknowledgeIncidentResponse.ProtoReflect.Descriptor instead.
+func (*AcknowledgeIncidentResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{142}
+}
+
+func (x *AcknowledgeIncidentResponse) GetIncident() *AssetIncident {
+	if x != nil {
+		return x.Incident
+	}
+	return nil
+}
+
+// CloseIncidentRequest is keyed solely by incident_id to prevent asset_urn AuthZ spoofing.
+type CloseIncidentRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	IncidentId        string                 `protobuf:"bytes,1,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	ResolutionType    ResolutionType         `protobuf:"varint,2,opt,name=resolution_type,json=resolutionType,proto3,enum=hub.v1.ResolutionType" json:"resolution_type,omitempty"`
+	RootCauseCategory string                 `protobuf:"bytes,3,opt,name=root_cause_category,json=rootCauseCategory,proto3" json:"root_cause_category,omitempty"`
+	Reason            string                 `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CloseIncidentRequest) Reset() {
+	*x = CloseIncidentRequest{}
+	mi := &file_hub_v1_hub_proto_msgTypes[143]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloseIncidentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloseIncidentRequest) ProtoMessage() {}
+
+func (x *CloseIncidentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[143]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloseIncidentRequest.ProtoReflect.Descriptor instead.
+func (*CloseIncidentRequest) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{143}
+}
+
+func (x *CloseIncidentRequest) GetIncidentId() string {
+	if x != nil {
+		return x.IncidentId
+	}
+	return ""
+}
+
+func (x *CloseIncidentRequest) GetResolutionType() ResolutionType {
+	if x != nil {
+		return x.ResolutionType
+	}
+	return ResolutionType_RESOLUTION_TYPE_UNSPECIFIED
+}
+
+func (x *CloseIncidentRequest) GetRootCauseCategory() string {
+	if x != nil {
+		return x.RootCauseCategory
+	}
+	return ""
+}
+
+func (x *CloseIncidentRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type CloseIncidentResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Incident       *AssetIncident         `protobuf:"bytes,1,opt,name=incident,proto3" json:"incident,omitempty"`
+	AggregateState HealthState            `protobuf:"varint,2,opt,name=aggregate_state,json=aggregateState,proto3,enum=hub.v1.HealthState" json:"aggregate_state,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CloseIncidentResponse) Reset() {
+	*x = CloseIncidentResponse{}
+	mi := &file_hub_v1_hub_proto_msgTypes[144]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloseIncidentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloseIncidentResponse) ProtoMessage() {}
+
+func (x *CloseIncidentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_hub_v1_hub_proto_msgTypes[144]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloseIncidentResponse.ProtoReflect.Descriptor instead.
+func (*CloseIncidentResponse) Descriptor() ([]byte, []int) {
+	return file_hub_v1_hub_proto_rawDescGZIP(), []int{144}
+}
+
+func (x *CloseIncidentResponse) GetIncident() *AssetIncident {
+	if x != nil {
+		return x.Incident
+	}
+	return nil
+}
+
+func (x *CloseIncidentResponse) GetAggregateState() HealthState {
+	if x != nil {
+		return x.AggregateState
+	}
+	return HealthState_HEALTH_STATE_UNSPECIFIED
+}
+
 var File_hub_v1_hub_proto protoreflect.FileDescriptor
 
 const file_hub_v1_hub_proto_rawDesc = "" +
 	"\n" +
-	"\x10hub/v1/hub.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x15hub/v1/contract.proto\x1a\x13hub/v1/health.proto\x1a\x15hub/v1/manifest.proto\x1a\x1aplatform/v1/resource.proto\x1a\x17validate/validate.proto\"\xdb\x02\n" +
+	"\x10hub/v1/hub.proto\x12\x06hub.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x15hub/v1/contract.proto\x1a\x13hub/v1/health.proto\x1a\x15hub/v1/manifest.proto\x1a\x1aplatform/v1/resource.proto\x1a\x17validate/validate.proto\"\xe6\x03\n" +
 	"\x14ReportAnomalyRequest\x12\x19\n" +
 	"\x03urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x03urn\x123\n" +
 	"\x05state\x18\x02 \x01(\x0e2\x13.hub.v1.HealthStateB\b\xfaB\x05\x82\x01\x02\x10\x01R\x05state\x12\x16\n" +
@@ -10314,12 +10940,22 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\rincident_type\x18\x04 \x01(\tR\fincidentType\x12\x15\n" +
 	"\x06run_id\x18\x05 \x01(\tR\x05runId\x12\x1a\n" +
 	"\breporter\x18\x06 \x01(\tR\breporter\x12F\n" +
-	"\bmetadata\x18\a \x03(\v2*.hub.v1.ReportAnomalyRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\a \x03(\v2*.hub.v1.ReportAnomalyRequest.MetadataEntryR\bmetadata\x12.\n" +
+	"\x13root_cause_category\x18\b \x01(\tR\x11rootCauseCategory\x12\x1f\n" +
+	"\vaudit_actor\x18\t \x01(\tR\n" +
+	"auditActor\x128\n" +
+	"\ttimestamp\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"<\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8c\x02\n" +
 	"\x15ReportAnomalyResponse\x12#\n" +
-	"\rtransition_id\x18\x01 \x01(\tR\ftransitionId\"-\n" +
+	"\rtransition_id\x18\x01 \x01(\tR\ftransitionId\x12\x1f\n" +
+	"\vincident_id\x18\x02 \x01(\tR\n" +
+	"incidentId\x12.\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x16.hub.v1.IncidentStatusR\x06status\x12<\n" +
+	"\x0faggregate_state\x18\x04 \x01(\x0e2\x13.hub.v1.HealthStateR\x0eaggregateState\x12?\n" +
+	"\x0fbacklink_status\x18\x05 \x01(\x0e2\x16.hub.v1.BacklinkStatusR\x0ebacklinkStatus\"-\n" +
 	"\x10GetHealthRequest\x12\x19\n" +
 	"\x03urn\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x03urn\";\n" +
 	"\x11GetHealthResponse\x12&\n" +
@@ -11169,7 +11805,51 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\vstate_epoch\x18\x02 \x01(\x03R\n" +
 	"stateEpoch\x12\x1f\n" +
 	"\vgraph_epoch\x18\x03 \x01(\x03R\n" +
-	"graphEpoch*\xa9\x01\n" +
+	"graphEpoch\"\x8c\x02\n" +
+	"\x1bGetAssetTrafficLightRequest\x12^\n" +
+	"\x03urn\x18\x01 \x01(\tBL\xfaBIrG\x10\x012C^urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*$R\x03urn\x124\n" +
+	"\x16include_open_incidents\x18\x02 \x01(\bR\x14includeOpenIncidents\x12'\n" +
+	"\x0finclude_history\x18\x03 \x01(\bR\x0eincludeHistory\x12.\n" +
+	"\rhistory_limit\x18\x04 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x00R\fhistoryLimit\"Y\n" +
+	"\x1cGetAssetTrafficLightResponse\x129\n" +
+	"\rtraffic_light\x18\x01 \x01(\v2\x14.hub.v1.TrafficLightR\ftrafficLight\"\xc7\x03\n" +
+	"\x19ListAssetIncidentsRequest\x12_\n" +
+	"\x03urn\x18\x01 \x01(\tBM\xfaBJrH2F^(urn:supercargo:[a-z0-9-]+:[a-z0-9_-]+:[a-z0-9.-]+(:[a-z0-9_.-]+)*)?$R\x03urn\x128\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x16.hub.v1.IncidentStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x06status\x12$\n" +
+	"\breporter\x18\x03 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\breporter\x12$\n" +
+	"\bcategory\x18\x04 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x02R\bcategory\x12I\n" +
+	"\x0fbacklink_status\x18\x05 \x01(\x0e2\x16.hub.v1.BacklinkStatusB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0ebacklinkStatus\x12'\n" +
+	"\tpage_size\x18\x06 \x01(\x05B\n" +
+	"\xfaB\a\x1a\x05\x18\xc8\x01(\x00R\bpageSize\x12\x1d\n" +
+	"\n" +
+	"page_token\x18\a \x01(\tR\tpageToken\x120\n" +
+	"\x14include_all_statuses\x18\b \x01(\bR\x12includeAllStatuses\"y\n" +
+	"\x1aListAssetIncidentsResponse\x123\n" +
+	"\tincidents\x18\x01 \x03(\v2\x15.hub.v1.AssetIncidentR\tincidents\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"F\n" +
+	"\x17GetAssetIncidentRequest\x12+\n" +
+	"\vincident_id\x18\x01 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\x80\x02R\n" +
+	"incidentId\"M\n" +
+	"\x18GetAssetIncidentResponse\x121\n" +
+	"\bincident\x18\x01 \x01(\v2\x15.hub.v1.AssetIncidentR\bincident\"g\n" +
+	"\x1aAcknowledgeIncidentRequest\x12+\n" +
+	"\vincident_id\x18\x01 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\x80\x02R\n" +
+	"incidentId\x12\x1c\n" +
+	"\x04note\x18\x02 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x10R\x04note\"P\n" +
+	"\x1bAcknowledgeIncidentResponse\x121\n" +
+	"\bincident\x18\x01 \x01(\v2\x15.hub.v1.AssetIncidentR\bincident\"\xea\x01\n" +
+	"\x14CloseIncidentRequest\x12+\n" +
+	"\vincident_id\x18\x01 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\x80\x02R\n" +
+	"incidentId\x12I\n" +
+	"\x0fresolution_type\x18\x02 \x01(\x0e2\x16.hub.v1.ResolutionTypeB\b\xfaB\x05\x82\x01\x02\x10\x01R\x0eresolutionType\x128\n" +
+	"\x13root_cause_category\x18\x03 \x01(\tB\b\xfaB\x05r\x03\x18\x80\x01R\x11rootCauseCategory\x12 \n" +
+	"\x06reason\x18\x04 \x01(\tB\b\xfaB\x05r\x03\x18\x80 R\x06reason\"\x88\x01\n" +
+	"\x15CloseIncidentResponse\x121\n" +
+	"\bincident\x18\x01 \x01(\v2\x15.hub.v1.AssetIncidentR\bincident\x12<\n" +
+	"\x0faggregate_state\x18\x02 \x01(\x0e2\x13.hub.v1.HealthStateR\x0eaggregateState*\xa9\x01\n" +
 	"\n" +
 	"RTBFStatus\x12\x1b\n" +
 	"\x17RTBF_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
@@ -11265,7 +11945,7 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\"EDGE_CONFIDENCE_FILTER_UNSPECIFIED\x10\x00\x12#\n" +
 	"\x1fEDGE_CONFIDENCE_FILTER_INFERRED\x10\x01\x12#\n" +
 	"\x1fEDGE_CONFIDENCE_FILTER_DECLARED\x10\x02\x12#\n" +
-	"\x1fEDGE_CONFIDENCE_FILTER_OBSERVED\x10\x032\x95#\n" +
+	"\x1fEDGE_CONFIDENCE_FILTER_OBSERVED\x10\x032\xda&\n" +
 	"\n" +
 	"HubService\x12R\n" +
 	"\x0fValidateProduct\x12\x1e.hub.v1.ValidateProductRequest\x1a\x1f.hub.v1.ValidateProductResponse\x12R\n" +
@@ -11325,7 +12005,12 @@ const file_hub_v1_hub_proto_rawDesc = "" +
 	"\x10DeleteAssetState\x12\x1f.hub.v1.DeleteAssetStateRequest\x1a .hub.v1.DeleteAssetStateResponse\x12F\n" +
 	"\vListSLAGaps\x12\x1a.hub.v1.ListSLAGapsRequest\x1a\x1b.hub.v1.ListSLAGapsResponse\x12m\n" +
 	"\x18AuditLineageReachability\x12'.hub.v1.AuditLineageReachabilityRequest\x1a(.hub.v1.AuditLineageReachabilityResponse\x12[\n" +
-	"\x12GetTopologySignals\x12!.hub.v1.GetTopologySignalsRequest\x1a\".hub.v1.GetTopologySignalsResponseB\x90\x01\n" +
+	"\x12GetTopologySignals\x12!.hub.v1.GetTopologySignalsRequest\x1a\".hub.v1.GetTopologySignalsResponse\x12a\n" +
+	"\x14GetAssetTrafficLight\x12#.hub.v1.GetAssetTrafficLightRequest\x1a$.hub.v1.GetAssetTrafficLightResponse\x12[\n" +
+	"\x12ListAssetIncidents\x12!.hub.v1.ListAssetIncidentsRequest\x1a\".hub.v1.ListAssetIncidentsResponse\x12U\n" +
+	"\x10GetAssetIncident\x12\x1f.hub.v1.GetAssetIncidentRequest\x1a .hub.v1.GetAssetIncidentResponse\x12^\n" +
+	"\x13AcknowledgeIncident\x12\".hub.v1.AcknowledgeIncidentRequest\x1a#.hub.v1.AcknowledgeIncidentResponse\x12L\n" +
+	"\rCloseIncident\x12\x1c.hub.v1.CloseIncidentRequest\x1a\x1d.hub.v1.CloseIncidentResponseB\x90\x01\n" +
 	"\n" +
 	"com.hub.v1B\bHubProtoP\x01Z?github.com/supercargo-dev/supercargo-sdk-go/gen/go/hub/v1;hubv1\xa2\x02\x03HXX\xaa\x02\x06Hub.V1\xca\x02\x06Hub\\V1\xe2\x02\x12Hub\\V1\\GPBMetadata\xea\x02\aHub::V1b\x06proto3"
 
@@ -11342,7 +12027,7 @@ func file_hub_v1_hub_proto_rawDescGZIP() []byte {
 }
 
 var file_hub_v1_hub_proto_enumTypes = make([]protoimpl.EnumInfo, 16)
-var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 144)
+var file_hub_v1_hub_proto_msgTypes = make([]protoimpl.MessageInfo, 154)
 var file_hub_v1_hub_proto_goTypes = []any{
 	(RTBFStatus)(0),                          // 0: hub.v1.RTBFStatus
 	(ImpactSeverity)(0),                      // 1: hub.v1.ImpactSeverity
@@ -11495,303 +12180,341 @@ var file_hub_v1_hub_proto_goTypes = []any{
 	(*AuditLineageReachabilityResponse)(nil), // 148: hub.v1.AuditLineageReachabilityResponse
 	(*GetTopologySignalsRequest)(nil),        // 149: hub.v1.GetTopologySignalsRequest
 	(*GetTopologySignalsResponse)(nil),       // 150: hub.v1.GetTopologySignalsResponse
-	nil,                                      // 151: hub.v1.ReportAnomalyRequest.MetadataEntry
-	nil,                                      // 152: hub.v1.IngestEventRequest.MetadataEntry
-	nil,                                      // 153: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	nil,                                      // 154: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	nil,                                      // 155: hub.v1.DemandLock.SemanticFingerprintsEntry
-	nil,                                      // 156: hub.v1.SemanticDiffEntry.MetadataEntry
-	nil,                                      // 157: hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry
-	nil,                                      // 158: hub.v1.LineageEdgeDTO.MetadataEntry
-	nil,                                      // 159: hub.v1.LineageFieldEdgeDTO.MetadataEntry
-	(HealthState)(0),                         // 160: hub.v1.HealthState
-	(*Health)(nil),                           // 161: hub.v1.Health
-	(*timestamppb.Timestamp)(nil),            // 162: google.protobuf.Timestamp
-	(*DataContract)(nil),                     // 163: hub.v1.DataContract
-	(TriggerType)(0),                         // 164: hub.v1.TriggerType
-	(*Subscriber)(nil),                       // 165: hub.v1.Subscriber
-	(*ProductManifest)(nil),                  // 166: hub.v1.ProductManifest
-	(SyncStatus)(0),                          // 167: hub.v1.SyncStatus
-	(*BreakingChange)(nil),                   // 168: hub.v1.BreakingChange
-	(*BigQueryConfig)(nil),                   // 169: hub.v1.BigQueryConfig
-	(*v1.Entity)(nil),                        // 170: platform.v1.Entity
-	(*v1.Team)(nil),                          // 171: platform.v1.Team
-	(SLATier)(0),                             // 172: hub.v1.SLATier
-	(LensType)(0),                            // 173: hub.v1.LensType
-	(*ImportDemand)(nil),                     // 174: hub.v1.ImportDemand
-	(*TrustScorecard)(nil),                   // 175: hub.v1.TrustScorecard
-	(*NodeState)(nil),                        // 176: hub.v1.NodeState
-	(PIIPosture)(0),                          // 177: hub.v1.PIIPosture
-	(SensitivityLevel)(0),                    // 178: hub.v1.SensitivityLevel
-	(DetectionMode)(0),                       // 179: hub.v1.DetectionMode
-	(SourceOrigin)(0),                        // 180: hub.v1.SourceOrigin
-	(ReachabilityStatus)(0),                  // 181: hub.v1.ReachabilityStatus
-	(*SLAGap)(nil),                           // 182: hub.v1.SLAGap
-	(*ConsumerDriver)(nil),                   // 183: hub.v1.ConsumerDriver
-	(*AssetExemption)(nil),                   // 184: hub.v1.AssetExemption
-	(*ReachabilityReport)(nil),               // 185: hub.v1.ReachabilityReport
-	(*BrokenChainReport)(nil),                // 186: hub.v1.BrokenChainReport
-	(*TopologySignals)(nil),                  // 187: hub.v1.TopologySignals
+	(*GetAssetTrafficLightRequest)(nil),      // 151: hub.v1.GetAssetTrafficLightRequest
+	(*GetAssetTrafficLightResponse)(nil),     // 152: hub.v1.GetAssetTrafficLightResponse
+	(*ListAssetIncidentsRequest)(nil),        // 153: hub.v1.ListAssetIncidentsRequest
+	(*ListAssetIncidentsResponse)(nil),       // 154: hub.v1.ListAssetIncidentsResponse
+	(*GetAssetIncidentRequest)(nil),          // 155: hub.v1.GetAssetIncidentRequest
+	(*GetAssetIncidentResponse)(nil),         // 156: hub.v1.GetAssetIncidentResponse
+	(*AcknowledgeIncidentRequest)(nil),       // 157: hub.v1.AcknowledgeIncidentRequest
+	(*AcknowledgeIncidentResponse)(nil),      // 158: hub.v1.AcknowledgeIncidentResponse
+	(*CloseIncidentRequest)(nil),             // 159: hub.v1.CloseIncidentRequest
+	(*CloseIncidentResponse)(nil),            // 160: hub.v1.CloseIncidentResponse
+	nil,                                      // 161: hub.v1.ReportAnomalyRequest.MetadataEntry
+	nil,                                      // 162: hub.v1.IngestEventRequest.MetadataEntry
+	nil,                                      // 163: hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	nil,                                      // 164: hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	nil,                                      // 165: hub.v1.DemandLock.SemanticFingerprintsEntry
+	nil,                                      // 166: hub.v1.SemanticDiffEntry.MetadataEntry
+	nil,                                      // 167: hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry
+	nil,                                      // 168: hub.v1.LineageEdgeDTO.MetadataEntry
+	nil,                                      // 169: hub.v1.LineageFieldEdgeDTO.MetadataEntry
+	(HealthState)(0),                         // 170: hub.v1.HealthState
+	(*timestamppb.Timestamp)(nil),            // 171: google.protobuf.Timestamp
+	(IncidentStatus)(0),                      // 172: hub.v1.IncidentStatus
+	(BacklinkStatus)(0),                      // 173: hub.v1.BacklinkStatus
+	(*Health)(nil),                           // 174: hub.v1.Health
+	(*DataContract)(nil),                     // 175: hub.v1.DataContract
+	(TriggerType)(0),                         // 176: hub.v1.TriggerType
+	(*Subscriber)(nil),                       // 177: hub.v1.Subscriber
+	(*ProductManifest)(nil),                  // 178: hub.v1.ProductManifest
+	(SyncStatus)(0),                          // 179: hub.v1.SyncStatus
+	(*BreakingChange)(nil),                   // 180: hub.v1.BreakingChange
+	(*BigQueryConfig)(nil),                   // 181: hub.v1.BigQueryConfig
+	(*v1.Entity)(nil),                        // 182: platform.v1.Entity
+	(*v1.Team)(nil),                          // 183: platform.v1.Team
+	(SLATier)(0),                             // 184: hub.v1.SLATier
+	(LensType)(0),                            // 185: hub.v1.LensType
+	(*ImportDemand)(nil),                     // 186: hub.v1.ImportDemand
+	(*TrustScorecard)(nil),                   // 187: hub.v1.TrustScorecard
+	(*NodeState)(nil),                        // 188: hub.v1.NodeState
+	(PIIPosture)(0),                          // 189: hub.v1.PIIPosture
+	(SensitivityLevel)(0),                    // 190: hub.v1.SensitivityLevel
+	(DetectionMode)(0),                       // 191: hub.v1.DetectionMode
+	(SourceOrigin)(0),                        // 192: hub.v1.SourceOrigin
+	(ReachabilityStatus)(0),                  // 193: hub.v1.ReachabilityStatus
+	(*SLAGap)(nil),                           // 194: hub.v1.SLAGap
+	(*ConsumerDriver)(nil),                   // 195: hub.v1.ConsumerDriver
+	(*AssetExemption)(nil),                   // 196: hub.v1.AssetExemption
+	(*ReachabilityReport)(nil),               // 197: hub.v1.ReachabilityReport
+	(*BrokenChainReport)(nil),                // 198: hub.v1.BrokenChainReport
+	(*TopologySignals)(nil),                  // 199: hub.v1.TopologySignals
+	(*TrafficLight)(nil),                     // 200: hub.v1.TrafficLight
+	(*AssetIncident)(nil),                    // 201: hub.v1.AssetIncident
+	(ResolutionType)(0),                      // 202: hub.v1.ResolutionType
 }
 var file_hub_v1_hub_proto_depIdxs = []int32{
-	160, // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
-	151, // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
-	161, // 2: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
-	161, // 3: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
-	13,  // 4: hub.v1.GetBlastRadiusRequest.view:type_name -> hub.v1.LineageView
-	23,  // 5: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
-	13,  // 6: hub.v1.GetRootCauseRequest.view:type_name -> hub.v1.LineageView
-	160, // 7: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
-	162, // 8: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
-	26,  // 9: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
-	26,  // 10: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
-	30,  // 11: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
-	0,   // 12: hub.v1.VerifyRTBFResponse.status:type_name -> hub.v1.RTBFStatus
-	163, // 13: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
-	37,  // 14: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
-	1,   // 15: hub.v1.AnalyzeImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	64,  // 16: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	164, // 17: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
-	152, // 18: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
-	165, // 19: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
-	165, // 20: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
-	48,  // 21: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
-	53,  // 22: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
-	53,  // 23: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
-	54,  // 24: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
-	166, // 25: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
-	167, // 26: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
-	163, // 27: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
-	163, // 28: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
-	163, // 29: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
-	1,   // 30: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	64,  // 31: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
-	63,  // 32: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
-	166, // 33: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	163, // 34: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
-	166, // 35: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
-	163, // 36: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
-	168, // 37: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
-	166, // 38: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
-	163, // 39: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
-	169, // 40: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
-	163, // 41: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
-	163, // 42: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
-	170, // 43: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
-	170, // 44: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
-	170, // 45: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
-	170, // 46: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
-	1,   // 47: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
-	171, // 48: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
-	171, // 49: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
-	171, // 50: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
-	171, // 51: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
-	153, // 52: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
-	154, // 53: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
-	172, // 54: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
-	173, // 55: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
-	155, // 56: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
-	162, // 57: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
-	174, // 58: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
-	103, // 59: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
-	103, // 60: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
-	5,   // 61: hub.v1.FieldDriftDelta.status:type_name -> hub.v1.FieldDriftStatus
-	6,   // 62: hub.v1.GovernanceDriftDelta.drift_type:type_name -> hub.v1.GovernanceDriftType
-	8,   // 63: hub.v1.GovernanceDriftDelta.severity:type_name -> hub.v1.DriftSeverity
-	7,   // 64: hub.v1.LayoutDriftDelta.drift_type:type_name -> hub.v1.LayoutDriftType
-	8,   // 65: hub.v1.LayoutDriftDelta.severity:type_name -> hub.v1.DriftSeverity
-	3,   // 66: hub.v1.AssetDriftReport.layer:type_name -> hub.v1.AssetLayer
-	173, // 67: hub.v1.AssetDriftReport.lens:type_name -> hub.v1.LensType
-	4,   // 68: hub.v1.AssetDriftReport.existence:type_name -> hub.v1.AssetExistence
-	2,   // 69: hub.v1.AssetDriftReport.status:type_name -> hub.v1.DriftOverallStatus
-	109, // 70: hub.v1.AssetDriftReport.field_deltas:type_name -> hub.v1.FieldDriftDelta
-	110, // 71: hub.v1.AssetDriftReport.governance_deltas:type_name -> hub.v1.GovernanceDriftDelta
-	111, // 72: hub.v1.AssetDriftReport.layout_deltas:type_name -> hub.v1.LayoutDriftDelta
-	2,   // 73: hub.v1.GetInfrastructureDriftResponse.overall_status:type_name -> hub.v1.DriftOverallStatus
-	162, // 74: hub.v1.GetInfrastructureDriftResponse.inspected_at:type_name -> google.protobuf.Timestamp
-	112, // 75: hub.v1.GetInfrastructureDriftResponse.summary:type_name -> hub.v1.DriftSummaryCounts
-	113, // 76: hub.v1.GetInfrastructureDriftResponse.assets:type_name -> hub.v1.AssetDriftReport
-	9,   // 77: hub.v1.SemanticDiffEntry.category:type_name -> hub.v1.DiffCategory
-	10,  // 78: hub.v1.SemanticDiffEntry.change_kind:type_name -> hub.v1.DiffChangeKind
-	11,  // 79: hub.v1.SemanticDiffEntry.subject_kind:type_name -> hub.v1.DiffSubjectKind
-	156, // 80: hub.v1.SemanticDiffEntry.metadata:type_name -> hub.v1.SemanticDiffEntry.MetadataEntry
-	12,  // 81: hub.v1.DiffContractsResponse.overall_compatibility:type_name -> hub.v1.OverallCompatibility
-	116, // 82: hub.v1.DiffContractsResponse.summary:type_name -> hub.v1.SemanticDiffSummary
-	115, // 83: hub.v1.DiffContractsResponse.entries:type_name -> hub.v1.SemanticDiffEntry
-	163, // 84: hub.v1.DiffContractsResponse.base_contract:type_name -> hub.v1.DataContract
-	163, // 85: hub.v1.DiffContractsResponse.target_contract:type_name -> hub.v1.DataContract
-	162, // 86: hub.v1.DiffContractsResponse.computed_at:type_name -> google.protobuf.Timestamp
-	12,  // 87: hub.v1.LinkedContractDiff.overall_compatibility:type_name -> hub.v1.OverallCompatibility
-	116, // 88: hub.v1.LinkedContractDiff.summary:type_name -> hub.v1.SemanticDiffSummary
-	115, // 89: hub.v1.LinkedContractDiff.entries:type_name -> hub.v1.SemanticDiffEntry
-	12,  // 90: hub.v1.DiffProductManifestsResponse.overall_compatibility:type_name -> hub.v1.OverallCompatibility
-	116, // 91: hub.v1.DiffProductManifestsResponse.summary:type_name -> hub.v1.SemanticDiffSummary
-	115, // 92: hub.v1.DiffProductManifestsResponse.entries:type_name -> hub.v1.SemanticDiffEntry
-	119, // 93: hub.v1.DiffProductManifestsResponse.linked_contract_diffs:type_name -> hub.v1.LinkedContractDiff
-	166, // 94: hub.v1.DiffProductManifestsResponse.base_manifest:type_name -> hub.v1.ProductManifest
-	166, // 95: hub.v1.DiffProductManifestsResponse.target_manifest:type_name -> hub.v1.ProductManifest
-	162, // 96: hub.v1.DiffProductManifestsResponse.computed_at:type_name -> google.protobuf.Timestamp
-	175, // 97: hub.v1.GetTrustScorecardResponse.scorecard:type_name -> hub.v1.TrustScorecard
-	175, // 98: hub.v1.ListTrustScorecardsResponse.scorecards:type_name -> hub.v1.TrustScorecard
-	157, // 99: hub.v1.ListTrustScorecardsResponse.scorecards_by_urn:type_name -> hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry
-	162, // 100: hub.v1.LineageEdgeDTO.first_seen_at:type_name -> google.protobuf.Timestamp
-	162, // 101: hub.v1.LineageEdgeDTO.last_observed_at:type_name -> google.protobuf.Timestamp
-	158, // 102: hub.v1.LineageEdgeDTO.metadata:type_name -> hub.v1.LineageEdgeDTO.MetadataEntry
-	159, // 103: hub.v1.LineageFieldEdgeDTO.metadata:type_name -> hub.v1.LineageFieldEdgeDTO.MetadataEntry
-	162, // 104: hub.v1.LineageSubmissionChunk.event_time:type_name -> google.protobuf.Timestamp
-	162, // 105: hub.v1.LineageSubmissionEvent.event_time:type_name -> google.protobuf.Timestamp
-	13,  // 106: hub.v1.GetLineageGraphRequest.view:type_name -> hub.v1.LineageView
-	14,  // 107: hub.v1.GetLineageGraphRequest.direction:type_name -> hub.v1.LineageDirection
-	13,  // 108: hub.v1.GetLineageGraphResponse.view:type_name -> hub.v1.LineageView
-	126, // 109: hub.v1.GetLineageGraphResponse.nodes:type_name -> hub.v1.LineageNodeDTO
-	127, // 110: hub.v1.GetLineageGraphResponse.edges:type_name -> hub.v1.LineageEdgeDTO
-	129, // 111: hub.v1.GetLineageGraphResponse.product_metrics:type_name -> hub.v1.ProductTopologyMetrics
-	127, // 112: hub.v1.IngestLineageManifestRequest.edges:type_name -> hub.v1.LineageEdgeDTO
-	128, // 113: hub.v1.IngestLineageManifestRequest.field_edges:type_name -> hub.v1.LineageFieldEdgeDTO
-	162, // 114: hub.v1.ReplayLineageSubmissionsRequest.since:type_name -> google.protobuf.Timestamp
-	162, // 115: hub.v1.ReplayLineageSubmissionsRequest.until:type_name -> google.protobuf.Timestamp
-	176, // 116: hub.v1.EffectiveAssetState.declared:type_name -> hub.v1.NodeState
-	172, // 117: hub.v1.EffectiveAssetState.declared_tier:type_name -> hub.v1.SLATier
-	172, // 118: hub.v1.EffectiveAssetState.implied_tier:type_name -> hub.v1.SLATier
-	177, // 119: hub.v1.EffectiveAssetState.pii_posture:type_name -> hub.v1.PIIPosture
-	178, // 120: hub.v1.EffectiveAssetState.effective_sensitivity:type_name -> hub.v1.SensitivityLevel
-	179, // 121: hub.v1.EffectiveAssetState.detection_mode:type_name -> hub.v1.DetectionMode
-	180, // 122: hub.v1.EffectiveAssetState.source_origin:type_name -> hub.v1.SourceOrigin
-	181, // 123: hub.v1.EffectiveAssetState.reachability_status:type_name -> hub.v1.ReachabilityStatus
-	182, // 124: hub.v1.EffectiveAssetState.sla_gaps:type_name -> hub.v1.SLAGap
-	183, // 125: hub.v1.EffectiveAssetState.downstream_drivers:type_name -> hub.v1.ConsumerDriver
-	184, // 126: hub.v1.EffectiveAssetState.exemptions:type_name -> hub.v1.AssetExemption
-	184, // 127: hub.v1.EffectiveAssetState.expired_exemptions:type_name -> hub.v1.AssetExemption
-	172, // 128: hub.v1.SetAssetStateRequest.tier:type_name -> hub.v1.SLATier
-	177, // 129: hub.v1.SetAssetStateRequest.pii_posture:type_name -> hub.v1.PIIPosture
-	179, // 130: hub.v1.SetAssetStateRequest.detection_mode:type_name -> hub.v1.DetectionMode
-	180, // 131: hub.v1.SetAssetStateRequest.source_origin:type_name -> hub.v1.SourceOrigin
-	184, // 132: hub.v1.SetAssetStateRequest.add_exemptions:type_name -> hub.v1.AssetExemption
-	138, // 133: hub.v1.SetAssetStateResponse.state:type_name -> hub.v1.EffectiveAssetState
-	138, // 134: hub.v1.GetEffectiveAssetStateResponse.state:type_name -> hub.v1.EffectiveAssetState
-	172, // 135: hub.v1.ListSLAGapsRequest.tier_filter:type_name -> hub.v1.SLATier
-	182, // 136: hub.v1.ListSLAGapsResponse.gaps:type_name -> hub.v1.SLAGap
-	138, // 137: hub.v1.ListSLAGapsResponse.assets:type_name -> hub.v1.EffectiveAssetState
-	15,  // 138: hub.v1.AuditLineageReachabilityRequest.min_confidence:type_name -> hub.v1.EdgeConfidenceFilter
-	185, // 139: hub.v1.AuditLineageReachabilityResponse.leaf_reports:type_name -> hub.v1.ReachabilityReport
-	186, // 140: hub.v1.AuditLineageReachabilityResponse.broken_chains:type_name -> hub.v1.BrokenChainReport
-	187, // 141: hub.v1.GetTopologySignalsResponse.signals:type_name -> hub.v1.TopologySignals
-	175, // 142: hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry.value:type_name -> hub.v1.TrustScorecard
-	65,  // 143: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
-	67,  // 144: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
-	69,  // 145: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
-	71,  // 146: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
-	73,  // 147: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
-	75,  // 148: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
-	77,  // 149: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
-	79,  // 150: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
-	81,  // 151: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
-	61,  // 152: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
-	83,  // 153: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
-	85,  // 154: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
-	87,  // 155: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
-	89,  // 156: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
-	91,  // 157: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
-	93,  // 158: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
-	95,  // 159: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
-	97,  // 160: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
-	99,  // 161: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
-	59,  // 162: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
-	55,  // 163: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
-	57,  // 164: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
-	49,  // 165: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
-	51,  // 166: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
-	46,  // 167: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
-	35,  // 168: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
-	40,  // 169: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
-	42,  // 170: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
-	44,  // 171: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
-	38,  // 172: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
-	28,  // 173: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
-	31,  // 174: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
-	33,  // 175: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
-	16,  // 176: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
-	18,  // 177: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
-	20,  // 178: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
-	22,  // 179: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
-	25,  // 180: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
-	101, // 181: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
-	104, // 182: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
-	106, // 183: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
-	108, // 184: hub.v1.HubService.GetInfrastructureDrift:input_type -> hub.v1.GetInfrastructureDriftRequest
-	117, // 185: hub.v1.HubService.DiffContracts:input_type -> hub.v1.DiffContractsRequest
-	120, // 186: hub.v1.HubService.DiffProductManifests:input_type -> hub.v1.DiffProductManifestsRequest
-	122, // 187: hub.v1.HubService.GetTrustScorecard:input_type -> hub.v1.GetTrustScorecardRequest
-	124, // 188: hub.v1.HubService.ListTrustScorecards:input_type -> hub.v1.ListTrustScorecardsRequest
-	132, // 189: hub.v1.HubService.GetLineageGraph:input_type -> hub.v1.GetLineageGraphRequest
-	134, // 190: hub.v1.HubService.IngestLineageManifest:input_type -> hub.v1.IngestLineageManifestRequest
-	136, // 191: hub.v1.HubService.ReplayLineageSubmissions:input_type -> hub.v1.ReplayLineageSubmissionsRequest
-	139, // 192: hub.v1.HubService.SetAssetState:input_type -> hub.v1.SetAssetStateRequest
-	141, // 193: hub.v1.HubService.GetEffectiveAssetState:input_type -> hub.v1.GetEffectiveAssetStateRequest
-	143, // 194: hub.v1.HubService.DeleteAssetState:input_type -> hub.v1.DeleteAssetStateRequest
-	145, // 195: hub.v1.HubService.ListSLAGaps:input_type -> hub.v1.ListSLAGapsRequest
-	147, // 196: hub.v1.HubService.AuditLineageReachability:input_type -> hub.v1.AuditLineageReachabilityRequest
-	149, // 197: hub.v1.HubService.GetTopologySignals:input_type -> hub.v1.GetTopologySignalsRequest
-	66,  // 198: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
-	68,  // 199: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
-	70,  // 200: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
-	72,  // 201: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
-	74,  // 202: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
-	76,  // 203: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
-	78,  // 204: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
-	80,  // 205: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
-	82,  // 206: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
-	62,  // 207: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
-	84,  // 208: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
-	86,  // 209: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
-	88,  // 210: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
-	90,  // 211: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
-	92,  // 212: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
-	94,  // 213: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
-	96,  // 214: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
-	98,  // 215: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
-	100, // 216: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
-	60,  // 217: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
-	56,  // 218: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
-	58,  // 219: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
-	50,  // 220: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
-	52,  // 221: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
-	47,  // 222: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
-	36,  // 223: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
-	41,  // 224: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
-	43,  // 225: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
-	45,  // 226: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
-	39,  // 227: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
-	29,  // 228: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
-	32,  // 229: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
-	34,  // 230: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
-	17,  // 231: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
-	19,  // 232: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
-	21,  // 233: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
-	24,  // 234: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
-	27,  // 235: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
-	102, // 236: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
-	105, // 237: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
-	107, // 238: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
-	114, // 239: hub.v1.HubService.GetInfrastructureDrift:output_type -> hub.v1.GetInfrastructureDriftResponse
-	118, // 240: hub.v1.HubService.DiffContracts:output_type -> hub.v1.DiffContractsResponse
-	121, // 241: hub.v1.HubService.DiffProductManifests:output_type -> hub.v1.DiffProductManifestsResponse
-	123, // 242: hub.v1.HubService.GetTrustScorecard:output_type -> hub.v1.GetTrustScorecardResponse
-	125, // 243: hub.v1.HubService.ListTrustScorecards:output_type -> hub.v1.ListTrustScorecardsResponse
-	133, // 244: hub.v1.HubService.GetLineageGraph:output_type -> hub.v1.GetLineageGraphResponse
-	135, // 245: hub.v1.HubService.IngestLineageManifest:output_type -> hub.v1.IngestLineageManifestResponse
-	137, // 246: hub.v1.HubService.ReplayLineageSubmissions:output_type -> hub.v1.ReplayLineageSubmissionsResponse
-	140, // 247: hub.v1.HubService.SetAssetState:output_type -> hub.v1.SetAssetStateResponse
-	142, // 248: hub.v1.HubService.GetEffectiveAssetState:output_type -> hub.v1.GetEffectiveAssetStateResponse
-	144, // 249: hub.v1.HubService.DeleteAssetState:output_type -> hub.v1.DeleteAssetStateResponse
-	146, // 250: hub.v1.HubService.ListSLAGaps:output_type -> hub.v1.ListSLAGapsResponse
-	148, // 251: hub.v1.HubService.AuditLineageReachability:output_type -> hub.v1.AuditLineageReachabilityResponse
-	150, // 252: hub.v1.HubService.GetTopologySignals:output_type -> hub.v1.GetTopologySignalsResponse
-	198, // [198:253] is the sub-list for method output_type
-	143, // [143:198] is the sub-list for method input_type
-	143, // [143:143] is the sub-list for extension type_name
-	143, // [143:143] is the sub-list for extension extendee
-	0,   // [0:143] is the sub-list for field type_name
+	170, // 0: hub.v1.ReportAnomalyRequest.state:type_name -> hub.v1.HealthState
+	161, // 1: hub.v1.ReportAnomalyRequest.metadata:type_name -> hub.v1.ReportAnomalyRequest.MetadataEntry
+	171, // 2: hub.v1.ReportAnomalyRequest.timestamp:type_name -> google.protobuf.Timestamp
+	172, // 3: hub.v1.ReportAnomalyResponse.status:type_name -> hub.v1.IncidentStatus
+	170, // 4: hub.v1.ReportAnomalyResponse.aggregate_state:type_name -> hub.v1.HealthState
+	173, // 5: hub.v1.ReportAnomalyResponse.backlink_status:type_name -> hub.v1.BacklinkStatus
+	174, // 6: hub.v1.GetHealthResponse.health:type_name -> hub.v1.Health
+	174, // 7: hub.v1.GetHealthHistoryResponse.history:type_name -> hub.v1.Health
+	13,  // 8: hub.v1.GetBlastRadiusRequest.view:type_name -> hub.v1.LineageView
+	23,  // 9: hub.v1.GetBlastRadiusResponse.downstream_nodes:type_name -> hub.v1.BlastRadiusNode
+	13,  // 10: hub.v1.GetRootCauseRequest.view:type_name -> hub.v1.LineageView
+	170, // 11: hub.v1.RootCauseChainNode.state:type_name -> hub.v1.HealthState
+	171, // 12: hub.v1.RootCauseChainNode.last_updated_at:type_name -> google.protobuf.Timestamp
+	26,  // 13: hub.v1.GetRootCauseResponse.root_cause:type_name -> hub.v1.RootCauseChainNode
+	26,  // 14: hub.v1.GetRootCauseResponse.causal_chain:type_name -> hub.v1.RootCauseChainNode
+	30,  // 15: hub.v1.ExtractDSARPlanResponse.locations:type_name -> hub.v1.DSARLocation
+	0,   // 16: hub.v1.VerifyRTBFResponse.status:type_name -> hub.v1.RTBFStatus
+	175, // 17: hub.v1.AnalyzeImpactRequest.contract:type_name -> hub.v1.DataContract
+	37,  // 18: hub.v1.AnalyzeImpactResponse.impacts:type_name -> hub.v1.LineageImpact
+	1,   // 19: hub.v1.AnalyzeImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	64,  // 20: hub.v1.AnalyzeImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	176, // 21: hub.v1.IngestEventRequest.type:type_name -> hub.v1.TriggerType
+	162, // 22: hub.v1.IngestEventRequest.metadata:type_name -> hub.v1.IngestEventRequest.MetadataEntry
+	177, // 23: hub.v1.SubscribeRequest.subscriber:type_name -> hub.v1.Subscriber
+	177, // 24: hub.v1.ListSubscriptionsResponse.subscribers:type_name -> hub.v1.Subscriber
+	48,  // 25: hub.v1.SendAlertRequest.alert:type_name -> hub.v1.Alert
+	53,  // 26: hub.v1.RecordAuditRunRequest.audit_run:type_name -> hub.v1.AuditRun
+	53,  // 27: hub.v1.ListAuditRunsResponse.audit_runs:type_name -> hub.v1.AuditRun
+	54,  // 28: hub.v1.AuditRun.violations:type_name -> hub.v1.AuditViolation
+	178, // 29: hub.v1.ListProductsResponse.products:type_name -> hub.v1.ProductManifest
+	179, // 30: hub.v1.SyncProductResponse.sync_status:type_name -> hub.v1.SyncStatus
+	175, // 31: hub.v1.RegisterContractRequest.contract:type_name -> hub.v1.DataContract
+	175, // 32: hub.v1.RegisterContractResponse.contract:type_name -> hub.v1.DataContract
+	175, // 33: hub.v1.CheckDownstreamImpactRequest.contract:type_name -> hub.v1.DataContract
+	1,   // 34: hub.v1.CheckDownstreamImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	64,  // 35: hub.v1.CheckDownstreamImpactResponse.consumers:type_name -> hub.v1.DownstreamConsumer
+	63,  // 36: hub.v1.CheckDownstreamImpactResponse.impact_summary:type_name -> hub.v1.ImpactSummary
+	178, // 37: hub.v1.ValidateProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	175, // 38: hub.v1.ValidateProductRequest.contracts:type_name -> hub.v1.DataContract
+	178, // 39: hub.v1.RegisterProductRequest.manifest:type_name -> hub.v1.ProductManifest
+	175, // 40: hub.v1.RegisterProductRequest.contracts:type_name -> hub.v1.DataContract
+	180, // 41: hub.v1.RegisterProductResponse.breaking_changes:type_name -> hub.v1.BreakingChange
+	178, // 42: hub.v1.GetProductResponse.manifest:type_name -> hub.v1.ProductManifest
+	175, // 43: hub.v1.GetProductResponse.contracts:type_name -> hub.v1.DataContract
+	181, // 44: hub.v1.GetProductSchemaResponse.bigquery_config:type_name -> hub.v1.BigQueryConfig
+	175, // 45: hub.v1.GetContractResponse.contract:type_name -> hub.v1.DataContract
+	175, // 46: hub.v1.ListContractsResponse.contracts:type_name -> hub.v1.DataContract
+	182, // 47: hub.v1.RegisterEntityRequest.entity:type_name -> platform.v1.Entity
+	182, // 48: hub.v1.RegisterEntityResponse.entity:type_name -> platform.v1.Entity
+	182, // 49: hub.v1.GetEntityResponse.entity:type_name -> platform.v1.Entity
+	182, // 50: hub.v1.ListEntitiesResponse.entities:type_name -> platform.v1.Entity
+	1,   // 51: hub.v1.CheckEntityImpactResponse.severity:type_name -> hub.v1.ImpactSeverity
+	183, // 52: hub.v1.RegisterTeamRequest.team:type_name -> platform.v1.Team
+	183, // 53: hub.v1.RegisterTeamResponse.team:type_name -> platform.v1.Team
+	183, // 54: hub.v1.GetTeamResponse.team:type_name -> platform.v1.Team
+	183, // 55: hub.v1.ListTeamsResponse.teams:type_name -> platform.v1.Team
+	163, // 56: hub.v1.GetTaxonomyMappingsResponse.policy_tags:type_name -> hub.v1.GetTaxonomyMappingsResponse.PolicyTagsEntry
+	164, // 57: hub.v1.GetTaxonomyMappingsResponse.masking_rules:type_name -> hub.v1.GetTaxonomyMappingsResponse.MaskingRulesEntry
+	184, // 58: hub.v1.DemandLock.min_sla_tier:type_name -> hub.v1.SLATier
+	185, // 59: hub.v1.DemandLock.expected_lens:type_name -> hub.v1.LensType
+	165, // 60: hub.v1.DemandLock.semantic_fingerprints:type_name -> hub.v1.DemandLock.SemanticFingerprintsEntry
+	171, // 61: hub.v1.DemandLock.created_at:type_name -> google.protobuf.Timestamp
+	186, // 62: hub.v1.RegisterDemandLocksRequest.demands:type_name -> hub.v1.ImportDemand
+	103, // 63: hub.v1.RegisterDemandLocksResponse.registered_locks:type_name -> hub.v1.DemandLock
+	103, // 64: hub.v1.ListDemandLocksResponse.demand_locks:type_name -> hub.v1.DemandLock
+	5,   // 65: hub.v1.FieldDriftDelta.status:type_name -> hub.v1.FieldDriftStatus
+	6,   // 66: hub.v1.GovernanceDriftDelta.drift_type:type_name -> hub.v1.GovernanceDriftType
+	8,   // 67: hub.v1.GovernanceDriftDelta.severity:type_name -> hub.v1.DriftSeverity
+	7,   // 68: hub.v1.LayoutDriftDelta.drift_type:type_name -> hub.v1.LayoutDriftType
+	8,   // 69: hub.v1.LayoutDriftDelta.severity:type_name -> hub.v1.DriftSeverity
+	3,   // 70: hub.v1.AssetDriftReport.layer:type_name -> hub.v1.AssetLayer
+	185, // 71: hub.v1.AssetDriftReport.lens:type_name -> hub.v1.LensType
+	4,   // 72: hub.v1.AssetDriftReport.existence:type_name -> hub.v1.AssetExistence
+	2,   // 73: hub.v1.AssetDriftReport.status:type_name -> hub.v1.DriftOverallStatus
+	109, // 74: hub.v1.AssetDriftReport.field_deltas:type_name -> hub.v1.FieldDriftDelta
+	110, // 75: hub.v1.AssetDriftReport.governance_deltas:type_name -> hub.v1.GovernanceDriftDelta
+	111, // 76: hub.v1.AssetDriftReport.layout_deltas:type_name -> hub.v1.LayoutDriftDelta
+	2,   // 77: hub.v1.GetInfrastructureDriftResponse.overall_status:type_name -> hub.v1.DriftOverallStatus
+	171, // 78: hub.v1.GetInfrastructureDriftResponse.inspected_at:type_name -> google.protobuf.Timestamp
+	112, // 79: hub.v1.GetInfrastructureDriftResponse.summary:type_name -> hub.v1.DriftSummaryCounts
+	113, // 80: hub.v1.GetInfrastructureDriftResponse.assets:type_name -> hub.v1.AssetDriftReport
+	9,   // 81: hub.v1.SemanticDiffEntry.category:type_name -> hub.v1.DiffCategory
+	10,  // 82: hub.v1.SemanticDiffEntry.change_kind:type_name -> hub.v1.DiffChangeKind
+	11,  // 83: hub.v1.SemanticDiffEntry.subject_kind:type_name -> hub.v1.DiffSubjectKind
+	166, // 84: hub.v1.SemanticDiffEntry.metadata:type_name -> hub.v1.SemanticDiffEntry.MetadataEntry
+	12,  // 85: hub.v1.DiffContractsResponse.overall_compatibility:type_name -> hub.v1.OverallCompatibility
+	116, // 86: hub.v1.DiffContractsResponse.summary:type_name -> hub.v1.SemanticDiffSummary
+	115, // 87: hub.v1.DiffContractsResponse.entries:type_name -> hub.v1.SemanticDiffEntry
+	175, // 88: hub.v1.DiffContractsResponse.base_contract:type_name -> hub.v1.DataContract
+	175, // 89: hub.v1.DiffContractsResponse.target_contract:type_name -> hub.v1.DataContract
+	171, // 90: hub.v1.DiffContractsResponse.computed_at:type_name -> google.protobuf.Timestamp
+	12,  // 91: hub.v1.LinkedContractDiff.overall_compatibility:type_name -> hub.v1.OverallCompatibility
+	116, // 92: hub.v1.LinkedContractDiff.summary:type_name -> hub.v1.SemanticDiffSummary
+	115, // 93: hub.v1.LinkedContractDiff.entries:type_name -> hub.v1.SemanticDiffEntry
+	12,  // 94: hub.v1.DiffProductManifestsResponse.overall_compatibility:type_name -> hub.v1.OverallCompatibility
+	116, // 95: hub.v1.DiffProductManifestsResponse.summary:type_name -> hub.v1.SemanticDiffSummary
+	115, // 96: hub.v1.DiffProductManifestsResponse.entries:type_name -> hub.v1.SemanticDiffEntry
+	119, // 97: hub.v1.DiffProductManifestsResponse.linked_contract_diffs:type_name -> hub.v1.LinkedContractDiff
+	178, // 98: hub.v1.DiffProductManifestsResponse.base_manifest:type_name -> hub.v1.ProductManifest
+	178, // 99: hub.v1.DiffProductManifestsResponse.target_manifest:type_name -> hub.v1.ProductManifest
+	171, // 100: hub.v1.DiffProductManifestsResponse.computed_at:type_name -> google.protobuf.Timestamp
+	187, // 101: hub.v1.GetTrustScorecardResponse.scorecard:type_name -> hub.v1.TrustScorecard
+	187, // 102: hub.v1.ListTrustScorecardsResponse.scorecards:type_name -> hub.v1.TrustScorecard
+	167, // 103: hub.v1.ListTrustScorecardsResponse.scorecards_by_urn:type_name -> hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry
+	171, // 104: hub.v1.LineageEdgeDTO.first_seen_at:type_name -> google.protobuf.Timestamp
+	171, // 105: hub.v1.LineageEdgeDTO.last_observed_at:type_name -> google.protobuf.Timestamp
+	168, // 106: hub.v1.LineageEdgeDTO.metadata:type_name -> hub.v1.LineageEdgeDTO.MetadataEntry
+	169, // 107: hub.v1.LineageFieldEdgeDTO.metadata:type_name -> hub.v1.LineageFieldEdgeDTO.MetadataEntry
+	171, // 108: hub.v1.LineageSubmissionChunk.event_time:type_name -> google.protobuf.Timestamp
+	171, // 109: hub.v1.LineageSubmissionEvent.event_time:type_name -> google.protobuf.Timestamp
+	13,  // 110: hub.v1.GetLineageGraphRequest.view:type_name -> hub.v1.LineageView
+	14,  // 111: hub.v1.GetLineageGraphRequest.direction:type_name -> hub.v1.LineageDirection
+	13,  // 112: hub.v1.GetLineageGraphResponse.view:type_name -> hub.v1.LineageView
+	126, // 113: hub.v1.GetLineageGraphResponse.nodes:type_name -> hub.v1.LineageNodeDTO
+	127, // 114: hub.v1.GetLineageGraphResponse.edges:type_name -> hub.v1.LineageEdgeDTO
+	129, // 115: hub.v1.GetLineageGraphResponse.product_metrics:type_name -> hub.v1.ProductTopologyMetrics
+	127, // 116: hub.v1.IngestLineageManifestRequest.edges:type_name -> hub.v1.LineageEdgeDTO
+	128, // 117: hub.v1.IngestLineageManifestRequest.field_edges:type_name -> hub.v1.LineageFieldEdgeDTO
+	171, // 118: hub.v1.ReplayLineageSubmissionsRequest.since:type_name -> google.protobuf.Timestamp
+	171, // 119: hub.v1.ReplayLineageSubmissionsRequest.until:type_name -> google.protobuf.Timestamp
+	188, // 120: hub.v1.EffectiveAssetState.declared:type_name -> hub.v1.NodeState
+	184, // 121: hub.v1.EffectiveAssetState.declared_tier:type_name -> hub.v1.SLATier
+	184, // 122: hub.v1.EffectiveAssetState.implied_tier:type_name -> hub.v1.SLATier
+	189, // 123: hub.v1.EffectiveAssetState.pii_posture:type_name -> hub.v1.PIIPosture
+	190, // 124: hub.v1.EffectiveAssetState.effective_sensitivity:type_name -> hub.v1.SensitivityLevel
+	191, // 125: hub.v1.EffectiveAssetState.detection_mode:type_name -> hub.v1.DetectionMode
+	192, // 126: hub.v1.EffectiveAssetState.source_origin:type_name -> hub.v1.SourceOrigin
+	193, // 127: hub.v1.EffectiveAssetState.reachability_status:type_name -> hub.v1.ReachabilityStatus
+	194, // 128: hub.v1.EffectiveAssetState.sla_gaps:type_name -> hub.v1.SLAGap
+	195, // 129: hub.v1.EffectiveAssetState.downstream_drivers:type_name -> hub.v1.ConsumerDriver
+	196, // 130: hub.v1.EffectiveAssetState.exemptions:type_name -> hub.v1.AssetExemption
+	196, // 131: hub.v1.EffectiveAssetState.expired_exemptions:type_name -> hub.v1.AssetExemption
+	184, // 132: hub.v1.SetAssetStateRequest.tier:type_name -> hub.v1.SLATier
+	189, // 133: hub.v1.SetAssetStateRequest.pii_posture:type_name -> hub.v1.PIIPosture
+	191, // 134: hub.v1.SetAssetStateRequest.detection_mode:type_name -> hub.v1.DetectionMode
+	192, // 135: hub.v1.SetAssetStateRequest.source_origin:type_name -> hub.v1.SourceOrigin
+	196, // 136: hub.v1.SetAssetStateRequest.add_exemptions:type_name -> hub.v1.AssetExemption
+	138, // 137: hub.v1.SetAssetStateResponse.state:type_name -> hub.v1.EffectiveAssetState
+	138, // 138: hub.v1.GetEffectiveAssetStateResponse.state:type_name -> hub.v1.EffectiveAssetState
+	184, // 139: hub.v1.ListSLAGapsRequest.tier_filter:type_name -> hub.v1.SLATier
+	194, // 140: hub.v1.ListSLAGapsResponse.gaps:type_name -> hub.v1.SLAGap
+	138, // 141: hub.v1.ListSLAGapsResponse.assets:type_name -> hub.v1.EffectiveAssetState
+	15,  // 142: hub.v1.AuditLineageReachabilityRequest.min_confidence:type_name -> hub.v1.EdgeConfidenceFilter
+	197, // 143: hub.v1.AuditLineageReachabilityResponse.leaf_reports:type_name -> hub.v1.ReachabilityReport
+	198, // 144: hub.v1.AuditLineageReachabilityResponse.broken_chains:type_name -> hub.v1.BrokenChainReport
+	199, // 145: hub.v1.GetTopologySignalsResponse.signals:type_name -> hub.v1.TopologySignals
+	200, // 146: hub.v1.GetAssetTrafficLightResponse.traffic_light:type_name -> hub.v1.TrafficLight
+	172, // 147: hub.v1.ListAssetIncidentsRequest.status:type_name -> hub.v1.IncidentStatus
+	173, // 148: hub.v1.ListAssetIncidentsRequest.backlink_status:type_name -> hub.v1.BacklinkStatus
+	201, // 149: hub.v1.ListAssetIncidentsResponse.incidents:type_name -> hub.v1.AssetIncident
+	201, // 150: hub.v1.GetAssetIncidentResponse.incident:type_name -> hub.v1.AssetIncident
+	201, // 151: hub.v1.AcknowledgeIncidentResponse.incident:type_name -> hub.v1.AssetIncident
+	202, // 152: hub.v1.CloseIncidentRequest.resolution_type:type_name -> hub.v1.ResolutionType
+	201, // 153: hub.v1.CloseIncidentResponse.incident:type_name -> hub.v1.AssetIncident
+	170, // 154: hub.v1.CloseIncidentResponse.aggregate_state:type_name -> hub.v1.HealthState
+	187, // 155: hub.v1.ListTrustScorecardsResponse.ScorecardsByUrnEntry.value:type_name -> hub.v1.TrustScorecard
+	65,  // 156: hub.v1.HubService.ValidateProduct:input_type -> hub.v1.ValidateProductRequest
+	67,  // 157: hub.v1.HubService.RegisterProduct:input_type -> hub.v1.RegisterProductRequest
+	69,  // 158: hub.v1.HubService.GetProduct:input_type -> hub.v1.GetProductRequest
+	71,  // 159: hub.v1.HubService.GetProductSchema:input_type -> hub.v1.GetProductSchemaRequest
+	73,  // 160: hub.v1.HubService.GetContract:input_type -> hub.v1.GetContractRequest
+	75,  // 161: hub.v1.HubService.ListContracts:input_type -> hub.v1.ListContractsRequest
+	77,  // 162: hub.v1.HubService.Ping:input_type -> hub.v1.PingRequest
+	79,  // 163: hub.v1.HubService.ValidateSchema:input_type -> hub.v1.ValidateSchemaRequest
+	81,  // 164: hub.v1.HubService.DeleteProduct:input_type -> hub.v1.DeleteProductRequest
+	61,  // 165: hub.v1.HubService.CheckDownstreamImpact:input_type -> hub.v1.CheckDownstreamImpactRequest
+	83,  // 166: hub.v1.HubService.RegisterEntity:input_type -> hub.v1.RegisterEntityRequest
+	85,  // 167: hub.v1.HubService.GetEntity:input_type -> hub.v1.GetEntityRequest
+	87,  // 168: hub.v1.HubService.ListEntities:input_type -> hub.v1.ListEntitiesRequest
+	89,  // 169: hub.v1.HubService.CheckEntityImpact:input_type -> hub.v1.CheckEntityImpactRequest
+	91,  // 170: hub.v1.HubService.DeleteEntity:input_type -> hub.v1.DeleteEntityRequest
+	93,  // 171: hub.v1.HubService.RegisterTeam:input_type -> hub.v1.RegisterTeamRequest
+	95,  // 172: hub.v1.HubService.GetTeam:input_type -> hub.v1.GetTeamRequest
+	97,  // 173: hub.v1.HubService.ListTeams:input_type -> hub.v1.ListTeamsRequest
+	99,  // 174: hub.v1.HubService.DeleteTeam:input_type -> hub.v1.DeleteTeamRequest
+	59,  // 175: hub.v1.HubService.RegisterContract:input_type -> hub.v1.RegisterContractRequest
+	55,  // 176: hub.v1.HubService.ListProducts:input_type -> hub.v1.ListProductsRequest
+	57,  // 177: hub.v1.HubService.SyncProduct:input_type -> hub.v1.SyncProductRequest
+	49,  // 178: hub.v1.HubService.RecordAuditRun:input_type -> hub.v1.RecordAuditRunRequest
+	51,  // 179: hub.v1.HubService.ListAuditRuns:input_type -> hub.v1.ListAuditRunsRequest
+	46,  // 180: hub.v1.HubService.SendAlert:input_type -> hub.v1.SendAlertRequest
+	35,  // 181: hub.v1.HubService.AnalyzeImpact:input_type -> hub.v1.AnalyzeImpactRequest
+	40,  // 182: hub.v1.HubService.Subscribe:input_type -> hub.v1.SubscribeRequest
+	42,  // 183: hub.v1.HubService.Unsubscribe:input_type -> hub.v1.UnsubscribeRequest
+	44,  // 184: hub.v1.HubService.ListSubscriptions:input_type -> hub.v1.ListSubscriptionsRequest
+	38,  // 185: hub.v1.HubService.IngestEvent:input_type -> hub.v1.IngestEventRequest
+	28,  // 186: hub.v1.HubService.ExtractDSARPlan:input_type -> hub.v1.ExtractDSARPlanRequest
+	31,  // 187: hub.v1.HubService.PackageDSAR:input_type -> hub.v1.PackageDSARRequest
+	33,  // 188: hub.v1.HubService.VerifyRTBF:input_type -> hub.v1.VerifyRTBFRequest
+	16,  // 189: hub.v1.HubService.ReportAnomaly:input_type -> hub.v1.ReportAnomalyRequest
+	18,  // 190: hub.v1.HubService.GetHealth:input_type -> hub.v1.GetHealthRequest
+	20,  // 191: hub.v1.HubService.GetHealthHistory:input_type -> hub.v1.GetHealthHistoryRequest
+	22,  // 192: hub.v1.HubService.GetBlastRadius:input_type -> hub.v1.GetBlastRadiusRequest
+	25,  // 193: hub.v1.HubService.GetRootCause:input_type -> hub.v1.GetRootCauseRequest
+	101, // 194: hub.v1.HubService.GetTaxonomyMappings:input_type -> hub.v1.GetTaxonomyMappingsRequest
+	104, // 195: hub.v1.HubService.RegisterDemandLocks:input_type -> hub.v1.RegisterDemandLocksRequest
+	106, // 196: hub.v1.HubService.ListDemandLocks:input_type -> hub.v1.ListDemandLocksRequest
+	108, // 197: hub.v1.HubService.GetInfrastructureDrift:input_type -> hub.v1.GetInfrastructureDriftRequest
+	117, // 198: hub.v1.HubService.DiffContracts:input_type -> hub.v1.DiffContractsRequest
+	120, // 199: hub.v1.HubService.DiffProductManifests:input_type -> hub.v1.DiffProductManifestsRequest
+	122, // 200: hub.v1.HubService.GetTrustScorecard:input_type -> hub.v1.GetTrustScorecardRequest
+	124, // 201: hub.v1.HubService.ListTrustScorecards:input_type -> hub.v1.ListTrustScorecardsRequest
+	132, // 202: hub.v1.HubService.GetLineageGraph:input_type -> hub.v1.GetLineageGraphRequest
+	134, // 203: hub.v1.HubService.IngestLineageManifest:input_type -> hub.v1.IngestLineageManifestRequest
+	136, // 204: hub.v1.HubService.ReplayLineageSubmissions:input_type -> hub.v1.ReplayLineageSubmissionsRequest
+	139, // 205: hub.v1.HubService.SetAssetState:input_type -> hub.v1.SetAssetStateRequest
+	141, // 206: hub.v1.HubService.GetEffectiveAssetState:input_type -> hub.v1.GetEffectiveAssetStateRequest
+	143, // 207: hub.v1.HubService.DeleteAssetState:input_type -> hub.v1.DeleteAssetStateRequest
+	145, // 208: hub.v1.HubService.ListSLAGaps:input_type -> hub.v1.ListSLAGapsRequest
+	147, // 209: hub.v1.HubService.AuditLineageReachability:input_type -> hub.v1.AuditLineageReachabilityRequest
+	149, // 210: hub.v1.HubService.GetTopologySignals:input_type -> hub.v1.GetTopologySignalsRequest
+	151, // 211: hub.v1.HubService.GetAssetTrafficLight:input_type -> hub.v1.GetAssetTrafficLightRequest
+	153, // 212: hub.v1.HubService.ListAssetIncidents:input_type -> hub.v1.ListAssetIncidentsRequest
+	155, // 213: hub.v1.HubService.GetAssetIncident:input_type -> hub.v1.GetAssetIncidentRequest
+	157, // 214: hub.v1.HubService.AcknowledgeIncident:input_type -> hub.v1.AcknowledgeIncidentRequest
+	159, // 215: hub.v1.HubService.CloseIncident:input_type -> hub.v1.CloseIncidentRequest
+	66,  // 216: hub.v1.HubService.ValidateProduct:output_type -> hub.v1.ValidateProductResponse
+	68,  // 217: hub.v1.HubService.RegisterProduct:output_type -> hub.v1.RegisterProductResponse
+	70,  // 218: hub.v1.HubService.GetProduct:output_type -> hub.v1.GetProductResponse
+	72,  // 219: hub.v1.HubService.GetProductSchema:output_type -> hub.v1.GetProductSchemaResponse
+	74,  // 220: hub.v1.HubService.GetContract:output_type -> hub.v1.GetContractResponse
+	76,  // 221: hub.v1.HubService.ListContracts:output_type -> hub.v1.ListContractsResponse
+	78,  // 222: hub.v1.HubService.Ping:output_type -> hub.v1.PingResponse
+	80,  // 223: hub.v1.HubService.ValidateSchema:output_type -> hub.v1.ValidateSchemaResponse
+	82,  // 224: hub.v1.HubService.DeleteProduct:output_type -> hub.v1.DeleteProductResponse
+	62,  // 225: hub.v1.HubService.CheckDownstreamImpact:output_type -> hub.v1.CheckDownstreamImpactResponse
+	84,  // 226: hub.v1.HubService.RegisterEntity:output_type -> hub.v1.RegisterEntityResponse
+	86,  // 227: hub.v1.HubService.GetEntity:output_type -> hub.v1.GetEntityResponse
+	88,  // 228: hub.v1.HubService.ListEntities:output_type -> hub.v1.ListEntitiesResponse
+	90,  // 229: hub.v1.HubService.CheckEntityImpact:output_type -> hub.v1.CheckEntityImpactResponse
+	92,  // 230: hub.v1.HubService.DeleteEntity:output_type -> hub.v1.DeleteEntityResponse
+	94,  // 231: hub.v1.HubService.RegisterTeam:output_type -> hub.v1.RegisterTeamResponse
+	96,  // 232: hub.v1.HubService.GetTeam:output_type -> hub.v1.GetTeamResponse
+	98,  // 233: hub.v1.HubService.ListTeams:output_type -> hub.v1.ListTeamsResponse
+	100, // 234: hub.v1.HubService.DeleteTeam:output_type -> hub.v1.DeleteTeamResponse
+	60,  // 235: hub.v1.HubService.RegisterContract:output_type -> hub.v1.RegisterContractResponse
+	56,  // 236: hub.v1.HubService.ListProducts:output_type -> hub.v1.ListProductsResponse
+	58,  // 237: hub.v1.HubService.SyncProduct:output_type -> hub.v1.SyncProductResponse
+	50,  // 238: hub.v1.HubService.RecordAuditRun:output_type -> hub.v1.RecordAuditRunResponse
+	52,  // 239: hub.v1.HubService.ListAuditRuns:output_type -> hub.v1.ListAuditRunsResponse
+	47,  // 240: hub.v1.HubService.SendAlert:output_type -> hub.v1.SendAlertResponse
+	36,  // 241: hub.v1.HubService.AnalyzeImpact:output_type -> hub.v1.AnalyzeImpactResponse
+	41,  // 242: hub.v1.HubService.Subscribe:output_type -> hub.v1.SubscribeResponse
+	43,  // 243: hub.v1.HubService.Unsubscribe:output_type -> hub.v1.UnsubscribeResponse
+	45,  // 244: hub.v1.HubService.ListSubscriptions:output_type -> hub.v1.ListSubscriptionsResponse
+	39,  // 245: hub.v1.HubService.IngestEvent:output_type -> hub.v1.IngestEventResponse
+	29,  // 246: hub.v1.HubService.ExtractDSARPlan:output_type -> hub.v1.ExtractDSARPlanResponse
+	32,  // 247: hub.v1.HubService.PackageDSAR:output_type -> hub.v1.PackageDSARResponse
+	34,  // 248: hub.v1.HubService.VerifyRTBF:output_type -> hub.v1.VerifyRTBFResponse
+	17,  // 249: hub.v1.HubService.ReportAnomaly:output_type -> hub.v1.ReportAnomalyResponse
+	19,  // 250: hub.v1.HubService.GetHealth:output_type -> hub.v1.GetHealthResponse
+	21,  // 251: hub.v1.HubService.GetHealthHistory:output_type -> hub.v1.GetHealthHistoryResponse
+	24,  // 252: hub.v1.HubService.GetBlastRadius:output_type -> hub.v1.GetBlastRadiusResponse
+	27,  // 253: hub.v1.HubService.GetRootCause:output_type -> hub.v1.GetRootCauseResponse
+	102, // 254: hub.v1.HubService.GetTaxonomyMappings:output_type -> hub.v1.GetTaxonomyMappingsResponse
+	105, // 255: hub.v1.HubService.RegisterDemandLocks:output_type -> hub.v1.RegisterDemandLocksResponse
+	107, // 256: hub.v1.HubService.ListDemandLocks:output_type -> hub.v1.ListDemandLocksResponse
+	114, // 257: hub.v1.HubService.GetInfrastructureDrift:output_type -> hub.v1.GetInfrastructureDriftResponse
+	118, // 258: hub.v1.HubService.DiffContracts:output_type -> hub.v1.DiffContractsResponse
+	121, // 259: hub.v1.HubService.DiffProductManifests:output_type -> hub.v1.DiffProductManifestsResponse
+	123, // 260: hub.v1.HubService.GetTrustScorecard:output_type -> hub.v1.GetTrustScorecardResponse
+	125, // 261: hub.v1.HubService.ListTrustScorecards:output_type -> hub.v1.ListTrustScorecardsResponse
+	133, // 262: hub.v1.HubService.GetLineageGraph:output_type -> hub.v1.GetLineageGraphResponse
+	135, // 263: hub.v1.HubService.IngestLineageManifest:output_type -> hub.v1.IngestLineageManifestResponse
+	137, // 264: hub.v1.HubService.ReplayLineageSubmissions:output_type -> hub.v1.ReplayLineageSubmissionsResponse
+	140, // 265: hub.v1.HubService.SetAssetState:output_type -> hub.v1.SetAssetStateResponse
+	142, // 266: hub.v1.HubService.GetEffectiveAssetState:output_type -> hub.v1.GetEffectiveAssetStateResponse
+	144, // 267: hub.v1.HubService.DeleteAssetState:output_type -> hub.v1.DeleteAssetStateResponse
+	146, // 268: hub.v1.HubService.ListSLAGaps:output_type -> hub.v1.ListSLAGapsResponse
+	148, // 269: hub.v1.HubService.AuditLineageReachability:output_type -> hub.v1.AuditLineageReachabilityResponse
+	150, // 270: hub.v1.HubService.GetTopologySignals:output_type -> hub.v1.GetTopologySignalsResponse
+	152, // 271: hub.v1.HubService.GetAssetTrafficLight:output_type -> hub.v1.GetAssetTrafficLightResponse
+	154, // 272: hub.v1.HubService.ListAssetIncidents:output_type -> hub.v1.ListAssetIncidentsResponse
+	156, // 273: hub.v1.HubService.GetAssetIncident:output_type -> hub.v1.GetAssetIncidentResponse
+	158, // 274: hub.v1.HubService.AcknowledgeIncident:output_type -> hub.v1.AcknowledgeIncidentResponse
+	160, // 275: hub.v1.HubService.CloseIncident:output_type -> hub.v1.CloseIncidentResponse
+	216, // [216:276] is the sub-list for method output_type
+	156, // [156:216] is the sub-list for method input_type
+	156, // [156:156] is the sub-list for extension type_name
+	156, // [156:156] is the sub-list for extension extendee
+	0,   // [0:156] is the sub-list for field type_name
 }
 
 func init() { file_hub_v1_hub_proto_init() }
@@ -11812,7 +12535,7 @@ func file_hub_v1_hub_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_hub_v1_hub_proto_rawDesc), len(file_hub_v1_hub_proto_rawDesc)),
 			NumEnums:      16,
-			NumMessages:   144,
+			NumMessages:   154,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
