@@ -2543,6 +2543,12 @@ func (m *AnalyzeImpactRequest) validate(all bool) error {
 
 	// no validation rules for EntityNamespace
 
+	// no validation rules for MaxDepth
+
+	// no validation rules for MaxNodes
+
+	// no validation rules for Strict
+
 	if len(errors) > 0 {
 		return AnalyzeImpactRequestMultiError(errors)
 	}
@@ -2719,6 +2725,44 @@ func (m *AnalyzeImpactResponse) validate(all bool) error {
 
 	}
 
+	// no validation rules for GraphEpoch
+
+	// no validation rules for TotalHiddenCount
+
+	for idx, item := range m.GetFieldImpacts() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AnalyzeImpactResponseValidationError{
+						field:  fmt.Sprintf("FieldImpacts[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AnalyzeImpactResponseValidationError{
+						field:  fmt.Sprintf("FieldImpacts[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AnalyzeImpactResponseValidationError{
+					field:  fmt.Sprintf("FieldImpacts[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return AnalyzeImpactResponseMultiError(errors)
 	}
@@ -2798,6 +2842,126 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AnalyzeImpactResponseValidationError{}
+
+// Validate checks the field values on FieldImpactDetail with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *FieldImpactDetail) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FieldImpactDetail with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// FieldImpactDetailMultiError, or nil if none found.
+func (m *FieldImpactDetail) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FieldImpactDetail) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FieldUrn
+
+	// no validation rules for AssetUrn
+
+	// no validation rules for TransformationKind
+
+	// no validation rules for ApprovedMask
+
+	// no validation rules for Kind
+
+	// no validation rules for Confidence
+
+	// no validation rules for SourceSystem
+
+	// no validation rules for Granularity
+
+	// no validation rules for HopDepth
+
+	if len(errors) > 0 {
+		return FieldImpactDetailMultiError(errors)
+	}
+
+	return nil
+}
+
+// FieldImpactDetailMultiError is an error wrapping multiple validation errors
+// returned by FieldImpactDetail.ValidateAll() if the designated constraints
+// aren't met.
+type FieldImpactDetailMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FieldImpactDetailMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FieldImpactDetailMultiError) AllErrors() []error { return m }
+
+// FieldImpactDetailValidationError is the validation error returned by
+// FieldImpactDetail.Validate if the designated constraints aren't met.
+type FieldImpactDetailValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FieldImpactDetailValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FieldImpactDetailValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FieldImpactDetailValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FieldImpactDetailValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FieldImpactDetailValidationError) ErrorName() string {
+	return "FieldImpactDetailValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e FieldImpactDetailValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFieldImpactDetail.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FieldImpactDetailValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FieldImpactDetailValidationError{}
 
 // Validate checks the field values on LineageImpact with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
